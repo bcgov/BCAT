@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./server
+        working-directory: ./api
 
     steps:
       - uses: actions/checkout@v3
@@ -24,9 +24,9 @@ jobs:
       - uses: actions/cache@v2
         name: Cache yarn
         with:
-          path: server/.yarn/cache
-          key: ${{ runner.os }}-fe-yarn-${{ hashFiles('server/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-fe-yarn-${{ hashFiles('server/yarn.lock') }}
+          path: api/.yarn/cache
+          key: ${{ runner.os }}-fe-yarn-${{ hashFiles('api/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-fe-yarn-${{ hashFiles('api/yarn.lock') }}
 
       - name: Install dependencies
         run: |

@@ -7,9 +7,9 @@
 # Documentation here: https://yarnpkg.com/features/zero-installs
 !.yarn/cache
 !.yarn/install-state.gz
-server/.yarn/cache/*
+api/.yarn/cache/*
 client/.yarn/cache/*
-server/.yarn/install-state.gz
+api/.yarn/install-state.gz
 client/.yarn/install-state.gz
 
 

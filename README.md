@@ -49,7 +49,7 @@ Use the following steps to configure the local development environment
 
    ```
 
-   - Create the `server/.env` file and add the following content
+   - Create the `api/.env` file and add the following content
 
    ```
       KC_AUTH_URL= https://dev.loginproxy.gov.bc.ca/auth
