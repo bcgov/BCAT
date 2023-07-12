@@ -1,10 +1,10 @@
 # Server
-FROM registry.access.redhat.com/ubi9/nodejs-16:1 AS server
+FROM registry.access.redhat.com/ubi9/nodejs-16:1 AS api
 # Static env vars
 ARG VERSION
 ENV VERSION $VERSION
 ENV NODE_ENV production
-ENV HOME_SERVER /opt/app-root/src/app/server
+ENV HOME_SERVER /opt/app-root/src/app/api
 
 # Configure server
 # Using root to transfer ownership of work dir

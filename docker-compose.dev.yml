@@ -1,4 +1,4 @@
-version: "3.3"
+version: '3.3'
 
 services:
   ### Frontend #############################
@@ -14,9 +14,9 @@ services:
       - NEXT_PUBLIC_KC_AUTH_REALM=${KC_AUTH_REALM}
       - NEXT_PUBLIC_KC_AUTH_CLIENT_ID=${KC_AUTH_CLIENT_ID}
     expose:
-      - "3000"
+      - '3000'
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       # Binds the application folder from the host inside the container for fast changes
       - ./client:/usr/src/app
@@ -27,12 +27,12 @@ services:
       - default
 
   ### API #############################
-  server:
-    image: ${PROJECT}-server
-    container_name: ${PROJECT}-server
+  api:
+    image: ${PROJECT}-api
+    container_name: ${PROJECT}-api
     stdin_open: true
     build:
-      context: ./server
+      context: ./api
       dockerfile: Dockerfile.dev
     environment:
       - POSTGRES_HOST=${DB_SERVER}
@@ -45,11 +45,11 @@ services:
       - KC_AUTH_CLIENT_ID=${KC_AUTH_CLIENT_ID}
       - APP_PORT=8080
     ports:
-      - "8080:8080"
-      - "9229:9229"
+      - '8080:8080'
+      - '9229:9229'
     volumes:
       # Binds the application folder from the host inside the container for fast changes
-      - ./server:/usr/src/app
+      - ./api:/usr/src/app
       # Ignores/Hides the node_modules from the bind on the host allowing the node_modules
       # from inside the container to be used instead
       - /usr/src/app/node_modules
@@ -66,7 +66,7 @@ services:
       - ./database:/database
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -78,4 +78,4 @@ services:
 
 networks:
   default:
-    driver: "bridge"
+    driver: 'bridge'
