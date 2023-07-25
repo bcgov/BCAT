@@ -1,21 +1,23 @@
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Application } from '../application/application.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CustomBaseEntity } from '../common/custom-base.entity';
 import { User } from '../user/user.entity';
 
 @Entity({
-  name: 'pbgp_comment',
+  name: 'BCAT_COMMENT',
 })
 export class Comment extends CustomBaseEntity {
-  @PrimaryGeneratedColumn('uuid', { name: 'comment_id' })
-  id: string;
-
-  @Column({ type: 'varchar', length: 2000, nullable: false })
-  comment: string;
-
-  @ManyToOne(() => Application, (application) => application.comments)
-  application: Application;
+  @PrimaryGeneratedColumn({ name: 'COMMENT_ID' })
+  id: number;
 
   @ManyToOne(() => User, (user) => user.id)
+  @JoinColumn({ name: 'USER_ID' })
   user: User;
+
+  @Column({ name: 'OVERALL_COMMENTS', type: 'varchar', length: 2000 })
+  overallComments?: string;
+
+  @ManyToOne(() => Application, (application) => application.comments)
+  @JoinColumn({ name: 'APPLICATION_ID' })
+  application: Application;
 }
