@@ -3,8 +3,8 @@ import { Button } from '../generic/Button';
 
 export interface TableProps {
   data: any[];
-  updateAdminAccess: (id: string, grantAccess: boolean) => void;
-  updatePortalAccess: (id: string, grantAccess: boolean) => void;
+  updateAdminAccess: (id: number, grantAccess: boolean) => void;
+  updatePortalAccess: (id: number, grantAccess: boolean) => void;
 }
 
 const TableHeader: React.FC = () => {

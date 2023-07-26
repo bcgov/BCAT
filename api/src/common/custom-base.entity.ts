@@ -1,5 +1,4 @@
-import { User } from '@/user/user.entity';
-import { Column, CreateDateColumn, ManyToOne, UpdateDateColumn, VersionColumn } from 'typeorm';
+import { Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 export class CustomBaseEntity {
   @CreateDateColumn({ name: 'APP_CREATE_TIMESTAMP' })
@@ -19,9 +18,8 @@ export class CustomBaseEntity {
   lastUpdatedByUserGuid?: string;
 
   @Column({ name: 'APP_LAST_UPDATE_USER_ID', type: 'varchar', length: 30 })
-  @ManyToOne(() => User, (user) => user.id)
   lastUpdatedByUserId?: string;
 
-  @VersionColumn()
-  version: number;
+  // @VersionColumn()
+  // version: number;
 }

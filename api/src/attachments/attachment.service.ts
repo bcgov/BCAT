@@ -10,7 +10,7 @@ export class AttachmentService {
     private attachmentRepository: Repository<Attachment>
   ) {}
 
-  async getAttachment(id: string): Promise<Attachment> {
+  async getAttachment(id: number): Promise<Attachment> {
     return this.attachmentRepository.findOne(id);
   }
 

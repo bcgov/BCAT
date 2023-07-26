@@ -12,7 +12,7 @@ import { FinalScore, Input, UserView } from '../broader-review';
 import { useBroaderReview } from '../../services';
 
 export type BroaderReviewProps = {
-  applicationId: string;
+  applicationId: number;
   userList: UserInterface[];
   onClose: () => void;
   applicationType: ApplicationType;

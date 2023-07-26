@@ -1,5 +1,5 @@
 export type CommentType = {
-  userId: string;
+  userId: number;
   displayName: string;
   commentId: string;
   comment: string;

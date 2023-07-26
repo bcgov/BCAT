@@ -20,9 +20,7 @@ export class GetApplicationsDto extends PaginationDto {
 
   @IsOptional()
   @IsString()
-  @MaxLength(100)
-  @MinLength(0)
-  assignedTo: string;
+  assignedTo: number;
 
   @IsOptional()
   @IsEnum(OrderByOptions)

@@ -15,7 +15,7 @@ export class Comment extends CustomBaseEntity {
   user: User;
 
   @Column({ name: 'OVERALL_COMMENTS', type: 'varchar', length: 2000 })
-  overallComments?: string;
+  comment?: string;
 
   @ManyToOne(() => Application, (application) => application.comments)
   @JoinColumn({ name: 'APPLICATION_ID' })

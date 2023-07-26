@@ -9,19 +9,19 @@ export enum REQUEST_METHOD {
 export const API_ENDPOINT = {
   VALIDATE_USER: '/validate',
   FETCH_USERS: '/users',
-  updateUserAccess: (id: string) => `/users/${id}/access`,
-  getApplicationComments: (applicationId: string) => `/applications/${applicationId}/comments`,
+  updateUserAccess: (id: number) => `/users/${id}/access`,
+  getApplicationComments: (applicationId: number) => `/applications/${applicationId}/comments`,
   APPLICATIONS: '/applications',
-  getApplicationDetails: (applicationId: string) => `/applications/${applicationId}`,
-  getApplicationStatus: (applicationId: string) => `/applications/${applicationId}/status`,
-  getApplicationEvaluator: (applicationId: string) => `/applications/${applicationId}/assign`,
-  getApplicationAttachments: (id: string) => `attachments/${id}`,
-  getBroaderScores: (applicationId: string) => `/applications/${applicationId}/broader`,
-  updateBroaderScores: (applicationId: string, scoreId: string) =>
+  getApplicationDetails: (applicationId: number) => `/applications/${applicationId}`,
+  getApplicationStatus: (applicationId: number) => `/applications/${applicationId}/status`,
+  getApplicationEvaluator: (applicationId: number) => `/applications/${applicationId}/assign`,
+  getApplicationAttachments: (id: number) => `attachments/${id}`,
+  getBroaderScores: (applicationId: number) => `/applications/${applicationId}/broader`,
+  updateBroaderScores: (applicationId: number, scoreId: number) =>
     `/applications/${applicationId}/broader/${scoreId}`,
-  getWorkshopScores: (applicationId: string) => `/applications/${applicationId}/workshop`,
-  updateWorksopScores: (applicationId: string, scoreId: string) =>
+  getWorkshopScores: (applicationId: number) => `/applications/${applicationId}/workshop`,
+  updateWorksopScores: (applicationId: number, scoreId: number) =>
     `/applications/${applicationId}/workshop/${scoreId}`,
-  downloadApplicationScore: (applicationId: string) => `/applications/${applicationId}/download`,
+  downloadApplicationScore: (applicationId: number) => `/applications/${applicationId}/download`,
   APPLICATIONS_RAW_DATA: '/applications/raw-data',
 };

@@ -35,7 +35,7 @@ export class ApplicationController {
   constructor(private applicationService: ApplicationService) {}
 
   @Get('/:applicationId')
-  getApplication(@Param('applicationId') applicationId: string) {
+  getApplication(@Param('applicationId') applicationId: number) {
     return this.applicationService.getApplication(applicationId);
   }
 
@@ -48,7 +48,7 @@ export class ApplicationController {
   async saveApplication(
     // To-do: Get the logged-in user data (id) as well
     // and allow to update only the applications that belong to them.
-    @Param('applicationId') applicationId: string,
+    @Param('applicationId') applicationId: number,
     @Body() applicationDto: SaveApplicationDto
   ) {
     await this.applicationService.updateApplication(applicationId, applicationDto);
@@ -57,7 +57,7 @@ export class ApplicationController {
 
   @Patch('/:applicationId/assign')
   async assignToUser(
-    @Param('applicationId') applicationId: string,
+    @Param('applicationId') applicationId: number,
     @Body() assignToUserDto: AssignToUserDto,
     @GetUser() user: User
   ): Promise<any> {
@@ -67,7 +67,7 @@ export class ApplicationController {
 
   @Patch('/:applicationId/unassign')
   async unassignUser(
-    @Param('applicationId') applicationId: string,
+    @Param('applicationId') applicationId: number,
     @GetUser() user: User
   ): Promise<any> {
     await this.applicationService.unassignUser(applicationId, user);
@@ -75,13 +75,13 @@ export class ApplicationController {
   }
 
   @Get('/:applicationId/comments')
-  async getComments(@Param('applicationId') applicationId: string): Promise<CommentResultRo> {
+  async getComments(@Param('applicationId') applicationId: number): Promise<CommentResultRo> {
     return await this.applicationService.getComments(applicationId);
   }
 
   @Post('/:applicationId/comments')
   async createComment(
-    @Param('applicationId') applicationId: string,
+    @Param('applicationId') applicationId: number,
     @Body() commentDto: CommentDto,
     @GetUser() user: User
   ): Promise<Comment> {
@@ -90,7 +90,7 @@ export class ApplicationController {
 
   @Patch('/:applicationId/status')
   async updateStatus(
-    @Param('applicationId') applicationId: string,
+    @Param('applicationId') applicationId: number,
     @Body() statusDto: UpdateStatusDto,
     @GetUser() user: User
   ): Promise<any> {
@@ -100,7 +100,7 @@ export class ApplicationController {
 
   // Broader Review Score Section
   @Get('/:applicationId/broader')
-  async getScores(@Param('applicationId') applicationId: string) {
+  async getScores(@Param('applicationId') applicationId: number) {
     return this.applicationService.getBroaderReviewScores(applicationId);
   }
 
@@ -108,14 +108,14 @@ export class ApplicationController {
   async createScore(
     @Body() scoreDto: ScoreDto,
     @GetUser() user: User,
-    @Param('applicationId') applicationId: string
+    @Param('applicationId') applicationId: number
   ) {
     return this.applicationService.createBroaderReviewScore(user, applicationId, scoreDto);
   }
 
   @Patch('/:applicationId/broader/:scoreId')
   async updateScore(
-    @Param('applicationId') applicationId: string,
+    @Param('applicationId') applicationId: number,
     @Param('scoreId') scoreId: string,
     @Body() scoreDto: ScoreDto,
     @GetUser() user: User
@@ -125,7 +125,7 @@ export class ApplicationController {
 
   // Workshop Score Section
   @Get('/:applicationId/workshop')
-  async getWorkshopScores(@Param('applicationId') applicationId: string) {
+  async getWorkshopScores(@Param('applicationId') applicationId: number) {
     return this.applicationService.getWorkshopScores(applicationId);
   }
 
@@ -135,7 +135,7 @@ export class ApplicationController {
     @Body() scoreDto: ScoreDto,
     @GetUser() user: User,
 
-    @Param('applicationId') applicationId: string
+    @Param('applicationId') applicationId: number
   ) {
     return this.applicationService.createWorkshopScore(user, applicationId, scoreDto);
   }
@@ -143,7 +143,7 @@ export class ApplicationController {
   @Patch('/:applicationId/workshop/:scoreId')
   @Roles(UserRoles.ADMIN)
   async updateWorkshopScore(
-    @Param('applicationId') applicationId: string,
+    @Param('applicationId') applicationId: number,
     @Param('scoreId') scoreId: string,
     @Body() scoreDto: ScoreDto
   ) {
@@ -151,7 +151,7 @@ export class ApplicationController {
   }
 
   @Get('/:applicationId/download')
-  async getApplicationAsPDF(@Param('applicationId') applicationId: string, @Res() res: Response) {
+  async getApplicationAsPDF(@Param('applicationId') applicationId: number, @Res() res: Response) {
     const application = await this.applicationService.getApplicationDetailsForPDF(applicationId);
     return res.render('base', {
       layout: 'base',
