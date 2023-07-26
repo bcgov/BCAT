@@ -1,0 +1,50 @@
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+
+--
+-- Name: BCAT_USER_PK; Type: CONSTRAINT; Schema: public; Owner: -
+--
+ALTER TABLE ONLY public."BCAT_USER"
+    ADD CONSTRAINT "BCAT_USER_PK" PRIMARY KEY ("USER_ID");
+
+--
+-- Name: BCAT_APPLICATION_PK; Type: CONSTRAINT; Schema: public; Owner: -
+--
+ALTER TABLE ONLY public."BCAT_APPLICATION"
+    ADD CONSTRAINT "BCAT_APPLICATION_PK" PRIMARY KEY ("APPLICATION_ID");
+
+--
+-- Name: BCAT_BROADER_REVIEW_SCORE_PK; Type: CONSTRAINT; Schema: public; Owner: -
+--
+ALTER TABLE ONLY public."BCAT_BROADER_REVIEW_SCORE"
+    ADD CONSTRAINT "BCAT_BROADER_REVIEW_SCORE_PK" PRIMARY KEY ("BROADER_REVIEW_SCORE_ID");
+
+--
+-- Name: BCAT_COMMENT_PK; Type: CONSTRAINT; Schema: public; Owner: -
+--
+ALTER TABLE ONLY public."BCAT_COMMENT"
+    ADD CONSTRAINT "BCAT_COMMENT_PK" PRIMARY KEY ("COMMENT_ID");
+
+--
+-- Name: BCAT_WORKSHOP_SCORE_PK; Type: CONSTRAINT; Schema: public; Owner: -
+--
+ALTER TABLE ONLY public."BCAT_WORKSHOP_SCORE"
+    ADD CONSTRAINT "BCAT_WORKSHOP_SCORE_PK" PRIMARY KEY ("WORKSHOP_SCORE_ID");
+
+--
+-- Name: BCAT_ATTACHMENT_PK; Type: CONSTRAINT; Schema: public; Owner: -
+--
+ALTER TABLE ONLY public."BCAT_ATTACHMENT"
+    ADD CONSTRAINT "BCAT_ATTACHMENT_PK" PRIMARY KEY ("ATTACHMENT_ID");
+
+--
+-- Name: BCAT_FORM_METADATA_PK; Type: CONSTRAINT; Schema: public; Owner: -
+--
+ALTER TABLE ONLY public."BCAT_FORM_METADATA"
+    ADD CONSTRAINT "BCAT_FORM_METADATA_PK" PRIMARY KEY ("FORM_METADATA_ID");
