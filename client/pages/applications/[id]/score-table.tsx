@@ -7,7 +7,7 @@ import { useApplicationDetails } from 'services';
 
 const ScoreTable: NextPage = () => {
   const { query } = useRouter();
-  const id = query.id ? +query.id : undefined;
+  const id = query?.id ? +query.id : undefined;
   const { details } = useApplicationDetails(id);
   return (
     <div>

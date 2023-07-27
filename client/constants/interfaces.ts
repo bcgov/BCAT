@@ -45,8 +45,8 @@ export interface FundingEligibilityInterface {
   requiredToCorrectNonComplianceExplanation: string;
   requiredForClimateChange: string;
   requiredForClimateChangeExplanation: string;
-  BCAAPFunding: string;
-  BCAAPFundingExplanation: string;
+  BCATFunding: string;
+  BCATFundingExplanation: string;
 }
 
 export interface EnvironmentalInfoInterface {
