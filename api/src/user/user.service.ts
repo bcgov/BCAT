@@ -14,7 +14,7 @@ export class UserService {
   ) {}
 
   async getByExternalId(externalId: string): Promise<User> {
-    const user = this.userRepository.findOne({ where: { externalId } });
+    const user = this.userRepository.findOne({ where: { userGuid: externalId } });
     if (!user) {
       throw new GenericException(UserError.USER_NOT_FOUND);
     }
