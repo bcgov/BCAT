@@ -55,7 +55,7 @@ Use the following steps to configure the local development environment
       KC_AUTH_URL= https://dev.loginproxy.gov.bc.ca/auth
       KC_AUTH_REALM=standard
       KC_AUTH_CLIENT_ID=pbgp-4412
-      CHEFS_FORM_IDS=["4b19eee6-f42d-481f-8279-cbc28ab68cf0","98e9d187-9285-49ca-8c66-24b9dca1e6f7","d202bc41-dee3-4c5d-bb56-53213f4d095a"]
+      CHEFS_FORM_IDS=["b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54", "f3bac574-bc64-4169-af40-9f3403b43eb6"]
       LARGE_PROJECT=
       SMALL_PROJECT=bb0871ca-516f-42ed-91e6-3f8175d18448
       ENVIRONMENT_PLANNING=
