@@ -15,13 +15,11 @@ export type BroaderReviewProps = {
   applicationId: number;
   userList: UserInterface[];
   onClose: () => void;
-  applicationType: ApplicationType;
 };
 
 export const BroaderReview: React.FC<BroaderReviewProps> = ({
   applicationId,
   userList,
-  applicationType,
 }) => {
   const {
     applicationScores,

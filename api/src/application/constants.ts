@@ -8,7 +8,7 @@ export enum ApplicationStatus {
   WORKSHOP = 'WORKSHOP',
 }
 
-export const findApplicationType = (chefsFormId: string): ApplicationType => {
+/* export const findApplicationType = (chefsFormId: string): ApplicationType => {
   switch (chefsFormId) {
     case process.env.DEVELOPMENT_PLANNING:
       return ApplicationType.DEVELOPMENT_PLANNING;
@@ -22,7 +22,7 @@ export const findApplicationType = (chefsFormId: string): ApplicationType => {
     default:
       return ApplicationType.LARGE_PROJECT;
   }
-};
+}; */
 
 export const ScoreFields = [
   {

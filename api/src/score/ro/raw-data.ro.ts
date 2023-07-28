@@ -1,4 +1,3 @@
-import { findApplicationType } from '../../application/constants';
 import { ApplicationVsDetailsInfo } from '../../application/ro/application-score.ro';
 import { WorkshopScore } from '../workshop-score.entity';
 
@@ -35,7 +34,7 @@ export class RawDataRo {
   }
   convertWorkshopScoreToContent(data: WorkshopScore[]) {
     const content = data.map((item: WorkshopScore) => {
-      const applicationType = findApplicationType(item.application.form.chefsFormId);
+      // const applicationType = findApplicationType(item.application.form.chefsFormId);
 
       return {
         facilityName: item.application.submission.facilityName,
@@ -44,7 +43,7 @@ export class RawDataRo {
         asks: item.application.asks,
         finalScore: item.finalScore,
         scoreRatio: `${(
-          item.finalScore / ApplicationVsDetailsInfo[applicationType].totalScore
+          item.finalScore
         ).toFixed(3)}`,
       };
     });

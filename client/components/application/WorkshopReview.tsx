@@ -5,19 +5,17 @@ import {
   EvaluationReviewQuestions,
   APPLICATION_REVIEW_VALIDATION_SCHEMA,
   ReviewCompletionStatus,
-  ApplicationType,
 } from '../../constants';
 import { Textarea, Radio, Error } from '../form';
 import { FinalScore, Input } from '../broader-review';
 
 export type WorkshopReviewProps = {
   applicationId: number;
-  applicationType: ApplicationType;
+  // applicationType: ApplicationType;
 };
 
 export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
   applicationId,
-  applicationType,
 }) => {
   const { applicationScores, handleSubmit, isLoading, loggedInUser } =
     useWorkshopReview(applicationId);

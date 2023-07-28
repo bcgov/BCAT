@@ -50,7 +50,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   const { user } = useAuthContext();
   const [applicationType, setApplicationType] = useState<ApplicationType | undefined>();
 
-  const findApplicationType = (data: any): ApplicationType => {
+  /* const findApplicationType = (data: any): ApplicationType => {
     switch (data?.form?.chefsFormId) {
       case NEXT_PUBLIC_DEVELOPMENT_PLANNING:
         return ApplicationType.DEVELOPMENT_PLANNING;
@@ -64,7 +64,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
       default:
         return ApplicationType.LARGE_PROJECT;
     }
-  };
+  }; */
 
   const topStatusObj = [
     { title: 'Status', value: 'status' },
@@ -195,7 +195,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
       setSchema(form.versionSchema.components);
       setFormData(submission);
       setDetails(submissionDetails);
-      setApplicationType(findApplicationType(data));
+      // setApplicationType(findApplicationType(data));
     }
   }, [data]);
 
@@ -210,7 +210,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
     updateEvaluator,
     userList: userData,
     isPanelDefaultOpen,
-    applicationType,
+    // applicationType,
     downloadPDF,
   };
 };
