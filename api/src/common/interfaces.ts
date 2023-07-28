@@ -12,10 +12,10 @@ export interface AxiosOptions {
 export interface BroaderReviewScoreInterface {
   createdAt: Date;
   updatedAt: Date;
-  data: ScoreDataDto;
-  finalScore: number;
-  overallComments: string;
-  id: string;
-  completionStatus: CompletionStatus;
+  data?: ScoreDataDto;
+  finalScore?: number;
+  overallComments?: string;
+  id: number;
+  completionStatus?: CompletionStatus;
   application: Application;
 }

@@ -67,7 +67,7 @@ export class ApplicationService {
     return new PaginationRO<Application>(applications);
   }
 
-  async getApplication(applicationId: string): Promise<Application> {
+  async getApplication(applicationId: number): Promise<Application> {
     const application = await this.applicationRepository.findOne(applicationId, {
       relations: ['assignedTo', 'form', 'lastUpdatedBy'],
     });
@@ -88,35 +88,35 @@ export class ApplicationService {
   }
 
   async updateApplication(
-    applicationId: string,
+    applicationId: number,
     applicationDto: SaveApplicationDto
   ): Promise<void> {
     await this.applicationRepository.update(applicationId, applicationDto);
   }
 
   async assignToUser(
-    applicationId: string,
+    applicationId: number,
     assignToUserDto: AssignToUserDto,
     loggedInUser: User
   ): Promise<void> {
     const application = await this.getApplication(applicationId);
     const user = await this.userService.getUser(assignToUserDto.userId);
     application.assignedTo = user;
-    application.lastUpdatedBy = loggedInUser;
+    application.lastUpdatedByUserId = loggedInUser.userName;
     await this.applicationRepository.save(application);
   }
 
-  async unassignUser(applicationId: string, loggedInUser: User): Promise<void> {
+  async unassignUser(applicationId: number, loggedInUser: User): Promise<void> {
     const application = await this.getApplication(applicationId);
     // simplified for now, but if there are multiple users that
     // can be assigned/unassigned - will need to include the passed
     // user ID's.
     application.assignedTo = null;
-    application.lastUpdatedBy = loggedInUser;
+    application.lastUpdatedByUserId = loggedInUser.userName;
     await this.applicationRepository.save(application);
   }
 
-  async getComments(applicationId: string): Promise<CommentResultRo> {
+  async getComments(applicationId: number): Promise<CommentResultRo> {
     const res = await this.commentService.getAllComments(applicationId);
     if (res.length > 0) {
       return new CommentResultRo(res);
@@ -124,12 +124,12 @@ export class ApplicationService {
     return;
   }
 
-  async createComment(applicationId: string, commentDto: CommentDto, user: User): Promise<Comment> {
+  async createComment(applicationId: number, commentDto: CommentDto, user: User): Promise<Comment> {
     const application = await this.getApplication(applicationId);
     return await this.commentService.createComment(commentDto, application, user);
   }
 
-  async updateStatus(applicationId: string, statusDto: UpdateStatusDto, user: User): Promise<void> {
+  async updateStatus(applicationId: number, statusDto: UpdateStatusDto, user: User): Promise<void> {
     const application = await this.getApplication(applicationId);
     const { status } = statusDto;
     //
@@ -138,23 +138,26 @@ export class ApplicationService {
     }
 
     // TODO: Should audit the changes on who updated the status
-    await this.applicationRepository.update(applicationId, { status, lastUpdatedBy: user });
+    await this.applicationRepository.update(applicationId, {
+      status,
+      lastUpdatedByUserId: user.userName,
+    });
     await this.unassignUser(applicationId, user);
   }
 
   // Broader Review Score Section
-  async getBroaderReviewScores(applicationId: string) {
+  async getBroaderReviewScores(applicationId: number) {
     return this.broaderScoreService.getBroaderReviewScores(applicationId);
   }
 
-  async createBroaderReviewScore(user: User, applicationId: string, scoreDto: ScoreDto) {
+  async createBroaderReviewScore(user: User, applicationId: number, scoreDto: ScoreDto) {
     const application = await this.getApplication(applicationId);
 
     return this.broaderScoreService.createBroaderReviewScore(user, application, scoreDto);
   }
   async updateBroaderReviewScore(
     user: User,
-    applicationId: string,
+    applicationId: number,
     scoreId: string,
     scoreDto: ScoreDto
   ) {
@@ -164,22 +167,22 @@ export class ApplicationService {
   }
 
   // Workshop Score Section
-  async getWorkshopScores(applicationId: string) {
+  async getWorkshopScores(applicationId: number) {
     return this.workshopScoreService.getWorkshopScoreForApplication(applicationId);
   }
 
-  async createWorkshopScore(user: User, applicationId: string, scoreDto: ScoreDto) {
+  async createWorkshopScore(user: User, applicationId: number, scoreDto: ScoreDto) {
     const application = await this.getApplication(applicationId);
 
     return this.workshopScoreService.createWorkshopScore(user, application, scoreDto);
   }
-  async updateWorkshopScore(applicationId: string, scoreId: string, scoreDto: ScoreDto) {
+  async updateWorkshopScore(applicationId: number, scoreId: string, scoreDto: ScoreDto) {
     const application = await this.getApplication(applicationId);
 
     return this.workshopScoreService.updateWorkshopScore(application, scoreId, scoreDto);
   }
 
-  async getApplicationDetailsForPDF(applicationId: string): Promise<ApplicationFinalScoreRO> {
+  async getApplicationDetailsForPDF(applicationId: number): Promise<ApplicationFinalScoreRO> {
     const workshopScore = await this.workshopScoreService.getApplicationDetailsWithFinalScore(
       applicationId
     );

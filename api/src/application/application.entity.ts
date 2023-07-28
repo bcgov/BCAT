@@ -1,40 +1,42 @@
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { FormMetaData } from '../FormMetaData/formmetadata.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Comment } from '../comments/comment.entity';
 import { ApplicationStatus } from './constants';
 import { RemovableBaseEntity } from '../common/removable-base.entity';
 
 @Entity({
-  name: 'pbgp_application',
+  name: 'BCAT_APPLICATION',
 })
 export class Application extends RemovableBaseEntity {
-  @PrimaryGeneratedColumn('uuid', { name: 'application_id' })
-  id: string;
+  @PrimaryGeneratedColumn({ name: 'APPLICATION_ID' })
+  id: number;
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ name: 'SUBMISSION', type: 'jsonb', nullable: false })
   // It's dynamic, so putting any here
   submission: any;
 
-  @Column({ type: 'varchar', length: '300', nullable: false, unique: true })
+  @Column({ name: 'SUBMISSION_ID', type: 'uuid', nullable: false, unique: true })
   submissionId: string;
 
+  // still need this?
   @Column({ type: 'varchar', length: '200', nullable: false })
   confirmationId: string;
 
-  @Column({ type: 'varchar', length: '200', nullable: false })
+  @Column({ name: 'FACILITY_NAME', type: 'varchar', length: '200', nullable: false })
   facilityName: string;
 
-  @Column({ type: 'varchar', length: '100', nullable: true })
+  @Column({ name: 'PROJECT_TITLE', type: 'varchar', length: '100', nullable: false })
   projectTitle: string;
 
-  @Column({ type: 'money', nullable: true })
-  totalEstimatedCost: string;
+  @Column({ name: 'TOTAL_ESTIMATED_COST', type: 'money' })
+  totalEstimatedCost?: string;
 
-  @Column({ type: 'money', nullable: true })
-  asks: string;
+  @Column({ name: 'ASKS', type: 'money' })
+  asks?: string;
 
   @Column({
+    name: 'STATUS',
     type: 'varchar',
     length: '100',
     nullable: false,
@@ -43,15 +45,14 @@ export class Application extends RemovableBaseEntity {
   status: ApplicationStatus;
 
   @ManyToOne(() => FormMetaData, (form) => form.applications)
+  @JoinColumn({ name: 'FORM_METADATA_ID' })
   form: FormMetaData;
 
   // Might belong to multiple users in the future, so
   // change to ManyToMany accordingly if needed.
   @ManyToOne(() => User, (user) => user.applications)
+  @JoinColumn({ name: 'ASSIGNED_TO_USER_ID' })
   assignedTo: User;
-
-  @ManyToOne(() => User, (user) => user.id)
-  lastUpdatedBy: User;
 
   @OneToMany(() => Comment, (comment) => comment.application)
   comments: Comment[];

@@ -4,14 +4,14 @@ import { useAuthContext } from '../contexts';
 import { useHttp } from './useHttp';
 import { toast } from 'react-toastify';
 
-export const useBroaderReview = (applicationId: string) => {
+export const useBroaderReview = (applicationId: number) => {
   const [applicationScores, setApplicationScores] = useState<any[]>([]);
   const { fetchData, sendApiRequest, isLoading } = useHttp();
-  const [selectedUser, setSelectedUser] = useState<string | undefined>('');
+  const [selectedUser, setSelectedUser] = useState<number | undefined>();
   const [applicationScoresByScorer, setApplicationScoresByScorer] = useState<any>();
   const { user: loggedInUser } = useAuthContext();
   const [newScore, setNewScore] = useState<boolean>(true);
-  const [scoreId, setScoreId] = useState<string>('');
+  const [scoreId, setScoreId] = useState<number>(0);
   const [isLoggedInUser, setIsLoggedInUser] = useState<boolean>(true);
 
   const fetchApplicationScores = () => {
@@ -92,7 +92,7 @@ export const useBroaderReview = (applicationId: string) => {
     );
   };
 
-  const handleChangeScorer = (id: string) => {
+  const handleChangeScorer = (id: number) => {
     setSelectedUser(id);
   };
 

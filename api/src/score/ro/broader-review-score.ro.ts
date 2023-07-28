@@ -2,8 +2,8 @@ import { BroaderReviewScoreInterface } from '../../common/interfaces';
 import { BroaderReviewScore } from '../broader-review-score.entity';
 
 export interface BroaderReviewScoreRo extends BroaderReviewScoreInterface {
-  user: string;
-  displayName: string;
+  user: number;
+  displayName?: string;
 }
 
 export class BroaderReviewScoreResultRo {

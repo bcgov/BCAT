@@ -45,8 +45,8 @@ export interface FundingEligibilityInterface {
   requiredToCorrectNonComplianceExplanation: string;
   requiredForClimateChange: string;
   requiredForClimateChangeExplanation: string;
-  BCAAPFunding: string;
-  BCAAPFundingExplanation: string;
+  BCATFunding: string;
+  BCATFundingExplanation: string;
 }
 
 export interface EnvironmentalInfoInterface {
@@ -87,7 +87,7 @@ export interface AuthorizationInterface {
 }
 
 export interface ApplicationTableProps {
-  Application_ID: string;
+  Application_ID: number;
   Submission: string;
   Confirmation_ID: string;
   Facility_Name: string;
@@ -96,7 +96,7 @@ export interface ApplicationTableProps {
   Created_At: string;
   Updated_At: string;
   Chefs_ID: string;
-  BCAAP_Form_ID: string;
+  BCAAP_Form_ID: number;
 }
 
 export type KeyValuePair = {
@@ -133,7 +133,7 @@ export interface BroaderReviewValues {
 }
 
 export interface ScoreSummaryTableProps {
-  applicationId: string;
+  applicationId: number;
 }
 
 export interface BroaderReviewScore {
@@ -142,8 +142,9 @@ export interface BroaderReviewScore {
   data: BroaderReviewValues;
   finalScore: number;
   overallComments: string;
-  id: string;
+  id: number;
   completionStatus: ReviewCompletionStatus;
+  // TO-DO: determine what application and user is, id?
   application: string;
   user: string;
   displayName: string;

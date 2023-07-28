@@ -1,29 +1,30 @@
+import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne, Column } from 'typeorm';
 import { Application } from '../application/application.entity';
 import { ScoreBaseEntity } from '../common/score-base.entity';
 import { User } from '../user/user.entity';
-import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne, Column } from 'typeorm';
 import { CompletionStatus } from '@/common/enums';
 
 @Entity({
-  name: 'pbgp_workshop_score',
+  name: 'BCAT_WORKSHOP_SCORE',
 })
 export class WorkshopScore extends ScoreBaseEntity {
-  @PrimaryGeneratedColumn('uuid', { name: 'border_workshop_id' })
-  id: string;
+  @PrimaryGeneratedColumn({ name: 'WORKSHOP_SCORE_ID' })
+  id: number;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'USER_ID' })
+  user: User;
+
+  @OneToOne(() => Application, (application) => application.id)
+  @JoinColumn({ name: 'APPLICATION_ID' })
+  application: Application;
 
   @Column({
+    name: 'COMPLETION_STATUS',
     type: 'varchar',
     nullable: false,
     length: 30,
     default: CompletionStatus.IN_PROGRESS,
   })
-  completionStatus: CompletionStatus;
-
-  @ManyToOne(() => User)
-  @JoinColumn()
-  user: User;
-
-  @OneToOne(() => Application, (application) => application.id)
-  @JoinColumn()
-  application: Application;
+  completionStatus?: CompletionStatus;
 }

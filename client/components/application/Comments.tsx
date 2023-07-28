@@ -9,7 +9,7 @@ import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { API_ENDPOINT, CommentResponseType, CommentType } from '../../constants';
 
 export type CommentsProps = {
-  applicationId: string;
+  applicationId: number;
   onClose: () => void;
 };
 

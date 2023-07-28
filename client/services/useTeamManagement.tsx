@@ -9,7 +9,7 @@ export const useTeamManagement = () => {
   const { fetchData, sendApiRequest, isLoading } = useHttp();
   const { openModal, closeModal } = useModal();
 
-  const updateAdminAccess = (id: string, grantAccess: boolean) => {
+  const updateAdminAccess = (id: number, grantAccess: boolean) => {
     closeModal();
     const body: any = {
       isAdmin: grantAccess,
@@ -29,7 +29,7 @@ export const useTeamManagement = () => {
     );
   };
 
-  const updateAdminAccessModal = (id: string, grantAccess: boolean) => {
+  const updateAdminAccessModal = (id: number, grantAccess: boolean) => {
     let title = 'Grant Admin Access';
     let children =
       'Do you wish to grant admin access to user? Kindly note that providing admin access would provide access to the portal.';
@@ -46,7 +46,7 @@ export const useTeamManagement = () => {
     });
   };
 
-  const updatePortalAccess = (id: string, grantAccess: boolean) => {
+  const updatePortalAccess = (id: number, grantAccess: boolean) => {
     closeModal();
     const body: any = {
       isAuthorized: grantAccess,
@@ -66,7 +66,7 @@ export const useTeamManagement = () => {
     );
   };
 
-  const updatePortalAccessModal = (id: string, grantAccess: boolean) => {
+  const updatePortalAccessModal = (id: number, grantAccess: boolean) => {
     let title = 'Grant Portal Access';
     let children = 'Do you wish to grant portal access to user?';
 

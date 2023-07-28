@@ -13,7 +13,7 @@ export class CommentService {
     private commentRepository: Repository<Comment>
   ) {}
 
-  async getAllComments(applicationId: string) {
+  async getAllComments(applicationId: number) {
     const query = this.commentRepository
       .createQueryBuilder('cmt')
       .select(

@@ -21,7 +21,7 @@ export class UserService {
     return user;
   }
 
-  async getUser(id: string): Promise<User> {
+  async getUser(id: number): Promise<User> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
       throw new GenericException(UserError.USER_NOT_FOUND);
@@ -37,7 +37,7 @@ export class UserService {
     return await this.userRepository.createQueryBuilder().limit(50).getMany();
   }
 
-  async updateUserAccess(userId: string, body: UserAccessDto): Promise<void> {
+  async updateUserAccess(userId: number, body: UserAccessDto): Promise<void> {
     const user = await this.getUser(userId);
 
     // Right now only updates isAuthorized and isAdmin, add more in the future as needed.
