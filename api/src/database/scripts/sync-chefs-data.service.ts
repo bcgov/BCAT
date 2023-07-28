@@ -18,7 +18,7 @@ import { DatabaseError } from '../database.error';
 
 const CHEFS_BASE_URL = 'https://submit.digital.gov.bc.ca/app/api/v1';
 const FILE_URL = 'https://submit.digital.gov.bc.ca';
-const MAX_PROJECT_TITLE_LENGTH = 100;
+const MAX_PROJECT_TITLE_LENGTH = 300;
 
 @Injectable()
 export class SyncChefsDataService {
@@ -41,7 +41,7 @@ export class SyncChefsDataService {
     return `${CHEFS_BASE_URL}/submissions/${submissionId}`;
   }
 
-  private async createOrFindFormMetadate(data: FormMetaDataDto): Promise<FormMetaData> {
+  private async createOrFindFormMetadata(data: FormMetaDataDto): Promise<FormMetaData> {
     const form = await this.formMetadataRepo.findOne({
       where: { chefsFormId: data.chefsFormId, versionId: data.versionId },
     });
@@ -149,13 +149,13 @@ export class SyncChefsDataService {
         submissionId: responseData.id,
         submission: responseData.submission.data,
         confirmationId: responseData.confirmationId,
-        facilityName: responseData.submission.data.facilityName,
-        projectTitle: responseData.submission.data.projectTitle.substring(
+        // facilityName: responseData.submission.data.facilityName,
+        projectTitle: responseData.submission.data.s4Container.s4projectTitle.substring(
           0,
           MAX_PROJECT_TITLE_LENGTH
         ),
-        totalEstimatedCost: responseData.submission.data.totalEstimatedCostOfProject,
-        asks: responseData.submission.data.totalRequestBeingMadeOfBcaapACDNotToExceedB,
+        totalEstimatedCost: responseData.submission.data.s8Container.s8totalEstimatedProjectCost,
+        // asks: responseData.submission.data.totalRequestBeingMadeOfBcaapACDNotToExceedB,
       };
 
       if (dbSubmission) {
@@ -173,7 +173,7 @@ export class SyncChefsDataService {
           versionId: submissionResponse.data.version.id,
           versionSchema: submissionResponse.data.version.schema,
         };
-        const formMetaData = await this.createOrFindFormMetadate(newFormData);
+        const formMetaData = await this.createOrFindFormMetadata(newFormData);
 
         await this.appService.createApplication(newSubmissionData, formMetaData);
       }
