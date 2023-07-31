@@ -40,7 +40,7 @@ export class ScoreDataDto {
   @Min(0)
   @IsOptional()
   @IsEmpty()
-  pastBcaapFundingScore: number;
+  pastBcatFundingScore: number;
 
   @IsNumber()
   @IsIn([0, 2])

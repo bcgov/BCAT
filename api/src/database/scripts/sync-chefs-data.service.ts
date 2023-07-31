@@ -155,7 +155,7 @@ export class SyncChefsDataService {
           MAX_PROJECT_TITLE_LENGTH
         ),
         totalEstimatedCost: responseData.submission.data.totalEstimatedCostOfProject,
-        asks: responseData.submission.data.totalRequestBeingMadeOfBcaapACDNotToExceedB,
+        asks: responseData.submission.data.totalRequestBeingMadeOfBcatACDNotToExceedB,
       };
 
       if (dbSubmission) {

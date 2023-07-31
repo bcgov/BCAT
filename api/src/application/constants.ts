@@ -41,8 +41,8 @@ export const ScoreFields = [
     score: 5,
   },
   {
-    name: 'pastBcaapFundingScore',
-    label: 'Past BCAAP funding',
+    name: 'pastBcatFundingScore',
+    label: 'Past BCAT funding',
     score: 3,
   },
   {

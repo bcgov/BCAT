@@ -43,10 +43,10 @@ export const FundingEligibility: React.FC = () => {
             </div>
 
             <p className='font-bold'>
-              The percentage share of BCAAP funding available for your project may be increased by
-              up to 15% based on whether your community, facility or project meet any of the
-              following criteria (subject to verification by BCAAP staff). Please indicate which, if
-              any, of the following apply, with a brief explanation for those that you so indicate:
+              The percentage share of BCAT funding available for your project may be increased by up
+              to 15% based on whether your community, facility or project meet any of the following
+              criteria (subject to verification by BCAT staff). Please indicate which, if any, of
+              the following apply, with a brief explanation for those that you so indicate:
             </p>
 
             <fieldset className='w-full gap-2'>
@@ -133,7 +133,7 @@ export const FundingEligibility: React.FC = () => {
 
             <div className='flex flex-1 w-full justify-start'>
               <Radio
-                legend='The percentage share of BCAAP funding available for your project may be increased by an additional 5% if you are a non-profit society registered in British Columbia for the purposes of operating this small facility and you are reliant on volunteer contributions to complete this project. Does this description apply to you?'
+                legend='The percentage share of BCAT funding available for your project may be increased by an additional 5% if you are a non-profit society registered in British Columbia for the purposes of operating this small facility and you are reliant on volunteer contributions to complete this project. Does this description apply to you?'
                 name='BCATFunding'
                 horizontal={true}
                 options={[

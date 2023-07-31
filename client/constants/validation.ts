@@ -13,7 +13,7 @@ export const APPLICATION_REVIEW_VALIDATION_SCHEMA = Yup.object().shape({
   projectFundingScore: Yup.number()
     .min(0, minValidationText + '0')
     .max(5, maxValidationText + '5'),
-  pastBcaapFundingScore: Yup.number()
+  pastBcatFundingScore: Yup.number()
     .min(0, minValidationText + '0')
     .max(3, maxValidationText + '3'),
   facilityMasterPlanScore: Yup.number().oneOf([0, 2], 'Must be either 0 or 2'),

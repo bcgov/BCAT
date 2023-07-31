@@ -6,7 +6,7 @@ const initialValues = {
   contingencyPlan: '',
   contingencyPlanExplanation: '',
   totalEstimatedCost: '',
-  potentialBCAAPShare: '',
+  potentialBCATShare: '',
   thirdPartyContributions: '',
   applicantShare: '',
   totalRequest: '',
@@ -29,7 +29,7 @@ export const FundingProjectCostInfo: React.FC = () => {
             <div className='flex flex-1 w-full justify-start'>
               <Radio
                 title=''
-                legend='If your application is approved, a Conditional Grant Agreement will be issued which will define the maximum BCAAP contribution to this project based on the cost information provided in this application. Your organization will be solely responsible for any cost overruns. Do you have a contingency plan in place to ensure the project will be completed if costs increase?'
+                legend='If your application is approved, a Conditional Grant Agreement will be issued which will define the maximum BCAT contribution to this project based on the cost information provided in this application. Your organization will be solely responsible for any cost overruns. Do you have a contingency plan in place to ensure the project will be completed if costs increase?'
                 name='contingencyPlan'
                 horizontal={true}
                 options={[
@@ -45,9 +45,9 @@ export const FundingProjectCostInfo: React.FC = () => {
               maxLength={300}
             ></Field>
             <Field
-              name='potentialBCAAPShare'
+              name='potentialBCATShare'
               type='text'
-              label='B. Potential BCAAP share (subject to confirmation by BCAAP staff )'
+              label='B. Potential BCAT share (subject to confirmation by BCAT staff )'
               maxLength={300}
             ></Field>
             <Field
@@ -65,7 +65,7 @@ export const FundingProjectCostInfo: React.FC = () => {
             <Field
               name='totalRequest'
               type='text'
-              label='Total Request Being Made of BCAAP (A-C-D, not to exceed B)'
+              label='Total Request Being Made of BCAT (A-C-D, not to exceed B)'
               maxLength={300}
             ></Field>
           </div>

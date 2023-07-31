@@ -46,7 +46,7 @@ export const GeneralProjectInfo: React.FC = () => {
                 options={[
                   {
                     label:
-                      'Facility master plan (small facilities only, maximum BCAAP contribution is $25,000)',
+                      'Facility master plan (small facilities only, maximum BCAT contribution is $25,000)',
                     value: 'facilityMasterPlan',
                   },
                   { label: 'Airside / core aviation infrastructure', value: 'airside' },

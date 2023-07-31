@@ -71,7 +71,7 @@ export interface FundingProjectCostInfoInterface {
   contingencyPlan: string;
   contingencyPlanExplanation: string;
   totalEstimatedCost: string;
-  potentialBCAAPShare: string;
+  potentialBCATShare: string;
   thirdPartyContributions: string;
   applicantShare: string;
   totalRequest: string;
@@ -96,7 +96,7 @@ export interface ApplicationTableProps {
   Created_At: string;
   Updated_At: string;
   Chefs_ID: string;
-  BCAAP_Form_ID: number;
+  BCAT_Form_ID: number;
 }
 
 export type KeyValuePair = {
@@ -109,7 +109,7 @@ export interface BroaderReviewValues {
   projectTypeScore: string;
   projectNeedScore: number;
   projectFundingScore: number;
-  pastBcaapFundingScore: number;
+  pastBcatFundingScore: number;
   facilityMasterPlanScore: number;
   facilityUsageScore: number;
   trafficDataScore: number;

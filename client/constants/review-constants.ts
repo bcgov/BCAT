@@ -51,21 +51,21 @@ export const EvaluationReviewQuestions = [
     label: 'Need for funding?',
     description: 'Refer `Project Rationale` in General Project Information and Description section',
     tooltiptext:
-      'Score 4-5 if project cannot proceed without BCAAP funding. Score 2-3 if BCAAP funding will expedite the project. Score 0-1 if BCAAP funding is minimally important to whether the project proceeds.',
+      'Score 4-5 if project cannot proceed without BCAT funding. Score 2-3 if BCAT funding will expedite the project. Score 0-1 if BCAT funding is minimally important to whether the project proceeds.',
   },
   {
-    name: 'pastBcaapFundingScore',
+    name: 'pastBcatFundingScore',
     maxScore: 3,
-    label: 'Past BCAAP funding?',
-    description: 'BCAAP staff to evaluate this line',
+    label: 'Past BCAT funding?',
+    description: 'BCAT staff to evaluate this line',
     tooltiptext:
-      'Score 0 if BCAAP funded project still underway at facility. Score 1, 2 or 3, respectively, if a BCAAP project was approved at facility 2, 3 or 4 (or more) years ago.',
+      'Score 0 if BCAT funded project still underway at facility. Score 1, 2 or 3, respectively, if a BCAT project was approved at facility 2, 3 or 4 (or more) years ago.',
   },
   {
     name: 'facilityMasterPlanScore',
     maxScore: 2,
     label: 'Is this project identified in your facility master plan?',
-    description: 'BCAAP staff to evaluate this line',
+    description: 'BCAT staff to evaluate this line',
     tooltiptext: 'Score 2 if “yes”, score 0 if “no” or “NA”.',
     obj: evaluationObj2,
     criteria: [
@@ -265,7 +265,7 @@ export const EvaluationReviewQuestions = [
     label: 'Applicant or third-party contributions',
     description: '',
     tooltiptext:
-      'Score 1 point for the presence of third-party contributions. Score 1 point if the ask of BCAAP is less than the eligible ask of BCAAP.',
+      'Score 1 point for the presence of third-party contributions. Score 1 point if the ask of BCAT is less than the eligible ask of BCAT.',
     obj: null,
   },
 ];
@@ -274,7 +274,7 @@ export const INITIAL_REVIEW_VALUES = {
   projectTypeScore: '',
   projectNeedScore: '',
   projectFundingScore: '',
-  pastBcaapFundingScore: '',
+  pastBcatFundingScore: '',
   facilityMasterPlanScore: '',
   facilityUsageScore: '',
   trafficDataScore: '',
