@@ -8,16 +8,15 @@ import {
   REQUEST_METHOD,
   Routes,
   NextStatusUpdates,
-  ApplicationType,
 } from '../constants';
 import { KeyValuePair } from '../constants/interfaces';
 import { downloadHtmlAsPdf } from '../constants/util';
 import { useAuthContext, UserInterface } from '../contexts';
-import {
-  NEXT_PUBLIC_DEVELOPMENT_PLANNING,
-  NEXT_PUBLIC_SMALL_PROJECT,
-  NEXT_PUBLIC_ENVIRONMENT_PLANNING,
-} from '../pages/_app';
+// import {
+//   NEXT_PUBLIC_DEVELOPMENT_PLANNING,
+//   NEXT_PUBLIC_SMALL_PROJECT,
+//   NEXT_PUBLIC_ENVIRONMENT_PLANNING,
+// } from '../pages/_app';
 import { useHttp } from './useHttp';
 import { useTeamManagement } from './useTeamManagement';
 
@@ -48,7 +47,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   const { fetchData, sendApiRequest } = useHttp();
   const { userData } = useTeamManagement();
   const { user } = useAuthContext();
-  const [applicationType, setApplicationType] = useState<ApplicationType | undefined>();
+  // const [applicationType, setApplicationType] = useState<ApplicationType | undefined>();
 
   /* const findApplicationType = (data: any): ApplicationType => {
     switch (data?.form?.chefsFormId) {

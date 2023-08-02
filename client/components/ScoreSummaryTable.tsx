@@ -1,7 +1,7 @@
 import { ApplicationType, EvaluationReviewQuestions } from '../constants';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { BroaderReviewScore, ScoreSummaryTableProps } from 'constants/interfaces';
-import { useApplicationDetails, useBroaderReview } from 'services';
+import { useBroaderReview } from 'services';
 import { TooltipIcon } from './generic';
 
 export interface TableHeaderProps {
@@ -43,7 +43,7 @@ const TableBody: React.FC<TableBodyProps> = ({ scores }) => {
     },
     { name: 'finalScore', label: 'Final Score', tooltiptext: 'Your final score for the project' },
   ];
-  const filteredEvaluationReviewQuestions = EvaluationReviewQuestions.filter((item: any) => {
+  const filteredEvaluationReviewQuestions = EvaluationReviewQuestions.filter(() => {
     return true;
   });
   const finalMaxScore = filteredEvaluationReviewQuestions
@@ -105,7 +105,7 @@ export const ScoreSummaryTable: React.FC<ScoreSummaryTableProps> = ({ applicatio
       {applicationScores && applicationScores.length != 0 ? (
         <table className='min-w-full text-center'>
           <TableHeader scores={applicationScores} />
-          <TableBody scores={applicationScores} />
+          <TableBody scores={applicationScores} applicationType={undefined} />
         </table>
       ) : (
         <div className='text-center text-sm mt-4'>No scores found.</div>
