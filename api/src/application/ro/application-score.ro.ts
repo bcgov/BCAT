@@ -57,7 +57,7 @@ export class ApplicationFinalScoreRO {
 
   constructor(workshopScore: WorkshopScore) {
     const { application, finalScore, overallComments, data } = workshopScore;
-    const { submission, form } = application;
+    const { submission } = application;
     this.confirmationId = application.confirmationId;
     this.applicantName = submission.applicantName;
     this.facilityName = submission.facilityName;
