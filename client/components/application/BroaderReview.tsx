@@ -4,7 +4,6 @@ import {
   EvaluationReviewQuestions,
   APPLICATION_REVIEW_VALIDATION_SCHEMA,
   ReviewCompletionStatus,
-  ApplicationType,
 } from '../../constants';
 import { Textarea, Radio, Error } from '../form';
 import { UserInterface } from '../../contexts';
@@ -17,10 +16,7 @@ export type BroaderReviewProps = {
   onClose: () => void;
 };
 
-export const BroaderReview: React.FC<BroaderReviewProps> = ({
-  applicationId,
-  userList,
-}) => {
+export const BroaderReview: React.FC<BroaderReviewProps> = ({ applicationId, userList }) => {
   const {
     applicationScores,
     applicationScoresByScorer,
@@ -86,10 +82,11 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                         })}
 
                       <div className='mt-4 bg-white pt-4 pb-4'>
-                        {EvaluationReviewQuestions.filter((item: any) => {
-                          if (item.criteria) {
-                            return item.criteria.includes(applicationType);
-                          }
+                        {/* {EvaluationReviewQuestions.filter((item: any) => { */}
+                        {EvaluationReviewQuestions.filter(() => {
+                          // if (item.criteria) {
+                          //   return item.criteria.includes(applicationType);
+                          // }
                           return true;
                         }).map((item, index) => (
                           <div key={`BroderReviewInput_${selectedUser}_${index}`} className='mb-3'>
