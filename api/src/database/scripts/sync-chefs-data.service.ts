@@ -125,6 +125,7 @@ export class SyncChefsDataService {
         url: file.url,
         originalName: file.originalName,
         applicationId: applicationId,
+        data: file.data,
       } as Attachment;
 
       await this.attachmentService.createOrUpdateAttachment(newAttachmentData);
@@ -143,15 +144,16 @@ export class SyncChefsDataService {
       const submissionResponse = await axios(axiosOptions);
       const responseData = submissionResponse.data.submission;
 
-      // TO-DO: don't hardcode id, find better way to do this
-      if (formId === 'b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54') {
+      if (formId === process.env.INFRASTRUCTURE_FORM_ID) {
         // infrastructure form
         projectTitle = responseData.submission.data.s4Container.s4ProjectTitle;
         attachments = responseData.submission.data.s10Container;
-      } else {
+      } else if (formId === process.env.NETWORK_FORM_ID) {
         // network form
         projectTitle = responseData.submission.data.s3Container.s3ProjectTitle;
         attachments = responseData.submission.data.s9Container;
+      } else {
+        Logger.log(`Form ID: ${formId} is not a valid form. \nSkipping...`);
       }
 
       const dbSubmission = await this.applicationRepo.findOne({
@@ -162,7 +164,6 @@ export class SyncChefsDataService {
         submissionId: submissionId,
         submission: responseData.submission.data,
         confirmationId: responseData.confirmationId,
-        // facilityName: responseData.submission.data.facilityName,
         projectTitle: projectTitle.substring(0, MAX_PROJECT_TITLE_LENGTH),
         totalEstimatedCost: responseData.submission.data.s8Container.s8TotalEstimatedProjectCost,
         asks: responseData.submission.data.s8Container.s8GrantRequest,
