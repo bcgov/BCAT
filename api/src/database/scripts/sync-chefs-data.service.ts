@@ -154,6 +154,7 @@ export class SyncChefsDataService {
         attachments = responseData.submission.data.s9Container;
       } else {
         Logger.log(`Form ID: ${formId} is not a valid form. \nSkipping...`);
+        return;
       }
 
       const dbSubmission = await this.applicationRepo.findOne({
