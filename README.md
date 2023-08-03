@@ -56,6 +56,8 @@ Use the following steps to configure the local development environment
       KC_AUTH_REALM=standard
       KC_AUTH_CLIENT_ID=pbgp-4412
       CHEFS_FORM_IDS=["b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54", "f3bac574-bc64-4169-af40-9f3403b43eb6"]
+      INFRASTRUCTURE_FORM_ID=b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54
+      NETWORK_FORM_ID=f3bac574-bc64-4169-af40-9f3403b43eb6
       LARGE_PROJECT=
       SMALL_PROJECT=bb0871ca-516f-42ed-91e6-3f8175d18448
       ENVIRONMENT_PLANNING=
