@@ -11,7 +11,7 @@ import { Textarea, Radio, Error } from '../form';
 import { FinalScore, Input } from '../broader-review';
 
 export type WorkshopReviewProps = {
-  applicationId: string;
+  applicationId: number;
   applicationType: ApplicationType;
 };
 

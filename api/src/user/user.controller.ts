@@ -19,7 +19,7 @@ export class UserController {
 
   @Patch('/:id/access')
   @Roles(UserRoles.ADMIN)
-  async updateUser(@Param('id') userId: string, @Body() body: UserAccessDto): Promise<any> {
+  async updateUser(@Param('id') userId: number, @Body() body: UserAccessDto): Promise<any> {
     await this.userService.updateUserAccess(userId, body);
     return SUCCESS_RESPONSE;
   }

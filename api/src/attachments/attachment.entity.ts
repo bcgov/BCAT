@@ -2,20 +2,26 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 import { CustomBaseEntity } from '../common/custom-base.entity';
 
 @Entity({
-  name: 'pbgp_attachment',
+  name: 'BCAT_ATTACHMENT',
 })
 export class Attachment extends CustomBaseEntity {
-  @PrimaryColumn({ name: 'attachment_id', type: 'varchar', length: '100', nullable: false })
-  id: string;
+  @PrimaryColumn({ name: 'ATTACHMENT_ID', type: 'integer', nullable: false })
+  id: number;
 
-  @Column({ type: 'varchar', length: '200', nullable: false, unique: true })
+  @Column({ name: 'APPLICATION_ID', type: 'integer', nullable: false })
+  applicationId: number;
+
+  @Column({ name: 'ATTACHMENT_ID_NAME', type: 'varchar', length: '100', nullable: false })
+  attachmentIdName: string;
+
+  @Column({ name: 'URL', type: 'varchar', length: '200', nullable: false, unique: true })
   url: string;
 
   // nullable for now
   // String doesn't work for AxiosResponse type
-  @Column({ type: 'bytea', nullable: true })
-  data: Buffer;
+  @Column({ name: 'DATA', type: 'bytea', nullable: true })
+  data?: Buffer;
 
-  @Column({ type: 'varchar', length: '200', nullable: false })
+  @Column({ name: 'ORIGINAL_NAME', type: 'varchar', length: '200', nullable: false })
   originalName: string;
 }

@@ -21,7 +21,7 @@ import Link from 'next/link';
 
 const ApplicationDetails: NextPage = () => {
   const { query } = useRouter();
-  const { id } = query;
+  const id = query?.id ? +query.id : undefined;
 
   const {
     topStatusObj,

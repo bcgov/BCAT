@@ -22,7 +22,7 @@ export class AuthService {
 
     if (!user) {
       user = await this.userService.addUser({
-        externalId: idir_user_guid,
+        userGuid: idir_user_guid,
         displayName: display_name,
         userName: idir_username,
         isAdmin,

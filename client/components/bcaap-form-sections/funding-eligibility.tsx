@@ -24,8 +24,8 @@ const initialValues = {
   requiredToCorrectNonComplianceExplanation: '',
   requiredForClimateChange: '',
   requiredForClimateChangeExplanation: '',
-  BCAAPFunding: '',
-  BCAAPFundingExplanation: '',
+  BCATFunding: '',
+  BCATFundingExplanation: '',
 };
 
 export const FundingEligibility: React.FC = () => {
@@ -134,7 +134,7 @@ export const FundingEligibility: React.FC = () => {
             <div className='flex flex-1 w-full justify-start'>
               <Radio
                 legend='The percentage share of BCAAP funding available for your project may be increased by an additional 5% if you are a non-profit society registered in British Columbia for the purposes of operating this small facility and you are reliant on volunteer contributions to complete this project. Does this description apply to you?'
-                name='BCAAPFunding'
+                name='BCATFunding'
                 horizontal={true}
                 options={[
                   { label: 'Yes', value: 'yes' },
@@ -142,11 +142,11 @@ export const FundingEligibility: React.FC = () => {
                 ]}
               ></Radio>
             </div>
-            {values.BCAAPFunding == 'yes' && (
+            {values.BCATFunding == 'yes' && (
               <div className='flex flex-col w-full p-4 bg-slate-200'>
                 <Textarea
-                  name={`BCAAPFundingExplanation`}
-                  value={values.BCAAPFundingExplanation}
+                  name={`BCATFundingExplanation`}
+                  value={values.BCATFundingExplanation}
                   label=''
                   description='Please explain:'
                   maxLength={225}

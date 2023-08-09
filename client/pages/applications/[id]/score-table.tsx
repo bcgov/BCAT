@@ -7,7 +7,7 @@ import { useApplicationDetails } from 'services';
 
 const ScoreTable: NextPage = () => {
   const { query } = useRouter();
-  const { id } = query;
+  const id = query?.id ? +query.id : undefined;
   const { details } = useApplicationDetails(id);
   return (
     <div>
@@ -27,7 +27,7 @@ const ScoreTable: NextPage = () => {
             </Link>
           </div>
           <h1 className='text-3xl w-full text-bcBluePrimary text-left mb-2 mt-2'>Summary Table</h1>
-          <ScoreSummaryTable applicationId={id as string} />
+          <ScoreSummaryTable applicationId={id} />
         </div>
       )}
     </div>

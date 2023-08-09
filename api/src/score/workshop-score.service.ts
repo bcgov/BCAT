@@ -16,7 +16,7 @@ export class WorkshopScoreService {
     private workshopScoreRepository: Repository<WorkshopScore>
   ) {}
 
-  async getWorkshopScoreForApplication(applicationId: string) {
+  async getWorkshopScoreForApplication(applicationId: number) {
     return await this.workshopScoreRepository.find({
       where: { application: applicationId },
       relations: ['user'],
@@ -63,7 +63,7 @@ export class WorkshopScoreService {
     return this.workshopScoreRepository.save({ ...score, ...scoreDto });
   }
 
-  async getApplicationDetailsWithFinalScore(applicationId: string): Promise<WorkshopScore> {
+  async getApplicationDetailsWithFinalScore(applicationId: number): Promise<WorkshopScore> {
     return this.workshopScoreRepository
       .createQueryBuilder('workshop')
       .innerJoinAndSelect('workshop.application', 'application')

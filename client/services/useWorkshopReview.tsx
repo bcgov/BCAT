@@ -4,11 +4,11 @@ import { useHttp } from './useHttp';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../contexts';
 
-export const useWorkshopReview = (applicationId: string) => {
+export const useWorkshopReview = (applicationId: number) => {
   const [applicationScores, setApplicationScores] = useState<any>(INITIAL_REVIEW_VALUES);
   const { fetchData, sendApiRequest, isLoading } = useHttp();
   const [newScore, setNewScore] = useState<boolean>(true);
-  const [scoreId, setScoreId] = useState<string>('');
+  const [scoreId, setScoreId] = useState<number>(0);
   const { user: loggedInUser } = useAuthContext();
 
   const fetchApplicationScores = () => {

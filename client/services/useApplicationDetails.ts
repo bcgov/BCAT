@@ -42,7 +42,7 @@ export type ApplicationDetailsResponseType = ApplicationDetailsType & {
   submission: KeyValuePair;
 };
 
-export const useApplicationDetails = (id: string | string[] | undefined) => {
+export const useApplicationDetails = (id: number | number[] | undefined) => {
   const { replace } = useRouter();
 
   const { fetchData, sendApiRequest } = useHttp();
@@ -75,7 +75,7 @@ export const useApplicationDetails = (id: string | string[] | undefined) => {
     { title: 'Updated by', value: `lastUpdatedBy` },
   ];
 
-  const getApplicationById = (id: string): Promise<ApplicationDetailsResponseType> => {
+  const getApplicationById = (id: number): Promise<ApplicationDetailsResponseType> => {
     return new Promise<ApplicationDetailsResponseType>(resolve => {
       fetchData(
         {
@@ -90,14 +90,14 @@ export const useApplicationDetails = (id: string | string[] | undefined) => {
     });
   };
 
-  const { data } = useSWR(id, (id: string) => getApplicationById(id));
+  const { data } = useSWR(id?.toString(), (id: number) => getApplicationById(id));
 
   const [schema, setSchema] = useState<any[]>([]);
   const [formData, setFormData] = useState<KeyValuePair | undefined>();
   const [details, setDetails] = useState<ApplicationDetailsType | undefined>();
   const [showComments, setShowComments] = useState<boolean>(false);
 
-  const updateStatus = (id: string, status: ApplicationStatus) => {
+  const updateStatus = (id: number, status: ApplicationStatus) => {
     sendApiRequest(
       {
         endpoint: API_ENDPOINT.getApplicationStatus(id),
@@ -111,7 +111,7 @@ export const useApplicationDetails = (id: string | string[] | undefined) => {
     );
   };
 
-  const getNextStatusUpdates = (id: string, status: ApplicationStatus) => {
+  const getNextStatusUpdates = (id: number, status: ApplicationStatus) => {
     const statusUpdates = [];
 
     switch (status) {
