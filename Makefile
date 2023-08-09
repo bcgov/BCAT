@@ -23,13 +23,12 @@ export GIT_LOCAL_BRANCH := $(or $(GIT_LOCAL_BRANCH),dev)
 
 export KC_AUTH_URL = https://dev.loginproxy.gov.bc.ca/auth
 export KC_AUTH_REALM = standard
-export KC_AUTH_CLIENT_ID = pbgp-4412
+export KC_AUTH_CLIENT_ID = bcat-standard-4952
 
 export APP_NAME:=bcat
 export OS_NAMESPACE_PREFIX:=ed9154
 export OS_NAMESPACE_SUFFIX?=dev
 export TARGET_NAMESPACE=$(OS_NAMESPACE_PREFIX)-$(OS_NAMESPACE_SUFFIX)
-export TOOLS_NAMESPACE=$(OS_NAMESPACE_PREFIX)-tools
 
 export NEXT_PUBLIC_REDIRECT_URI = https://pgbp-dev.apps.silver.devops.gov.bc.ca
 export NEXT_PUBLIC_SERVER_URL = https://pbgp-server-ed9154-dev.apps.silver.devops.gov.bc.ca/api/v1
