@@ -40,12 +40,8 @@ Use the following steps to configure the local development environment
       NEXT_PUBLIC_REDIRECT_URI= http://localhost:3000
       NEXT_PUBLIC_KC_AUTH_URL= https://dev.loginproxy.gov.bc.ca/auth
       NEXT_PUBLIC_KC_AUTH_REALM=standard
-      NEXT_PUBLIC_KC_AUTH_CLIENT_ID=pbgp-4412
+      NEXT_PUBLIC_KC_AUTH_CLIENT_ID=bcat-standard-4952
       NEXT_PUBLIC_SERVER_URL= http://localhost:8080/api/v1
-      NEXT_PUBLIC_LARGE_PROJECT=
-      NEXT_PUBLIC_SMALL_PROJECT=bb0871ca-516f-42ed-91e6-3f8175d18448
-      NEXT_PUBLIC_ENVIRONMENT_PLANNING=
-      NEXT_PUBLIC_DEVELOPMENT_PLANNING=b723cb59-334d-4372-9a8c-212d55b3cdc3![image](https://user-images.githubusercontent.com/124090609/217051524-fb5ebaa2-1465-480d-8dd8-8ddfe547d90a.png)
 
    ```
 
@@ -56,13 +52,8 @@ Use the following steps to configure the local development environment
       KC_AUTH_REALM=standard
       KC_AUTH_CLIENT_ID=pbgp-4412
       CHEFS_FORM_IDS=["b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54", "f3bac574-bc64-4169-af40-9f3403b43eb6"]
-      INFRASTRUCTURE_FORM_ID=b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54
-      NETWORK_FORM_ID=f3bac574-bc64-4169-af40-9f3403b43eb6
-      LARGE_PROJECT=
-      SMALL_PROJECT=bb0871ca-516f-42ed-91e6-3f8175d18448
-      ENVIRONMENT_PLANNING=
-      DEVELOPMENT_PLANNING=b723cb59-334d-4372-9a8c-212d55b3cdc3![image](https://user-images.githubusercontent.com/124090609/217051615-1a4f78c1-88e4-40c1-8e20-244cf333f01c.png)
-
+      INFRASTRUCTURE_FORM=b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54
+      NETWORK_FORM=f3bac574-bc64-4169-af40-9f3403b43eb6
    ```
 
 ### Run

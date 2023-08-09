@@ -144,11 +144,11 @@ export class SyncChefsDataService {
       const submissionResponse = await axios(axiosOptions);
       const responseData = submissionResponse.data.submission;
 
-      if (formId === process.env.INFRASTRUCTURE_FORM_ID) {
+      if (formId === process.env.INFRASTRUCTURE_FORM) {
         // infrastructure form
         projectTitle = responseData.submission.data.s4Container.s4ProjectTitle;
         attachments = responseData.submission.data.s10Container;
-      } else if (formId === process.env.NETWORK_FORM_ID) {
+      } else if (formId === process.env.NETWORK_FORM) {
         // network form
         projectTitle = responseData.submission.data.s3Container.s3ProjectTitle;
         attachments = responseData.submission.data.s9Container;

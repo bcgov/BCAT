@@ -18,8 +18,6 @@ export enum ApplicationStatus {
 }
 
 export enum ApplicationType {
-  LARGE_PROJECT = 'LP',
-  SMALL_PROJECT = 'SP',
-  ENVIRONMENT_PLANNING = 'EP',
-  DEVELOPMENT_PLANNING = 'DP',
+  INFRASTRUCTURE_FORM = 'INFRASTRUCTURE',
+  NETWORK_FORM = 'NETWORK',
 }
