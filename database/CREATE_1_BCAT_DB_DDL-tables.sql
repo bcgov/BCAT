@@ -26,7 +26,6 @@ SET default_with_oids = false;
 -- CREATE TABLE public."BCAT_ATTACHMENT"
 -- CREATE TABLE public."BCAT_FORM_METADATA"
 
-
 --
 -- Name: BCAT_USER_ID_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
@@ -78,21 +77,17 @@ CREATE SEQUENCE public."BCAT_APPLICATION_ID_seq"
 --
 CREATE TABLE public."BCAT_APPLICATION" (
     "APPLICATION_ID" integer DEFAULT nextval('public."BCAT_APPLICATION_ID_seq"'::regclass) NOT NULL, 
-    --"SUBMISSION_ID" integer NOT NULL,
     "FORM_METADATA_ID" integer NOT NULL, 
     "ASSIGNED_TO_USER_ID" integer NULL,  -- user_id
 
     "SUBMISSION_ID" UUID NOT NULL,
     "SUBMISSION" JSONB NOT NULL,
 
-    --"APPLICATION_ID_GUID" UUID NOT NULL, 
     "CONFIRMATION_ID" character varying(30) NOT NULL,
-    --"FACILITY_NAME" character varying(200) NOT NULL,
     "PROJECT_TITLE" character varying(100) NOT NULL,
     "TOTAL_ESTIMATED_COST" money,
     "ASKS" money,
     "STATUS" character varying(100) NOT NULL DEFAULT 'INITIAL_REVIEW',
-    --"LAST_UPDATED_BY_ID" character varying(36) NOT NULL,  -- ?
     "DELETED_AT" timestamp without time zone NULL,
     "DELETED_BY_USER_ID" integer NULL,
 
@@ -231,8 +226,6 @@ CREATE SEQUENCE public."BCAT_ATTACHMENT_ID_seq"
 CREATE TABLE public."BCAT_ATTACHMENT" (
     "ATTACHMENT_ID" integer DEFAULT nextval('public."BCAT_ATTACHMENT_ID_seq"'::regclass) NOT NULL, 
     "APPLICATION_ID" integer NOT NULL,
-    --"ATTACHMENT_ID_GUID" UUID NOT NULL,
-    --"ATTACHMENT_ID_NAME" character varying(100) NOT NULL,
 
     "DATA" BYTEA,
     "URL" character varying(200) NOT NULL,
@@ -266,8 +259,6 @@ CREATE SEQUENCE public."BCAT_FORM_METADATA_ID_seq"
 --
 CREATE TABLE public."BCAT_FORM_METADATA" (
     "FORM_METADATA_ID" integer DEFAULT nextval('public."BCAT_FORM_METADATA_ID_seq"'::regclass) NOT NULL, 
-    --"ATTACHMENT_ID_GUID" UUID NOT NULL,
-    --"FORM_METADATA_ID_NAME" character varying(100) NOT NULL,
     
     "NAME" character varying(200) NOT NULL,
     "DESCRIPTION" character varying(2000) NOT NULL,
