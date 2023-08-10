@@ -1,4 +1,5 @@
 import { findApplicationType } from '../../application/constants';
+import { ApplicationVsDetailsInfo } from '../../application/ro/application-score.ro';
 import { WorkshopScore } from '../workshop-score.entity';
 
 const roHeaders = {
@@ -42,7 +43,9 @@ export class RawDataRo {
         totalEstimatedCost: item.application.totalEstimatedCost,
         asks: item.application.asks,
         finalScore: item.finalScore,
-        scoreRatio: `${item.finalScore.toFixed(3)}`,
+        scoreRatio: `${(
+          item.finalScore / ApplicationVsDetailsInfo[applicationType].totalScore
+        ).toFixed(3)}`,
       };
     });
     return { content };

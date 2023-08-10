@@ -13,6 +13,7 @@ import { useBroaderReview } from '../../services';
 
 export type BroaderReviewProps = {
   applicationId: number;
+  applicationType: ApplicationType;
   userList: UserInterface[];
   onClose: () => void;
 };

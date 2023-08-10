@@ -162,6 +162,7 @@ const ApplicationDetails: NextPage = () => {
                   applicationId={id}
                   userList={userList}
                   onClose={() => setShowComments(false)}
+                  applicationType={applicationType}
                 />
               </div>
             )}
