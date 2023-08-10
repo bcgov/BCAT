@@ -30,7 +30,8 @@ const keycloakConfig = {
 
 const BASE_URL = publicRuntimeConfig.NEXT_PUBLIC_SERVER_URL;
 
-export const NEXT_PUBLIC_INFRASTRUCTURE_PROJECT = publicRuntimeConfig.NEXT_PUBLIC_INFRASTRUCTURE_PROJECT;
+export const NEXT_PUBLIC_INFRASTRUCTURE_PROJECT =
+  publicRuntimeConfig.NEXT_PUBLIC_INFRASTRUCTURE_PROJECT;
 export const NEXT_PUBLIC_NETWORK_PROJECT = publicRuntimeConfig.NEXT_PUBLIC_NETWORK_PROJECT;
 
 axios.defaults.baseURL = BASE_URL;

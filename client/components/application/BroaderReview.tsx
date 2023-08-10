@@ -18,7 +18,11 @@ export type BroaderReviewProps = {
   onClose: () => void;
 };
 
-export const BroaderReview: React.FC<BroaderReviewProps> = ({ applicationId, applicationType, userList }) => {
+export const BroaderReview: React.FC<BroaderReviewProps> = ({
+  applicationId,
+  applicationType,
+  userList,
+}) => {
   const {
     applicationScores,
     applicationScoresByScorer,

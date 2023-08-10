@@ -15,7 +15,10 @@ export type WorkshopReviewProps = {
   applicationType: ApplicationType;
 };
 
-export const WorkshopReview: React.FC<WorkshopReviewProps> = ({ applicationId, applicationType }) => {
+export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
+  applicationId,
+  applicationType,
+}) => {
   const { applicationScores, handleSubmit, isLoading, loggedInUser } =
     useWorkshopReview(applicationId);
 
@@ -55,7 +58,7 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({ applicationId, a
                   <div className='p-4 grid grid-flow-row gap-4'>
                     <div>
                       <div className='mt-4 bg-white pt-4 pb-4'>
-                      {EvaluationReviewQuestions.filter((item: any) => {
+                        {EvaluationReviewQuestions.filter((item: any) => {
                           if (item.criteria) {
                             return item.criteria.includes(applicationType);
                           }
