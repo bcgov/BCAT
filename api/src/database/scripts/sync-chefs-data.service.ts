@@ -193,7 +193,7 @@ export class SyncChefsDataService {
         );
 
         // Process attachments
-        await this.createOrUpdateAttachments(attachments, application.id);
+        //  await this.createOrUpdateAttachments(attachments, application.id);
       }
     } catch (e) {
       Logger.error(
@@ -231,7 +231,7 @@ export class SyncChefsDataService {
 
     try {
       if (submissionIds && submissionIds.length > 0) {
-        // TO-DO: fix this
+        // TODO: fix this
         this.getSubmissionsFromIds('', submissionIds, options);
       } else {
         Logger.log(`No submission ID's provided. \nSkipping...`);

@@ -3,20 +3,20 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import useSWR from 'swr';
 import {
-  ApplicationStatus,
   API_ENDPOINT,
+  ApplicationStatus,
+  ApplicationType,
+  NextStatusUpdates,
   REQUEST_METHOD,
   Routes,
-  NextStatusUpdates,
 } from '../constants';
 import { KeyValuePair } from '../constants/interfaces';
 import { downloadHtmlAsPdf } from '../constants/util';
 import { useAuthContext, UserInterface } from '../contexts';
-// import {
-//   NEXT_PUBLIC_DEVELOPMENT_PLANNING,
-//   NEXT_PUBLIC_SMALL_PROJECT,
-//   NEXT_PUBLIC_ENVIRONMENT_PLANNING,
-// } from '../pages/_app';
+import {
+  NEXT_PUBLIC_INFRASTRUCTURE_PROJECT,
+  NEXT_PUBLIC_NETWORK_PROJECT,
+} from '../pages/_app';
 import { useHttp } from './useHttp';
 import { useTeamManagement } from './useTeamManagement';
 
@@ -47,23 +47,20 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   const { fetchData, sendApiRequest } = useHttp();
   const { userData } = useTeamManagement();
   const { user } = useAuthContext();
-  // const [applicationType, setApplicationType] = useState<ApplicationType | undefined>();
+  const [applicationType, setApplicationType] = useState<ApplicationType | undefined>();
 
-  /* const findApplicationType = (data: any): ApplicationType => {
+ const findApplicationType = (data: any): ApplicationType => {
     switch (data?.form?.chefsFormId) {
-      case NEXT_PUBLIC_DEVELOPMENT_PLANNING:
-        return ApplicationType.DEVELOPMENT_PLANNING;
+      case NEXT_PUBLIC_INFRASTRUCTURE_PROJECT:
+        return ApplicationType.INFRASTRUCTURE_FORM;
 
-      case NEXT_PUBLIC_SMALL_PROJECT:
-        return ApplicationType.SMALL_PROJECT;
-
-      case NEXT_PUBLIC_ENVIRONMENT_PLANNING:
-        return ApplicationType.ENVIRONMENT_PLANNING;
+      case NEXT_PUBLIC_NETWORK_PROJECT:
+        return ApplicationType.NETWORK_FORM;
 
       default:
-        return ApplicationType.LARGE_PROJECT;
+        return ApplicationType.INFRASTRUCTURE_FORM;
     }
-  }; */
+  };
 
   const topStatusObj = [
     { title: 'Status', value: 'status' },
@@ -194,7 +191,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
       setSchema(form.versionSchema.components);
       setFormData(submission);
       setDetails(submissionDetails);
-      // setApplicationType(findApplicationType(data));
+      setApplicationType(findApplicationType(data));
     }
   }, [data]);
 
@@ -209,7 +206,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
     updateEvaluator,
     userList: userData,
     isPanelDefaultOpen,
-    // applicationType,
+    applicationType,
     downloadPDF,
   };
 };

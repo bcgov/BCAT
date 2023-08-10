@@ -1,7 +1,7 @@
 import { ApplicationType, EvaluationReviewQuestions } from '../constants';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { BroaderReviewScore, ScoreSummaryTableProps } from 'constants/interfaces';
-import { useBroaderReview } from 'services';
+import { useApplicationDetails, useBroaderReview } from 'services';
 import { TooltipIcon } from './generic';
 
 export interface TableHeaderProps {
@@ -31,7 +31,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({ scores }) => {
   );
 };
 
-const TableBody: React.FC<TableBodyProps> = ({ scores }) => {
+const TableBody: React.FC<TableBodyProps> = ({ scores, applicationType }) => {
   const tdStyles =
     'table-td px-6 py-4 text-left text-sm font-strong flexitems-center justify-between';
   const trStyles = 'bg-white border-b-2 even:bg-bcGrayInput border-gray-200';
@@ -43,7 +43,10 @@ const TableBody: React.FC<TableBodyProps> = ({ scores }) => {
     },
     { name: 'finalScore', label: 'Final Score', tooltiptext: 'Your final score for the project' },
   ];
-  const filteredEvaluationReviewQuestions = EvaluationReviewQuestions.filter(() => {
+  const filteredEvaluationReviewQuestions = EvaluationReviewQuestions.filter((item: any) => {
+    if (item.criteria) {
+      return item.criteria.includes(applicationType);
+    }
     return true;
   });
   const finalMaxScore = filteredEvaluationReviewQuestions
@@ -98,14 +101,14 @@ const TableBody: React.FC<TableBodyProps> = ({ scores }) => {
 
 export const ScoreSummaryTable: React.FC<ScoreSummaryTableProps> = ({ applicationId }) => {
   const { applicationScores } = useBroaderReview(applicationId);
-  // const { applicationType } = useApplicationDetails(applicationId);
+  const { applicationType } = useApplicationDetails(applicationId);
 
   return (
     <div>
       {applicationScores && applicationScores.length != 0 ? (
         <table className='min-w-full text-center'>
           <TableHeader scores={applicationScores} />
-          <TableBody scores={applicationScores} applicationType={undefined} />
+          <TableBody scores={applicationScores} applicationType={applicationType} />
         </table>
       ) : (
         <div className='text-center text-sm mt-4'>No scores found.</div>

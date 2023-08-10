@@ -5,16 +5,17 @@ import {
   EvaluationReviewQuestions,
   APPLICATION_REVIEW_VALIDATION_SCHEMA,
   ReviewCompletionStatus,
+  ApplicationType,
 } from '../../constants';
 import { Textarea, Radio, Error } from '../form';
 import { FinalScore, Input } from '../broader-review';
 
 export type WorkshopReviewProps = {
   applicationId: number;
-  // applicationType: ApplicationType;
+  applicationType: ApplicationType;
 };
 
-export const WorkshopReview: React.FC<WorkshopReviewProps> = ({ applicationId }) => {
+export const WorkshopReview: React.FC<WorkshopReviewProps> = ({ applicationId, applicationType }) => {
   const { applicationScores, handleSubmit, isLoading, loggedInUser } =
     useWorkshopReview(applicationId);
 
@@ -54,11 +55,10 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({ applicationId })
                   <div className='p-4 grid grid-flow-row gap-4'>
                     <div>
                       <div className='mt-4 bg-white pt-4 pb-4'>
-                        {/* {EvaluationReviewQuestions.filter((item: any) => { */}
-                        {EvaluationReviewQuestions.filter(() => {
-                          // if (item.criteria) {
-                          //   return item.criteria.includes(applicationType);
-                          // }
+                      {EvaluationReviewQuestions.filter((item: any) => {
+                          if (item.criteria) {
+                            return item.criteria.includes(applicationType);
+                          }
                           return true;
                         }).map((item, index) => (
                           <div key={`WorkshopReviewInput_${index}`} className='mb-3'>

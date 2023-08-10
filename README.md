@@ -42,7 +42,8 @@ Use the following steps to configure the local development environment
       NEXT_PUBLIC_KC_AUTH_REALM=standard
       NEXT_PUBLIC_KC_AUTH_CLIENT_ID=bcat-standard-4952
       NEXT_PUBLIC_SERVER_URL= http://localhost:8080/api/v1
-
+      NEXT_PUBLIC_INFRASTRUCTURE_PROJECT=b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54
+      NEXT_PUBLIC_NETWORK_PROJECT=f3bac574-bc64-4169-af40-9f3403b43eb6
    ```
 
    - Create the `api/.env` file and add the following content

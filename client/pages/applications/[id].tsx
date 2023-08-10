@@ -34,7 +34,7 @@ const ApplicationDetails: NextPage = () => {
     updateEvaluator,
     userList,
     isPanelDefaultOpen,
-    // applicationType,
+    applicationType,
     downloadPDF,
   } = useApplicationDetails(id);
 
@@ -156,7 +156,7 @@ const ApplicationDetails: NextPage = () => {
                 <Comments applicationId={id} onClose={() => setShowComments(false)} />
               </div>
             )}
-            {details && details.status === ApplicationStatus.BROADER_REVIEW && (
+            {details && applicationType && details.status === ApplicationStatus.BROADER_REVIEW && (
               <div className='col-span-2 pb-4'>
                 <BroaderReview
                   applicationId={id}
@@ -165,9 +165,9 @@ const ApplicationDetails: NextPage = () => {
                 />
               </div>
             )}
-            {details && details.status === ApplicationStatus.WORKSHOP && (
+            {details && applicationType && details.status === ApplicationStatus.WORKSHOP && (
               <div className='col-span-2 pb-4'>
-                <WorkshopReview applicationId={id} />
+                <WorkshopReview applicationId={id} applicationType={applicationType} />
               </div>
             )}
           </div>

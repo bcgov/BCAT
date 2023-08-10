@@ -1,3 +1,4 @@
+import { findApplicationType } from '../../application/constants';
 import { WorkshopScore } from '../workshop-score.entity';
 
 const roHeaders = {
@@ -33,7 +34,7 @@ export class RawDataRo {
   }
   convertWorkshopScoreToContent(data: WorkshopScore[]) {
     const content = data.map((item: WorkshopScore) => {
-      // const applicationType = findApplicationType(item.application.form.chefsFormId);
+      const applicationType = findApplicationType(item.application.form.chefsFormId);
 
       return {
         facilityName: item.application.submission.facilityName,

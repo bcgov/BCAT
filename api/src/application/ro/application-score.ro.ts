@@ -1,6 +1,6 @@
 import { ApplicationType } from '../../common/constants';
 import { WorkshopScore } from '../../score/workshop-score.entity';
-import { ScoreFields } from '../constants';
+import { findApplicationType, ScoreFields } from '../constants';
 
 type ScoreFieldsType = {
   name: string;
@@ -67,7 +67,7 @@ export class ApplicationFinalScoreRO {
 
   constructor(workshopScore: WorkshopScore) {
     const { application, finalScore, overallComments, data } = workshopScore;
-    const { submission } = application;
+    const { submission, form } = application;
     this.confirmationId = application.confirmationId;
     this.applicantName = submission.applicantName;
     this.facilityName = submission.facilityName;
@@ -79,7 +79,7 @@ export class ApplicationFinalScoreRO {
     this.scoreData = {};
     Object.assign(this.scoreData, data);
     this.fields = ScoreFields;
-    // this.applicationType = findApplicationType(form.chefsFormId);
+    this.applicationType = findApplicationType(form.chefsFormId);
     this.applicationHeading = ApplicationVsDetailsInfo[this.applicationType].heading;
     this.points = `${(
       finalScore / ApplicationVsDetailsInfo[this.applicationType].totalScore
