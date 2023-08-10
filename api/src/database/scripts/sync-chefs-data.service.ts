@@ -77,6 +77,17 @@ export class SyncChefsDataService {
     return [];
   }
 
+  private getFormIdFromArgs(args: string[]) {
+    const formArgs = args[5];
+    if (formArgs && formArgs.includes('formId=')) {
+      const parts = formArgs.split('=');
+      if (parts[0] && parts[1]) {
+        return parts[1];
+      }
+    }
+    return '';
+  }
+
   async updateAttachments() {
     // Axios stuff
     const method = REQUEST_METHODS.GET;
@@ -104,7 +115,7 @@ export class SyncChefsDataService {
         await this.attachmentService.updateAttachment({ ...file, data: fileData });
       } catch (error) {
         Logger.error(
-          `Error occured fetching attachment - ${file.id} - `,
+          `Error occurred fetching attachment - ${file.id} - `,
           JSON.stringify(getGenericError(error))
         );
       }
@@ -193,11 +204,11 @@ export class SyncChefsDataService {
         );
 
         // Process attachments
-        //  await this.createOrUpdateAttachments(attachments, application.id);
+        await this.createOrUpdateAttachments(attachments, application.id);
       }
     } catch (e) {
       Logger.error(
-        `Error occured fetching submission - ${submissionId} - `,
+        `Error occurred fetching submission - ${submissionId} - `,
         JSON.stringify(getGenericError(e))
       );
     }
@@ -228,11 +239,11 @@ export class SyncChefsDataService {
       headers,
     };
     const submissionIds = this.getSubmissionIdsFromArgs(process.argv);
+    const formId = this.getFormIdFromArgs(process.argv);
 
     try {
       if (submissionIds && submissionIds.length > 0) {
-        // TODO: fix this
-        this.getSubmissionsFromIds('', submissionIds, options);
+        this.getSubmissionsFromIds(formId, submissionIds, options);
       } else {
         Logger.log(`No submission ID's provided. \nSkipping...`);
         return;
