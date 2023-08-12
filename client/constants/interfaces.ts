@@ -1,7 +1,6 @@
 import { ReviewCompletionStatus } from './constants';
 
 export interface ContactInfoInterface {
-  facilityName: string;
   applicantName: string;
   primaryContactName: string;
   phoneNumber: string;
@@ -49,42 +48,10 @@ export interface FundingEligibilityInterface {
   BCATFundingExplanation: string;
 }
 
-export interface EnvironmentalInfoInterface {
-  environmentalProjectDescription: string;
-  environmentalGoals: string;
-  projectStrategy: string;
-  successAssessment: string;
-}
-
-export interface FacilityInfoInterface {
-  facilityType: string;
-  status: string;
-  eligibleForACAP: string;
-  madeForACAP: string;
-  facilityUsage: string;
-  passengerVolumes: string;
-  cargoTonnes: string;
-  aircraftMovements: string;
-}
-
-export interface FundingProjectCostInfoInterface {
-  contingencyPlan: string;
-  contingencyPlanExplanation: string;
-  totalEstimatedCost: string;
-  potentialBCAAPShare: string;
-  thirdPartyContributions: string;
-  applicantShare: string;
-  totalRequest: string;
-}
-
-export interface SupportDocsInterface {
-  docList: any[string];
-}
-
-export interface AuthorizationInterface {
-  projectManagerSignature: string;
-  financialOfficerSignature: string;
-}
+// export interface AuthorizationInterface {
+//   projectManagerSignature: string;
+//   financialOfficerSignature: string;
+// }
 
 export interface ApplicationTableProps {
   Application_ID: number;
@@ -96,7 +63,6 @@ export interface ApplicationTableProps {
   Created_At: string;
   Updated_At: string;
   Chefs_ID: string;
-  BCAAP_Form_ID: number;
 }
 
 export type KeyValuePair = {
@@ -109,7 +75,7 @@ export interface BroaderReviewValues {
   projectTypeScore: string;
   projectNeedScore: number;
   projectFundingScore: number;
-  pastBcaapFundingScore: number;
+  // pastBcaapFundingScore: number;
   facilityMasterPlanScore: number;
   facilityUsageScore: number;
   trafficDataScore: number;

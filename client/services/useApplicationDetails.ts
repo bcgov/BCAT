@@ -12,7 +12,7 @@ import {
 } from '../constants';
 import { KeyValuePair } from '../constants/interfaces';
 import { downloadHtmlAsPdf } from '../constants/util';
-import { useAuthContext, UserInterface } from '../contexts';
+import { UserInterface } from '../contexts';
 import { NEXT_PUBLIC_INFRASTRUCTURE_PROJECT, NEXT_PUBLIC_NETWORK_PROJECT } from '../pages/_app';
 import { useHttp } from './useHttp';
 import { useTeamManagement } from './useTeamManagement';
@@ -27,7 +27,6 @@ type ApplicationDetailsType = KeyValuePair & {
   lastUpdatedBy?: UserInterface;
   assignedTo?: UserInterface;
   status: ApplicationStatus;
-  facilityName: string;
   totalEstimatedCost: string;
   asks: string;
   updatedAt: string;
@@ -43,7 +42,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
 
   const { fetchData, sendApiRequest } = useHttp();
   const { userData } = useTeamManagement();
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
   const [applicationType, setApplicationType] = useState<ApplicationType | undefined>();
 
   const findApplicationType = (data: any): ApplicationType => {
@@ -61,7 +60,6 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
 
   const topStatusObj = [
     { title: 'Status', value: 'status' },
-    { title: 'Facility', value: 'facilityName' },
     { title: 'Estimated cost', value: 'totalEstimatedCost' },
     { title: 'Asks', value: 'asks' },
     { title: 'Last updated', value: 'updatedAt' },
@@ -108,30 +106,30 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
     const statusUpdates = [];
 
     switch (status) {
-      case ApplicationStatus.INITIAL_REVIEW:
+      case ApplicationStatus.RECEIVED:
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
-          onClick: () => updateStatus(id, ApplicationStatus.FUNDING_REVIEW),
+          onClick: () => updateStatus(id, ApplicationStatus.RECEIVED),
         });
         statusUpdates.push({
           label: NextStatusUpdates.DISCARD,
-          onClick: () => updateStatus(id, ApplicationStatus.DISCARD),
+          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
         });
         break;
-      case ApplicationStatus.FUNDING_REVIEW:
-        statusUpdates.push({
-          label: NextStatusUpdates.PROCEED,
-          onClick: () => updateStatus(id, ApplicationStatus.BROADER_REVIEW),
-        });
-        break;
-      case ApplicationStatus.BROADER_REVIEW:
-        if (user?.isAdmin) {
-          statusUpdates.push({
-            label: NextStatusUpdates.PROCEED,
-            onClick: () => updateStatus(id, ApplicationStatus.WORKSHOP),
-          });
-        }
-        break;
+      // case ApplicationStatus.FUNDING_REVIEW:
+      //   statusUpdates.push({
+      //     label: NextStatusUpdates.PROCEED,
+      //     onClick: () => updateStatus(id, ApplicationStatus.BROADER_REVIEW),
+      //   });
+      //   break;
+      // case ApplicationStatus.BROADER_REVIEW:
+      //   if (user?.isAdmin) {
+      //     statusUpdates.push({
+      //       label: NextStatusUpdates.PROCEED,
+      //       onClick: () => updateStatus(id, ApplicationStatus.WORKSHOP),
+      //     });
+      //   }
+      //   break;
 
       case ApplicationStatus.WORKSHOP:
       default:
@@ -161,10 +159,10 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
     }
   };
 
-  const isPanelDefaultOpen = (index: number, status: string, title: string): boolean => {
-    if (status === ApplicationStatus.FUNDING_REVIEW) {
-      return title === 'Funding and Project Cost Estimate Information';
-    }
+  const isPanelDefaultOpen = (index: number): boolean => {
+    // if (status === ApplicationStatus.FUNDING_REVIEW) {
+    //   return title === 'Funding and Project Cost Estimate Information';
+    // }
 
     return index === 0;
   };

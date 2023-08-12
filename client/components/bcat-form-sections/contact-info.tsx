@@ -4,7 +4,6 @@ import { ContactInfoInterface } from 'constants/interfaces';
 import { FormStepTitles, FormSteps } from '../../constants';
 
 const initialValues = {
-  facilityName: '',
   applicantName: '',
   primaryContactName: '',
   phoneNumber: '',
@@ -35,7 +34,6 @@ export const ContactInfo: React.FC = () => {
               <h3>Please proivde detailed information for your application.</h3>
             </div>
 
-            <Field name='facilityName' type='text' label='Facility name' maxLength={300}></Field>
             <Field name='applicantName' type='text' label='Applicant name' maxLength={300}></Field>
             <Field
               name='primaryContactName'

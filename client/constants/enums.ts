@@ -1,3 +1,4 @@
+// TODO: update for each form
 export enum FormSteps {
   CONTACT_INFO = 'CONTACT_INFO',
   GENERAL_INFO = 'GENERAL_INFO',
@@ -10,10 +11,10 @@ export enum FormSteps {
 }
 
 export enum ApplicationStatus {
-  INITIAL_REVIEW = 'INITIAL_REVIEW',
-  DISCARD = 'DISCARD',
-  FUNDING_REVIEW = 'FUNDING_REVIEW',
-  BROADER_REVIEW = 'BROADER_REVIEW',
+  RECEIVED = 'RECEIVED',
+  ASSIGNED = 'ASSIGNED',
+  APPROVED = 'APPROVED',
+  DENIED = 'DENIED',
   WORKSHOP = 'WORKSHOP',
 }
 

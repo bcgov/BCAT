@@ -1,34 +1,36 @@
 import { ReviewCompletionStatus } from './constants';
-import { ApplicationType } from './enums';
+// import { ApplicationType } from './enums';
 
-const evaluationObj1 = [
-  { value: 'Airside', text: 'Airside / core aviation infrastructure' },
-  { value: 'Transitional', text: 'Transitional infrastructure' },
-  { value: 'Groundside', text: 'Groundside / ancillary infrastructure' },
-  { value: 'Climate', text: 'Climate / environmental project' },
-  { value: 'Facility', text: 'Facility master plan' },
-  { value: 'GPS', text: 'GPS approach' },
-];
+// const evaluationObj1 = [
+//   { value: 'Airside', text: 'Airside / core aviation infrastructure' },
+//   { value: 'Transitional', text: 'Transitional infrastructure' },
+//   { value: 'Groundside', text: 'Groundside / ancillary infrastructure' },
+//   { value: 'Climate', text: 'Climate / environmental project' },
+//   { value: 'Facility', text: 'Facility master plan' },
+//   { value: 'GPS', text: 'GPS approach' },
+// ];
 
-const evaluationObj2 = [
-  { value: 'yes', text: 'Yes' },
-  { value: 'no', text: 'No' },
-  { value: 'N/A', text: 'N/A' },
-];
+// const evaluationObj2 = [
+//   { value: 'yes', text: 'Yes' },
+//   { value: 'no', text: 'No' },
+//   { value: 'N/A', text: 'N/A' },
+// ];
 
-const evaluationObj3 = [
-  { value: 'EergyRetrofitting', text: 'Energy retrofitting to low / zero carbon fuels' },
-  { value: 'EquipmentElectrification', text: 'Equipment electrification' },
-  { value: 'Baselining', text: 'Greenhouse gas audit (baselining) ' },
-  { value: 'Mitigation', text: 'Mitigation' },
-  { value: 'Operational', text: 'Operational' },
-  { value: 'PilotingInnovativeTechnologies', text: 'Piloting innovative technologies' },
-  { value: 'Other', text: 'Other' },
-];
+// const evaluationObj3 = [
+//   { value: 'EergyRetrofitting', text: 'Energy retrofitting to low / zero carbon fuels' },
+//   { value: 'EquipmentElectrification', text: 'Equipment electrification' },
+//   { value: 'Baselining', text: 'Greenhouse gas audit (baselining) ' },
+//   { value: 'Mitigation', text: 'Mitigation' },
+//   { value: 'Operational', text: 'Operational' },
+//   { value: 'PilotingInnovativeTechnologies', text: 'Piloting innovative technologies' },
+//   { value: 'Other', text: 'Other' },
+// ];
+
+// TODO: update in scoring ticket
 
 export const EvaluationReviewQuestions = [
   {
-    obj: evaluationObj1,
+    // obj: evaluationObj1,
     maxScore: 10,
     label: 'What type of project is being applied for?',
     description:
@@ -53,14 +55,14 @@ export const EvaluationReviewQuestions = [
     tooltiptext:
       'Score 4-5 if project cannot proceed without BCAAP funding. Score 2-3 if BCAAP funding will expedite the project. Score 0-1 if BCAAP funding is minimally important to whether the project proceeds.',
   },
-  {
-    name: 'pastBcaapFundingScore',
-    maxScore: 3,
-    label: 'Past BCAAP funding?',
-    description: 'BCAAP staff to evaluate this line',
-    tooltiptext:
-      'Score 0 if BCAAP funded project still underway at facility. Score 1, 2 or 3, respectively, if a BCAAP project was approved at facility 2, 3 or 4 (or more) years ago.',
-  },
+  // {
+  //   name: 'pastBcaapFundingScore',
+  //   maxScore: 3,
+  //   label: 'Past BCAAP funding?',
+  //   description: 'BCAAP staff to evaluate this line',
+  //   tooltiptext:
+  //     'Score 0 if BCAAP funded project still underway at facility. Score 1, 2 or 3, respectively, if a BCAAP project was approved at facility 2, 3 or 4 (or more) years ago.',
+  // },
   // {
   //   name: 'facilityMasterPlanScore',
   //   maxScore: 2,

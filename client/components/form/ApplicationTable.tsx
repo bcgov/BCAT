@@ -43,7 +43,6 @@ const TableBody: React.FC<Props> = data => {
               border-gray-200 cursor-pointer'
             >
               <td className={tdStyles}>{row.confirmationId}</td>
-              <td className={tdStyles}>{row.facilityName}</td>
               <td className={tdStyles}>{row.projectTitle}</td>
               <td className={tdStyles}>{row.totalEstimatedCost}</td>
               <td className={tdStyles}>{row.asks}</td>

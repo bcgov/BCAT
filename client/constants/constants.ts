@@ -12,13 +12,6 @@ export const FormStepTitles: Record<keyof typeof FormSteps, string> = {
 };
 export const PlanningSteps = Object.values(FormStepTitles);
 
-export const FacilityType = [
-  { label: 'Airport', value: 'Airport' },
-  { label: 'Water Aerodrome', value: 'Water Aerodrome' },
-  { label: 'Heliport', value: 'Heliport' },
-  { label: 'Other', value: 'Other' },
-];
-
 export const StatusPerTransport = [
   { label: 'Certified', value: 'Certified' },
   { label: 'Registered', value: 'Registered' },

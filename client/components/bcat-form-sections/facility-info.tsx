@@ -1,9 +1,8 @@
 import { Form, Formik } from 'formik';
 import { Radio, CheckboxArray, Textarea } from '@components';
-import { FacilityType, FacilityUsage, StatusPerTransport } from '../../constants';
+import { FacilityUsage, StatusPerTransport } from '../../constants';
 
 const initialValues = {
-  facilityType: '',
   status: '',
   eligibleForACAP: '',
   madeForACAP: '',
@@ -23,16 +22,6 @@ export const FacilityInfo: React.FC = () => {
             <div className='mb-4 flex items-center flex-col'>
               <h1 className='text-xl font-medium text-bcDarkBlue'>Facility Information</h1>
               <h3 className=''>Provide detail contact information for your application.</h3>
-            </div>
-
-            <div className='flex flex- w-full justify-start'>
-              <CheckboxArray
-                legend='Facility Type'
-                name='facilityType'
-                description='Please select all that apply'
-                classes='grid-cols-2 gap-1'
-                options={FacilityType}
-              />
             </div>
 
             <div className='flex flex-1 w-full justify-start'>
