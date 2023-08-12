@@ -11,9 +11,6 @@ export class Attachment extends CustomBaseEntity {
   @Column({ name: 'APPLICATION_ID', type: 'integer', nullable: false })
   applicationId: number;
 
-  @Column({ name: 'ATTACHMENT_ID_NAME', type: 'varchar', length: '100', nullable: false })
-  attachmentIdName: string;
-
   @Column({ name: 'URL', type: 'varchar', length: '200', nullable: false, unique: true })
   url: string;
 

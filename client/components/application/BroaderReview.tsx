@@ -13,15 +13,15 @@ import { useBroaderReview } from '../../services';
 
 export type BroaderReviewProps = {
   applicationId: number;
+  applicationType: ApplicationType;
   userList: UserInterface[];
   onClose: () => void;
-  applicationType: ApplicationType;
 };
 
 export const BroaderReview: React.FC<BroaderReviewProps> = ({
   applicationId,
-  userList,
   applicationType,
+  userList,
 }) => {
   const {
     applicationScores,

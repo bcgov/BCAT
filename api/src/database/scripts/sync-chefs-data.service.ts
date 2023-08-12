@@ -18,7 +18,7 @@ import { DatabaseError } from '../database.error';
 
 const CHEFS_BASE_URL = 'https://submit.digital.gov.bc.ca/app/api/v1';
 const FILE_URL = 'https://submit.digital.gov.bc.ca';
-const MAX_PROJECT_TITLE_LENGTH = 100;
+const MAX_PROJECT_TITLE_LENGTH = 300;
 
 @Injectable()
 export class SyncChefsDataService {
@@ -41,7 +41,7 @@ export class SyncChefsDataService {
     return `${CHEFS_BASE_URL}/submissions/${submissionId}`;
   }
 
-  private async createOrFindFormMetadate(data: FormMetaDataDto): Promise<FormMetaData> {
+  private async createOrFindFormMetadata(data: FormMetaDataDto): Promise<FormMetaData> {
     const form = await this.formMetadataRepo.findOne({
       where: { chefsFormId: data.chefsFormId, versionId: data.versionId },
     });
@@ -77,6 +77,17 @@ export class SyncChefsDataService {
     return [];
   }
 
+  private getFormIdFromArgs(args: string[]) {
+    const formArgs = args[5];
+    if (formArgs && formArgs.includes('formId=')) {
+      const parts = formArgs.split('=');
+      if (parts[0] && parts[1]) {
+        return parts[1];
+      }
+    }
+    return '';
+  }
+
   async updateAttachments() {
     // Axios stuff
     const method = REQUEST_METHODS.GET;
@@ -104,14 +115,14 @@ export class SyncChefsDataService {
         await this.attachmentService.updateAttachment({ ...file, data: fileData });
       } catch (error) {
         Logger.error(
-          `Error occured fetching attachment - ${file.id} - `,
+          `Error occurred fetching attachment - ${file.id} - `,
           JSON.stringify(getGenericError(error))
         );
       }
     }
   }
 
-  private async createOrUpdateAttachments(data) {
+  private async createOrUpdateAttachments(data, applicationId: number) {
     const responseDataFileArrays = Object.values(data).filter(
       (value) => Array.isArray(value) && value.length > 0
     );
@@ -122,9 +133,10 @@ export class SyncChefsDataService {
 
     files.forEach(async (file) => {
       const newAttachmentData = {
-        id: file.data.id,
         url: file.url,
         originalName: file.originalName,
+        applicationId: applicationId,
+        data: file.data,
       } as Attachment;
 
       await this.attachmentService.createOrUpdateAttachment(newAttachmentData);
@@ -132,30 +144,41 @@ export class SyncChefsDataService {
   }
 
   private async createOrUpdateSubmission(
+    formId: string,
     submissionId: string,
     axiosOptions: AxiosOptions
   ): Promise<void> {
     try {
+      let projectTitle = '';
+      let attachments = '';
+
       const submissionResponse = await axios(axiosOptions);
       const responseData = submissionResponse.data.submission;
+
+      if (formId === process.env.INFRASTRUCTURE_FORM) {
+        // infrastructure form
+        projectTitle = responseData.submission.data.s4Container.s4ProjectTitle;
+        attachments = responseData.submission.data.s10Container;
+      } else if (formId === process.env.NETWORK_FORM) {
+        // network form
+        projectTitle = responseData.submission.data.s3Container.s3ProjectTitle;
+        attachments = responseData.submission.data.s9Container;
+      } else {
+        Logger.log(`Form ID: ${formId} is not a valid form. \nSkipping...`);
+        return;
+      }
+
       const dbSubmission = await this.applicationRepo.findOne({
         where: { submissionId: submissionId },
       });
 
-      // Process attachments
-      this.createOrUpdateAttachments(responseData.submission.data);
-
       const newSubmissionData: SaveApplicationDto = {
-        submissionId: responseData.id,
+        submissionId: submissionId,
         submission: responseData.submission.data,
         confirmationId: responseData.confirmationId,
-        facilityName: responseData.submission.data.facilityName,
-        projectTitle: responseData.submission.data.projectTitle.substring(
-          0,
-          MAX_PROJECT_TITLE_LENGTH
-        ),
-        totalEstimatedCost: responseData.submission.data.totalEstimatedCostOfProject,
-        asks: responseData.submission.data.totalRequestBeingMadeOfBcaapACDNotToExceedB,
+        projectTitle: projectTitle.substring(0, MAX_PROJECT_TITLE_LENGTH),
+        totalEstimatedCost: responseData.submission.data.s8Container.s8TotalEstimatedProjectCost,
+        asks: responseData.submission.data.s8Container.s8GrantRequest,
       };
 
       if (dbSubmission) {
@@ -173,13 +196,19 @@ export class SyncChefsDataService {
           versionId: submissionResponse.data.version.id,
           versionSchema: submissionResponse.data.version.schema,
         };
-        const formMetaData = await this.createOrFindFormMetadate(newFormData);
+        const formMetaData = await this.createOrFindFormMetadata(newFormData);
 
-        await this.appService.createApplication(newSubmissionData, formMetaData);
+        const application = await this.appService.createApplication(
+          newSubmissionData,
+          formMetaData
+        );
+
+        // Process attachments
+        await this.createOrUpdateAttachments(attachments, application.id);
       }
     } catch (e) {
       Logger.error(
-        `Error occured fetching submission - ${submissionId} - `,
+        `Error occurred fetching submission - ${submissionId} - `,
         JSON.stringify(getGenericError(e))
       );
     }
@@ -192,9 +221,9 @@ export class SyncChefsDataService {
     };
   }
 
-  private getSubmissionsFromIds(submissionIds: string[], options) {
+  private getSubmissionsFromIds(formId: string, submissionIds: string[], options) {
     submissionIds.forEach((submissionId) => {
-      this.createOrUpdateSubmission(submissionId, {
+      this.createOrUpdateSubmission(formId, submissionId, {
         ...options,
         url: this.getSubmissionUrl(submissionId),
       });
@@ -210,10 +239,11 @@ export class SyncChefsDataService {
       headers,
     };
     const submissionIds = this.getSubmissionIdsFromArgs(process.argv);
+    const formId = this.getFormIdFromArgs(process.argv);
 
     try {
       if (submissionIds && submissionIds.length > 0) {
-        this.getSubmissionsFromIds(submissionIds, options);
+        this.getSubmissionsFromIds(formId, submissionIds, options);
       } else {
         Logger.log(`No submission ID's provided. \nSkipping...`);
         return;
@@ -228,7 +258,6 @@ export class SyncChefsDataService {
 
   async syncChefsData(): Promise<void> {
     const method = REQUEST_METHODS.GET;
-
     const token = this.getTokenFromArgs(process.argv);
     const headers = this.getHeadersFromToken(token);
 
@@ -240,13 +269,15 @@ export class SyncChefsDataService {
 
       try {
         const formResponse = await axios({ ...options, url: this.getFormUrl(formId) });
-
         const submissionIds = formResponse.data
-          .filter((submission) => submission.formSubmissionStatusCode === 'SUBMITTED')
+          .filter(
+            (submission) =>
+              submission.formSubmissionStatusCode === 'SUBMITTED' && !submission.deleted
+          )
           .map((submission) => submission.submissionId);
 
         if (submissionIds && submissionIds.length > 0) {
-          this.getSubmissionsFromIds(submissionIds, options);
+          this.getSubmissionsFromIds(formId, submissionIds, options);
         } else {
           Logger.log(`No submissions with found in the form with ID ${formId}. \nSkipping...`);
           return;
