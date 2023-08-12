@@ -21,6 +21,7 @@ export const findApplicationType = (chefsFormId: string): ApplicationType => {
   }
 };
 
+// TODO: update in scoring ticket
 export const ScoreFields = [
   {
     name: 'projectTypeScore',
@@ -37,11 +38,11 @@ export const ScoreFields = [
     label: 'Need for funding',
     score: 5,
   },
-  {
-    name: 'pastBcaapFundingScore',
-    label: 'Past BCAAP funding',
-    score: 3,
-  },
+  // {
+  //   name: 'pastBcaapFundingScore',
+  //   label: 'Past BCAAP funding',
+  //   score: 3,
+  // },
   // {
   //   name: 'facilityMasterPlanScore',
   //   label: 'Project in Master Plan',
@@ -52,11 +53,11 @@ export const ScoreFields = [
   //   ],
   //   score: 2,
   // },
-  {
-    name: 'facilityUsageScore',
-    label: 'Facility usage',
-    score: 2,
-  },
+  // {
+  //   name: 'facilityUsageScore',
+  //   label: 'Facility usage',
+  //   score: 2,
+  // },
   // {
   //   name: 'trafficDataScore',
   //   label: 'Traffic data',

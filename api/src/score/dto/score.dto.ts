@@ -35,6 +35,7 @@ export class ScoreDataDto {
   @IsEmpty()
   projectFundingScore: number;
 
+  // TODO: update as part of scoring ticket
   @IsNumber()
   @Max(3)
   @Min(0)

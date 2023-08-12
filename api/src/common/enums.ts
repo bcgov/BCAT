@@ -4,7 +4,6 @@ export enum OrderByOptions {
 }
 
 export enum ApplicationSortOptions {
-  FACILITY_NAME = 'facilityName',
   CONFIRMATION_ID = 'confirmationId',
   ASSIGNED_TO = 'assignedTo',
   STATUS = 'status',

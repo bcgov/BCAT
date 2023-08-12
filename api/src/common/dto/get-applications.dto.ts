@@ -4,13 +4,6 @@ import { OrderByOptions, ApplicationSortOptions } from '../enums';
 import { PaginationDto } from './pagination.dto';
 
 export class GetApplicationsDto extends PaginationDto {
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  @MaxLength(200)
-  @MinLength(0)
-  facilityName: string;
-
   @ApiPropertyOptional({ enum: OrderByOptions })
   @IsOptional()
   @IsString()
@@ -29,5 +22,5 @@ export class GetApplicationsDto extends PaginationDto {
   @ApiPropertyOptional({ enum: ApplicationSortOptions })
   @IsOptional()
   @IsEnum(ApplicationSortOptions)
-  orderBy = ApplicationSortOptions.FACILITY_NAME;
+  orderBy = ApplicationSortOptions.SUBMISSION_ID;
 }

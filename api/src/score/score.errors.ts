@@ -4,7 +4,7 @@ import { GenericError } from '../common/generic-exception';
 export const ScoreError = {
   SCORE_NOT_FOUND: {
     errorType: 'SCORE_NOT_FOUND',
-    errorMessage: 'Cannot find score',
+    errorMessage: 'Cannot find the score',
     httpStatus: HttpStatus.NOT_FOUND,
   } as GenericError,
 
@@ -16,7 +16,7 @@ export const ScoreError = {
 
   APPLICATION_MISMATCH: {
     errorType: 'APPLICATION_MISMATCH',
-    errorMessage: 'Score is assigned to a application user',
+    errorMessage: 'Score is assigned to an application user',
     httpStatus: HttpStatus.BAD_REQUEST,
   } as GenericError,
 

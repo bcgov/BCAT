@@ -14,16 +14,16 @@ export COMMIT_SHA?=$(shell git rev-parse --short=7 HEAD)
 export IMAGE_TAG=${COMMIT_SHA}
 
 export PROJECT := $(or $(PROJECT),bcat)
-export DB_USER := $(or $(DB_USER),db2inst1)
+export DB_USER := $(or $(DB_USER),bcat_user)
 export DB_PASSWORD := $(or $(DB_PASSWORD),development)
 export DB_NAME := $(or $(DB_NAME),testdb)
-export DB_SERVER := $(or $(DB_SERVER),database)
+export DB_SERVER := $(or $(DB_SERVER),localhost)
 export DB_PORT := $(or $(DB_PORT),5432)
 export GIT_LOCAL_BRANCH := $(or $(GIT_LOCAL_BRANCH),dev)
 
-export KC_AUTH_URL = https://dev.loginproxy.gov.bc.ca/auth
-export KC_AUTH_REALM = standard
-export KC_AUTH_CLIENT_ID = bcat-standard-4952
+export KC_AUTH_URL := $(or $(KC_AUTH_URL),https://dev.loginproxy.gov.bc.ca/auth)
+export KC_AUTH_REALM := $(or $(KC_AUTH_REALM),realm-id)
+export KC_AUTH_CLIENT_ID := $(or $(KC_AUTH_REALM),bcat-client)
 
 export APP_NAME:=bcat
 export OS_NAMESPACE_PREFIX:=ed9154
@@ -105,23 +105,23 @@ local-db-logs:
 curl-client:
 	@docker exec -i $(PROJECT)-server curl localhost:3000
 
-add-role:
-	@oc policy add-role-to-user admin system:serviceaccount:$(TARGET_NAMESPACE):default -n $(TOOLS_NAMESPACE)
+# add-role:
+# 	@oc policy add-role-to-user admin system:serviceaccount:$(TARGET_NAMESPACE):default -n $(TOOLS_NAMESPACE)
 
-networking-prep:
-	@oc process -f openshift/networking.yml | oc apply -n $(TARGET_NAMESPACE) -f -
+# networking-prep:
+# 	@oc process -f openshift/networking.yml | oc apply -n $(TARGET_NAMESPACE) -f -
 
-db-prep:
-	@oc process -f openshift/patroni.prep.yml -p APP_NAME=$(APP_NAME) | oc create -n $(TARGET_NAMESPACE) -f -
-	@oc policy add-role-to-user system:image-puller system:serviceaccount:$(TARGET_NAMESPACE):$(APP_NAME)-patroni -n $(TOOLS_NAMESPACE)
+# db-prep:
+# 	@oc process -f openshift/patroni.prep.yml -p APP_NAME=$(APP_NAME) | oc create -n $(TARGET_NAMESPACE) -f -
+# 	@oc policy add-role-to-user system:image-puller system:serviceaccount:$(TARGET_NAMESPACE):$(APP_NAME)-patroni -n $(TOOLS_NAMESPACE)
 
-db-create:
-	@oc process -f openshift/patroni.bc.yml -p APP_NAME=$(APP_NAME) | oc apply -n $(TOOLS_NAMESPACE) -f -
-	@oc process -f openshift/patroni.dc.yml -p APP_NAME=$(APP_NAME) IMAGE_NAMESPACE=$(TOOLS_NAMESPACE) | oc apply -n $(TARGET_NAMESPACE) -f -
+# db-create:
+# 	@oc process -f openshift/patroni.bc.yml -p APP_NAME=$(APP_NAME) | oc apply -n $(TOOLS_NAMESPACE) -f -
+# 	@oc process -f openshift/patroni.dc.yml -p APP_NAME=$(APP_NAME) IMAGE_NAMESPACE=$(TOOLS_NAMESPACE) | oc apply -n $(TARGET_NAMESPACE) -f -
 
-db-postgres-tunnel:
-	@oc project $(TARGET_NAMESPACE)
-	@oc port-forward $(APP_NAME)-patroni-0 5432
+# db-postgres-tunnel:
+# 	@oc project $(TARGET_NAMESPACE)
+# 	@oc port-forward $(APP_NAME)-patroni-0 5432
 
 # server-prep:
 # 	@oc process -f openshift/ches.prep.yml -p APP_NAME=$(APP_NAME) | oc create -n $(TARGET_NAMESPACE) -f -
@@ -141,18 +141,18 @@ db-postgres-tunnel:
 # 	@echo "Processiong and applying Building config in $(TOOLS_NAMESPACE) namespace"
 # 	@oc -n $(TOOLS_NAMESPACE) process -f openshift/server.bc.yml -p REF=$(BUILD_REF) -p APP_NAME=$(APP_NAME) | oc apply -n $(TOOLS_NAMESPACE) -f -
 
-app-env-prep:
-	@oc process -f openshift/app.prep.yml -p APP_NAME=$(APP_NAME) KC_AUTH_URL=$(KC_AUTH_URL) KC_AUTH_REALM=$(KC_AUTH_REALM) KC_AUTH_CLIENT_ID=$(KC_AUTH_CLIENT_ID) NEXT_PUBLIC_SERVER_URL=$(NEXT_PUBLIC_SERVER_URL) NEXT_PUBLIC_REDIRECT_URI=$(NEXT_PUBLIC_REDIRECT_URI) | oc create -n $(TARGET_NAMESPACE) -f -
+# app-env-prep:
+# 	@oc process -f openshift/app.prep.yml -p APP_NAME=$(APP_NAME) KC_AUTH_URL=$(KC_AUTH_URL) KC_AUTH_REALM=$(KC_AUTH_REALM) KC_AUTH_CLIENT_ID=$(KC_AUTH_CLIENT_ID) NEXT_PUBLIC_SERVER_URL=$(NEXT_PUBLIC_SERVER_URL) NEXT_PUBLIC_REDIRECT_URI=$(NEXT_PUBLIC_REDIRECT_URI) | oc create -n $(TARGET_NAMESPACE) -f -
 
-app-create:
-	@oc process -f openshift/app.bc.yml -p APP_NAME=$(APP_NAME) APP_TYPE=server IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TOOLS_NAMESPACE) -f -
-	@oc process -f openshift/app.bc.yml -p APP_NAME=$(APP_NAME) APP_TYPE=client IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TOOLS_NAMESPACE) -f -
+# app-create:
+# 	@oc process -f openshift/app.bc.yml -p APP_NAME=$(APP_NAME) APP_TYPE=server IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TOOLS_NAMESPACE) -f -
+# 	@oc process -f openshift/app.bc.yml -p APP_NAME=$(APP_NAME) APP_TYPE=client IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TOOLS_NAMESPACE) -f -
 
-client-create:
-	@oc process -f openshift/client.dc.yml -p APP_NAME=$(APP_NAME) IMAGE_NAMESPACE=$(TOOLS_NAMESPACE) IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TARGET_NAMESPACE) -f -
+# client-create:
+# 	@oc process -f openshift/client.dc.yml -p APP_NAME=$(APP_NAME) IMAGE_NAMESPACE=$(TOOLS_NAMESPACE) IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TARGET_NAMESPACE) -f -
 
-server-create:
-	@oc process -f openshift/server.dc.yml -p APP_NAME=$(APP_NAME) IMAGE_NAMESPACE=$(TOOLS_NAMESPACE) IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TARGET_NAMESPACE) -f -
+# server-create:
+# 	@oc process -f openshift/server.dc.yml -p APP_NAME=$(APP_NAME) IMAGE_NAMESPACE=$(TOOLS_NAMESPACE) IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TARGET_NAMESPACE) -f -
 
 client-build:
 	@echo "Building client image in $(TOOLS_NAMESPACE) namespace"

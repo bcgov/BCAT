@@ -38,12 +38,6 @@ export class ApplicationService {
       .createQueryBuilder('app')
       .leftJoinAndSelect('app.assignedTo', 'assignedTo');
 
-    if (query.facilityName) {
-      queryBuilder.andWhere('app.facilityName ILIKE :facilityName', {
-        facilityName: `%${query.facilityName}%`,
-      });
-    }
-
     if (query.confirmationId) {
       queryBuilder.andWhere('app.confirmationId = :confirmationId', {
         confirmationId: query.confirmationId,
