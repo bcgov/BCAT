@@ -27,7 +27,6 @@ type ApplicationDetailsType = KeyValuePair & {
   lastUpdatedBy?: UserInterface;
   assignedTo?: UserInterface;
   status: ApplicationStatus;
-  facilityName: string;
   totalEstimatedCost: string;
   asks: string;
   updatedAt: string;
@@ -61,7 +60,6 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
 
   const topStatusObj = [
     { title: 'Status', value: 'status' },
-    { title: 'Facility', value: 'facilityName' },
     { title: 'Estimated cost', value: 'totalEstimatedCost' },
     { title: 'Asks', value: 'asks' },
     { title: 'Last updated', value: 'updatedAt' },

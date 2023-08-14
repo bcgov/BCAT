@@ -43,8 +43,6 @@ export class ApplicationFinalScoreRO {
 
   applicantName: string;
 
-  facilityName: string;
-
   projectTitle: string;
 
   totalCost: string;
@@ -70,7 +68,6 @@ export class ApplicationFinalScoreRO {
     const { submission, form } = application;
     this.confirmationId = application.confirmationId;
     this.applicantName = submission.applicantName;
-    this.facilityName = submission.facilityName;
     this.projectTitle = submission.projectTitle;
     this.totalCost = `${application.totalEstimatedCost?.split('.')[0]}.`;
     this.initialAsk = `${application.asks?.split('.')[0]}.`;
