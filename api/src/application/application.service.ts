@@ -60,15 +60,12 @@ export class ApplicationService {
     if (query.totalCost) {
       queryBuilder.andWhere('app.totalEstimatedCost = :totalCost', {
         totalCost: query.totalCost,
-<<<<<<< HEAD
       });
     }
 
     if (query.assignedTo) {
       queryBuilder.andWhere('assignedTo.displayName ILIKE :assignedTo', {
         assignedTo: `%${query.assignedTo}%`,
-=======
->>>>>>> a483173 (added filter by cost)
       });
     }
 
