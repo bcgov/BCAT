@@ -54,37 +54,43 @@ export class SyncChefsDataService {
   }
 
   private getTokenFromArgs(args: string[]) {
-    if (args[3] && args[3].includes('token=')) {
-      const parts = args[3].split('=');
-      if (parts[0]) {
-        if (parts[1]) {
+    for (let i = 0; i < args.length; i++) {
+      if (args[i].includes('token=')) {
+        const parts = args[i].split('=');
+        if (parts.length > 0 && parts[1]) {
           return parts[1];
         }
       }
-    }
+    };
+
     throw new GenericException(DatabaseError.TOKEN_NOT_FOUND);
   }
 
   private getSubmissionIdsFromArgs(args: string[]) {
-    if (args[4] && args[4].includes('submissionIds=')) {
-      const parts = args[4].split('=');
-      if (parts[0]) {
-        if (parts[1]) {
+    for (let i = 0; i < args.length; i++) {
+      if (args[i].includes('submissionIds=')) {
+        const parts = args[i].split('=');
+        if (parts.length > 0 && parts[1]) {
           return parts[1].split(',').filter((arr) => arr.length > 0);
         }
+        break;
       }
-    }
+    };
+
     return [];
   }
 
   private getFormIdFromArgs(args: string[]) {
-    const formArgs = args[5];
-    if (formArgs && formArgs.includes('formId=')) {
-      const parts = formArgs.split('=');
-      if (parts[0] && parts[1]) {
-        return parts[1];
+    for (let i = 0; i < args.length; i++) {
+      if (args[i].includes('formId=')) {
+        const parts = args[i].split('=');
+        if (parts.length > 0 && parts[1]) {
+          return parts[1];
+        }
+        break;
       }
-    }
+    };
+    
     return '';
   }
 
@@ -279,7 +285,7 @@ export class SyncChefsDataService {
         if (submissionIds && submissionIds.length > 0) {
           this.getSubmissionsFromIds(formId, submissionIds, options);
         } else {
-          Logger.log(`No submissions with found in the form with ID ${formId}. \nSkipping...`);
+          Logger.log(`No submissions found in the form with ID ${formId}. \nSkipping...`);
           return;
         }
       } catch (e) {
