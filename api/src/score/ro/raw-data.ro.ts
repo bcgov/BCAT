@@ -5,7 +5,8 @@ import { WorkshopScore } from '../workshop-score.entity';
 const roHeaders = {
   sheet: 'Raw Data',
   columns: [
-    { label: 'Project', value: 'projectTitle' },
+    { label: 'Application Type', value: 'applicationType' },
+    { label: 'Project Title', value: 'projectTitle' },
     { label: 'Estimated Project Cost', value: 'totalEstimatedCost' },
     { label: 'Raw Ask', value: 'asks' },
     { label: 'Overall Score', value: 'finalScore' },
@@ -18,6 +19,7 @@ export interface RawData {
   columns: { label: string; value: string }[];
 
   content: {
+    applicationType: string;
     projectTitle: string;
     totalEstimatedCost: string;
     asks: string;
@@ -36,7 +38,8 @@ export class RawDataRo {
       const applicationType = findApplicationType(item.application.form.chefsFormId);
 
       return {
-        projectTitle: item.application.submission.projectTitle,
+        applicationType: item.application.applicationType,
+        projectTitle: item.application.projectTitle,
         totalEstimatedCost: item.application.totalEstimatedCost,
         asks: item.application.asks,
         finalScore: item.finalScore,

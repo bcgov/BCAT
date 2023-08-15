@@ -11,12 +11,13 @@ import { useDownloadXlsx } from 'services/useDownloadXlsx';
 
 export const ApplicationDashboard: React.FC<any> = () => {
   const [state, setState] = useState({
+    searchApplicationType: '',
     searchConfirmationID: '',
     totalApplications: 0,
     data: [],
   });
 
-  const { searchConfirmationID, totalApplications, data } = state;
+  const { searchApplicationType, searchConfirmationID, totalApplications, data } = state;
   const { push, query } = useRouter();
   const { fetchData, isLoading } = useHttp();
   const { page, limit } = query;
@@ -35,7 +36,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
 
   useEffect(() => {
     (async () => {
-      const params = { ...query, page: 1, limit: 20 };
+      const params = { ...query, page: 1, limit: 20, confirmationId: '', applicationType: '' };
       SetQueryParams(push, query, params);
     })();
   }, []);
@@ -74,21 +75,22 @@ export const ApplicationDashboard: React.FC<any> = () => {
   };
 
   const handleFilter = () => {
-    const checkInputs = searchConfirmationID.length == 0;
+    const checkInputs = searchApplicationType.length === 0 && searchConfirmationID.length == 0;
     if (checkInputs) return;
     const params = {
       ...query,
       confirmationId: searchConfirmationID,
+      applicationType: searchApplicationType,
     };
     SetQueryParams(push, query, params);
   };
 
   const handleClear = () => {
-    const checkInputs = searchConfirmationID.length == 0;
+    const checkInputs = searchApplicationType.length === 0 && searchConfirmationID.length == 0;
     if (checkInputs) return;
     // Clear Inputs
-    setState(state => ({ ...state, searchConfirmationID: '' }));
-    const params = { ...query, confirmationId: '', limit: Number(limit) };
+    setState(state => ({ ...state, searchApplicationType: '', searchConfirmationID: '' }));
+    const params = { ...query, applicationType: '', confirmationId: '', limit: Number(limit) };
     SetQueryParams(push, query, params);
   };
 
@@ -112,6 +114,14 @@ export const ApplicationDashboard: React.FC<any> = () => {
           <div className='w-full border py-4 px-8 mb-2'>
             Filter By:
             <div className='grid grid-cols-3 gap-1'>
+              <input
+                type='text'
+                className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                placeholder='Application Type'
+                onChange={e => setState(p => ({ ...p, searchApplicationType: e.target.value }))}
+                value={searchApplicationType}
+              />
+
               <input
                 type='text'
                 className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'

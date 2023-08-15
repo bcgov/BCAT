@@ -38,8 +38,14 @@ export class ApplicationService {
       .createQueryBuilder('app')
       .leftJoinAndSelect('app.assignedTo', 'assignedTo');
 
+    if (query.applicationType) {
+      queryBuilder.andWhere('LOWER(app.applicationType) = LOWER(:applicationType)', {
+        applicationType: query.applicationType,
+      });
+    }
+
     if (query.confirmationId) {
-      queryBuilder.andWhere('app.confirmationId = :confirmationId', {
+      queryBuilder.andWhere('LOWER(app.confirmationId) = LOWER(:confirmationId)', {
         confirmationId: query.confirmationId,
       });
     }
