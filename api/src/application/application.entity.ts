@@ -16,6 +16,9 @@ export class Application extends RemovableBaseEntity {
   // It's dynamic, so putting any here
   submission: any;
 
+  @Column({ name: 'APPLICATION_TYPE', type: 'varchar', length: '100', nullable: true })
+  applicationType: string;
+
   @Column({ name: 'SUBMISSION_ID', type: 'uuid', nullable: false, unique: true })
   submissionId: string;
 

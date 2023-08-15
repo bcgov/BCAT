@@ -35,7 +35,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
 
   useEffect(() => {
     (async () => {
-      const params = { ...query, page: 1, limit: 20, confirmationId: '' };
+      const params = { ...query, page: 1, limit: 20 };
       SetQueryParams(push, query, params);
     })();
   }, []);
@@ -115,7 +115,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
               <input
                 type='text'
                 className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                placeholder={'Confirmation ID'}
+                placeholder='Confirmation ID'
                 onChange={e => setState(p => ({ ...p, searchConfirmationID: e.target.value }))}
                 value={searchConfirmationID}
               />

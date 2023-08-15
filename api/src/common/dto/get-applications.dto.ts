@@ -4,12 +4,17 @@ import { OrderByOptions, ApplicationSortOptions } from '../enums';
 import { PaginationDto } from './pagination.dto';
 
 export class GetApplicationsDto extends PaginationDto {
-  @ApiPropertyOptional({ enum: OrderByOptions })
   @IsOptional()
   @IsString()
   @MaxLength(200)
   @MinLength(0)
   confirmationId: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(200)
+  @MinLength(0)
+  applicationType: string;
 
   @IsOptional()
   @IsString()

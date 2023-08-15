@@ -3,7 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Application } from '../../application/application.entity';
-import { REQUEST_METHODS } from '../../common/constants';
+import { ApplicationType, REQUEST_METHODS } from '../../common/constants';
 import { ApplicationService } from '../../application/application.service';
 import { SaveApplicationDto } from '../../common/dto/save-application.dto';
 import { AxiosOptions } from '../../common/interfaces';
@@ -61,7 +61,7 @@ export class SyncChefsDataService {
           return parts[1];
         }
       }
-    };
+    }
 
     throw new GenericException(DatabaseError.TOKEN_NOT_FOUND);
   }
@@ -75,7 +75,7 @@ export class SyncChefsDataService {
         }
         break;
       }
-    };
+    }
 
     return [];
   }
@@ -89,8 +89,8 @@ export class SyncChefsDataService {
         }
         break;
       }
-    };
-    
+    }
+
     return '';
   }
 
@@ -157,16 +157,19 @@ export class SyncChefsDataService {
     try {
       let projectTitle = '';
       let attachments = '';
+      let applicationType = '';
 
       const submissionResponse = await axios(axiosOptions);
       const responseData = submissionResponse.data.submission;
 
       if (formId === process.env.INFRASTRUCTURE_FORM) {
         // infrastructure form
+        applicationType = ApplicationType.INFRASTRUCTURE_FORM;
         projectTitle = responseData.submission.data.s4Container.s4ProjectTitle;
         attachments = responseData.submission.data.s10Container;
       } else if (formId === process.env.NETWORK_FORM) {
         // network form
+        applicationType = ApplicationType.NETWORK_FORM;
         projectTitle = responseData.submission.data.s3Container.s3ProjectTitle;
         attachments = responseData.submission.data.s9Container;
       } else {
@@ -179,6 +182,7 @@ export class SyncChefsDataService {
       });
 
       const newSubmissionData: SaveApplicationDto = {
+        applicationType: applicationType,
         submissionId: submissionId,
         submission: responseData.submission.data,
         confirmationId: responseData.confirmationId,
