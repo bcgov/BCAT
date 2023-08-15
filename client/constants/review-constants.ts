@@ -1,5 +1,4 @@
 import { ReviewCompletionStatus } from './constants';
-import { ApplicationType } from './enums';
 
 const evaluationObj1 = [
   { value: 'Airside', text: 'Airside / core aviation infrastructure' },
@@ -10,22 +9,7 @@ const evaluationObj1 = [
   { value: 'GPS', text: 'GPS approach' },
 ];
 
-const evaluationObj2 = [
-  { value: 'yes', text: 'Yes' },
-  { value: 'no', text: 'No' },
-  { value: 'N/A', text: 'N/A' },
-];
-
-const evaluationObj3 = [
-  { value: 'EergyRetrofitting', text: 'Energy retrofitting to low / zero carbon fuels' },
-  { value: 'EquipmentElectrification', text: 'Equipment electrification' },
-  { value: 'Baselining', text: 'Greenhouse gas audit (baselining) ' },
-  { value: 'Mitigation', text: 'Mitigation' },
-  { value: 'Operational', text: 'Operational' },
-  { value: 'PilotingInnovativeTechnologies', text: 'Piloting innovative technologies' },
-  { value: 'Other', text: 'Other' },
-];
-
+// TODO: update in scoring ticket
 export const EvaluationReviewQuestions = [
   {
     obj: evaluationObj1,
@@ -74,15 +58,15 @@ export const EvaluationReviewQuestions = [
   //     ApplicationType.ENVIRONMENT_PLANNING,
   //   ],
   // },
-  {
-    name: 'facilityUsageScore',
-    label: 'Facility usage?',
-    maxScore: 2,
-    description: '',
-    tooltiptext:
-      'Score 2 if application checks 3 or more of the facility usage boxes. Score 1 is fewer than 3 are checked.',
-    obj: null,
-  },
+  // {
+  //   name: 'facilityUsageScore',
+  //   label: 'Facility usage?',
+  //   maxScore: 2,
+  //   description: '',
+  //   tooltiptext:
+  //     'Score 2 if application checks 3 or more of the facility usage boxes. Score 1 is fewer than 3 are checked.',
+  //   obj: null,
+  // },
   // {
   //   name: 'trafficDataScore',
   //   maxScore: 3,

@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 const minValidationText = 'Must be greater than or equal to ';
 const maxValidationText = 'Must be less than or equal to ';
 
+// TODO: update in scoring ticket
 export const APPLICATION_REVIEW_VALIDATION_SCHEMA = Yup.object().shape({
   projectTypeScore: Yup.number()
     .min(0, minValidationText + '0')
