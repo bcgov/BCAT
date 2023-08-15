@@ -24,9 +24,7 @@ export default () => {
     <div className='h-full px-8 grid grid-cols-2 gap-20'>
       <div className='flex flex-col justify-center'>
         <h2 className='text-4xl'>B.C. Active Transportation</h2>
-        <p>
-          description here....
-        </p>
+        <p>description here....</p>
       </div>
       <div className='flex items-center'>
         <Button variant='primary' onClick={login}>
