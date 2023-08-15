@@ -42,7 +42,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       this.logger.warn(`Unauthorized user! ${JSON.stringify(payload)}`);
       done(
         new UnauthorizedException({
-          message: 'You are not authorized! Kindly contact BCAAP Admin!',
+          message: 'You are not authorized! Please kindly contact BCAT Admin',
         }),
         false
       );
