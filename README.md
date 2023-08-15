@@ -2,7 +2,7 @@
 
 # BCAT
 
-BC Active Transportation
+B.C. Active Transportation
 
 ### Prerequisites
 
@@ -25,7 +25,7 @@ BC Active Transportation
 
 Use the following steps to configure the local development environment
 
-1. Clone the repository
+1. Clone the repository:
 
    ```
    git clone https://github.com/bcgov/BCAT.git
@@ -34,19 +34,21 @@ Use the following steps to configure the local development environment
 
 2. Configure the development settings
 
-   - Create the `client/.env` file and add the following content
+   - Create the `client/.env` file and add the following content:
 
    ```
       NEXT_PUBLIC_REDIRECT_URI=http://localhost:3000
-      NEXT_PUBLIC_KC_AUTH_URL=
-      NEXT_PUBLIC_KC_AUTH_REALM=
-      NEXT_PUBLIC_KC_AUTH_CLIENT_ID=
+     NEXT_PUBLIC_KC_AUTH_URL=https://dev.loginproxy.gov.bc.ca/auth
+      NEXT_PUBLIC_KC_AUTH_REALM=<realm-id>
+      NEXT_PUBLIC_KC_AUTH_CLIENT_ID=<client-id>
       NEXT_PUBLIC_SERVER_URL= http://localhost:8080/api/v1
       NEXT_PUBLIC_INFRASTRUCTURE_PROJECT=<formId>
       NEXT_PUBLIC_NETWORK_PROJECT=<formId>
    ```
 
-   - Create the `api/.env` file and add the following content
+   _Note: replace placeholder values_
+
+   - Create the `api/.env` file and add the following content:
 
    ```
       KC_AUTH_URL=
@@ -56,9 +58,11 @@ Use the following steps to configure the local development environment
       NETWORK_FORM=<formId>
    ```
 
+   _Note: replace placeholder values_
+
 ### Run
 
-3. local development environment
+3. Setup local development environment:
 
    Windows `make` is required. It can be located here: https://gnuwin32.sourceforge.net/packages/make.htm Please add the `<make_home>\bin` directory to the Windows path.
 
