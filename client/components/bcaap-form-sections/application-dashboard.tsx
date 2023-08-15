@@ -11,13 +11,20 @@ import { useDownloadXlsx } from 'services/useDownloadXlsx';
 
 export const ApplicationDashboard: React.FC<any> = () => {
   const [state, setState] = useState({
+    data: [],
     searchApplicationType: '',
     searchConfirmationID: '',
+    searchTotalCost: '',
     totalApplications: 0,
-    data: [],
   });
 
-  const { searchApplicationType, searchConfirmationID, totalApplications, data } = state;
+  const {
+    searchApplicationType,
+    searchConfirmationID,
+    totalApplications,
+    data,
+    searchTotalCost,
+  } = state;
   const { push, query } = useRouter();
   const { fetchData, isLoading } = useHttp();
   const { page, limit } = query;
@@ -74,23 +81,44 @@ export const ApplicationDashboard: React.FC<any> = () => {
     SetQueryParams(push, query, params);
   };
 
+  const filterHasNoValues = () => {
+    const noValues =
+      searchApplicationType.length === 0 &&
+      searchConfirmationID.length == 0 &&
+      searchTotalCost.length === 0;
+
+    return noValues;
+  };
+
   const handleFilter = () => {
-    const checkInputs = searchApplicationType.length === 0 && searchConfirmationID.length == 0;
-    if (checkInputs) return;
+    if (filterHasNoValues()) return;
     const params = {
       ...query,
-      confirmationId: searchConfirmationID,
       applicationType: searchApplicationType,
+      confirmationId: searchConfirmationID,
+      totalCost: searchTotalCost,
     };
     SetQueryParams(push, query, params);
   };
 
   const handleClear = () => {
-    const checkInputs = searchApplicationType.length === 0 && searchConfirmationID.length == 0;
-    if (checkInputs) return;
+    if (filterHasNoValues()) return;
     // Clear Inputs
-    setState(state => ({ ...state, searchApplicationType: '', searchConfirmationID: '' }));
-    const params = { ...query, applicationType: '', confirmationId: '', limit: Number(limit) };
+    setState(state => ({
+      ...state,
+      searchApplicationType: '',
+      searchConfirmationID: '',
+      searchAssignedTo: '',
+      searchTotalCost: '',
+    }));
+    const params = {
+      ...query,
+      applicationType: '',
+      confirmationId: '',
+      totalCost: '',
+      assignedTo: '',
+      limit: Number(limit),
+    };
     SetQueryParams(push, query, params);
   };
 
@@ -113,7 +141,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
         <>
           <div className='w-full border py-4 px-8 mb-2'>
             Filter By:
-            <div className='grid grid-cols-3 gap-1'>
+            <div className='grid grid-cols-4 gap-1'>
               <input
                 type='text'
                 className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
@@ -128,6 +156,14 @@ export const ApplicationDashboard: React.FC<any> = () => {
                 placeholder='Confirmation ID'
                 onChange={e => setState(p => ({ ...p, searchConfirmationID: e.target.value }))}
                 value={searchConfirmationID}
+              />
+
+              <input
+                type='text'
+                className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                placeholder='Total Estimated Cost'
+                onChange={e => setState(p => ({ ...p, searchTotalCost: e.target.value }))}
+                value={searchTotalCost}
               />
 
               <div className='grid grid-cols-2 gap-1'>

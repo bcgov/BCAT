@@ -50,9 +50,9 @@ export class ApplicationService {
       });
     }
 
-    if (query.assignedTo) {
-      queryBuilder.andWhere('app.assignedTo = :assignedTo', {
-        assignedTo: query.assignedTo,
+    if (query.totalCost) {
+      queryBuilder.andWhere('app.totalEstimatedCost = :totalCost', {
+        totalCost: query.totalCost,
       });
     }
 

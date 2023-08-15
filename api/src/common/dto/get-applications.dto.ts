@@ -28,4 +28,8 @@ export class GetApplicationsDto extends PaginationDto {
   @IsOptional()
   @IsEnum(ApplicationSortOptions)
   orderBy = ApplicationSortOptions.SUBMISSION_ID;
+
+  @IsOptional()
+  @IsString()
+  totalCost: number;
 }
