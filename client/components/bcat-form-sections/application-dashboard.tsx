@@ -47,6 +47,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
     totalApplications,
     data,
   } = state;
+
   const { push, query } = useRouter();
   const router = useRouter();
   const { fetchData, isLoading } = useHttp();
@@ -68,7 +69,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
 
   useEffect(() => {
     (async () => {
-      const params = { ...query, page: 1, limit: 20 };
+      const params = { ...query, page: 1, limit: 20, confirmationId: '', applicationType: '' };
       SetQueryParams(push, query, params);
     })();
   }, []);
@@ -119,6 +120,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
 
   const handleFilter = () => {
     if (filterHasNoValues()) return;
+
     const params = {
       ...query,
       applicantName: searchApplicantName,
