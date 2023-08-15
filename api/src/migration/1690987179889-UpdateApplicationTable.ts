@@ -15,7 +15,7 @@ export class UpdateApplicationTable1690987179889 implements MigrationInterface {
       `ALTER TABLE "app_bcat"."BCAT_APPLICATION" ALTER COLUMN "ASSIGNED_TO_USER_ID" DROP NOT NULL;`
     );
     await queryRunner.query(
-      `ALTER TABLE "app_bcat"."BCAT_APPLICATION" ALTER COLUMN "STATUS" SET DEFAULT 'INITIAL_REVIEW'`
+      `ALTER TABLE "app_bcat"."BCAT_APPLICATION" ALTER COLUMN "STATUS" SET DEFAULT 'RECEIVED'`
     );
     await queryRunner.query(
       `ALTER TABLE "app_bcat"."BCAT_ATTACHMENT" DROP COLUMN "ATTACHMENT_ID_NAME"`

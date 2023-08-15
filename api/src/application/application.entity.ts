@@ -39,7 +39,7 @@ export class Application extends RemovableBaseEntity {
     type: 'varchar',
     length: '100',
     nullable: false,
-    default: ApplicationStatus.INITIAL_REVIEW,
+    default: ApplicationStatus.RECEIVED,
   })
   status: ApplicationStatus;
 

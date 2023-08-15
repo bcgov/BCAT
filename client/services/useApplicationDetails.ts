@@ -106,23 +106,17 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
     const statusUpdates = [];
 
     switch (status) {
-      case ApplicationStatus.INITIAL_REVIEW:
+      case ApplicationStatus.RECEIVED:
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
-          onClick: () => updateStatus(id, ApplicationStatus.FUNDING_REVIEW),
+          onClick: () => updateStatus(id, ApplicationStatus.ASSIGNED),
         });
         statusUpdates.push({
           label: NextStatusUpdates.DISCARD,
-          onClick: () => updateStatus(id, ApplicationStatus.DISCARD),
+          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
         });
         break;
-      case ApplicationStatus.FUNDING_REVIEW:
-        statusUpdates.push({
-          label: NextStatusUpdates.PROCEED,
-          onClick: () => updateStatus(id, ApplicationStatus.BROADER_REVIEW),
-        });
-        break;
-      case ApplicationStatus.BROADER_REVIEW:
+      case ApplicationStatus.ASSIGNED:
         if (user?.isAdmin) {
           statusUpdates.push({
             label: NextStatusUpdates.PROCEED,
@@ -160,7 +154,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   };
 
   const isPanelDefaultOpen = (index: number, status: string, title: string): boolean => {
-    if (status === ApplicationStatus.FUNDING_REVIEW) {
+    if (status === ApplicationStatus.ASSIGNED) {
       return title === 'Funding and Project Cost Estimate Information';
     }
 
