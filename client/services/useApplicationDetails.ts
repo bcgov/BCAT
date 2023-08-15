@@ -18,7 +18,7 @@ import { useHttp } from './useHttp';
 import { useTeamManagement } from './useTeamManagement';
 
 type ApplicationFormResponseType = {
-  versionSchema: { components: KeyValuePair[] };
+  versionSchema: { components: [] };
 };
 
 type ApplicationDetailsType = KeyValuePair & {
@@ -177,7 +177,15 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   useEffect(() => {
     if (data) {
       const { form, submission, ...submissionDetails } = data;
-      setSchema(form.versionSchema.components);
+
+      const filteredComponents: any = form?.versionSchema?.components.filter(
+        (i: any) => i.type === 'panel',
+      );
+      const sections = filteredComponents.filter((c: any) =>
+        c.components.filter((i: any) => i.type === 'container'),
+      );
+
+      setSchema(sections);
       setFormData(submission);
       setDetails(submissionDetails);
       setApplicationType(findApplicationType(data));

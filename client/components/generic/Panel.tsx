@@ -14,7 +14,7 @@ export const Panel: React.FC<PanelProps> = ({ children, title, isOpen = false })
     <div className='open:bg-white border border-2 m-2 open:shadow-lg rounded-sm transform-gpu delay-75 duration-100 ease-in-out'>
       <div
         onClick={() => setOpen(!open)}
-        className='leading-6 bg-gray-100 p-4 text-bcBluePrimary dark:text-white font-semibold select-none cursor-pointer'
+        className='leading-6 bg-gray-100 p-4 text-bcBluePrimary dark:text-black font-semibold select-none cursor-pointer'
       >
         <div className='flex'>
           <div className='w-1/2'>{title}</div>

@@ -22,8 +22,8 @@ export DB_PORT := $(or $(DB_PORT),5432)
 export GIT_LOCAL_BRANCH := $(or $(GIT_LOCAL_BRANCH),dev)
 
 export KC_AUTH_URL := $(or $(KC_AUTH_URL),https://dev.loginproxy.gov.bc.ca/auth)
-export KC_AUTH_REALM := $(or $(KC_AUTH_REALM),realm-id)
-export KC_AUTH_CLIENT_ID := $(or $(KC_AUTH_REALM),bcat-client)
+export KC_AUTH_REALM := $(or $(KC_AUTH_REALM),standard)
+export KC_AUTH_CLIENT_ID := $(or $(KC_AUTH_CLIENT_ID),bcat-standard-4952)
 
 export APP_NAME:=bcat
 export OS_NAMESPACE_PREFIX:=ed9154
