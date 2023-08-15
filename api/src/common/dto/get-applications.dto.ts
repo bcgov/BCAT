@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { OrderByOptions, ApplicationSortOptions } from '../enums';
 import { PaginationDto } from './pagination.dto';
 
@@ -17,7 +17,7 @@ export class GetApplicationsDto extends PaginationDto {
   applicationType: string;
 
   @IsOptional()
-  @IsString()
+  @IsNumber()
   assignedTo: number;
 
   @IsOptional()
@@ -30,6 +30,5 @@ export class GetApplicationsDto extends PaginationDto {
   orderBy = ApplicationSortOptions.SUBMISSION_ID;
 
   @IsOptional()
-  @IsString()
-  totalCost: number;
+  totalCost: string;
 }

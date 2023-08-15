@@ -39,8 +39,8 @@ export class ApplicationService {
       .leftJoinAndSelect('app.assignedTo', 'assignedTo');
 
     if (query.applicationType) {
-      queryBuilder.andWhere('LOWER(app.applicationType) = LOWER(:applicationType)', {
-        applicationType: query.applicationType,
+      queryBuilder.andWhere('app.applicationType ILIKE :applicationType', {
+        applicationType: `%${query.applicationType}%`,
       });
     }
 

@@ -82,7 +82,7 @@ local-client-workspace:
 	@docker exec -it $(PROJECT)_client sh
 
 local-server-workspace:
-	@docker exec -it $(PROJECT)_db sh
+	@docker exec -it $(PROJECT)-api sh
 
 local-db-workspace:
 	@docker exec -it $(PROJECT)_db bash
