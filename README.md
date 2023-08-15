@@ -2,7 +2,7 @@
 
 # BCAT
 
-BC Active Transportation
+B.C. Active Transportation
 
 ### Prerequisites
 
@@ -25,7 +25,7 @@ BC Active Transportation
 
 Use the following steps to configure the local development environment
 
-1. Clone the repository
+1. Clone the repository:
 
    ```
    git clone https://github.com/bcgov/BCAT.git
@@ -34,32 +34,34 @@ Use the following steps to configure the local development environment
 
 2. Configure the development settings
 
-   - Create the `client/.env` file and add the following content
+   - Create the `client/.env` file and add the following content:
 
    ```
       NEXT_PUBLIC_REDIRECT_URI=http://localhost:3000
-      NEXT_PUBLIC_KC_AUTH_URL=
-      NEXT_PUBLIC_KC_AUTH_REALM=
-      NEXT_PUBLIC_KC_AUTH_CLIENT_ID=
+     NEXT_PUBLIC_KC_AUTH_URL=https://dev.loginproxy.gov.bc.ca/auth
+      NEXT_PUBLIC_KC_AUTH_REALM=<realm-id>
+      NEXT_PUBLIC_KC_AUTH_CLIENT_ID=<client-id>
       NEXT_PUBLIC_SERVER_URL= http://localhost:8080/api/v1
       NEXT_PUBLIC_INFRASTRUCTURE_PROJECT=b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54
       NEXT_PUBLIC_NETWORK_PROJECT=f3bac574-bc64-4169-af40-9f3403b43eb6
    ```
+   _Note: replace placeholder values_   
 
-   - Create the `api/.env` file and add the following content
+   - Create the `api/.env` file and add the following content:
 
    ```
-      KC_AUTH_URL=
-      KC_AUTH_REALM=
-      KC_AUTH_CLIENT_ID=
+      KC_AUTH_URL=https://dev.loginproxy.gov.bc.ca/auth
+      KC_AUTH_REALM=<realm-id>
+      KC_AUTH_CLIENT_ID=<client-id>
       CHEFS_FORM_IDS=["b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54", "f3bac574-bc64-4169-af40-9f3403b43eb6"]
       INFRASTRUCTURE_FORM=b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54
       NETWORK_FORM=f3bac574-bc64-4169-af40-9f3403b43eb6
    ```
+    _Note: replace placeholder values_   
 
 ### Run
 
-3. local development environment
+3. Setup local development environment:
 
    Windows `make` is required. It can be located here: https://gnuwin32.sourceforge.net/packages/make.htm Please add the `<make_home>\bin` directory to the Windows path.
 

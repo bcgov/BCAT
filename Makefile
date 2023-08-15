@@ -21,9 +21,9 @@ export DB_SERVER := $(or $(DB_SERVER),database)
 export DB_PORT := $(or $(DB_PORT),5432)
 export GIT_LOCAL_BRANCH := $(or $(GIT_LOCAL_BRANCH),dev)
 
-export KC_AUTH_URL = https://dev.loginproxy.gov.bc.ca/auth
-export KC_AUTH_REALM = standard
-export KC_AUTH_CLIENT_ID = bcat-standard-4952
+export KC_AUTH_URL := $(or $(KC_AUTH_URL),https://dev.loginproxy.gov.bc.ca/auth)
+export KC_AUTH_REALM := $(or $(KC_AUTH_REALM),realm-id)
+export KC_AUTH_CLIENT_ID := $(or $(KC_AUTH_REALM),bcat-client)
 
 export APP_NAME:=bcat
 export OS_NAMESPACE_PREFIX:=ed9154
@@ -141,18 +141,18 @@ networking-prep:
 # 	@echo "Processiong and applying Building config in $(TOOLS_NAMESPACE) namespace"
 # 	@oc -n $(TOOLS_NAMESPACE) process -f openshift/server.bc.yml -p REF=$(BUILD_REF) -p APP_NAME=$(APP_NAME) | oc apply -n $(TOOLS_NAMESPACE) -f -
 
-app-env-prep:
-	@oc process -f openshift/app.prep.yml -p APP_NAME=$(APP_NAME) KC_AUTH_URL=$(KC_AUTH_URL) KC_AUTH_REALM=$(KC_AUTH_REALM) KC_AUTH_CLIENT_ID=$(KC_AUTH_CLIENT_ID) NEXT_PUBLIC_SERVER_URL=$(NEXT_PUBLIC_SERVER_URL) NEXT_PUBLIC_REDIRECT_URI=$(NEXT_PUBLIC_REDIRECT_URI) | oc create -n $(TARGET_NAMESPACE) -f -
+# app-env-prep:
+# 	@oc process -f openshift/app.prep.yml -p APP_NAME=$(APP_NAME) KC_AUTH_URL=$(KC_AUTH_URL) KC_AUTH_REALM=$(KC_AUTH_REALM) KC_AUTH_CLIENT_ID=$(KC_AUTH_CLIENT_ID) NEXT_PUBLIC_SERVER_URL=$(NEXT_PUBLIC_SERVER_URL) NEXT_PUBLIC_REDIRECT_URI=$(NEXT_PUBLIC_REDIRECT_URI) | oc create -n $(TARGET_NAMESPACE) -f -
 
-app-create:
-	@oc process -f openshift/app.bc.yml -p APP_NAME=$(APP_NAME) APP_TYPE=server IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TOOLS_NAMESPACE) -f -
-	@oc process -f openshift/app.bc.yml -p APP_NAME=$(APP_NAME) APP_TYPE=client IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TOOLS_NAMESPACE) -f -
+# app-create:
+# 	@oc process -f openshift/app.bc.yml -p APP_NAME=$(APP_NAME) APP_TYPE=server IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TOOLS_NAMESPACE) -f -
+# 	@oc process -f openshift/app.bc.yml -p APP_NAME=$(APP_NAME) APP_TYPE=client IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TOOLS_NAMESPACE) -f -
 
-client-create:
-	@oc process -f openshift/client.dc.yml -p APP_NAME=$(APP_NAME) IMAGE_NAMESPACE=$(TOOLS_NAMESPACE) IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TARGET_NAMESPACE) -f -
+# client-create:
+# 	@oc process -f openshift/client.dc.yml -p APP_NAME=$(APP_NAME) IMAGE_NAMESPACE=$(TOOLS_NAMESPACE) IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TARGET_NAMESPACE) -f -
 
-server-create:
-	@oc process -f openshift/server.dc.yml -p APP_NAME=$(APP_NAME) IMAGE_NAMESPACE=$(TOOLS_NAMESPACE) IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TARGET_NAMESPACE) -f -
+# server-create:
+# 	@oc process -f openshift/server.dc.yml -p APP_NAME=$(APP_NAME) IMAGE_NAMESPACE=$(TOOLS_NAMESPACE) IMAGE_TAG=$(OS_NAMESPACE_SUFFIX) | oc apply -n $(TARGET_NAMESPACE) -f -
 
 client-build:
 	@echo "Building client image in $(TOOLS_NAMESPACE) namespace"
