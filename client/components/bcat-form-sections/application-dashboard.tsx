@@ -69,7 +69,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
 
   useEffect(() => {
     (async () => {
-      const params = { ...query, page: 1, limit: 20 };
+      const params = { ...query, page: 1, limit: 20, confirmationId: '', applicationType: '' };
       SetQueryParams(push, query, params);
     })();
   }, []);
