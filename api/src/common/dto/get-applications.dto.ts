@@ -37,5 +37,9 @@ export class GetApplicationsDto extends PaginationDto {
 
   @IsOptional()
   @IsString()
+<<<<<<< HEAD
   totalCost: string;
+=======
+  totalCost: number;
+>>>>>>> a483173 (added filter by cost)
 }
