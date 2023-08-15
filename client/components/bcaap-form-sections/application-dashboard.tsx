@@ -18,13 +18,8 @@ export const ApplicationDashboard: React.FC<any> = () => {
     totalApplications: 0,
   });
 
-  const {
-    searchApplicationType,
-    searchConfirmationID,
-    totalApplications,
-    data,
-    searchTotalCost,
-  } = state;
+  const { searchApplicationType, searchConfirmationID, totalApplications, data, searchTotalCost } =
+    state;
   const { push, query } = useRouter();
   const { fetchData, isLoading } = useHttp();
   const { page, limit } = query;

@@ -115,9 +115,7 @@ const ApplicationDetails: NextPage = () => {
           <div className='grid grid-cols-4 gap-4'>
             <div
               className={`${
-                [ApplicationStatus.WORKSHOP].includes(
-                  details.status,
-                )
+                [ApplicationStatus.WORKSHOP].includes(details.status)
                   ? 'col-span-2'
                   : showComments
                   ? 'col-span-3'
