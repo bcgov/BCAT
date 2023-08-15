@@ -21,6 +21,7 @@ export const findApplicationType = (chefsFormId: string): ApplicationType => {
   }
 };
 
+// TODO: update scoring questions this sprint
 export const ScoreFields = [
   {
     name: 'projectTypeScore',
@@ -32,16 +33,16 @@ export const ScoreFields = [
     label: 'Need for project',
     score: 5,
   },
-  {
-    name: 'projectFundingScore',
-    label: 'Need for funding',
-    score: 5,
-  },
-  {
-    name: 'pastBcaapFundingScore',
-    label: 'Past BCAAP funding',
-    score: 3,
-  },
+  // {
+  //   name: 'projectFundingScore',
+  //   label: 'Need for funding',
+  //   score: 5,
+  // },
+  // {
+  //   name: 'pastBcaapFundingScore',
+  //   label: 'Past BCAAP funding',
+  //   score: 3,
+  // },
   // {
   //   name: 'facilityMasterPlanScore',
   //   label: 'Project in Master Plan',
@@ -147,11 +148,11 @@ export const ScoreFields = [
   //   criteria: [ApplicationType.LARGE_PROJECT],
   //   score: 5,
   // },
-  {
-    name: 'contingencyPlanScore',
-    label: 'Contingency Plan',
-    score: 2,
-  },
+  // {
+  //   name: 'contingencyPlanScore',
+  //   label: 'Contingency Plan',
+  //   score: 2,
+  // },
   {
     name: 'classBCostScore',
     label: 'Cost Estimates',

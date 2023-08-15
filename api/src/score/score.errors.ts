@@ -16,7 +16,7 @@ export const ScoreError = {
 
   APPLICATION_MISMATCH: {
     errorType: 'APPLICATION_MISMATCH',
-    errorMessage: 'Score is assigned to a application user',
+    errorMessage: 'Score is assigned to a different application user',
     httpStatus: HttpStatus.BAD_REQUEST,
   } as GenericError,
 

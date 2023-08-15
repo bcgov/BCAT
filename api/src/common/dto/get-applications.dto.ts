@@ -27,7 +27,7 @@ export class GetApplicationsDto extends PaginationDto {
   @ApiPropertyOptional({ enum: ApplicationSortOptions })
   @IsOptional()
   @IsEnum(ApplicationSortOptions)
-  orderBy = ApplicationSortOptions.SUBMISSION_ID;
+  orderBy = ApplicationSortOptions.CONFIRMATION_ID;
 
   @IsOptional()
   @IsString()
