@@ -35,7 +35,7 @@ const TableHeader: React.FC = () => {
 const TableBody: React.FC<Props> = data => {
   const tdStyles =
     'table-td px-6 py-4 text-left text-sm font-strong flexitems-center justify-between';
-  console.log(data.applications);
+    
   return (
     <tbody>
       {data.applications &&
