@@ -59,7 +59,7 @@ export class SyncChefsDataService {
           return parts[1];
         }
       }
-    };
+    }
 
     throw new GenericException(DatabaseError.TOKEN_NOT_FOUND);
   }
@@ -73,7 +73,7 @@ export class SyncChefsDataService {
         }
         break;
       }
-    };
+    }
 
     return [];
   }
@@ -87,8 +87,8 @@ export class SyncChefsDataService {
         }
         break;
       }
-    };
-    
+    }
+
     return '';
   }
 
