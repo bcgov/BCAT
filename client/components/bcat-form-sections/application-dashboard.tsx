@@ -9,17 +9,42 @@ import { useRouter } from 'next/router';
 import { API_ENDPOINT } from '../../constants';
 import { useDownloadXlsx } from 'services/useDownloadXlsx';
 
+interface InputFilterProps {
+  searchType: any;
+  onChange: any;
+  placeholder: string;
+}
+
+const InputFilter: React.FC<InputFilterProps> = ({ searchType, onChange, placeholder }) => {
+  return (
+    <input
+      type='text'
+      className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+      placeholder={placeholder}
+      onChange={onChange}
+      value={searchType}
+    />
+  );
+};
+
 export const ApplicationDashboard: React.FC<any> = () => {
   const [state, setState] = useState({
     data: [],
     searchApplicationType: '',
     searchConfirmationID: '',
     searchTotalCost: '',
+    searchAssignedTo: '',
     totalApplications: 0,
   });
 
-  const { searchApplicationType, searchConfirmationID, totalApplications, data, searchTotalCost } =
-    state;
+  const {
+    searchApplicationType,
+    searchConfirmationID,
+    searchAssignedTo,
+    totalApplications,
+    data,
+    searchTotalCost,
+  } = state;
   const { push, query } = useRouter();
   const { fetchData, isLoading } = useHttp();
   const { page, limit } = query;
@@ -38,7 +63,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
 
   useEffect(() => {
     (async () => {
-      const params = { ...query, page: 1, limit: 20, confirmationId: '', applicationType: '' };
+      const params = { ...query, page: 1, limit: 20 };
       SetQueryParams(push, query, params);
     })();
   }, []);
@@ -80,7 +105,8 @@ export const ApplicationDashboard: React.FC<any> = () => {
     const noValues =
       searchApplicationType.length === 0 &&
       searchConfirmationID.length == 0 &&
-      searchTotalCost.length === 0;
+      searchTotalCost.length === 0 &&
+      searchAssignedTo.length === 0;
 
     return noValues;
   };
@@ -92,12 +118,13 @@ export const ApplicationDashboard: React.FC<any> = () => {
       applicationType: searchApplicationType,
       confirmationId: searchConfirmationID,
       totalCost: searchTotalCost,
+      assignedTo: searchAssignedTo,
     };
+
     SetQueryParams(push, query, params);
   };
 
   const handleClear = () => {
-    if (filterHasNoValues()) return;
     // Clear Inputs
     setState(state => ({
       ...state,
@@ -111,7 +138,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
       applicationType: '',
       confirmationId: '',
       totalCost: '',
-      assignedTo: '',
+      assignedTo:'',
       limit: Number(limit),
     };
     SetQueryParams(push, query, params);
@@ -137,28 +164,26 @@ export const ApplicationDashboard: React.FC<any> = () => {
           <div className='w-full border py-4 px-8 mb-2'>
             Filter By:
             <div className='grid grid-cols-4 gap-1'>
-              <input
-                type='text'
-                className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              <InputFilter
                 placeholder='Application Type'
-                onChange={e => setState(p => ({ ...p, searchApplicationType: e.target.value }))}
-                value={searchApplicationType}
+                onChange={(e: any) =>
+                  setState(p => ({ ...p, searchApplicationType: e.target.value }))
+                }
+                searchType={searchApplicationType}
               />
 
-              <input
-                type='text'
-                className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              <InputFilter
                 placeholder='Confirmation ID'
-                onChange={e => setState(p => ({ ...p, searchConfirmationID: e.target.value }))}
-                value={searchConfirmationID}
+                onChange={(e: any) =>
+                  setState(p => ({ ...p, searchConfirmationID: e.target.value }))
+                }
+                searchType={searchConfirmationID}
               />
 
-              <input
-                type='text'
-                className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              <InputFilter
                 placeholder='Total Estimated Cost'
-                onChange={e => setState(p => ({ ...p, searchTotalCost: e.target.value }))}
-                value={searchTotalCost}
+                onChange={(e: any) => setState(p => ({ ...p, searchTotalCost: e.target.value }))}
+                searchType={searchTotalCost}
               />
 
               <div className='grid grid-cols-2 gap-1'>
