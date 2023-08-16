@@ -2,7 +2,7 @@ import { API_ENDPOINT } from '../../constants';
 import { useHttp } from '../../services/useHttp';
 import { NOT_TO_BE_RENDERED, renderElement } from 'helpers';
 
-const NESTED_COMPONENTS = ['simplecols2'];
+const NESTED_COMPONENTS = ['simplecols2', 'columns'];
 
 export const RenderCHFSElement: React.FC<any> = ({ component, formData }) => {
   const { fetchData } = useHttp();
@@ -30,8 +30,10 @@ export const RenderCHFSElement: React.FC<any> = ({ component, formData }) => {
     );
   };
 
-  return !component.hidden && !NOT_TO_BE_RENDERED.includes(component.type) ? (
-    !NESTED_COMPONENTS.includes(component.type) ? (
+  return (
+    !component.hidden &&
+    !NOT_TO_BE_RENDERED.includes(component.type) &&
+    (!NESTED_COMPONENTS.includes(component.type) ? (
       component?.components?.map((i: any) =>
         renderElement(i, formData, downloadFile, component.key),
       )
@@ -43,8 +45,6 @@ export const RenderCHFSElement: React.FC<any> = ({ component, formData }) => {
           ),
         )}
       </>
-    )
-  ) : (
-    <></>
+    ))
   );
 };
