@@ -111,7 +111,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
         // if (user?.isAdmin) {
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
-          onClick: () => updateStatus(id, ApplicationStatus.ASSIGNED),
+          onClick: () => updateStatus(id, ApplicationStatus.WORKSHOP),
         });
         statusUpdates.push({
           label: NextStatusUpdates.DISCARD,
