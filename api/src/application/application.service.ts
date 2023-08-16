@@ -44,6 +44,12 @@ export class ApplicationService {
       });
     }
 
+    if (query.applicantName) {
+      queryBuilder.andWhere('app.applicantName ILIKE :applicantName', {
+        applicantName: `%${query.applicantName}%`,
+      });
+    }
+
     if (query.confirmationId) {
       queryBuilder.andWhere('LOWER(app.confirmationId) = LOWER(:confirmationId)', {
         confirmationId: query.confirmationId,

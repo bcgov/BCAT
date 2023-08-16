@@ -158,20 +158,23 @@ export class SyncChefsDataService {
       let projectTitle = '';
       let attachments = '';
       let applicationType = '';
+      let applicantName = '';
 
       const submissionResponse = await axios(axiosOptions);
       const responseData = submissionResponse.data.submission;
 
       if (formId === process.env.INFRASTRUCTURE_FORM) {
         // infrastructure form
+        applicantName = responseData.submission.data.s1Container.s1LegalNameOfGovernmentApplicant;
         applicationType = ApplicationType.INFRASTRUCTURE_FORM;
-        projectTitle = responseData.submission.data.s4Container.s4ProjectTitle;
         attachments = responseData.submission.data.s10Container;
+        projectTitle = responseData.submission.data.s4Container.s4ProjectTitle;
       } else if (formId === process.env.NETWORK_FORM) {
         // network form
+        applicantName = responseData.submission.data.s1Container.s1LegalName;
         applicationType = ApplicationType.NETWORK_FORM;
-        projectTitle = responseData.submission.data.s3Container.s3ProjectTitle;
         attachments = responseData.submission.data.s9Container;
+        projectTitle = responseData.submission.data.s3Container.s3ProjectTitle;
       } else {
         Logger.log(`Form ID: ${formId} is not a valid form. \nSkipping...`);
         return;
@@ -183,6 +186,7 @@ export class SyncChefsDataService {
 
       const newSubmissionData: SaveApplicationDto = {
         applicationType: applicationType,
+        applicantName: applicantName,
         submissionId: submissionId,
         submission: responseData.submission.data,
         confirmationId: responseData.confirmationId,

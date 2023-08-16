@@ -34,6 +34,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
     searchConfirmationID: '',
     searchTotalCost: '',
     searchAssignedTo: '',
+    searchApplicantName: '',
     totalApplications: 0,
   });
 
@@ -41,11 +42,13 @@ export const ApplicationDashboard: React.FC<any> = () => {
     searchApplicationType,
     searchConfirmationID,
     searchAssignedTo,
+    searchApplicantName,
+    searchTotalCost,
     totalApplications,
     data,
-    searchTotalCost,
   } = state;
   const { push, query } = useRouter();
+  const router = useRouter();
   const { fetchData, isLoading } = useHttp();
   const { page, limit } = query;
 
@@ -56,7 +59,9 @@ export const ApplicationDashboard: React.FC<any> = () => {
         params,
       },
       ({ result, total }: any) => {
-        setState(state => ({ ...state, data: result, totalApplications: total }));
+        if (router.isReady) {
+          setState(state => ({ ...state, data: result, totalApplications: total }));
+        }
       },
     );
   };
@@ -106,7 +111,8 @@ export const ApplicationDashboard: React.FC<any> = () => {
       searchApplicationType.length === 0 &&
       searchConfirmationID.length == 0 &&
       searchTotalCost.length === 0 &&
-      searchAssignedTo.length === 0;
+      searchAssignedTo.length === 0 &&
+      searchApplicantName.length === 0;
 
     return noValues;
   };
@@ -119,6 +125,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
       confirmationId: searchConfirmationID,
       totalCost: searchTotalCost,
       assignedTo: searchAssignedTo,
+      applicantName: searchApplicantName,
     };
 
     SetQueryParams(push, query, params);
@@ -132,13 +139,15 @@ export const ApplicationDashboard: React.FC<any> = () => {
       searchConfirmationID: '',
       searchAssignedTo: '',
       searchTotalCost: '',
+      searchApplicantName: '',
     }));
     const params = {
       ...query,
       applicationType: '',
       confirmationId: '',
       totalCost: '',
-      assignedTo:'',
+      assignedTo: '',
+      applicantName: '',
       limit: Number(limit),
     };
     SetQueryParams(push, query, params);
@@ -181,9 +190,17 @@ export const ApplicationDashboard: React.FC<any> = () => {
               />
 
               <InputFilter
-                placeholder='Total Estimated Cost'
+                placeholder='Estimated Cost'
                 onChange={(e: any) => setState(p => ({ ...p, searchTotalCost: e.target.value }))}
                 searchType={searchTotalCost}
+              />
+
+              <InputFilter
+                placeholder='Applicant Name'
+                onChange={(e: any) =>
+                  setState(p => ({ ...p, searchApplicantName: e.target.value }))
+                }
+                searchType={searchApplicantName}
               />
 
               <div className='grid grid-cols-2 gap-1'>

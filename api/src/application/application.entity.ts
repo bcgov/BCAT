@@ -28,6 +28,9 @@ export class Application extends RemovableBaseEntity {
   @Column({ name: 'PROJECT_TITLE', type: 'varchar', length: '100', nullable: false })
   projectTitle: string;
 
+  @Column({ name: 'APPLICANT_NAME', type: 'varchar', length: '300', nullable: true })
+  applicantName?: string;
+
   @Column({ name: 'TOTAL_ESTIMATED_COST', type: 'money' })
   totalEstimatedCost?: string;
 

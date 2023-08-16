@@ -8,6 +8,7 @@ const TableHeader: React.FC = () => {
     'Confirmation ID',
     'Application Type',
     'Project Title',
+    'Applicant Name',
     'Estimated Cost',
     'Asks',
     'Assigned to',
@@ -45,6 +46,7 @@ const TableBody: React.FC<Props> = data => {
               <td className={tdStyles}>{row.confirmationId}</td>
               <td className={tdStyles}>{row.applicationType}</td>
               <td className={tdStyles}>{row.projectTitle}</td>
+              <td className={tdStyles}>{row.applicantName}</td>
               <td className={tdStyles}>{row.totalEstimatedCost}</td>
               <td className={tdStyles}>{row.asks}</td>
               <td className={tdStyles}>{row.assignedTo ? row.assignedTo.displayName : ''}</td>
