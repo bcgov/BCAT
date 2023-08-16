@@ -30,19 +30,19 @@ const InputFilter: React.FC<InputFilterProps> = ({ searchType, onChange, placeho
 export const ApplicationDashboard: React.FC<any> = () => {
   const [state, setState] = useState({
     data: [],
+    searchApplicantName: '',
     searchApplicationType: '',
+    searchAssignedTo: '',
     searchConfirmationID: '',
     searchTotalCost: '',
-    searchAssignedTo: '',
-    searchApplicantName: '',
     totalApplications: 0,
   });
 
   const {
-    searchApplicationType,
-    searchConfirmationID,
-    searchAssignedTo,
     searchApplicantName,
+    searchApplicationType,
+    searchAssignedTo,
+    searchConfirmationID,
     searchTotalCost,
     totalApplications,
     data,
@@ -108,11 +108,11 @@ export const ApplicationDashboard: React.FC<any> = () => {
 
   const filterHasNoValues = () => {
     const noValues =
+      searchApplicantName.length === 0 &&
       searchApplicationType.length === 0 &&
-      searchConfirmationID.length == 0 &&
-      searchTotalCost.length === 0 &&
       searchAssignedTo.length === 0 &&
-      searchApplicantName.length === 0;
+      searchConfirmationID.length == 0 &&
+      searchTotalCost.length === 0;
 
     return noValues;
   };
@@ -121,11 +121,11 @@ export const ApplicationDashboard: React.FC<any> = () => {
     if (filterHasNoValues()) return;
     const params = {
       ...query,
+      applicantName: searchApplicantName,
       applicationType: searchApplicationType,
+      assignedTo: searchAssignedTo,
       confirmationId: searchConfirmationID,
       totalCost: searchTotalCost,
-      assignedTo: searchAssignedTo,
-      applicantName: searchApplicantName,
     };
 
     SetQueryParams(push, query, params);
@@ -135,19 +135,19 @@ export const ApplicationDashboard: React.FC<any> = () => {
     // Clear Inputs
     setState(state => ({
       ...state,
-      searchApplicationType: '',
-      searchConfirmationID: '',
-      searchAssignedTo: '',
-      searchTotalCost: '',
       searchApplicantName: '',
+      searchApplicationType: '',
+      searchAssignedTo: '',
+      searchConfirmationID: '',
+      searchTotalCost: '',
     }));
     const params = {
       ...query,
+      applicantName: '',
       applicationType: '',
+      assignedTo: '',
       confirmationId: '',
       totalCost: '',
-      assignedTo: '',
-      applicantName: '',
       limit: Number(limit),
     };
     SetQueryParams(push, query, params);
@@ -173,13 +173,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
           <div className='w-full border py-4 px-8 mb-2'>
             Filter By:
             <div className='grid grid-cols-4 gap-1'>
-              <InputFilter
-                placeholder='Application Type'
-                onChange={(e: any) =>
-                  setState(p => ({ ...p, searchApplicationType: e.target.value }))
-                }
-                searchType={searchApplicationType}
-              />
+              
 
               <InputFilter
                 placeholder='Confirmation ID'
@@ -190,12 +184,6 @@ export const ApplicationDashboard: React.FC<any> = () => {
               />
 
               <InputFilter
-                placeholder='Estimated Cost'
-                onChange={(e: any) => setState(p => ({ ...p, searchTotalCost: e.target.value }))}
-                searchType={searchTotalCost}
-              />
-
-              <InputFilter
                 placeholder='Applicant Name'
                 onChange={(e: any) =>
                   setState(p => ({ ...p, searchApplicantName: e.target.value }))
@@ -203,12 +191,32 @@ export const ApplicationDashboard: React.FC<any> = () => {
                 searchType={searchApplicantName}
               />
 
+              <InputFilter
+                placeholder='Application Type'
+                onChange={(e: any) =>
+                  setState(p => ({ ...p, searchApplicationType: e.target.value }))
+                }
+                searchType={searchApplicationType}
+              />
+
+              <InputFilter
+                placeholder='Estimated Cost'
+                onChange={(e: any) => setState(p => ({ ...p, searchTotalCost: e.target.value }))}
+                searchType={searchTotalCost}
+              />
+
+              <InputFilter
+                placeholder='Assigned To'
+                onChange={(e: any) => setState(p => ({ ...p, searchAssignedTo: e.target.value }))}
+                searchType={searchAssignedTo}
+              />
+
               <div className='grid grid-cols-2 gap-1'>
-                <Button onClick={handleFilter} variant='primary'>
+                <Button onClick={handleFilter} variant='primary' disabled={filterHasNoValues()}>
                   <FontAwesomeIcon icon={faFilter} className='h-4 mr-2' />
                   Filter Records
                 </Button>
-                <Button onClick={handleClear} variant='outline'>
+                <Button onClick={handleClear} variant='outline' disabled={filterHasNoValues()}>
                   <FontAwesomeIcon icon={faTimes} className='h-4 mr-2' />
                   Clear Filter
                 </Button>

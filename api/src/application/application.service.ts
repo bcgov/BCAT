@@ -62,6 +62,12 @@ export class ApplicationService {
       });
     }
 
+    if (query.assignedTo) {
+      queryBuilder.andWhere('assignedTo.displayName ILIKE :assignedTo', {
+        assignedTo: `%${query.assignedTo}%`,
+      });
+    }
+
     if (query.orderBy) {
       queryBuilder.orderBy({ [`app.${query.orderBy}`]: query.order });
     }
