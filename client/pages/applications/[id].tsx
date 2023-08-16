@@ -13,7 +13,7 @@ import {
   Button,
   Link as LinkComponent,
   Comments,
-  BroaderReview,
+  // BroaderReview,
   MenuButton,
   Panel,
   RenderCHFSElement,
@@ -65,14 +65,16 @@ const ApplicationDetails: NextPage = () => {
                   defaultEvaluator={details.assignedTo}
                 />
               </div>
+              {/** TODO: enable in admin ticket */}
               <div className='w-fit'>
-                <Button variant='outline' onClick={() => setShowComments(true)}>
+                <Button variant='outline' onClick={() => setShowComments(true)} disabled>
                   <FontAwesomeIcon icon={faComment} className='h-4 mr-2 text-bcBluePrimary' />{' '}
                   Comments
                 </Button>
               </div>
             </div>
             <div className='w-2/5 justify-end flex'>
+              {/** TODO: add once admin ticket is complete */}
               {details.status === ApplicationStatus.WORKSHOP ? (
                 <div className='gap-2 flex'>
                   <Link href={`/applications/${id}/score-table`}>
@@ -162,6 +164,7 @@ const ApplicationDetails: NextPage = () => {
                 <Comments applicationId={id} onClose={() => setShowComments(false)} />
               </div>
             )}
+            {/* TODO: add these tabs once scoring and admin tickets are completed
             {details && applicationType && (
               <div className='col-span-2 pb-4'>
                 <BroaderReview
@@ -180,7 +183,7 @@ const ApplicationDetails: NextPage = () => {
                   formData={formData}
                 />
               </div>
-            )}
+            )} */}
           </div>
         </div>
       )}
