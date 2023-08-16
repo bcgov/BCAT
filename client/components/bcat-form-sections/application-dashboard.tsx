@@ -211,34 +211,6 @@ export const ApplicationDashboard: React.FC<any> = () => {
                 searchType={searchAssignedTo}
               />
 
-              <InputFilter
-                placeholder='Applicant Name'
-                onChange={(e: any) =>
-                  setState(p => ({ ...p, searchApplicantName: e.target.value }))
-                }
-                searchType={searchApplicantName}
-              />
-
-              <InputFilter
-                placeholder='Application Type'
-                onChange={(e: any) =>
-                  setState(p => ({ ...p, searchApplicationType: e.target.value }))
-                }
-                searchType={searchApplicationType}
-              />
-
-              <InputFilter
-                placeholder='Estimated Cost'
-                onChange={(e: any) => setState(p => ({ ...p, searchTotalCost: e.target.value }))}
-                searchType={searchTotalCost}
-              />
-
-              <InputFilter
-                placeholder='Assigned To'
-                onChange={(e: any) => setState(p => ({ ...p, searchAssignedTo: e.target.value }))}
-                searchType={searchAssignedTo}
-              />
-
               <div className='grid grid-cols-2 gap-1'>
                 <Button onClick={handleFilter} variant='primary' disabled={filterHasNoValues()}>
                   <FontAwesomeIcon icon={faFilter} className='h-4 mr-2' />
