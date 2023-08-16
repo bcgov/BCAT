@@ -173,8 +173,6 @@ export const ApplicationDashboard: React.FC<any> = () => {
           <div className='w-full border py-4 px-8 mb-2'>
             Filter By:
             <div className='grid grid-cols-4 gap-1'>
-              
-
               <InputFilter
                 placeholder='Confirmation ID'
                 onChange={(e: any) =>

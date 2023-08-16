@@ -109,14 +109,14 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
     switch (status) {
       case ApplicationStatus.RECEIVED:
         // if (user?.isAdmin) {
-          statusUpdates.push({
-            label: NextStatusUpdates.PROCEED,
-            onClick: () => updateStatus(id, ApplicationStatus.ASSIGNED),
-          });
-          statusUpdates.push({
-            label: NextStatusUpdates.DISCARD,
-            onClick: () => updateStatus(id, ApplicationStatus.DENIED),
-          });
+        statusUpdates.push({
+          label: NextStatusUpdates.PROCEED,
+          onClick: () => updateStatus(id, ApplicationStatus.ASSIGNED),
+        });
+        statusUpdates.push({
+          label: NextStatusUpdates.DISCARD,
+          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
+        });
         // }
         break;
 
