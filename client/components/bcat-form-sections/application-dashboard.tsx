@@ -214,7 +214,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
                   <FontAwesomeIcon icon={faFilter} className='h-4 mr-2' />
                   Filter Records
                 </Button>
-                <Button onClick={handleClear} variant='outline' disabled={filterHasNoValues()}>
+                <Button onClick={handleClear} variant='outline'>
                   <FontAwesomeIcon icon={faTimes} className='h-4 mr-2' />
                   Clear Filter
                 </Button>
