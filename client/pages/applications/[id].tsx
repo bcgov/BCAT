@@ -40,7 +40,7 @@ const ApplicationDetails: NextPage = () => {
 
   return (
     <>
-      {details && id && typeof id === 'string' && (
+      {details && id && typeof id === 'number' && (
         <div className='min-h-screen p-5 w-full bg-white'>
           <div className='w-full mt-2'>
             <LinkComponent href='/applications' variant='link'>
@@ -127,9 +127,8 @@ const ApplicationDetails: NextPage = () => {
                 schema
                   ?.filter(
                     each =>
-                      each.type === 'simplepanel' &&
-                      (!each.conditional.show ||
-                        (each.conditional.show && formData[each.conditional.when] == true)),
+                      !each.conditional.show ||
+                      (each.conditional.show && formData[each.conditional.when] == true),
                   )
                   .map((each, i: number) => (
                     <Panel
@@ -137,19 +136,30 @@ const ApplicationDetails: NextPage = () => {
                       key={each.key}
                       isOpen={isPanelDefaultOpen(i, details.status, each.title)}
                     >
-                      <div className='leading-6 p-6 grid lg:grid-cols-2 md:grid-cols-2 gap-4'>
+                      <div className='leading-6 p-6 grid gap-4'>
                         {each.components?.map((eachComp: any) => (
-                          <RenderCHFSElement
-                            component={eachComp}
-                            formData={formData}
-                            key={eachComp.id}
-                          />
+                          <>
+                            {/* TODO: fix this, secondary applicant legend is not [0] */}
+                            {eachComp?.components && eachComp?.components[0]?.legend && (
+                              <span className='text-black text-xl font-bold capitalize'>
+                                {eachComp?.components[0]?.legend}
+                              </span>
+                            )}
+
+                            <div className='leading-6 grid lg:grid-cols-2 md:grid-cols-2 gap-4'>
+                              <RenderCHFSElement
+                                component={eachComp}
+                                formData={formData}
+                                key={eachComp.id}
+                              />
+                            </div>
+                          </>
                         ))}
                       </div>
                     </Panel>
                   ))}
             </div>
-            {showComments && id && typeof id === 'string' && (
+            {showComments && id && typeof id === 'number' && (
               <div className='col-span-1 pb-4'>
                 <Comments applicationId={id} onClose={() => setShowComments(false)} />
               </div>
