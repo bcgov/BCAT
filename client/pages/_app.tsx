@@ -7,7 +7,7 @@ import { SSRKeycloakProvider, SSRCookies, SSRAuthClient } from '@react-keycloak-
 
 import { Footer, Header, Modal } from '@components';
 import { AuthProvider, ModalProvider, UserInterface } from '@contexts';
-import { StrictMode, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -67,37 +67,35 @@ function CustomApp({ Component, pageProps, cookies }: AppProps) {
         pkceMethod: 'S256',
       }}
     >
-      <StrictMode>
-        <AuthProvider tokensInitialized={tokensInitialized} user={user}>
-          <Head>
-            <title>BC - Programs Branch Grant Programs</title>
-            <link rel='icon' href='/assets/img/bc_favicon.ico' />
-          </Head>
+      <AuthProvider tokensInitialized={tokensInitialized} user={user}>
+        <Head>
+          <title>BC - Programs Branch Grant Programs</title>
+          <link rel='icon' href='/assets/img/bc_favicon.ico' />
+        </Head>
 
-          <ModalProvider>
-            <div className='h-full flex flex-col'>
-              <Header />
-              <main className='flex-grow flex justify-center bg-bcLightBackground'>
-                <div className='w-full'>
-                  <Component {...pageProps} />
-                </div>
-              </main>
-              <Footer />
-            </div>
-            <Modal />
-          </ModalProvider>
+        <ModalProvider>
+          <div className='h-full flex flex-col'>
+            <Header />
+            <main className='flex-grow flex justify-center bg-bcLightBackground'>
+              <div className='w-full'>
+                <Component {...pageProps} />
+              </div>
+            </main>
+            <Footer />
+          </div>
+          <Modal />
+        </ModalProvider>
 
-          <ToastContainer
-            style={{ width: '30%', maxWidth: '675px' }}
-            position='top-right'
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-          />
-        </AuthProvider>
-      </StrictMode>
+        <ToastContainer
+          style={{ width: '30%', maxWidth: '675px' }}
+          position='top-right'
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+        />
+      </AuthProvider>
     </SSRKeycloakProvider>
   );
 }

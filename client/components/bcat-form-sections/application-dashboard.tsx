@@ -35,6 +35,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
     searchAssignedTo: '',
     searchConfirmationID: '',
     searchTotalCost: '',
+    searchAssignedTo: '',
     totalApplications: 0,
   });
 
@@ -69,7 +70,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
 
   useEffect(() => {
     (async () => {
-      const params = { ...query, page: 1, limit: 20, confirmationId: '', applicationType: '' };
+      const params = { ...query, page: 1, limit: 20 };
       SetQueryParams(push, query, params);
     })();
   }, []);
@@ -113,7 +114,8 @@ export const ApplicationDashboard: React.FC<any> = () => {
       searchApplicationType.length === 0 &&
       searchAssignedTo.length === 0 &&
       searchConfirmationID.length == 0 &&
-      searchTotalCost.length === 0;
+      searchTotalCost.length === 0 &&
+      searchAssignedTo.length === 0;
 
     return noValues;
   };
@@ -128,6 +130,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
       assignedTo: searchAssignedTo,
       confirmationId: searchConfirmationID,
       totalCost: searchTotalCost,
+      assignedTo: searchAssignedTo,
     };
 
     SetQueryParams(push, query, params);
@@ -211,12 +214,10 @@ export const ApplicationDashboard: React.FC<any> = () => {
                 searchType={searchAssignedTo}
               />
 
-              <input
-                type='text'
-                className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              <InputFilter
                 placeholder='Total Estimated Cost'
-                onChange={e => setState(p => ({ ...p, searchTotalCost: e.target.value }))}
-                value={searchTotalCost}
+                onChange={(e: any) => setState(p => ({ ...p, searchTotalCost: e.target.value }))}
+                searchType={searchTotalCost}
               />
 
               <div className='grid grid-cols-2 gap-1'>
