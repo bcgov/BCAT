@@ -35,7 +35,6 @@ export const ApplicationDashboard: React.FC<any> = () => {
     searchAssignedTo: '',
     searchConfirmationID: '',
     searchTotalCost: '',
-    searchAssignedTo: '',
     totalApplications: 0,
   });
 
@@ -115,7 +114,8 @@ export const ApplicationDashboard: React.FC<any> = () => {
       searchAssignedTo.length === 0 &&
       searchConfirmationID.length == 0 &&
       searchTotalCost.length === 0 &&
-      searchAssignedTo.length === 0;
+      searchAssignedTo.length === 0 &&
+      searchApplicantName.length === 0;
 
     return noValues;
   };
@@ -130,7 +130,6 @@ export const ApplicationDashboard: React.FC<any> = () => {
       assignedTo: searchAssignedTo,
       confirmationId: searchConfirmationID,
       totalCost: searchTotalCost,
-      assignedTo: searchAssignedTo,
     };
 
     SetQueryParams(push, query, params);
@@ -215,9 +214,17 @@ export const ApplicationDashboard: React.FC<any> = () => {
               />
 
               <InputFilter
-                placeholder='Total Estimated Cost'
+                placeholder='Estimated Cost'
                 onChange={(e: any) => setState(p => ({ ...p, searchTotalCost: e.target.value }))}
                 searchType={searchTotalCost}
+              />
+
+              <InputFilter
+                placeholder='Applicant Name'
+                onChange={(e: any) =>
+                  setState(p => ({ ...p, searchApplicantName: e.target.value }))
+                }
+                searchType={searchApplicantName}
               />
 
               <div className='grid grid-cols-2 gap-1'>
