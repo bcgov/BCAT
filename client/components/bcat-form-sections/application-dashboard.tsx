@@ -113,9 +113,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
       searchApplicationType.length === 0 &&
       searchAssignedTo.length === 0 &&
       searchConfirmationID.length == 0 &&
-      searchTotalCost.length === 0 &&
-      searchAssignedTo.length === 0 &&
-      searchApplicantName.length === 0;
+      searchTotalCost.length === 0;
 
     return noValues;
   };
@@ -214,12 +212,6 @@ export const ApplicationDashboard: React.FC<any> = () => {
               />
 
               <InputFilter
-                placeholder='Estimated Cost'
-                onChange={(e: any) => setState(p => ({ ...p, searchTotalCost: e.target.value }))}
-                searchType={searchTotalCost}
-              />
-
-              <InputFilter
                 placeholder='Applicant Name'
                 onChange={(e: any) =>
                   setState(p => ({ ...p, searchApplicantName: e.target.value }))
@@ -227,12 +219,32 @@ export const ApplicationDashboard: React.FC<any> = () => {
                 searchType={searchApplicantName}
               />
 
+              <InputFilter
+                placeholder='Application Type'
+                onChange={(e: any) =>
+                  setState(p => ({ ...p, searchApplicationType: e.target.value }))
+                }
+                searchType={searchApplicationType}
+              />
+
+              <InputFilter
+                placeholder='Estimated Cost'
+                onChange={(e: any) => setState(p => ({ ...p, searchTotalCost: e.target.value }))}
+                searchType={searchTotalCost}
+              />
+
+              <InputFilter
+                placeholder='Assigned To'
+                onChange={(e: any) => setState(p => ({ ...p, searchAssignedTo: e.target.value }))}
+                searchType={searchAssignedTo}
+              />
+
               <div className='grid grid-cols-2 gap-1'>
                 <Button onClick={handleFilter} variant='primary' disabled={filterHasNoValues()}>
                   <FontAwesomeIcon icon={faFilter} className='h-4 mr-2' />
                   Filter Records
                 </Button>
-                <Button onClick={handleClear} variant='outline'>
+                <Button onClick={handleClear} variant='outline' disabled={filterHasNoValues()}>
                   <FontAwesomeIcon icon={faTimes} className='h-4 mr-2' />
                   Clear Filter
                 </Button>
