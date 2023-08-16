@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import { Button } from '@components';
 
-const TYPE_AS_STRING = [
+// array of simple types that can use basic renderGeneralField
+const SIMPLE_TYPES = [
   'currency',
   'day',
   'phoneNumber',
@@ -13,8 +14,12 @@ const TYPE_AS_STRING = [
   'simpletextfieldadvanced',
   'textarea',
   'textfield',
+  'simplenumberadvanced',
+  'simplenumber',
+  'simplecheckbox',
 ];
 
+// array of types such as banners, info, headings etc.
 export const NOT_TO_BE_RENDERED = [
   'button',
   'htmlelement',
@@ -23,6 +28,8 @@ export const NOT_TO_BE_RENDERED = [
   'simplecontent',
 ];
 
+// some questions require wording changes on FE,
+// portalWording is a custom key containing the updated wording added by us, sent from CHEFS
 const getLabel = (component: any) => {
   return component.properties?.portalWording ?? component.label;
 };
@@ -32,7 +39,9 @@ const MISC_LABELS_TO_REMOVE = ['primaryContactColumns', 'secondaryContactColumns
 
 const renderSelectBoxes = (e: any, data: any, container: string) => {
   const label = getLabel(e);
-  const values = data[container][e.key];
+  // TODO: try removing Infrastructure Type container in Section 4
+  const values = container === 's4Container' ? data?.[e.key] : data?.[container]?.[e.key];
+
   const selectedKeys = Object.entries(values)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ?.filter(([_, value]) => value)
@@ -58,14 +67,23 @@ const renderGeneralField = (e: any, data: any, container: string) => {
   if (MISC_LABELS_TO_REMOVE.includes(e.label)) {
     return;
   }
+
+  let value = '';
   const label = getLabel(e);
+
+  // TODO: try removing Infrastructure Type container in Section 4
+  if (container === 's4Container' && data?.[e.key]) {
+    value = data?.[e.key];
+  } else {
+    value = data?.[container]?.[e.key];
+  }
 
   return (
     <div key={e.id} className='w-fit grid grid-flow-row'>
       <span className='font-bold'>{label}</span>
       <span key={e.key}>
         {(e.type === 'currency' || e.type === 'simplecurrencyadvanced') && 'CA$'}
-        {`${data[container][e.key] || '-'}`}
+        {`${value || '-'}`}
       </span>
     </div>
   );
@@ -115,11 +133,11 @@ const renderWell = (e: any, data: any, container: string) => {
     const name = component[1].components[0];
     const date = component[1].components[1];
     const nameLabel = getLabel(name);
-    const dateLabel = getLabel(name);
-    const sigLabel = getLabel(name);
+    const dateLabel = getLabel(date);
+    const sigLabel = getLabel(sig);
 
     return (
-      <div key={component.id} className='w-fit grid grid-flow-row'>
+      <div key={component.id} className='w-1/2 grid grid-flow-row'>
         <span className='font-bold'>{nameLabel}</span>
         <span>{`${data[container][name.key] || '-'}`}</span>
         <span className='font-bold'>{dateLabel}</span>
@@ -131,13 +149,17 @@ const renderWell = (e: any, data: any, container: string) => {
   } else {
     return e.components.map((c: any) => {
       const label = getLabel(c);
-
-      return (
-        <div key={c.id} className='w-fit grid grid-flow-row'>
-          <span className='font-bold'>{label}</span>
-          <span key={c.key}>{`${data[container][c.key] || '-'}`}</span>
-        </div>
-      );
+      // type object means nested item is a select box
+      if (typeof data[container][c.key] === 'object') {
+        return renderSelectBoxes(c, data, container);
+      } else {
+        return (
+          <div key={c.id} className='w-fit grid grid-flow-row'>
+            <span className='font-bold'>{label}</span>
+            <span key={c.key}>{`${data[container][c.key] || '-'}`}</span>
+          </div>
+        );
+      }
     });
   }
 };
@@ -150,6 +172,19 @@ const renderNoTypeFound = (e: any, formData: any) => {
       <h3>{JSON.stringify(formData[e.key])}</h3>
     </>
   );
+};
+
+// TODO: can remove this if we can get rid of S4 nested container
+const renderContainer = (e: any, formData: any, container: string) => {
+  return e?.components
+    .filter((i: any) => !NOT_TO_BE_RENDERED.includes(i.type))
+    .map((c: any) =>
+      c.components
+        .filter((o: any) => !MISC_LABELS_TO_REMOVE.includes(o.label))
+        .map((u: any) =>
+          renderRespectiveElement(u, formData[container]['s4InfrastructureType'], null, container),
+        ),
+    );
 };
 
 const organizeFieldsetData = (e: any, formData: any, componentKey?: any) => {
@@ -167,18 +202,52 @@ const organizeFieldsetData = (e: any, formData: any, componentKey?: any) => {
             return c.columns?.map((eachCol: any) =>
               eachCol?.components?.map((ec: any) => renderGeneralField(ec, formData, componentKey)),
             );
-
+          case 'well':
+            return renderWell(c, formData, componentKey);
           case 'simpleradios':
           case 'simpleradioadvanced':
           case 'radio':
             return renderRadioValue(c, formData, componentKey);
-
           default:
             return renderGeneralField(c, formData, componentKey);
         }
       }
     });
 };
+// TODO: cleanup, remove hardcoded values, testing purposes
+// const renderUsageCountForm = (e: any, data: any, container: any) => {
+//   const formData = data[container];
+
+//   if (formData['s5UsageCountFormInNotApplicableForSelectedTypesOfAtInfrastructure']) {
+//     return (
+//       <div key={'s5UsageCountFormInNotApplicable'} className='col-span-2 w-fit grid grid-flow-row'>
+//         <span className='font-bold'>
+//           Usage Count Form is not applicable for selected type(s) infrastructures
+//         </span>
+//         <span
+//           key={e.key}
+//         >{`${data[container]['s5UsageCountFormInNotApplicableForSelectedTypesOfAtInfrastructure']}`}</span>
+//       </div>
+//     );
+//   } else {
+//     const GRID_KEY = 's5UsageCountFormGrid';
+//     const usageCountGrid = e.find((ug: any) => ug.key === GRID_KEY);
+//     const count = data[container][GRID_KEY].length;
+//     return usageCountGrid?.components?.map((i: any, index: number) => {
+//       return i.columns[0]?.components?.map((d: any) => {
+//         console.log(index, i);
+//         return (
+//           <div className='grid grid-cols-4'>
+//             <div key={d.id} className='w-fit grid grid-flow-row'>
+//               <span className='font-bold'>{d.label}</span>
+//               <span key={d.key}>{`${data[container][GRID_KEY][0][d.key] ?? '-'}`}</span>
+//             </div>
+//           </div>
+//         );
+//       });
+//     });
+//   }
+// };
 
 const renderRadioValue = (e: any, data: any, container?: any) => {
   const label = getLabel(e);
@@ -194,19 +263,13 @@ const renderRadioValue = (e: any, data: any, container?: any) => {
   );
 };
 
-const renderCheckbox = (e: any, data: any, container?: any) => {
-  const label = getLabel(e);
-
-  return (
-    <div key={e.id} className='w-fit grid grid-flow-row'>
-      <span className='font-bold'>{label}</span>
-      <span key={e.key}>{`${data[container][e.key] ?? '-'}`}</span>
-    </div>
-  );
-};
-
 const renderRespectiveElement = (e: any, formData: any, downloadFile: any, componentKey?: any) => {
   if (!NOT_TO_BE_RENDERED.includes(e.type)) {
+    // if (e?.key === 'usageCountFormSet') {
+    //   return renderUsageCountForm(e?.components, formData, componentKey);
+    // } else if (e?.key === 's5UsageCountFormInNotApplicableForSelectedTypesOfAtInfrastructure') {
+    //   return;
+    // } else {
     switch (e.type) {
       case 'simpleselectboxesadvanced':
         return renderSelectBoxes(e, formData, componentKey);
@@ -216,19 +279,21 @@ const renderRespectiveElement = (e: any, formData: any, downloadFile: any, compo
         return renderFile(e, formData, downloadFile, componentKey);
       case 'well':
         return renderWell(e.components[0], formData, componentKey);
-      case 'simplecheckbox':
-        return renderCheckbox(e, formData, componentKey);
       case 'simpleradios':
       case 'simpleradioadvanced':
       case 'radio':
         return renderRadioValue(e, formData, componentKey);
+      // TODO: can remove this if we can get rid of S4 nested container
+      case 'container':
+        return renderContainer(e, formData, componentKey);
       default:
-        if (TYPE_AS_STRING.includes(e.type)) {
+        if (SIMPLE_TYPES.includes(e.type)) {
           return renderGeneralField(e, formData, componentKey);
         }
         return renderNoTypeFound(e, formData);
     }
   }
+  //}
 };
 
 export const renderElement = (e: any, formData: any, downloadFile: any, componentKey?: any) => (

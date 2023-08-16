@@ -34,9 +34,17 @@ export const RenderCHFSElement: React.FC<any> = ({ component, formData }) => {
     !component.hidden &&
     !NOT_TO_BE_RENDERED.includes(component.type) &&
     (!NESTED_COMPONENTS.includes(component.type) ? (
-      component?.components?.map((i: any) =>
-        renderElement(i, formData, downloadFile, component.key),
-      )
+      component?.components?.map((c: any) => (
+        <>
+          {/* if legend exists, display as a header */}
+          {c?.legend && (
+            <span className='col-span-2 underline text-black text-xl font-bold capitalize'>
+              {c?.legend}
+            </span>
+          )}
+          {renderElement(c, formData, downloadFile, component.key)}
+        </>
+      ))
     ) : (
       <>
         {component.columns?.map((eachCol: any) =>
