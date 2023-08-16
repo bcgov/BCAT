@@ -11,7 +11,7 @@ export default () => {
 
   useEffect(() => {
     if (!kcInitialized) return;
-    if (keycloak?.authenticated) {
+    if (keycloak?.authenticated && router.isReady) {
       router.push(Routes.HOME);
     }
   }, [router, kcInitialized, keycloak?.authenticated]);

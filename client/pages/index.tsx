@@ -9,7 +9,9 @@ const Dashboard: NextPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace(Routes.HOME);
+    if (router.isReady) {
+      router.replace(Routes.HOME);
+    }
   }, [router]);
 
   return null;
