@@ -145,7 +145,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   };
 
   const updateEvaluator = (data: UserInterface) => {
-    if (id && typeof id === 'string') {
+    if (id && typeof id === 'number') {
       sendApiRequest(
         {
           endpoint: API_ENDPOINT.getApplicationEvaluator(id),
