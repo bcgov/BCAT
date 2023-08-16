@@ -38,6 +38,7 @@ const ApplicationDetails: NextPage = () => {
     isPanelDefaultOpen,
     downloadPDF,
   } = useApplicationDetails(id);
+  // console.log(formData);
 
   return (
     <>
@@ -142,6 +143,16 @@ const ApplicationDetails: NextPage = () => {
                       <div className='leading-6 p-6 grid gap-4'>
                         {each.components?.map((eachComp: any, index: number) => (
                           <div key={`cmp-${index}`}>
+<<<<<<< HEAD
+=======
+                            {/* TODO: fix this, secondary applicant legend is not [0] */}
+                            {eachComp?.components && eachComp?.components[0]?.legend && (
+                              <span className='text-black text-xl font-bold capitalize'>
+                                {eachComp?.components[0]?.legend}
+                              </span>
+                            )}
+
+>>>>>>> ef75d95 (bug fixes)
                             <div className='leading-6 grid lg:grid-cols-2 md:grid-cols-2 gap-4'>
                               <RenderCHFSElement
                                 component={eachComp}
