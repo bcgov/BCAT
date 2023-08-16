@@ -2,27 +2,25 @@ import Image from 'next/image';
 import { Button } from '@components';
 
 const TYPE_AS_STRING = [
-  'textfield',
-  'simpletextfield',
-  'simpletextfieldadvanced',
-  'simpletextareaadvanced',
-  'textarea',
-  'simpletextarea',
-  'radio',
-  'simpleradios',
-  'simpleradioadvanced',
-  'select',
   'currency',
   'day',
   'phoneNumber',
+  'select',
+  'simplecurrencyadvanced',
+  'simpletextarea',
+  'simpletextareaadvanced',
+  'simpletextfield',
+  'simpletextfieldadvanced',
+  'textarea',
+  'textfield',
 ];
 
 export const NOT_TO_BE_RENDERED = [
   'button',
-  'simplecontent',
   'htmlelement',
   'simplebuttonadvanced',
   'simplecheckboxadvanced',
+  'simplecontent',
 ];
 
 const getLabel = (component: any) => {
@@ -34,18 +32,22 @@ const MISC_LABELS_TO_REMOVE = ['primaryContactColumns', 'secondaryContactColumns
 
 const renderSelectBoxes = (e: any, data: any, container: string) => {
   const label = getLabel(e);
+  const values = data[container][e.key];
+  const selectedKeys = Object.entries(values)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ?.filter(([_, value]) => value)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .map(([key, _]) => key);
+
+  const filteredValues = e.values?.filter((item: any) => selectedKeys.includes(item.value));
 
   return (
     <div key={e.id} className='w-fit grid grid-flow-row'>
       <span className='font-bold'>{label}</span>
       <span>
-        {' '}
-        {Object.entries(data[container][e.key])
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          ?.filter(([_, value]) => value)
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          .map(([key, _]) => key)
-          .join(', ') || '-'}
+        {filteredValues.length === 0
+          ? '-'
+          : filteredValues.map((item: any) => item.label).join(', ')}
       </span>
     </div>
   );
@@ -61,7 +63,10 @@ const renderGeneralField = (e: any, data: any, container: string) => {
   return (
     <div key={e.id} className='w-fit grid grid-flow-row'>
       <span className='font-bold'>{label}</span>
-      <span key={e.key}>{`${data[container][e.key] || '-'}`}</span>
+      <span key={e.key}>
+        {(e.type === 'currency' || e.type === 'simplecurrencyadvanced') && 'CA$'}
+        {`${data[container][e.key] || '-'}`}
+      </span>
     </div>
   );
 };
@@ -126,7 +131,7 @@ const renderWell = (e: any, data: any, container: string) => {
   } else {
     return e.components.map((c: any) => {
       const label = getLabel(c);
-      
+
       return (
         <div key={c.id} className='w-fit grid grid-flow-row'>
           <span className='font-bold'>{label}</span>
@@ -165,6 +170,7 @@ const organizeFieldsetData = (e: any, formData: any, componentKey?: any) => {
 
           case 'simpleradios':
           case 'simpleradioadvanced':
+          case 'radio':
             return renderRadioValue(c, formData, componentKey);
 
           default:
@@ -182,18 +188,14 @@ const renderRadioValue = (e: any, data: any, container?: any) => {
     <div key={e.id} className='w-fit grid grid-flow-row'>
       <span className='font-bold'>{label}</span>
       <span key={e.key}>{`${
-        e.values?.find((item: any) => item.value === value)?.label ?? '-'
+        e.values?.find((item: any) => String(item.value) === String(value))?.label ?? '-'
       }`}</span>
     </div>
   );
 };
 
 const renderCheckbox = (e: any, data: any, container?: any) => {
-  const value = data[container][e.key];
   const label = getLabel(e);
-  if (typeof data[container][e.key] === 'boolean') {
-    data[container][e.key] = value ? 'yes' : 'no';
-  }
 
   return (
     <div key={e.id} className='w-fit grid grid-flow-row'>
@@ -216,6 +218,10 @@ const renderRespectiveElement = (e: any, formData: any, downloadFile: any, compo
         return renderWell(e.components[0], formData, componentKey);
       case 'simplecheckbox':
         return renderCheckbox(e, formData, componentKey);
+      case 'simpleradios':
+      case 'simpleradioadvanced':
+      case 'radio':
+        return renderRadioValue(e, formData, componentKey);
       default:
         if (TYPE_AS_STRING.includes(e.type)) {
           return renderGeneralField(e, formData, componentKey);
