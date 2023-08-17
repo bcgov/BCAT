@@ -143,6 +143,7 @@ export class SyncChefsDataService {
         originalName: file.originalName,
         applicationId: applicationId,
         data: file.data,
+        chefsId: file.data.id,
       } as Attachment;
 
       await this.attachmentService.createOrUpdateAttachment(newAttachmentData);

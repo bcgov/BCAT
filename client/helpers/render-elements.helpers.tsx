@@ -227,7 +227,8 @@ const renderUsageCountForm = (e: any, data: any, container: any) => {
     // create array of key and label values from the form grid
     usageCountGrid?.components.forEach((c: any) => {
       c.columns.forEach((ic: any) => {
-        // some obj have more than 1 column of data and some have just 2 columns, but 1 is always empty
+        // some obj have more than 1 column of data
+        // and some have just 2 columns, but 1 of the 2 is always empty
         if (ic.components.length === 0) {
           return;
         } else {
