@@ -23,7 +23,6 @@ const SIMPLE_TYPES = [
   'textfield',
   'simplenumberadvanced',
   'simplenumber',
-  'simplecheckbox',
 ];
 
 // array of types such as banners, info, headings etc.
@@ -31,7 +30,6 @@ export const NOT_TO_BE_RENDERED = [
   'button',
   'htmlelement',
   'simplebuttonadvanced',
-  'simplecheckboxadvanced',
   'simplecontent',
 ];
 
@@ -75,7 +73,7 @@ const renderGeneralField = (e: any, data: any, container: string) => {
     return;
   }
 
-  let value = '';
+  let value;
   const label = getLabel(e);
 
   // TODO: try removing Infrastructure Type container in Section 4
@@ -193,6 +191,9 @@ const organizeFieldsetData = (e: any, formData: any, componentKey?: any) => {
             );
           case 'well':
             return renderWell(c, formData, componentKey);
+          case 'simplecheckbox':
+          case 'simplecheckboxadvanced':
+            return renderCheckbox(c, formData, componentKey);
           case 'simpleradios':
           case 'simpleradioadvanced':
           case 'radio':
@@ -202,6 +203,23 @@ const organizeFieldsetData = (e: any, formData: any, componentKey?: any) => {
         }
       }
     });
+};
+
+const renderCheckbox = (e: any, data: any, container?: any) => {
+  const label = getLabel(e);
+  const value = data[container][e.key];
+  let valueRender = 'Yes' || '-';
+
+  if (value === false) {
+    valueRender = 'No';
+  }
+
+  return (
+    <div key={e.id} className='w-fit grid grid-flow-row'>
+      <span className='font-bold'>{label}</span>
+      <span key={e.key}>{`${valueRender}`}</span>
+    </div>
+  );
 };
 
 // TODO: cleanup, remove hardcoded values, testing purposes
@@ -308,6 +326,9 @@ const renderRespectiveElement = (e: any, formData: any, downloadFile: any, compo
           return renderFile(e, formData, downloadFile, componentKey);
         case 'well':
           return renderWell(e.components[0], formData, componentKey);
+        case 'simplecheckbox':
+        case 'simplecheckboxadvanced':
+          return renderCheckbox(e, formData, componentKey);
         case 'simpleradios':
         case 'simpleradioadvanced':
         case 'radio':
