@@ -1,6 +1,13 @@
 import Image from 'next/image';
 import { Button } from '@components';
 
+// grid key for the usage count form
+const GRID_KEY = 's5UsageCountFormGrid';
+
+//styles for usage form grid
+const headerTdStyles = 'px-6 py-4 text-left font-bold text-sm border-b-2 border-bcYellowWarning';
+const bodyTdStyles = 'px-6 py-4 text-left text-sm ';
+
 // array of simple types that can use basic renderGeneralField
 const SIMPLE_TYPES = [
   'currency',
@@ -88,24 +95,6 @@ const renderGeneralField = (e: any, data: any, container: string) => {
     </div>
   );
 };
-
-// const renderDataMap = (e: any, data: any) => (
-//   <>
-//     <span className='font-bold'>{e.label}</span>
-//     {Object.entries(data[e.key]).map(([key, value]) => (
-//       <span key={key}>{`${key}: ${value ?? '-'}`}</span>
-//     ))}
-//   </>
-// );
-
-// const renderDataGrid = (e: any, data: any, downloadFile: any) => (
-//   <>
-//     <span className='font-bold'>{e.label}</span>
-//     {data[e.key]?.map((eachFormData: any) =>
-//       e?.components?.map((e: any) => renderElement(e, eachFormData, downloadFile)),
-//     )}
-//   </>
-// );
 
 const renderFile = (e: any, data: any, downloadFile: any, container: string) => {
   const file = data[container][e.key];
@@ -214,40 +203,79 @@ const organizeFieldsetData = (e: any, formData: any, componentKey?: any) => {
       }
     });
 };
-// TODO: cleanup, remove hardcoded values, testing purposes
-// const renderUsageCountForm = (e: any, data: any, container: any) => {
-//   const formData = data[container];
 
-//   if (formData['s5UsageCountFormInNotApplicableForSelectedTypesOfAtInfrastructure']) {
-//     return (
-//       <div key={'s5UsageCountFormInNotApplicable'} className='col-span-2 w-fit grid grid-flow-row'>
-//         <span className='font-bold'>
-//           Usage Count Form is not applicable for selected type(s) infrastructures
-//         </span>
-//         <span
-//           key={e.key}
-//         >{`${data[container]['s5UsageCountFormInNotApplicableForSelectedTypesOfAtInfrastructure']}`}</span>
-//       </div>
-//     );
-//   } else {
-//     const GRID_KEY = 's5UsageCountFormGrid';
-//     const usageCountGrid = e.find((ug: any) => ug.key === GRID_KEY);
-//     const count = data[container][GRID_KEY].length;
-//     return usageCountGrid?.components?.map((i: any, index: number) => {
-//       return i.columns[0]?.components?.map((d: any) => {
-//         console.log(index, i);
-//         return (
-//           <div className='grid grid-cols-4'>
-//             <div key={d.id} className='w-fit grid grid-flow-row'>
-//               <span className='font-bold'>{d.label}</span>
-//               <span key={d.key}>{`${data[container][GRID_KEY][0][d.key] ?? '-'}`}</span>
-//             </div>
-//           </div>
-//         );
-//       });
-//     });
-//   }
-// };
+// TODO: cleanup, remove hardcoded values, testing purposes
+const renderUsageCountForm = (e: any, data: any, container: any) => {
+  const formData = data[container];
+
+  if (formData['s5UsageCountFormInNotApplicableForSelectedTypesOfAtInfrastructure']) {
+    return (
+      <div key={'s5UsageCountFormInNotApplicable'} className='col-span-2 w-fit grid grid-flow-row'>
+        <span className='font-bold'>
+          Usage Count Form is not applicable for selected type(s) infrastructures
+        </span>
+        <span
+          key={e.key}
+        >{`${data[container]['s5UsageCountFormInNotApplicableForSelectedTypesOfAtInfrastructure']}`}</span>
+      </div>
+    );
+  } else {
+    const formInfo: { key: string; label: string }[] = [];
+    const usageCountGrid = e.find((ug: any) => ug.key === GRID_KEY);
+    const usageFormData = data[container][GRID_KEY];
+
+    // create array of key and label values from the form grid
+    usageCountGrid?.components.forEach((c: any) => {
+      c.columns.forEach((ic: any) => {
+        // some obj have more than 1 column of data and some have just 2 columns, but 1 is always empty
+        if (ic.components.length === 0) {
+          return;
+        } else {
+          const obj = ic.components[0];
+          formInfo.push({ key: obj?.key, label: obj?.label });
+        }
+      });
+    });
+
+    return (
+      <div className='col-span-2'>
+        <table className='min-w-full border-2 border-black rounded'>
+          <thead className='bg-bcGrayInput'>
+            <tr>
+              {formInfo &&
+                formInfo.map((f: any) => (
+                  <th key={f.label} scope='col' className={headerTdStyles}>
+                    {f.label}
+                  </th>
+                ))}
+            </tr>
+          </thead>
+          {usageFormData &&
+            usageFormData.map((ad: any, index: number) => (
+              <tr
+                key={formInfo[index].label + index}
+                className='bg-white border-b-2 even:bg-bcGrayInput border-gray-200'
+              >
+                <td className={bodyTdStyles}>{ad[formInfo[0].key] || '-'}</td>
+                <td className={bodyTdStyles}>{ad[formInfo[1].key] || '-'}</td>
+                <td className={bodyTdStyles}>{ad[formInfo[2].key] || '-'}</td>
+                <td className={bodyTdStyles}>{ad[formInfo[3].key] || '-'}</td>
+                <td className={bodyTdStyles}>{ad[formInfo[4].key] || '-'}</td>
+                <td className={bodyTdStyles}>{ad[formInfo[5].key] || '-'}</td>
+              </tr>
+            ))}
+          <tr className='bg-white border-b-2 even:bg-bcGrayInput border-gray-200'>
+            <td colSpan={2}></td>
+            <td className={`${bodyTdStyles} font-bold`}>Totals</td>
+            <td className={bodyTdStyles}>{data[container]['bicycleCount']}</td>
+            <td className={bodyTdStyles}>{data[container]['pedestrianCount']}</td>
+            <td className={bodyTdStyles}>{data[container]['otherCount']}</td>
+          </tr>
+        </table>
+      </div>
+    );
+  }
+};
 
 const renderRadioValue = (e: any, data: any, container?: any) => {
   const label = getLabel(e);
@@ -265,35 +293,35 @@ const renderRadioValue = (e: any, data: any, container?: any) => {
 
 const renderRespectiveElement = (e: any, formData: any, downloadFile: any, componentKey?: any) => {
   if (!NOT_TO_BE_RENDERED.includes(e.type)) {
-    // if (e?.key === 'usageCountFormSet') {
-    //   return renderUsageCountForm(e?.components, formData, componentKey);
-    // } else if (e?.key === 's5UsageCountFormInNotApplicableForSelectedTypesOfAtInfrastructure') {
-    //   return;
-    // } else {
-    switch (e.type) {
-      case 'simpleselectboxesadvanced':
-        return renderSelectBoxes(e, formData, componentKey);
-      case 'fieldset':
-        return organizeFieldsetData(e, formData, componentKey);
-      case 'simplefile':
-        return renderFile(e, formData, downloadFile, componentKey);
-      case 'well':
-        return renderWell(e.components[0], formData, componentKey);
-      case 'simpleradios':
-      case 'simpleradioadvanced':
-      case 'radio':
-        return renderRadioValue(e, formData, componentKey);
-      // TODO: can remove this if we can get rid of S4 nested container
-      case 'container':
-        return renderContainer(e, formData, componentKey);
-      default:
-        if (SIMPLE_TYPES.includes(e.type)) {
-          return renderGeneralField(e, formData, componentKey);
-        }
-        return renderNoTypeFound(e, formData);
+    if (e?.key === 'usageCountFormSet') {
+      return renderUsageCountForm(e?.components, formData, componentKey);
+    } else if (e?.key === 's5UsageCountFormInNotApplicableForSelectedTypesOfAtInfrastructure') {
+      return;
+    } else {
+      switch (e.type) {
+        case 'simpleselectboxesadvanced':
+          return renderSelectBoxes(e, formData, componentKey);
+        case 'fieldset':
+          return organizeFieldsetData(e, formData, componentKey);
+        case 'simplefile':
+          return renderFile(e, formData, downloadFile, componentKey);
+        case 'well':
+          return renderWell(e.components[0], formData, componentKey);
+        case 'simpleradios':
+        case 'simpleradioadvanced':
+        case 'radio':
+          return renderRadioValue(e, formData, componentKey);
+        // TODO: can remove this if we can get rid of S4 nested container
+        case 'container':
+          return renderContainer(e, formData, componentKey);
+        default:
+          if (SIMPLE_TYPES.includes(e.type)) {
+            return renderGeneralField(e, formData, componentKey);
+          }
+          return renderNoTypeFound(e, formData);
+      }
     }
   }
-  //}
 };
 
 export const renderElement = (e: any, formData: any, downloadFile: any, componentKey?: any) => (
