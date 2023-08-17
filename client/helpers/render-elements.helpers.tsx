@@ -35,7 +35,6 @@ const SIMPLE_TYPES = [
   'textfield',
   'simplenumberadvanced',
   'simplenumber',
-  'simplecheckbox',
 ];
 
 // array of types such as banners, info, headings etc.
@@ -373,6 +372,9 @@ const renderRespectiveElement = (e: any, formData: any, downloadFile: any, compo
           return renderFile(e, formData, downloadFile, componentKey);
         case 'well':
           return renderWell(e.components[0], formData, componentKey);
+        case 'simplecheckbox':
+        case 'simplecheckboxadvanced':
+          return renderCheckbox(e, formData, componentKey);
         case 'simpleradios':
         case 'simpleradioadvanced':
         case 'radio':

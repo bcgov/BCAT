@@ -42,7 +42,6 @@ const ApplicationDetails: NextPage = () => {
     updateEvaluator,
     userList,
   } = useApplicationDetails(id);
-  // console.log(formData);
 
   return (
     <>
