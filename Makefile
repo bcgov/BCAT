@@ -79,31 +79,31 @@ close-local:
 	@docker-compose -f docker-compose.dev.yml down
 
 local-client-workspace:
-	@docker exec -it $(PROJECT)-client sh
+	@docker exec -it $(PROJECT)_client sh
 
 local-server-workspace:
-	@docker exec -it $(PROJECT)-server sh
+	@docker exec -it $(PROJECT)-api sh
 
 local-db-workspace:
-	@docker exec -it $(PROJECT)-database bash
+	@docker exec -it $(PROJECT)_db bash
 
 migrate-database-up:
-	@docker exec -i $(PROJECT)-server npm run migrations-up
+	@docker exec -i $(PROJECT)-api npm run migrations-up
 	
 migrate-database-down:
-	@docker exec -i $(PROJECT)-server npm run migrations-down
+	@docker exec -i $(PROJECT)-api npm run migrations-down
 
 local-server-logs:
-	@docker logs $(PROJECT)-server --tail 25 --follow
+	@docker logs $(PROJECT)-api --tail 25 --follow
 
 local-client-logs:
-	@docker logs $(PROJECT)-client --tail 25 --follow
+	@docker logs $(PROJECT)_client --tail 25 --follow
 
 local-db-logs:
 	@docker logs $(PROJECT)_db --tail 25 --follow
 
 curl-client:
-	@docker exec -i $(PROJECT)-server curl localhost:3000
+	@docker exec -i $(PROJECT)-api curl localhost:3000
 
 add-role:
 	@oc policy add-role-to-user admin system:serviceaccount:$(TARGET_NAMESPACE):default -n $(TOOLS_NAMESPACE)
@@ -111,17 +111,17 @@ add-role:
 networking-prep:
 	@oc process -f openshift/networking.yml | oc apply -n $(TARGET_NAMESPACE) -f -
 
-db-prep:
-	@oc process -f openshift/patroni.prep.yml -p APP_NAME=$(APP_NAME) | oc create -n $(TARGET_NAMESPACE) -f -
-	@oc policy add-role-to-user system:image-puller system:serviceaccount:$(TARGET_NAMESPACE):$(APP_NAME)-patroni -n $(TOOLS_NAMESPACE)
+# db-prep:
+# 	@oc process -f openshift/patroni.prep.yml -p APP_NAME=$(APP_NAME) | oc create -n $(TARGET_NAMESPACE) -f -
+# 	@oc policy add-role-to-user system:image-puller system:serviceaccount:$(TARGET_NAMESPACE):$(APP_NAME)-patroni -n $(TOOLS_NAMESPACE)
 
-db-create:
-	@oc process -f openshift/patroni.bc.yml -p APP_NAME=$(APP_NAME) | oc apply -n $(TOOLS_NAMESPACE) -f -
-	@oc process -f openshift/patroni.dc.yml -p APP_NAME=$(APP_NAME) IMAGE_NAMESPACE=$(TOOLS_NAMESPACE) | oc apply -n $(TARGET_NAMESPACE) -f -
+# db-create:
+# 	@oc process -f openshift/patroni.bc.yml -p APP_NAME=$(APP_NAME) | oc apply -n $(TOOLS_NAMESPACE) -f -
+# 	@oc process -f openshift/patroni.dc.yml -p APP_NAME=$(APP_NAME) IMAGE_NAMESPACE=$(TOOLS_NAMESPACE) | oc apply -n $(TARGET_NAMESPACE) -f -
 
-db-postgres-tunnel:
-	@oc project $(TARGET_NAMESPACE)
-	@oc port-forward $(APP_NAME)-patroni-0 5432
+# db-postgres-tunnel:
+# 	@oc project $(TARGET_NAMESPACE)
+# 	@oc port-forward $(APP_NAME)-patroni-0 5432
 
 # server-prep:
 # 	@oc process -f openshift/ches.prep.yml -p APP_NAME=$(APP_NAME) | oc create -n $(TARGET_NAMESPACE) -f -

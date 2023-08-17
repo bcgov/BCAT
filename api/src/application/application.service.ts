@@ -38,21 +38,33 @@ export class ApplicationService {
       .createQueryBuilder('app')
       .leftJoinAndSelect('app.assignedTo', 'assignedTo');
 
-    if (query.facilityName) {
-      queryBuilder.andWhere('app.facilityName ILIKE :facilityName', {
-        facilityName: `%${query.facilityName}%`,
+    if (query.applicationType) {
+      queryBuilder.andWhere('app.applicationType ILIKE :applicationType', {
+        applicationType: `%${query.applicationType}%`,
+      });
+    }
+
+    if (query.applicantName) {
+      queryBuilder.andWhere('app.applicantName ILIKE :applicantName', {
+        applicantName: `%${query.applicantName}%`,
       });
     }
 
     if (query.confirmationId) {
-      queryBuilder.andWhere('app.confirmationId = :confirmationId', {
+      queryBuilder.andWhere('LOWER(app.confirmationId) = LOWER(:confirmationId)', {
         confirmationId: query.confirmationId,
       });
     }
 
+    if (query.totalCost) {
+      queryBuilder.andWhere('app.totalEstimatedCost = :totalCost', {
+        totalCost: query.totalCost,
+      });
+    }
+
     if (query.assignedTo) {
-      queryBuilder.andWhere('app.assignedTo = :assignedTo', {
-        assignedTo: query.assignedTo,
+      queryBuilder.andWhere('assignedTo.displayName ILIKE :assignedTo', {
+        assignedTo: `%${query.assignedTo}%`,
       });
     }
 

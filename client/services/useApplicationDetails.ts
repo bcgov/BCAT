@@ -12,7 +12,7 @@ import {
 } from '../constants';
 import { KeyValuePair } from '../constants/interfaces';
 import { downloadHtmlAsPdf } from '../constants/util';
-import { useAuthContext, UserInterface } from '../contexts';
+import { UserInterface } from '../contexts';
 import { NEXT_PUBLIC_INFRASTRUCTURE_PROJECT, NEXT_PUBLIC_NETWORK_PROJECT } from '../pages/_app';
 import { useHttp } from './useHttp';
 import { useTeamManagement } from './useTeamManagement';
@@ -27,7 +27,6 @@ type ApplicationDetailsType = KeyValuePair & {
   lastUpdatedBy?: UserInterface;
   assignedTo?: UserInterface;
   status: ApplicationStatus;
-  facilityName: string;
   totalEstimatedCost: string;
   asks: string;
   updatedAt: string;
@@ -43,7 +42,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
 
   const { fetchData, sendApiRequest } = useHttp();
   const { userData } = useTeamManagement();
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
   const [applicationType, setApplicationType] = useState<ApplicationType | undefined>();
 
   const findApplicationType = (data: any): ApplicationType => {
@@ -61,7 +60,6 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
 
   const topStatusObj = [
     { title: 'Status', value: 'status' },
-    { title: 'Facility', value: 'facilityName' },
     { title: 'Estimated cost', value: 'totalEstimatedCost' },
     { title: 'Asks', value: 'asks' },
     { title: 'Last updated', value: 'updatedAt' },
@@ -107,30 +105,30 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   const getNextStatusUpdates = (id: number, status: ApplicationStatus) => {
     const statusUpdates = [];
 
+    // TODO: confirm logic for updating statuses
     switch (status) {
-      case ApplicationStatus.INITIAL_REVIEW:
+      case ApplicationStatus.RECEIVED:
+        // if (user?.isAdmin) {
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
-          onClick: () => updateStatus(id, ApplicationStatus.FUNDING_REVIEW),
+          onClick: () => updateStatus(id, ApplicationStatus.ASSIGNED),
         });
         statusUpdates.push({
           label: NextStatusUpdates.DISCARD,
-          onClick: () => updateStatus(id, ApplicationStatus.DISCARD),
+          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
         });
+        // }
         break;
-      case ApplicationStatus.FUNDING_REVIEW:
+
+      case ApplicationStatus.ASSIGNED:
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
-          onClick: () => updateStatus(id, ApplicationStatus.BROADER_REVIEW),
+          onClick: () => updateStatus(id, ApplicationStatus.WORKSHOP),
         });
-        break;
-      case ApplicationStatus.BROADER_REVIEW:
-        if (user?.isAdmin) {
-          statusUpdates.push({
-            label: NextStatusUpdates.PROCEED,
-            onClick: () => updateStatus(id, ApplicationStatus.WORKSHOP),
-          });
-        }
+        statusUpdates.push({
+          label: NextStatusUpdates.DISCARD,
+          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
+        });
         break;
 
       case ApplicationStatus.WORKSHOP:
@@ -138,7 +136,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
         // TODO: Logic after workshop process
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
-          onClick: () => alert('WIP'),
+          onClick: () => updateStatus(id, ApplicationStatus.APPROVED),
         });
         break;
     }
@@ -162,7 +160,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   };
 
   const isPanelDefaultOpen = (index: number, status: string, title: string): boolean => {
-    if (status === ApplicationStatus.FUNDING_REVIEW) {
+    if (status === ApplicationStatus.ASSIGNED) {
       return title === 'Funding and Project Cost Estimate Information';
     }
 

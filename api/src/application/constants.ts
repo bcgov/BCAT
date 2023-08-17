@@ -1,10 +1,10 @@
 import { ApplicationType } from '../common/constants';
 
 export enum ApplicationStatus {
-  INITIAL_REVIEW = 'INITIAL_REVIEW',
-  DISCARD = 'DISCARD',
-  FUNDING_REVIEW = 'FUNDING_REVIEW',
-  BROADER_REVIEW = 'BROADER_REVIEW',
+  RECEIVED = 'RECEIVED',
+  ASSIGNED = 'ASSIGNED',
+  APPROVED = 'APPROVED',
+  DENIED = 'DENIED',
   WORKSHOP = 'WORKSHOP',
 }
 

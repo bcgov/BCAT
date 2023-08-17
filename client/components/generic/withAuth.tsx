@@ -12,7 +12,7 @@ export const withAuth = (Component: NextComponentType<NextPageContext>) => {
     const router = useRouter();
 
     useEffect(() => {
-      if (kcInitialized && !keycloak?.authenticated) {
+      if (kcInitialized && !keycloak?.authenticated && router.isReady) {
         router.replace(Routes.LOGIN);
       }
     }, [kcInitialized, keycloak?.authenticated]);

@@ -1,7 +1,6 @@
 import { ReviewCompletionStatus } from './constants';
 
 export interface ContactInfoInterface {
-  facilityName: string;
   applicantName: string;
   primaryContactName: string;
   phoneNumber: string;

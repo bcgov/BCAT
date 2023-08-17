@@ -16,6 +16,9 @@ export class Application extends RemovableBaseEntity {
   // It's dynamic, so putting any here
   submission: any;
 
+  @Column({ name: 'APPLICATION_TYPE', type: 'varchar', length: '100', nullable: true })
+  applicationType: string;
+
   @Column({ name: 'SUBMISSION_ID', type: 'uuid', nullable: false, unique: true })
   submissionId: string;
 
@@ -24,6 +27,9 @@ export class Application extends RemovableBaseEntity {
 
   @Column({ name: 'PROJECT_TITLE', type: 'varchar', length: '100', nullable: false })
   projectTitle: string;
+
+  @Column({ name: 'APPLICANT_NAME', type: 'varchar', length: '300', nullable: true })
+  applicantName?: string;
 
   @Column({ name: 'TOTAL_ESTIMATED_COST', type: 'money' })
   totalEstimatedCost?: string;
@@ -36,7 +42,7 @@ export class Application extends RemovableBaseEntity {
     type: 'varchar',
     length: '100',
     nullable: false,
-    default: ApplicationStatus.INITIAL_REVIEW,
+    default: ApplicationStatus.RECEIVED,
   })
   status: ApplicationStatus;
 

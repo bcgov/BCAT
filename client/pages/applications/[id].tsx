@@ -115,9 +115,7 @@ const ApplicationDetails: NextPage = () => {
           <div className='grid grid-cols-4 gap-4'>
             <div
               className={`${
-                [ApplicationStatus.BROADER_REVIEW, ApplicationStatus.WORKSHOP].includes(
-                  details.status,
-                )
+                [ApplicationStatus.WORKSHOP].includes(details.status)
                   ? 'col-span-2'
                   : showComments
                   ? 'col-span-3'
@@ -156,7 +154,7 @@ const ApplicationDetails: NextPage = () => {
                 <Comments applicationId={id} onClose={() => setShowComments(false)} />
               </div>
             )}
-            {details && applicationType && details.status === ApplicationStatus.BROADER_REVIEW && (
+            {details && applicationType && (
               <div className='col-span-2 pb-4'>
                 <BroaderReview
                   applicationId={id}
