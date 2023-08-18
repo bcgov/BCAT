@@ -1,3 +1,4 @@
+import React from 'react';
 import { API_ENDPOINT } from '../../constants';
 import { useHttp } from '../../services/useHttp';
 import { NOT_TO_BE_RENDERED, renderElement } from 'helpers';
@@ -34,8 +35,8 @@ export const RenderCHFSElement: React.FC<any> = ({ component, formData }) => {
     !component.hidden &&
     !NOT_TO_BE_RENDERED.includes(component.type) &&
     (!NESTED_COMPONENTS.includes(component.type) ? (
-      component?.components?.map((c: any) => (
-        <>
+      component?.components?.map((c: any, index: number) => (
+        <React.Fragment key={`$cmp-${index}`}>
           {/* if legend exists, display as a header */}
           {c?.legend && (
             <span className='col-span-2 underline text-black text-xl font-bold capitalize'>
@@ -43,15 +44,17 @@ export const RenderCHFSElement: React.FC<any> = ({ component, formData }) => {
             </span>
           )}
           {renderElement(c, formData, downloadFile, component.key)}
-        </>
+        </React.Fragment>
       ))
     ) : (
       <>
-        {component.columns?.map((eachCol: any) =>
-          eachCol?.components?.components?.map((e: any) =>
-            renderElement(e, formData, downloadFile),
-          ),
-        )}
+        {component.columns?.map((eachCol: any, index: number) => (
+          <React.Fragment key={`$col-${index}`}>
+            {eachCol?.components?.components?.map((e: any) =>
+              renderElement(e, formData, downloadFile),
+            )}
+          </React.Fragment>
+        ))}
       </>
     ))
   );
