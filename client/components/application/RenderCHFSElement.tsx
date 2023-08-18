@@ -1,61 +1,12 @@
 import React from 'react';
-import { API_ENDPOINT } from '../../constants';
 import { useHttp } from '../../services/useHttp';
-import { NOT_TO_BE_RENDERED, renderElement } from 'helpers';
-
-const NESTED_COMPONENTS = ['simplecols2', 'columns'];
+import { renderElement } from 'helpers';
 
 export const RenderCHFSElement: React.FC<any> = ({ component, formData }) => {
   const { fetchData } = useHttp();
 
-  const downloadFile = (data: any) => {
-    fetchData(
-      {
-        endpoint: API_ENDPOINT.getApplicationAttachments(data.data.id),
-        responseType: 'blob',
-      },
-      (response: any) => {
-        const href = URL.createObjectURL(response);
-
-        // create "a" HTML element with href to file & click
-        const link = document.createElement('a');
-        link.href = href;
-        link.setAttribute('download', `${data.originalName}`); //or any other extension
-        document.body.appendChild(link);
-        link.click();
-
-        // clean up "a" element & remove ObjectURL
-        document.body.removeChild(link);
-        URL.revokeObjectURL(href);
-      },
-    );
-  };
-
   return (
     !component.hidden &&
-    !NOT_TO_BE_RENDERED.includes(component.type) &&
-    (!NESTED_COMPONENTS.includes(component.type) ? (
-      component?.components?.map((c: any, index: number) => (
-        <React.Fragment key={`$cmp-${index}`}>
-          {/* if legend exists, display as a header */}
-          {c?.legend && (
-            <span className='col-span-2 underline text-black text-xl font-bold capitalize'>
-              {c?.legend}
-            </span>
-          )}
-          {renderElement(c, formData, downloadFile, component.key)}
-        </React.Fragment>
-      ))
-    ) : (
-      <>
-        {component.columns?.map((eachCol: any, index: number) => (
-          <React.Fragment key={`$col-${index}`}>
-            {eachCol?.components?.components?.map((e: any) =>
-              renderElement(e, formData, downloadFile),
-            )}
-          </React.Fragment>
-        ))}
-      </>
-    ))
+    renderElement(component, formData, component.key, fetchData)
   );
 };

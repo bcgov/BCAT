@@ -1,12 +1,9 @@
+import React from 'react';
 import Image from 'next/image';
 import { Button } from '@components';
+import { API_ENDPOINT } from '../constants';
 
-// grid key for the usage count form
-const GRID_KEY = 's5UsageCountFormGrid';
-
-//styles for usage form grid
-const headerTdStyles = 'px-6 py-4 text-left font-bold text-sm border-b-2 border-bcYellowWarning';
-const bodyTdStyles = 'px-6 py-4 text-left text-sm ';
+const NO_DATA_LABEL = '-';
 
 // array of simple types that can use basic renderGeneralField
 const SIMPLE_TYPES = [
@@ -15,23 +12,19 @@ const SIMPLE_TYPES = [
   'phoneNumber',
   'select',
   'simplecurrencyadvanced',
+  'simpledatetimeadvanced',
+  'simplenumber',
+  'simplenumberadvanced',
   'simpletextarea',
   'simpletextareaadvanced',
   'simpletextfield',
   'simpletextfieldadvanced',
   'textarea',
   'textfield',
-  'simplenumberadvanced',
-  'simplenumber',
 ];
 
 // array of types such as banners, info, headings etc.
-export const NOT_TO_BE_RENDERED = [
-  'button',
-  'htmlelement',
-  'simplebuttonadvanced',
-  'simplecontent',
-];
+const NOT_TO_BE_RENDERED = ['button', 'htmlelement', 'simplebuttonadvanced', 'simplecontent'];
 
 // some questions require wording changes on FE,
 // portalWording is a custom key containing the updated wording added by us, sent from CHEFS
@@ -39,13 +32,155 @@ const getLabel = (component: any) => {
   return component.properties?.portalWording ?? component.label;
 };
 
-// TODO: try removing fields from form
 const MISC_LABELS_TO_REMOVE = ['primaryContactColumns', 'secondaryContactColumns', 'Text/Images'];
+
+const renderCheckbox = (e: any, data: any, container: string) => {
+  const label = getLabel(e);
+  const value = data[container][e.key];
+  let valueRender = 'Yes' || NO_DATA_LABEL;
+
+  if (value === false) {
+    valueRender = 'No';
+  }
+
+  return (
+    <div key={e.id} className='w-fit grid grid-flow-row'>
+      <span className='font-bold'>{label}</span>
+      <span key={e.key}>{`${valueRender}`}</span>
+    </div>
+  );
+};
+
+const renderCountTable = (e: any, data: any, container: string) => {
+  return e.rows?.map((r: any) => renderGeneralField(r[1].components[0], data, container));
+};
+
+const renderColumns = (e: any, data: any, container: string, fetchData?: any) => {
+  return e.columns?.map((col: any) => {
+    return col.components?.map((component: any) => {
+      if (
+        NOT_TO_BE_RENDERED.includes(component.type) ||
+        MISC_LABELS_TO_REMOVE.includes(component.label)
+      )
+        return;
+      return renderElementType(component, data, container, fetchData);
+    });
+  });
+};
+
+const renderFieldSet = (e: any, data: any, container: string, fetchData?: any) => {
+  return (
+    <React.Fragment key={e.id}>
+      {e.legend && (
+        <span className='col-span-2 underline text-black text-xl font-bold capitalize'>
+          {e.legend}
+        </span>
+      )}
+
+      {e.components?.map((c: any) => {
+        if (NOT_TO_BE_RENDERED.includes(c.type) || MISC_LABELS_TO_REMOVE.includes(c.label)) return;
+        return renderElementType(c, data, container, fetchData);
+      })}
+    </React.Fragment>
+  );
+};
+
+const renderChildComponents = (e: any, data: any, container: string, fetchData?: any) => {
+  return e.components?.map((c: any) => {
+    if (NOT_TO_BE_RENDERED.includes(c.type) || MISC_LABELS_TO_REMOVE.includes(c.label)) return;
+    return renderElementType(c, data, container, fetchData);
+  });
+};
+
+const renderFile = (e: any, data: any, container: string, fetchData: any) => {
+  const files = data[container][e.key];
+  const label = getLabel(e);
+
+  const downloadFile = (data: any) => {
+    fetchData(
+      {
+        endpoint: API_ENDPOINT.getApplicationAttachments(data.data.id),
+        responseType: 'blob',
+      },
+      (response: any) => {
+        const href = URL.createObjectURL(response);
+
+        // create "a" HTML element with href to file & click
+        const link = document.createElement('a');
+        link.href = href;
+        link.setAttribute('download', `${data.originalName}`); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+
+        // clean up "a" element & remove ObjectURL
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href);
+      },
+    );
+  };
+
+  if (!files) return;
+
+  return (
+    <div key={e.id} className='w-fit grid grid-flow-row'>
+      <span className='font-bold'>{label}</span>
+      {files.length === 1 ? (
+        <Button variant='link' customClass='text-left' onClick={() => downloadFile(files[0])}>
+          {files[0]['originalName']}
+        </Button>
+      ) : (
+        NO_DATA_LABEL
+      )}
+    </div>
+  );
+};
+
+const renderGeneralField = (e: any, data: any, container: string) => {
+  if (MISC_LABELS_TO_REMOVE.includes(e.label)) {
+    return;
+  }
+
+  const value = data[container][e.key];
+  const label = getLabel(e);
+
+  return (
+    <div key={e.id} className='w-fit grid grid-flow-row'>
+      <span className='font-bold'>{label}</span>
+      <span key={e.key}>
+        {(e.type === 'currency' || e.type === 'simplecurrencyadvanced') && 'CA$'}
+        {`${value || NO_DATA_LABEL}`}
+      </span>
+    </div>
+  );
+};
+
+const renderNoTypeFound = (e: any, data: any) => {
+  return (
+    <React.Fragment key={`e-${e.id}`}>
+      <h3> Not a simple component {e.type}</h3>
+      <h3>{e.key}</h3>
+      <h3>{JSON.stringify(data[e.key])}</h3>
+    </React.Fragment>
+  );
+};
+
+const renderRadioValue = (e: any, data: any, container: string) => {
+  const label = getLabel(e);
+  const value = data[container][e.key];
+
+  return (
+    <div key={e.id} className='w-fit grid grid-flow-row'>
+      <span className='font-bold'>{label}</span>
+      <span key={e.key}>{`${
+        e.values?.find((item: any) => String(item.value) === String(value))?.label ?? NO_DATA_LABEL
+      }`}</span>
+    </div>
+  );
+};
 
 const renderSelectBoxes = (e: any, data: any, container: string) => {
   const label = getLabel(e);
-  // TODO: try removing Infrastructure Type container in Section 4
-  const values = container === 's4Container' ? data?.[e.key] : data?.[container]?.[e.key];
+  const values = data[container][e.key];
 
   const selectedKeys = Object.entries(values)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -60,227 +195,71 @@ const renderSelectBoxes = (e: any, data: any, container: string) => {
       <span className='font-bold'>{label}</span>
       <span>
         {filteredValues.length === 0
-          ? '-'
+          ? NO_DATA_LABEL
           : filteredValues.map((item: any) => item.label).join(', ')}
       </span>
     </div>
   );
 };
 
-const renderGeneralField = (e: any, data: any, container: string) => {
-  // TODO: try removing fields from form
-  if (MISC_LABELS_TO_REMOVE.includes(e.label)) {
-    return;
-  }
-
-  let value;
+const renderSignature = (e: any, data: any, container: string) => {
   const label = getLabel(e);
 
-  // TODO: try removing Infrastructure Type container in Section 4
-  if (container === 's4Container' && data?.[e.key]) {
-    value = data?.[e.key];
-  } else {
-    value = data?.[container]?.[e.key];
-  }
-
   return (
-    <div key={e.id} className='w-fit grid grid-flow-row'>
+    <div key={e.id} className='w-1/2 grid grid-flow-row'>
       <span className='font-bold'>{label}</span>
-      <span key={e.key}>
-        {(e.type === 'currency' || e.type === 'simplecurrencyadvanced') && 'CA$'}
-        {`${value || '-'}`}
-      </span>
+      <Image src={data[container][e.key]} alt={e.label} width='50' height='100' />
     </div>
   );
 };
 
-const renderFile = (e: any, data: any, downloadFile: any, container: string) => {
-  const file = data[container][e.key];
-  const label = getLabel(e);
+const renderUsageCountForm = (e: any, data: any, container: string) => {
+  const headerTdStyles = 'px-6 py-4 text-left font-bold text-sm border-b-2 border-bcYellowWarning';
+  const bodyTdStyles = 'px-6 py-4 text-left text-sm ';
 
-  return (
-    <div key={e.id} className='w-fit grid grid-flow-row'>
-      <span className='font-bold'>{label}</span>
-      {file?.length == 1 ? (
-        <Button variant='link' onClick={() => downloadFile(file[0])}>
-          {file[0]['originalName']}
-        </Button>
-      ) : (
-        '-'
-      )}
-    </div>
-  );
-};
+  const formInfo: { key: string; label: string }[] = [];
+  const usageFormData = data[container][e.key];
 
-const renderWell = (e: any, data: any, container: string) => {
-  // signature element
-  if (e.components[0].columns) {
-    const component = e.components[0].columns;
-    const sig = component[0].components[0];
-    const name = component[1].components[0];
-    const date = component[1].components[1];
-    const nameLabel = getLabel(name);
-    const dateLabel = getLabel(date);
-    const sigLabel = getLabel(sig);
-
-    return (
-      <div key={component.id} className='w-1/2 grid grid-flow-row'>
-        <span className='font-bold'>{nameLabel}</span>
-        <span>{`${data[container][name.key] || '-'}`}</span>
-        <span className='font-bold'>{dateLabel}</span>
-        <span>{`${data[container][date.key] || '-'}`}</span>
-        <span className='font-bold'>{sigLabel}</span>
-        <Image src={data[container][sig.key]} alt={sig.label} width='50' height='100' />
-      </div>
-    );
-  } else {
-    return e.components.map((c: any) => {
-      const label = getLabel(c);
-      // type object means nested item is a select box
-      if (typeof data[container][c.key] === 'object') {
-        return renderSelectBoxes(c, data, container);
-      } else {
-        return (
-          <div key={c.id} className='w-fit grid grid-flow-row'>
-            <span className='font-bold'>{label}</span>
-            <span key={c.key}>{`${data[container][c.key] || '-'}`}</span>
-          </div>
-        );
+  // create array of key and label values from the form grid
+  e?.components.forEach((c: any) => {
+    c.columns.forEach((ic: any) => {
+      // some obj have more than 1 column of data
+      // and some have just 2 columns, but 1 of the 2 is always empty
+      if (ic.components.length === 0) {
+        return;
       }
+
+      const obj = ic.components[0];
+      formInfo.push({ key: obj?.key, label: obj?.label });
     });
-  }
-};
-
-const renderNoTypeFound = (e: any, formData: any) => {
-  return (
-    <>
-      <h3> Not a simple component {e.type}</h3>
-      <h3>{e.key}</h3>
-      <h3>{JSON.stringify(formData[e.key])}</h3>
-    </>
-  );
-};
-
-// TODO: can remove this if we can get rid of S4 nested container
-const renderContainer = (e: any, formData: any, container: string) => {
-  return e?.components
-    .filter((i: any) => !NOT_TO_BE_RENDERED.includes(i.type))
-    .map((c: any) =>
-      c.components
-        .filter((o: any) => !MISC_LABELS_TO_REMOVE.includes(o.label))
-        .map((u: any) =>
-          renderRespectiveElement(u, formData[container]['s4InfrastructureType'], null, container),
-        ),
-    );
-};
-
-const organizeFieldsetData = (e: any, formData: any, componentKey?: any) => {
-  return e?.components
-    ?.filter((i: any) => !NOT_TO_BE_RENDERED.includes(i.type))
-    .map((c: any) => {
-      if (Array.isArray(c.rows) && c.rows.length > 0) {
-        return c.rows?.map((r: any) =>
-          renderGeneralField(r[1].components[0], formData, componentKey),
-        );
-      } else {
-        switch (c.type) {
-          case 'columns':
-          case 'simplecols2':
-            return c.columns?.map((eachCol: any) =>
-              eachCol?.components?.map((ec: any) => renderGeneralField(ec, formData, componentKey)),
-            );
-          case 'well':
-            return renderWell(c, formData, componentKey);
-          case 'simplecheckbox':
-          case 'simplecheckboxadvanced':
-            return renderCheckbox(c, formData, componentKey);
-          case 'simpleradios':
-          case 'simpleradioadvanced':
-          case 'radio':
-            return renderRadioValue(c, formData, componentKey);
-          default:
-            return renderGeneralField(c, formData, componentKey);
-        }
-      }
-    });
-};
-
-const renderCheckbox = (e: any, data: any, container?: any) => {
-  const label = getLabel(e);
-  const value = data[container][e.key];
-  let valueRender = 'Yes' || '-';
-
-  if (value === false) {
-    valueRender = 'No';
-  }
+  });
 
   return (
-    <div key={e.id} className='w-fit grid grid-flow-row'>
-      <span className='font-bold'>{label}</span>
-      <span key={e.key}>{`${valueRender}`}</span>
-    </div>
-  );
-};
-
-// TODO: cleanup, remove hardcoded values, testing purposes
-const renderUsageCountForm = (e: any, data: any, container: any) => {
-  const formData = data[container];
-
-  if (formData['s5UsageCountFormInNotApplicableForSelectedTypesOfAtInfrastructure']) {
-    return (
-      <div key={'s5UsageCountFormInNotApplicable'} className='col-span-2 w-fit grid grid-flow-row'>
-        <span className='font-bold'>
-          Usage Count Form is not applicable for selected type(s) infrastructures
-        </span>
-        <span
-          key={e.key}
-        >{`${data[container]['s5UsageCountFormInNotApplicableForSelectedTypesOfAtInfrastructure']}`}</span>
-      </div>
-    );
-  } else {
-    const formInfo: { key: string; label: string }[] = [];
-    const usageCountGrid = e.find((ug: any) => ug.key === GRID_KEY);
-    const usageFormData = data[container][GRID_KEY];
-
-    // create array of key and label values from the form grid
-    usageCountGrid?.components.forEach((c: any) => {
-      c.columns.forEach((ic: any) => {
-        // some obj have more than 1 column of data
-        // and some have just 2 columns, but 1 of the 2 is always empty
-        if (ic.components.length === 0) {
-          return;
-        } else {
-          const obj = ic.components[0];
-          formInfo.push({ key: obj?.key, label: obj?.label });
-        }
-      });
-    });
-
-    return (
-      <div className='col-span-2'>
-        <table className='min-w-full border-2 border-black rounded'>
-          <thead className='bg-bcGrayInput'>
-            <tr>
-              {formInfo &&
-                formInfo.map((f: any) => (
-                  <th key={f.label} scope='col' className={headerTdStyles}>
-                    {f.label}
-                  </th>
-                ))}
-            </tr>
-          </thead>
+    <div className='col-span-2' key={e.id}>
+      <table className='min-w-full border-2 border-black rounded'>
+        <thead className='bg-bcGrayInput'>
+          <tr>
+            {formInfo &&
+              formInfo.map((f: any) => (
+                <th key={f.label} scope='col' className={headerTdStyles}>
+                  {f.label}
+                </th>
+              ))}
+          </tr>
+        </thead>
+        <tbody>
           {usageFormData &&
             usageFormData.map((ad: any, index: number) => (
               <tr
                 key={formInfo[index].label + index}
                 className='bg-white border-b-2 even:bg-bcGrayInput border-gray-200'
               >
-                <td className={bodyTdStyles}>{ad[formInfo[0].key] || '-'}</td>
-                <td className={bodyTdStyles}>{ad[formInfo[1].key] || '-'}</td>
-                <td className={bodyTdStyles}>{ad[formInfo[2].key] || '-'}</td>
-                <td className={bodyTdStyles}>{ad[formInfo[3].key] || '-'}</td>
-                <td className={bodyTdStyles}>{ad[formInfo[4].key] || '-'}</td>
-                <td className={bodyTdStyles}>{ad[formInfo[5].key] || '-'}</td>
+                <td className={bodyTdStyles}>{ad[formInfo[0].key] || NO_DATA_LABEL}</td>
+                <td className={bodyTdStyles}>{ad[formInfo[1].key] || NO_DATA_LABEL}</td>
+                <td className={bodyTdStyles}>{ad[formInfo[2].key] || NO_DATA_LABEL}</td>
+                <td className={bodyTdStyles}>{ad[formInfo[3].key] || NO_DATA_LABEL}</td>
+                <td className={bodyTdStyles}>{ad[formInfo[4].key] || NO_DATA_LABEL}</td>
+                <td className={bodyTdStyles}>{ad[formInfo[5].key] || NO_DATA_LABEL}</td>
               </tr>
             ))}
           <tr className='bg-white border-b-2 even:bg-bcGrayInput border-gray-200'>
@@ -290,62 +269,59 @@ const renderUsageCountForm = (e: any, data: any, container: any) => {
             <td className={bodyTdStyles}>{data[container]['pedestrianCount']}</td>
             <td className={bodyTdStyles}>{data[container]['otherCount']}</td>
           </tr>
-        </table>
-      </div>
-    );
-  }
-};
-
-const renderRadioValue = (e: any, data: any, container?: any) => {
-  const label = getLabel(e);
-  const value = data[container][e.key];
-
-  return (
-    <div key={e.id} className='w-fit grid grid-flow-row'>
-      <span className='font-bold'>{label}</span>
-      <span key={e.key}>{`${
-        e.values?.find((item: any) => String(item.value) === String(value))?.label ?? '-'
-      }`}</span>
+        </tbody>
+      </table>
     </div>
   );
 };
 
-const renderRespectiveElement = (e: any, formData: any, downloadFile: any, componentKey?: any) => {
-  if (!NOT_TO_BE_RENDERED.includes(e.type)) {
-    if (e?.key === 'usageCountFormSet') {
-      return renderUsageCountForm(e?.components, formData, componentKey);
-    } else if (e?.key === 's5UsageCountFormInNotApplicableForSelectedTypesOfAtInfrastructure') {
-      return;
-    } else {
-      switch (e.type) {
-        case 'simpleselectboxesadvanced':
-          return renderSelectBoxes(e, formData, componentKey);
-        case 'fieldset':
-          return organizeFieldsetData(e, formData, componentKey);
-        case 'simplefile':
-          return renderFile(e, formData, downloadFile, componentKey);
-        case 'well':
-          return renderWell(e.components[0], formData, componentKey);
-        case 'simplecheckbox':
-        case 'simplecheckboxadvanced':
-          return renderCheckbox(e, formData, componentKey);
-        case 'simpleradios':
-        case 'simpleradioadvanced':
-        case 'radio':
-          return renderRadioValue(e, formData, componentKey);
-        // TODO: can remove this if we can get rid of S4 nested container
-        case 'container':
-          return renderContainer(e, formData, componentKey);
-        default:
-          if (SIMPLE_TYPES.includes(e.type)) {
-            return renderGeneralField(e, formData, componentKey);
-          }
-          return renderNoTypeFound(e, formData);
+const renderElementType = (e: any, formData: any, componentKey: string, fetchData?: any) => {
+  switch (e.type) {
+    case 'datagrid':
+      return renderUsageCountForm(e, formData, componentKey);
+
+    case 'simpleselectboxesadvanced':
+      return renderSelectBoxes(e, formData, componentKey);
+
+    case 'columns':
+    case 'simplecols2':
+      return renderColumns(e, formData, componentKey, fetchData);
+
+    case 'fieldset':
+      return renderFieldSet(e, formData, componentKey, fetchData);
+
+    case 'container':
+    case 'well':
+      return renderChildComponents(e, formData, componentKey, fetchData);
+
+    case 'simplefile':
+      return renderFile(e, formData, componentKey, fetchData);
+
+    case 'simplecheckbox':
+    case 'simplecheckboxadvanced':
+      return renderCheckbox(e, formData, componentKey);
+
+    case 'simpleradios':
+    case 'simpleradioadvanced':
+    case 'radio':
+      return renderRadioValue(e, formData, componentKey);
+
+    case 'table':
+      return renderCountTable(e, formData, componentKey);
+
+    case 'simplesignatureadvanced':
+      return renderSignature(e, formData, componentKey);
+
+    default:
+      if (SIMPLE_TYPES.includes(e.type)) {
+        return renderGeneralField(e, formData, componentKey);
       }
-    }
+      return renderNoTypeFound(e, formData);
   }
 };
 
-export const renderElement = (e: any, formData: any, downloadFile: any, componentKey?: any) => (
-  <>{renderRespectiveElement(e, formData, downloadFile, componentKey)}</>
-);
+export const renderElement = (e: any, formData: any, componentKey: string, fetchData?: any) => {
+  if (!e || NOT_TO_BE_RENDERED.includes(e.type)) return;
+
+  return renderElementType(e, formData, componentKey, fetchData);
+};
