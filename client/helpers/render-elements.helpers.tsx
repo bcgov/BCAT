@@ -5,6 +5,10 @@ import { API_ENDPOINT } from '../constants';
 
 const NO_DATA_LABEL = '-';
 
+// this section contains a nested container needed for proper validation of fields in CHEFS
+const SECTION_4_CONTAINER = 's4Container';
+const SECTION_4_CONTAINER_KEY = 's4InfrastructureType';
+
 // array of simple types that can use basic renderGeneralField
 const SIMPLE_TYPES = [
   'currency',
@@ -180,15 +184,20 @@ const renderRadioValue = (e: any, data: any, container: string) => {
 
 const renderSelectBoxes = (e: any, data: any, container: string) => {
   const label = getLabel(e);
-  const values = data[container][e.key];
+  const values =
+    container === SECTION_4_CONTAINER
+      ? data[container][SECTION_4_CONTAINER_KEY][e.key]
+      : data[container][e.key];
 
-  const selectedKeys = Object.entries(values)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ?.filter(([_, value]) => value)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    .map(([key, _]) => key);
+  const selectedKeys = values
+    ? Object.entries(values)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ?.filter(([_, value]) => value)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .map(([key, _]) => key)
+    : undefined;
 
-  const filteredValues = e.values?.filter((item: any) => selectedKeys.includes(item.value));
+  const filteredValues = e.values?.filter((item: any) => selectedKeys?.includes(item.value));
 
   return (
     <div key={e.id} className='w-fit grid grid-flow-row'>
@@ -276,6 +285,12 @@ const renderUsageCountForm = (e: any, data: any, container: string) => {
 };
 
 const renderElementType = (e: any, formData: any, componentKey: string, fetchData?: any) => {
+  // this is the Totals columns for bicycle, pedestrian and other
+  // renamed to s5UsageCountFormTotalsColumns in most recent unpublished version 13 Infra
+  // it's its own object, need to check for it
+  if (e.key === 'columns') {
+    return;
+  }
   switch (e.type) {
     case 'datagrid':
       return renderUsageCountForm(e, formData, componentKey);
