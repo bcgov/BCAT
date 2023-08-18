@@ -6,13 +6,6 @@ import { formatDate } from 'utils';
 
 const NO_DATA_LABEL = '-';
 
-// grid key for the usage count form
-const GRID_KEY = 's5UsageCountFormGrid';
-
-//styles for usage form grid
-const headerTdStyles = 'px-6 py-4 text-left font-bold text-sm border-b-2 border-bcYellowWarning';
-const bodyTdStyles = 'px-6 py-4 text-left text-sm ';
-
 // array of simple types that can use basic renderGeneralField
 const SIMPLE_TYPES = [
   'currency',
@@ -33,8 +26,6 @@ const SIMPLE_TYPES = [
   'simpletextfieldadvanced',
   'textarea',
   'textfield',
-  'simplenumberadvanced',
-  'simplenumber',
 ];
 
 // array of types such as banners, info, headings etc.
@@ -238,13 +229,6 @@ const renderSignature = (e: any, data: any) => {
   const label = getLabel(e);
   const value = getValue(e.key, data);
 
-  // TODO: try removing Infrastructure Type container in Section 4
-  if (container === 's4Container' && data?.[e.key]) {
-    value = data?.[e.key];
-  } else {
-    value = data?.[container]?.[e.key];
-  }
-
   return (
     <div key={e.id} className='w-1/2 grid grid-flow-row'>
       <span className='font-bold'>{label}</span>
@@ -290,7 +274,6 @@ const renderUsageCountForm = (e: any, data: any) => {
           </tr>
         </thead>
         <tbody>
-
           {usageFormData &&
             usageFormData.map((ad: any, index: number) => (
               <tr
@@ -355,41 +338,6 @@ const renderElementType = (e: any, formData: any, fetchData?: any) => {
         return renderGeneralField(e, formData);
       }
       return renderNoTypeFound(e, formData);
-=======
-const renderRespectiveElement = (e: any, formData: any, downloadFile: any, componentKey?: any) => {
-  if (!NOT_TO_BE_RENDERED.includes(e.type)) {
-    if (e?.key === 'usageCountFormSet') {
-      return renderUsageCountForm(e?.components, formData, componentKey);
-    } else if (e?.key === 's5UsageCountFormInNotApplicableForSelectedTypesOfAtInfrastructure') {
-      return;
-    } else {
-      switch (e.type) {
-        case 'simpleselectboxesadvanced':
-          return renderSelectBoxes(e, formData, componentKey);
-        case 'fieldset':
-          return organizeFieldsetData(e, formData, componentKey);
-        case 'simplefile':
-          return renderFile(e, formData, downloadFile, componentKey);
-        case 'well':
-          return renderWell(e.components[0], formData, componentKey);
-        case 'simplecheckbox':
-        case 'simplecheckboxadvanced':
-          return renderCheckbox(e, formData, componentKey);
-        case 'simpleradios':
-        case 'simpleradioadvanced':
-        case 'radio':
-          return renderRadioValue(e, formData, componentKey);
-        // TODO: can remove this if we can get rid of S4 nested container
-        case 'container':
-          return renderContainer(e, formData, componentKey);
-        default:
-          if (SIMPLE_TYPES.includes(e.type)) {
-            return renderGeneralField(e, formData, componentKey);
-          }
-          return renderNoTypeFound(e, formData);
-      }
-    }
->>>>>>> a704687 (WIP - render more field types)
   }
 };
 
