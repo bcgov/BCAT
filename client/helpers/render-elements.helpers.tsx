@@ -13,8 +13,12 @@ const SIMPLE_TYPES = [
   'select',
   'simplecurrencyadvanced',
   'simpledatetimeadvanced',
+  'simpleemail',
+  'simpleemailadvanced',
   'simplenumber',
   'simplenumberadvanced',
+  'simplephonenumber',
+  'simplephonenumberadvanced',
   'simpletextarea',
   'simpletextareaadvanced',
   'simpletextfield',
@@ -48,21 +52,20 @@ const getValue = (componentKey: string, data: any, dataVal?: any) => {
   return dataVal || NO_DATA_LABEL;
 };
 
-const MISC_LABELS_TO_REMOVE = ['primaryContactColumns', 'secondaryContactColumns', 'Text/Images'];
+const MISC_LABELS_TO_REMOVE = ['Text/Images'];
 
 const renderCheckbox = (e: any, data: any) => {
   const label = getLabel(e);
-  const value = getValue(e.key, data);
-  let valueRender = 'Yes' || NO_DATA_LABEL;
+  let value = getValue(e.key, data);
 
-  if (value === false) {
-    valueRender = 'No';
+  if (value && value !== NO_DATA_LABEL) {
+    value = 'Yes';
   }
 
   return (
     <div key={e.id} className='w-fit grid grid-flow-row'>
       <span className='font-bold'>{label}</span>
-      <span key={e.key}>{`${valueRender}`}</span>
+      <span key={e.key}>{`${value}`}</span>
     </div>
   );
 };
@@ -74,11 +77,6 @@ const renderCountTable = (e: any, data: any) => {
 const renderColumns = (e: any, data: any, fetchData?: any) => {
   return e.columns?.map((col: any) => {
     return col.components?.map((component: any) => {
-      if (
-        NOT_TO_BE_RENDERED.includes(component.type) ||
-        MISC_LABELS_TO_REMOVE.includes(component.label)
-      )
-        return;
       return renderElementType(component, data, fetchData);
     });
   });
@@ -94,7 +92,6 @@ const renderFieldSet = (e: any, data: any, fetchData?: any) => {
       )}
 
       {e.components?.map((c: any) => {
-        if (NOT_TO_BE_RENDERED.includes(c.type) || MISC_LABELS_TO_REMOVE.includes(c.label)) return;
         return renderElementType(c, data, fetchData);
       })}
     </React.Fragment>
@@ -103,7 +100,6 @@ const renderFieldSet = (e: any, data: any, fetchData?: any) => {
 
 const renderChildComponents = (e: any, data: any, fetchData?: any) => {
   return e.components?.map((c: any) => {
-    if (NOT_TO_BE_RENDERED.includes(c.type) || MISC_LABELS_TO_REMOVE.includes(c.label)) return;
     return renderElementType(c, data, fetchData);
   });
 };
@@ -279,13 +275,6 @@ const renderUsageCountForm = (e: any, data: any) => {
                 <td className={bodyTdStyles}>{ad[formInfo[5].key] || NO_DATA_LABEL}</td>
               </tr>
             ))}
-          {/* <tr className='bg-white border-b-2 even:bg-bcGrayInput border-gray-200'>
-            <td colSpan={2}></td>
-            <td className={`${bodyTdStyles} font-bold`}>Totals</td>
-            <td className={bodyTdStyles}>{data[container]['bicycleCount']}</td>
-            <td className={bodyTdStyles}>{data[container]['pedestrianCount']}</td>
-            <td className={bodyTdStyles}>{data[container]['otherCount']}</td>
-          </tr> */}
         </tbody>
       </table>
     </div>
@@ -293,6 +282,8 @@ const renderUsageCountForm = (e: any, data: any) => {
 };
 
 const renderElementType = (e: any, formData: any, fetchData?: any) => {
+  if (NOT_TO_BE_RENDERED.includes(e.type) || MISC_LABELS_TO_REMOVE.includes(e.label)) return;
+
   switch (e.type) {
     case 'datagrid':
       return renderUsageCountForm(e, formData);
