@@ -32,11 +32,27 @@ const getLabel = (component: any) => {
   return component.properties?.portalWording ?? component.label;
 };
 
+const getValue = (componentKey: string, data: any, dataVal: any) => {
+  if (dataVal !== undefined && dataVal !== NO_DATA_LABEL) return dataVal;
+  
+  for (const [key, value] of Object.entries(data)) {
+    if (key === componentKey) {
+      dataVal = value;
+      break;
+    }
+
+    if (typeof value === 'object' && !Array.isArray(value)) {
+      dataVal = getValue(componentKey, value, dataVal);
+    }
+  }
+  return dataVal || NO_DATA_LABEL;
+};
+
 const MISC_LABELS_TO_REMOVE = ['primaryContactColumns', 'secondaryContactColumns', 'Text/Images'];
 
-const renderCheckbox = (e: any, data: any, container: string) => {
+const renderCheckbox = (e: any, data: any) => {
   const label = getLabel(e);
-  const value = data[container][e.key];
+  const value = getValue(e.key, data);
   let valueRender = 'Yes' || NO_DATA_LABEL;
 
   if (value === false) {
@@ -51,11 +67,11 @@ const renderCheckbox = (e: any, data: any, container: string) => {
   );
 };
 
-const renderCountTable = (e: any, data: any, container: string) => {
-  return e.rows?.map((r: any) => renderGeneralField(r[1].components[0], data, container));
+const renderCountTable = (e: any, data: any) => {
+  return e.rows?.map((r: any) => renderGeneralField(r[1].components[0], data));
 };
 
-const renderColumns = (e: any, data: any, container: string, fetchData?: any) => {
+const renderColumns = (e: any, data: any, fetchData?: any) => {
   return e.columns?.map((col: any) => {
     return col.components?.map((component: any) => {
       if (
@@ -63,12 +79,12 @@ const renderColumns = (e: any, data: any, container: string, fetchData?: any) =>
         MISC_LABELS_TO_REMOVE.includes(component.label)
       )
         return;
-      return renderElementType(component, data, container, fetchData);
+      return renderElementType(component, data, fetchData);
     });
   });
 };
 
-const renderFieldSet = (e: any, data: any, container: string, fetchData?: any) => {
+const renderFieldSet = (e: any, data: any, fetchData?: any) => {
   return (
     <React.Fragment key={e.id}>
       {e.legend && (
@@ -79,21 +95,21 @@ const renderFieldSet = (e: any, data: any, container: string, fetchData?: any) =
 
       {e.components?.map((c: any) => {
         if (NOT_TO_BE_RENDERED.includes(c.type) || MISC_LABELS_TO_REMOVE.includes(c.label)) return;
-        return renderElementType(c, data, container, fetchData);
+        return renderElementType(c, data, fetchData);
       })}
     </React.Fragment>
   );
 };
 
-const renderChildComponents = (e: any, data: any, container: string, fetchData?: any) => {
+const renderChildComponents = (e: any, data: any, fetchData?: any) => {
   return e.components?.map((c: any) => {
     if (NOT_TO_BE_RENDERED.includes(c.type) || MISC_LABELS_TO_REMOVE.includes(c.label)) return;
-    return renderElementType(c, data, container, fetchData);
+    return renderElementType(c, data, fetchData);
   });
 };
 
-const renderFile = (e: any, data: any, container: string, fetchData: any) => {
-  const files = data[container][e.key];
+const renderFile = (e: any, data: any, fetchData: any) => {
+  const files = getValue(e.key, data);
   const label = getLabel(e);
 
   const downloadFile = (data: any) => {
@@ -135,12 +151,12 @@ const renderFile = (e: any, data: any, container: string, fetchData: any) => {
   );
 };
 
-const renderGeneralField = (e: any, data: any, container: string) => {
+const renderGeneralField = (e: any, data: any) => {
   if (MISC_LABELS_TO_REMOVE.includes(e.label)) {
     return;
   }
 
-  const value = data[container][e.key];
+  const value = getValue(e.key, data);
   const label = getLabel(e);
 
   return (
@@ -164,9 +180,9 @@ const renderNoTypeFound = (e: any, data: any) => {
   );
 };
 
-const renderRadioValue = (e: any, data: any, container: string) => {
+const renderRadioValue = (e: any, data: any) => {
   const label = getLabel(e);
-  const value = data[container][e.key];
+  const value = getValue(e.key, data);
 
   return (
     <div key={e.id} className='w-fit grid grid-flow-row'>
@@ -178,15 +194,15 @@ const renderRadioValue = (e: any, data: any, container: string) => {
   );
 };
 
-const renderSelectBoxes = (e: any, data: any, container: string) => {
+const renderSelectBoxes = (e: any, data: any) => {
   const label = getLabel(e);
-  const values = data[container][e.key];
+  const values = getValue(e.key, data);
 
   const selectedKeys = Object.entries(values)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ?.filter(([_, value]) => value)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    .map(([key, _]) => key);
+    ?.map(([key, _]) => key);
 
   const filteredValues = e.values?.filter((item: any) => selectedKeys.includes(item.value));
 
@@ -202,23 +218,24 @@ const renderSelectBoxes = (e: any, data: any, container: string) => {
   );
 };
 
-const renderSignature = (e: any, data: any, container: string) => {
+const renderSignature = (e: any, data: any) => {
   const label = getLabel(e);
+  const value = getValue(e.key, data);
 
   return (
     <div key={e.id} className='w-1/2 grid grid-flow-row'>
       <span className='font-bold'>{label}</span>
-      <Image src={data[container][e.key]} alt={e.label} width='50' height='100' />
+      <Image src={value} alt={label} width='50' height='100' />
     </div>
   );
 };
 
-const renderUsageCountForm = (e: any, data: any, container: string) => {
+const renderUsageCountForm = (e: any, data: any) => {
   const headerTdStyles = 'px-6 py-4 text-left font-bold text-sm border-b-2 border-bcYellowWarning';
   const bodyTdStyles = 'px-6 py-4 text-left text-sm ';
 
   const formInfo: { key: string; label: string }[] = [];
-  const usageFormData = data[container][e.key];
+  const usageFormData = getValue(e.key, data);
 
   // create array of key and label values from the form grid
   e?.components.forEach((c: any) => {
@@ -262,66 +279,66 @@ const renderUsageCountForm = (e: any, data: any, container: string) => {
                 <td className={bodyTdStyles}>{ad[formInfo[5].key] || NO_DATA_LABEL}</td>
               </tr>
             ))}
-          <tr className='bg-white border-b-2 even:bg-bcGrayInput border-gray-200'>
+          {/* <tr className='bg-white border-b-2 even:bg-bcGrayInput border-gray-200'>
             <td colSpan={2}></td>
             <td className={`${bodyTdStyles} font-bold`}>Totals</td>
             <td className={bodyTdStyles}>{data[container]['bicycleCount']}</td>
             <td className={bodyTdStyles}>{data[container]['pedestrianCount']}</td>
             <td className={bodyTdStyles}>{data[container]['otherCount']}</td>
-          </tr>
+          </tr> */}
         </tbody>
       </table>
     </div>
   );
 };
 
-const renderElementType = (e: any, formData: any, componentKey: string, fetchData?: any) => {
+const renderElementType = (e: any, formData: any, fetchData?: any) => {
   switch (e.type) {
     case 'datagrid':
-      return renderUsageCountForm(e, formData, componentKey);
+      return renderUsageCountForm(e, formData);
 
     case 'simpleselectboxesadvanced':
-      return renderSelectBoxes(e, formData, componentKey);
+      return renderSelectBoxes(e, formData);
 
     case 'columns':
     case 'simplecols2':
-      return renderColumns(e, formData, componentKey, fetchData);
+      return renderColumns(e, formData, fetchData);
 
     case 'fieldset':
-      return renderFieldSet(e, formData, componentKey, fetchData);
+      return renderFieldSet(e, formData, fetchData);
 
     case 'container':
     case 'well':
-      return renderChildComponents(e, formData, componentKey, fetchData);
+      return renderChildComponents(e, formData, fetchData);
 
     case 'simplefile':
-      return renderFile(e, formData, componentKey, fetchData);
+      return renderFile(e, formData, fetchData);
 
     case 'simplecheckbox':
     case 'simplecheckboxadvanced':
-      return renderCheckbox(e, formData, componentKey);
+      return renderCheckbox(e, formData);
 
     case 'simpleradios':
     case 'simpleradioadvanced':
     case 'radio':
-      return renderRadioValue(e, formData, componentKey);
+      return renderRadioValue(e, formData);
 
     case 'table':
-      return renderCountTable(e, formData, componentKey);
+      return renderCountTable(e, formData);
 
     case 'simplesignatureadvanced':
-      return renderSignature(e, formData, componentKey);
+      return renderSignature(e, formData);
 
     default:
       if (SIMPLE_TYPES.includes(e.type)) {
-        return renderGeneralField(e, formData, componentKey);
+        return renderGeneralField(e, formData);
       }
       return renderNoTypeFound(e, formData);
   }
 };
 
-export const renderElement = (e: any, formData: any, componentKey: string, fetchData?: any) => {
+export const renderElement = (e: any, formData: any, fetchData?: any) => {
   if (!e || NOT_TO_BE_RENDERED.includes(e.type)) return;
 
-  return renderElementType(e, formData, componentKey, fetchData);
+  return renderElementType(e, formData, fetchData);
 };
