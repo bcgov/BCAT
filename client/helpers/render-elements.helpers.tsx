@@ -30,6 +30,8 @@ const SIMPLE_TYPES = [
 // array of types such as banners, info, headings etc.
 const NOT_TO_BE_RENDERED = ['button', 'htmlelement', 'simplebuttonadvanced', 'simplecontent'];
 
+const MISC_LABELS_TO_REMOVE = ['Text/Images'];
+
 // some questions require wording changes on FE,
 // portalWording is a custom key containing the updated wording added by us, sent from CHEFS
 const getLabel = (component: any) => {
@@ -51,8 +53,6 @@ const getValue = (componentKey: string, data: any, dataVal?: any) => {
   }
   return dataVal || NO_DATA_LABEL;
 };
-
-const MISC_LABELS_TO_REMOVE = ['Text/Images'];
 
 const renderCheckbox = (e: any, data: any) => {
   const label = getLabel(e);
@@ -108,6 +108,8 @@ const renderFile = (e: any, data: any, fetchData: any) => {
   const files = getValue(e.key, data);
   const label = getLabel(e);
 
+  if (!files) return;
+
   const downloadFile = (data: any) => {
     fetchData(
       {
@@ -130,8 +132,6 @@ const renderFile = (e: any, data: any, fetchData: any) => {
       },
     );
   };
-
-  if (!files) return;
 
   return (
     <div key={e.id} className='w-fit grid grid-flow-row'>
