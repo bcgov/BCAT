@@ -32,9 +32,9 @@ const getLabel = (component: any) => {
   return component.properties?.portalWording ?? component.label;
 };
 
-const getValue = (componentKey: string, data: any, dataVal: any) => {
+const getValue = (componentKey: string, data: any, dataVal?: any) => {
   if (dataVal !== undefined && dataVal !== NO_DATA_LABEL) return dataVal;
-  
+
   for (const [key, value] of Object.entries(data)) {
     if (key === componentKey) {
       dataVal = value;
