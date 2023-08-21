@@ -38,7 +38,6 @@ const ApplicationDetails: NextPage = () => {
     isPanelDefaultOpen,
     downloadPDF,
   } = useApplicationDetails(id);
-  // console.log(formData);
 
   return (
     <>

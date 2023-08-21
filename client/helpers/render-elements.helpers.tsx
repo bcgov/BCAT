@@ -6,13 +6,6 @@ import { formatDate } from 'utils';
 
 const NO_DATA_LABEL = '-';
 
-// grid key for the usage count form
-const GRID_KEY = 's5UsageCountFormGrid';
-
-//styles for usage form grid
-const headerTdStyles = 'px-6 py-4 text-left font-bold text-sm border-b-2 border-bcYellowWarning';
-const bodyTdStyles = 'px-6 py-4 text-left text-sm ';
-
 // array of simple types that can use basic renderGeneralField
 const SIMPLE_TYPES = [
   'currency',
@@ -33,9 +26,6 @@ const SIMPLE_TYPES = [
   'simpletextfieldadvanced',
   'textarea',
   'textfield',
-  'simplenumberadvanced',
-  'simplenumber',
-  'simplecheckbox',
 ];
 
 // array of types such as banners, info, headings etc.
