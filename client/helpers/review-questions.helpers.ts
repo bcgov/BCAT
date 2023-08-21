@@ -21,6 +21,7 @@ export const getComponentsScore = (data: any) => {
   // check value for checkboxes
   // Score 1 for at least 2 boxes check on question 6, up to 4 total
   Object.values(data[S3_CHECKBOX_VALUES]).forEach((i: any) => {
+    //TODO: need to confirm logic for this part
     if (i && checkboxScore < 4) {
       checkboxScore++;
     }
