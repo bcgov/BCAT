@@ -1,6 +1,6 @@
 import { ApplicationType } from '../../common/constants';
 import { WorkshopScore } from '../../score/workshop-score.entity';
-import { findApplicationType, InfrastructureScoreFields } from '../constants';
+import { findApplicationType, NetworkAppScoreFields, ScoreFields } from '../constants';
 
 type ScoreFieldsType = {
   name: string;
@@ -20,23 +20,6 @@ ApplicationVsDetailsInfo[ApplicationType.NETWORK_FORM] = {
   heading: 'Network',
   totalScore: 0,
 };
-
-// ApplicationVsDetailsInfo[ApplicationType.DEVELOPMENT_PLANNING] = {
-//   heading: 'Facility Master Plan',
-//   totalScore: 34,
-// };
-// ApplicationVsDetailsInfo[ApplicationType.ENVIRONMENT_PLANNING] = {
-//   heading: 'Environmental Project',
-//   totalScore: 53,
-// };
-// ApplicationVsDetailsInfo[ApplicationType.LARGE_PROJECT] = {
-//   heading: 'Large Project',
-//   totalScore: 112,
-// };
-// ApplicationVsDetailsInfo[ApplicationType.SMALL_PROJECT] = {
-//   heading: 'Small Project',
-//   totalScore: 46,
-// };
 
 export class ApplicationFinalScoreRO {
   confirmationId: string;
@@ -66,6 +49,9 @@ export class ApplicationFinalScoreRO {
   constructor(workshopScore: WorkshopScore) {
     const { application, finalScore, overallComments, data } = workshopScore;
     const { submission, form } = application;
+
+    const appType = findApplicationType(form.chefsFormId);
+
     this.confirmationId = application.confirmationId;
     this.applicantName = submission.applicantName;
     this.projectTitle = submission.projectTitle;

@@ -149,7 +149,6 @@ export const INITIAL_INFRASTRUCTURE_REVIEW_VALUES = {
   lettersOfSupportScore: 0,
   previousFundingScore: 0,
   regionalAdjustmentScore: 0,
-  completionStatus: ReviewCompletionStatus.IN_PROGRESS,
   finalScore: 0,
   overallComments: '',
 };

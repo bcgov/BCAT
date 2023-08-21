@@ -11,7 +11,6 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-
 export class ScoreInfrastructureDataDto {
   @IsNumber()
   @Max(15)

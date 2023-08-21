@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Link from 'next/link';
 import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
@@ -164,8 +163,8 @@ const ApplicationDetails: NextPage = () => {
                 <Comments applicationId={id} onClose={() => setShowComments(false)} />
               </div>
             )}
-            {/* TODO: add these tabs once scoring and admin tickets are completed
-            {details && applicationType && (
+            {/* TODO: add these tabs once scoring and admin tickets are completed */}
+            {/* {details && applicationType && (
               <div className='col-span-2 pb-4'>
                 <BroaderReview
                   applicationId={id}
@@ -174,7 +173,7 @@ const ApplicationDetails: NextPage = () => {
                   userList={userList}
                 />
               </div>
-            )}
+            )} */}
             {details && applicationType && details.status === ApplicationStatus.WORKSHOP && (
               <div className='col-span-2 pb-4'>
                 <WorkshopReview
@@ -183,7 +182,7 @@ const ApplicationDetails: NextPage = () => {
                   formData={formData}
                 />
               </div>
-            )} */}
+            )}
           </div>
         </div>
       )}

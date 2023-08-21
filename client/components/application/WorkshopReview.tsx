@@ -8,6 +8,7 @@ import {
   INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA,
   ReviewCompletionStatus,
   ApplicationType,
+  NetworkEvaluationReviewQuestions,
 } from '../../constants';
 import { Textarea, Radio, Error } from '../form';
 import { FinalScore, Input } from '../broader-review';
@@ -18,6 +19,14 @@ export type WorkshopReviewProps = {
   applicationType: ApplicationType;
   formData: any;
 };
+
+interface ReviewQuestions {
+  maxScore: number;
+  label: string;
+  name: string;
+  tooltiptext?: string;
+  description: string;
+}
 
 export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
   applicationId,
@@ -58,7 +67,7 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
           enableReinitialize={true}
           key={applicationId}
         >
-          {({ isValid }) => (
+          {({ isValid, dirty }) => (
             <Form>
               <div className='open:bg-white border border-2 m-2 open:shadow-lg rounded-sm'>
                 <div className='leading-6 p-2 bg-gray-100 text-bcBluePrimary dark:text-white font-semibold select-none cursor-pointer'>
@@ -70,7 +79,7 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                           variant='primary'
                           customClass='py-2 '
                           type='submit'
-                          disabled={!isValid}
+                          disabled={!isValid || !dirty}
                         >
                           Save
                         </Button>

@@ -7,7 +7,16 @@ import {
 } from '../constants';
 import { useHttp } from './useHttp';
 import { toast } from 'react-toastify';
+import {
+  API_ENDPOINT,
+  ApplicationType,
+  INITIAL_REVIEW_VALUES,
+  NETWORK_APP_INITIAL_REVIEW_VALUES,
+  REQUEST_METHOD,
+} from '../constants';
+import { useHttp } from './useHttp';
 import { useAuthContext } from '../contexts';
+import { BroaderReviewValues, NetworkBroaderReviewValues } from 'constants/interfaces';
 
 export const useWorkshopReview = (applicationId: number, applicationType?: ApplicationType) => {
   const reviewValues =
@@ -19,6 +28,17 @@ export const useWorkshopReview = (applicationId: number, applicationType?: Appli
   const [newScore, setNewScore] = useState<boolean>(true);
   const [scoreId, setScoreId] = useState<number>(0);
   const { user: loggedInUser } = useAuthContext();
+
+  const [reviewValues, setReviewValues] = useState<
+    BroaderReviewValues | NetworkBroaderReviewValues
+  >();
+
+  useEffect(() => {
+    //TODO: add infrastructure review initial values
+    applicationType === ApplicationType.INFRASTRUCTURE_FORM
+      ? setReviewValues(INITIAL_REVIEW_VALUES)
+      : setReviewValues(NETWORK_APP_INITIAL_REVIEW_VALUES);
+  }, [applicationType]);
 
   const fetchApplicationScores = () => {
     fetchData(
@@ -40,7 +60,7 @@ export const useWorkshopReview = (applicationId: number, applicationType?: Appli
             completionStatus: data?.completionStatus,
           });
         } else {
-          setApplicationScores(reviewValues);
+          setApplicationScores({ ...reviewValues });
         }
       },
     );

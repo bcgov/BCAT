@@ -102,33 +102,46 @@ export type KeyValuePair = {
   [key: string]: any;
 };
 
-export interface BroaderReviewValues {
+interface BaseBroaderReviewValues {
   overallComments: string;
   finalScore: number;
-  projectTypeScore: string;
-  projectNeedScore: number;
-  projectFundingScore: number;
-  pastBcaapFundingScore: number;
-  facilityMasterPlanScore: number;
-  facilityUsageScore: number;
-  trafficDataScore: number;
-  climatePerspectiveScore: number;
-  climateBestPracticesScore: number;
-  environmentalRisksScore: number;
-  environmentalInnovationScore: number;
-  projectDescriptionScore: number;
-  climateGoalsScore: number;
-  organizationClimateGoalScore: number;
-  successMeasurementScore: number;
-  safetyScore: number;
-  medevacScore: number;
-  localBenefitsScore: number;
-  longTermScore: number;
-  communitySupportScore: number;
-  contingencyPlanScore: number;
-  classBCostScore: number;
-  thirdPartyContributionScore: number;
   completionStatus: string;
+}
+
+export interface NetworkBroaderReviewValues extends BaseBroaderReviewValues {
+  reasonableCostforCommunitySize: string;
+  s3ComponentsScore: string;
+  s4DescribePotentialEconomicBenefits: string;
+  s5DetailsHowATNPWillAddressSafetyConcerns: string;
+  s6DescribeConsultationUndertaking: string;
+  s6DescribeDataCollectionUndertaking: string;
+  fundingReceivedLastFiveYears: string;
+}
+
+export interface BroaderReviewValues extends BaseBroaderReviewValues {
+  projectTypeScore: string;
+  projectNeedScore: string;
+  projectFundingScore: string;
+  pastBcaapFundingScore: string;
+  facilityMasterPlanScore: string;
+  facilityUsageScore: string;
+  trafficDataScore: string;
+  climatePerspectiveScore: string;
+  climateBestPracticesScore: string;
+  environmentalRisksScore: string;
+  environmentalInnovationScore: string;
+  projectDescriptionScore: string;
+  climateGoalsScore: string;
+  organizationClimateGoalScore: string;
+  successMeasurementScore: string;
+  safetyScore: string;
+  medevacScore: string;
+  localBenefitsScore: string;
+  longTermScore: string;
+  communitySupportScore: string;
+  contingencyPlanScore: string;
+  classBCostScore: string;
+  thirdPartyContributionScore: string;
 }
 
 export interface ScoreSummaryTableProps {

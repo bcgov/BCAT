@@ -21,7 +21,45 @@ export const findApplicationType = (chefsFormId: string): ApplicationType => {
   }
 };
 
-export const InfrastructureScoreFields = [
+export const NetworkAppScoreFields = [
+  {
+    name: 'reasonableCostforCommunitySize',
+    label: 'Is project a reasonable cost for the community size',
+    score: 5,
+  },
+  {
+    name: 's3ComponentsScore',
+    label: 'Components score',
+    score: 7,
+  },
+  {
+    name: 's4DescribePotentialEconomicBenefits',
+    label: 'Potential Economic Benefits',
+    score: 5,
+  },
+  {
+    name: 's5DetailsHowATNPWillAddressSafetyConcerns',
+    label: 'Details how ATNP will address safety concerns',
+    score: 1,
+  },
+  {
+    name: 's6DescribeConsultationUndertaking',
+    label: 'Consultation and/or engagement undertaking',
+    score: 1,
+  },
+  {
+    name: 's6DescribeDataCollectionUndertaking',
+    label: 'Data collection undertaking',
+    score: 1,
+  },
+  {
+    name: 'fundingReceivedLastFiveYears',
+    label: 'Funding received over the last 5 years',
+    score: 5,
+  },
+];
+
+export const ScoreFields = [
   {
     name: 'populationScore',
     label: 'Population score',
