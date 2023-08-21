@@ -32,6 +32,17 @@ const NOT_TO_BE_RENDERED = ['button', 'htmlelement', 'simplebuttonadvanced', 'si
 
 const MISC_LABELS_TO_REMOVE = ['Text/Images'];
 
+const checkIfGridHasValues = (gridData: any) => {
+  let hasValues = false;
+
+  gridData.forEach((value: any) => {
+    hasValues = !!Object.values(value).find((item: any) => !!item);
+    if (hasValues) return true;
+  });
+
+  return hasValues;
+};
+
 // some questions require wording changes on FE,
 // portalWording is a custom key containing the updated wording added by us, sent from CHEFS
 const getLabel = (component: any) => {
@@ -232,6 +243,8 @@ const renderUsageCountForm = (e: any, data: any) => {
 
   const formInfo: { key: string; label: string }[] = [];
   const usageFormData = getValue(e.key, data);
+
+  if (!checkIfGridHasValues(usageFormData)) return NO_DATA_LABEL;
 
   // create array of key and label values from the form grid
   e?.components.forEach((c: any) => {
