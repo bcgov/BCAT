@@ -33,14 +33,13 @@ const NOT_TO_BE_RENDERED = ['button', 'htmlelement', 'simplebuttonadvanced', 'si
 const MISC_LABELS_TO_REMOVE = ['Text/Images'];
 
 const checkIfGridHasValues = (gridData: any) => {
-  let hasValues = false;
+  for (const value of gridData) {
+    if (Object.values(value).some((item: any) => !!item)) {
+      return true;
+    }
+  }
 
-  gridData.forEach((value: any) => {
-    hasValues = !!Object.values(value).find((item: any) => !!item);
-    if (hasValues) return true;
-  });
-
-  return hasValues;
+  return false;
 };
 
 // some questions require wording changes on FE,
