@@ -1,4 +1,5 @@
 import { ReviewCompletionStatus } from './constants';
+import { NetworkReviewValues } from './interfaces';
 
 export const NetworkEvaluationReviewQuestions = [
   {
@@ -13,6 +14,7 @@ export const NetworkEvaluationReviewQuestions = [
     label: 'Section 3. Components score',
     name: 's3ComponentsScore',
     description: `Score 1 for each 'yes' answer to questions 3-5, Score 1 for at least 2 boxes check on question 6, up to 4 total.`,
+    disabled: true,
   },
   {
     maxScore: 1,
@@ -47,14 +49,14 @@ export const NetworkEvaluationReviewQuestions = [
   },
 ];
 
-export const NETWORK_APP_INITIAL_REVIEW_VALUES = {
-  reasonableCostforCommunitySize: '',
-  s3ComponentsScore: '',
-  s4DescribePotentialEconomicBenefits: '',
-  s5DetailsHowATNPWillAddressSafetyConcerns: '',
-  s6DescribeConsultationUndertaking: '',
-  s6DescribeDataCollectionUndertaking: '',
-  fundingReceivedLastFiveYears: '',
+export const NETWORK_APP_INITIAL_REVIEW_VALUES: NetworkReviewValues = {
+  reasonableCostforCommunitySize: 0,
+  s3ComponentsScore: 0,
+  s4DescribePotentialEconomicBenefits: 0,
+  s5DetailsHowATNPWillAddressSafetyConcerns: 0,
+  s6DescribeConsultationUndertaking: 0,
+  s6DescribeDataCollectionUndertaking: 0,
+  fundingReceivedLastFiveYears: 0,
   completionStatus: ReviewCompletionStatus.IN_PROGRESS,
   finalScore: 0,
   overallComments: '',

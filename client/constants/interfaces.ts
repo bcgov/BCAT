@@ -102,23 +102,23 @@ export type KeyValuePair = {
   [key: string]: any;
 };
 
-interface BaseBroaderReviewValues {
+interface BaseReviewValues {
   overallComments: string;
   finalScore: number;
   completionStatus: string;
 }
 
-export interface NetworkBroaderReviewValues extends BaseBroaderReviewValues {
-  reasonableCostforCommunitySize: string;
-  s3ComponentsScore: string;
-  s4DescribePotentialEconomicBenefits: string;
-  s5DetailsHowATNPWillAddressSafetyConcerns: string;
-  s6DescribeConsultationUndertaking: string;
-  s6DescribeDataCollectionUndertaking: string;
-  fundingReceivedLastFiveYears: string;
+export interface NetworkReviewValues extends BaseReviewValues {
+  reasonableCostforCommunitySize: number;
+  s3ComponentsScore: number;
+  s4DescribePotentialEconomicBenefits: number;
+  s5DetailsHowATNPWillAddressSafetyConcerns: number;
+  s6DescribeConsultationUndertaking: number;
+  s6DescribeDataCollectionUndertaking: number;
+  fundingReceivedLastFiveYears: number;
 }
 
-export interface BroaderReviewValues extends BaseBroaderReviewValues {
+export interface ReviewValues extends BaseReviewValues {
   projectTypeScore: string;
   projectNeedScore: string;
   projectFundingScore: string;
@@ -151,7 +151,7 @@ export interface ScoreSummaryTableProps {
 export interface BroaderReviewScore {
   createdAt: Date;
   updatedAt: Date;
-  data: BroaderReviewValues;
+  data: ReviewValues;
   finalScore: number;
   overallComments: string;
   id: number;

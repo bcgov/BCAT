@@ -26,6 +26,7 @@ interface ReviewQuestions {
   name: string;
   tooltiptext?: string;
   description: string;
+  disabled?: boolean;
 }
 
 export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
@@ -67,7 +68,7 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
           enableReinitialize={true}
           key={applicationId}
         >
-          {({ isValid, dirty }) => (
+          {({ isValid }) => (
             <Form>
               <div className='open:bg-white border border-2 m-2 open:shadow-lg rounded-sm'>
                 <div className='leading-6 p-2 bg-gray-100 text-bcBluePrimary dark:text-white font-semibold select-none cursor-pointer'>
@@ -79,7 +80,7 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                           variant='primary'
                           customClass='py-2 '
                           type='submit'
-                          disabled={!isValid || !dirty}
+                          disabled={!isValid}
                         >
                           Save
                         </Button>
