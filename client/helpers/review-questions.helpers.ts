@@ -6,27 +6,29 @@ const S3_YES_NO_QUESTIONS = [
 
 const S3_CHECKBOX_VALUES = 's3WillTheActiveTransportationNetworkLinkToAnyOfTheFollowing';
 
+// max point total of 4
 export const getComponentsScore = (data: any) => {
-  let yesNoScore = 0;
-  let checkboxScore = 0;
+  let score = 0;
+  let checkboxesSelected = 0;
 
   // check values for yes no questions
   //Score 1 for each 'yes' answer to questions 3-5,
-  S3_YES_NO_QUESTIONS.forEach((i: any) => {
+  S3_YES_NO_QUESTIONS.some((i: any) => {
     if (data[i] === 'yes') {
-      yesNoScore++;
+      score++;
     }
   });
 
   // check value for checkboxes
-  // Score 1 for at least 2 boxes check on question 6, up to 4 total
-  Object.values(data[S3_CHECKBOX_VALUES]).forEach((i: any) => {
-    //TODO: need to confirm logic for this part
-    if (i && checkboxScore < 4) {
-      checkboxScore++;
+  // Score 1 for at least 2 boxes check on question 6, 0 for 1 or less selected
+  Object.values(data[S3_CHECKBOX_VALUES]).some((i: any) => {
+    if (i && checkboxesSelected < 2) {
+      checkboxesSelected++;
     }
+    // exit loop if at least 2 checkboxes are selected
+    return checkboxesSelected === 2;
   });
 
-  const totalScore = yesNoScore + checkboxScore;
+  const totalScore = score + (checkboxesSelected === 2 ? 1 : 0);
   return totalScore;
 };

@@ -111,10 +111,12 @@ interface BaseReviewValues {
 export interface NetworkReviewValues extends BaseReviewValues {
   reasonableCostforCommunitySize: number;
   s3ComponentsScore: number;
+  s4DescribeHowATNPAlignsWithCommunityGoals: number;
   s4DescribePotentialEconomicBenefits: number;
   s5DetailsHowATNPWillAddressSafetyConcerns: number;
   s6DescribeConsultationUndertaking: number;
   s6DescribeDataCollectionUndertaking: number;
+  s6DescribeHowATNPImplementationWillEnsureSuccess: number;
   fundingReceivedLastFiveYears: number;
 }
 

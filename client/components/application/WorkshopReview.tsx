@@ -25,7 +25,7 @@ interface ReviewQuestions {
   label: string;
   name: string;
   tooltiptext?: string;
-  description: string;
+  descriptionList: string[];
   disabled?: boolean;
 }
 

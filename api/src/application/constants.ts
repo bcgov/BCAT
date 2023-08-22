@@ -30,12 +30,17 @@ export const NetworkAppScoreFields = [
   {
     name: 's3ComponentsScore',
     label: 'Components score',
-    score: 7,
+    score: 4,
+  },
+  {
+    name: 's4DescribeHowATNPAlignsWithCommunityGoals',
+    label: 'How ATNP aligns with community goals',
+    score: 1,
   },
   {
     name: 's4DescribePotentialEconomicBenefits',
     label: 'Potential Economic Benefits',
-    score: 5,
+    score: 1,
   },
   {
     name: 's5DetailsHowATNPWillAddressSafetyConcerns',
@@ -50,6 +55,11 @@ export const NetworkAppScoreFields = [
   {
     name: 's6DescribeDataCollectionUndertaking',
     label: 'Data collection undertaking',
+    score: 1,
+  },
+  {
+    name: 's6DescribeHowATNPImplementationWillEnsureSuccess',
+    label: 'How you will monitor ATNP implementation to ensure success',
     score: 1,
   },
   {
