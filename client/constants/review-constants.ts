@@ -36,7 +36,8 @@ export const EvaluationReviewQuestions = [
       'Section 6. Question "The BC Active Transportation Design Guide recommends minimum widths for different types and contexts of active transportation infrastructure (see pg. 15 of the Program Guidelines). Does the proposed infrastructure align with the Design Guide recommendations?" If Desired, or N/A is selected = 4pts (auto); if Constrained is selected = 2pts (auto); if Local context is selected = 0-4',
       'Section 6. Question "The B.C. Active Transportation Design Guide recommends certain facility types for different road contexts, e.g., speed and volume. Does the proposed infrastructure align with Design Guide recommendations?" if Yes, or N/A is selected = 4pts (auto)',
     ],
-    tooltiptext: 'Higher points = small, rural community, legitimate space/cost/capacity concerns. Lower points = not wanting to remove parking, lack of political or community will, cost concerns from larger urban centre with more resources',
+    tooltiptext:
+      'Higher points = small, rural community, legitimate space/cost/capacity concerns. Lower points = not wanting to remove parking, lack of political or community will, cost concerns from larger urban centre with more resources',
     name: 'safetyScore',
   },
   {
@@ -46,7 +47,8 @@ export const EvaluationReviewQuestions = [
       'What are the economic benefits? = up to 3 pts',
       'How will this project contribute to tourism? = up to 2 pts',
     ],
-    tooltiptext: 'Score on how the project connects people to businesses, new business areas, new industry, etc. for economic benefits; Score on how project will protect current tourism or provide new tourism opportunities for tourism;',
+    tooltiptext:
+      'Score on how the project connects people to businesses, new business areas, new industry, etc. for economic benefits; Score on how project will protect current tourism or provide new tourism opportunities for tourism;',
     name: 'economyAndTourismScore',
   },
   {
@@ -57,7 +59,8 @@ export const EvaluationReviewQuestions = [
       'Will the project retain existing Trees?  = 2 pts',
       'Environmental Best Practices = 3 pts',
     ],
-    tooltiptext: 'Score on: GHG reductions, local measurements of GHG share from transportation, local sustainability plans for Environmental Benefits; Score on: local materials and labour, climate adaptation measures, dust mitigation, using recycled materials, drought-friendly plantings, using less toxic materials for Environmental Best Practices;',
+    tooltiptext:
+      'Score on: GHG reductions, local measurements of GHG share from transportation, local sustainability plans for Environmental Benefits; Score on: local materials and labour, climate adaptation measures, dust mitigation, using recycled materials, drought-friendly plantings, using less toxic materials for Environmental Best Practices;',
     name: 'environmentScore',
   },
   {
@@ -79,13 +82,15 @@ export const EvaluationReviewQuestions = [
       'Does this Project Incorporate Universal Design? = 5 pts',
       'Does This Project Incorporate GBA+ Principles? = 3 pts',
     ],
-    tooltiptext: 'Score on: curb cuts, grading, smooth surfaces, ramps, width, accessible washrooms, lighting, handrails, TWSIs, audible crossing signals, etc.; Score on: lighting, gender-neutral and family friendly washrooms, economically disadvantaged area, GBA+ training by project team, age-friendly design, rainbow crosswalks, signage in other languages, Indigenous land acknowledgements/ names on wayfinding signage, etc.;',
+    tooltiptext:
+      'Score on: curb cuts, grading, smooth surfaces, ramps, width, accessible washrooms, lighting, handrails, TWSIs, audible crossing signals, etc.; Score on: lighting, gender-neutral and family friendly washrooms, economically disadvantaged area, GBA+ training by project team, age-friendly design, rainbow crosswalks, signage in other languages, Indigenous land acknowledgements/ names on wayfinding signage, etc.;',
     name: 'accessibilityScore',
   },
   {
     maxScore: 3,
     label: 'Promotion Score:',
-    tooltiptext: 'Score on promotional & educational activities = media event, signage, advertising, bike/ped maps, cycling courses, targeted outreach',
+    tooltiptext:
+      'Score on promotional & educational activities = media event, signage, advertising, bike/ped maps, cycling courses, targeted outreach',
     name: 'promotionScore',
   },
   {

@@ -1,6 +1,13 @@
+import React from 'react';
+
+import Link from 'next/link';
 import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+
+import { faComment } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import {
   AssignEvaluator,
   Button,
@@ -12,13 +19,9 @@ import {
   RenderCHFSElement,
   withAuth,
 } from '../../components';
-import { faComment } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useApplicationDetails } from '../../services';
 import { ApplicationStatus } from '../../constants';
 import { WorkshopReview } from '../../components/application/WorkshopReview';
-import Link from 'next/link';
-import React from 'react';
 import { formatDate } from 'utils';
 
 const ApplicationDetails: NextPage = () => {

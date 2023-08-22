@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
-import { API_ENDPOINT, ApplicationType, INITIAL_INFRASTRUCTURE_REVIEW_VALUES, REQUEST_METHOD } from '../constants';
+import {
+  API_ENDPOINT,
+  ApplicationType,
+  INITIAL_INFRASTRUCTURE_REVIEW_VALUES,
+  REQUEST_METHOD,
+} from '../constants';
 import { useAuthContext } from '../contexts';
 import { useHttp } from './useHttp';
 import { toast } from 'react-toastify';
