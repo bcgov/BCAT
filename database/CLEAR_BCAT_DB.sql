@@ -23,7 +23,10 @@ DROP SEQUENCE IF EXISTS public."BCAT_BROADER_REVIEW_SCORE_ID_seq";
 DROP SEQUENCE IF EXISTS public."BCAT_APPLICATION_ID_seq";
 DROP SEQUENCE IF EXISTS public."BCAT_USER_ID_seq";
 
+DROP FUNCTION IF EXISTS public.bcat_validate_init_audit_cols;
+
+ALTER DATABASE bcat OWNER TO postgres;
+
 DROP USER IF EXISTS trdbbcatd;
 DROP ROLE IF EXISTS bcat_application_proxy;
 
-DROP FUNCTION IF EXISTS public.bcat_validate_init_audit_cols;

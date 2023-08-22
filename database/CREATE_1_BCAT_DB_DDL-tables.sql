@@ -82,12 +82,14 @@ CREATE TABLE public."BCAT_APPLICATION" (
 
     "SUBMISSION_ID" UUID NOT NULL,
     "SUBMISSION" JSONB NOT NULL,
-
     "CONFIRMATION_ID" character varying(30) NOT NULL,
+
+    "APPLICATION_TYPE" character varying(100),
+    "APPLICANT_NAME" character varying(300),
     "PROJECT_TITLE" character varying(100) NOT NULL,
     "TOTAL_ESTIMATED_COST" money,
     "ASKS" money,
-    "STATUS" character varying(100) NOT NULL DEFAULT 'INITIAL_REVIEW',
+    "STATUS" character varying(100) NOT NULL DEFAULT 'RECEIVED',
     "DELETED_AT" timestamp without time zone NULL,
     "DELETED_BY_USER_ID" integer NULL,
 
@@ -226,6 +228,7 @@ CREATE SEQUENCE public."BCAT_ATTACHMENT_ID_seq"
 CREATE TABLE public."BCAT_ATTACHMENT" (
     "ATTACHMENT_ID" integer DEFAULT nextval('public."BCAT_ATTACHMENT_ID_seq"'::regclass) NOT NULL, 
     "APPLICATION_ID" integer NOT NULL,
+    "ATTACHMENT_CHEFS_UUID" uuid,
 
     "DATA" BYTEA,
     "URL" character varying(200) NOT NULL,
