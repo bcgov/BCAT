@@ -19,8 +19,10 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
   applicationId,
   applicationType,
 }) => {
-  const { applicationScores, handleSubmit, isLoading, loggedInUser } =
-    useWorkshopReview(applicationId);
+  const { applicationScores, handleSubmit, isLoading, loggedInUser } = useWorkshopReview(
+    applicationId,
+    applicationType,
+  );
 
   return (
     <>
@@ -70,12 +72,11 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                         }).map((item, index) => (
                           <div key={`WorkshopReviewInput_${index}`} className='mb-3'>
                             <Input
-                              obj={item.obj}
+                              descriptionList={item.descriptionList}
+                              disabled={!loggedInUser?.isAdmin || !!item.disabled}
                               label={item.label}
-                              description={item.description}
                               name={item.name}
                               tooltiptext={item.tooltiptext}
-                              disabled={!loggedInUser?.isAdmin}
                             />
                             <Error name={item.name} />
                           </div>

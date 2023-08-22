@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
-import { API_ENDPOINT, INITIAL_REVIEW_VALUES, REQUEST_METHOD } from '../constants';
+import { API_ENDPOINT, ApplicationType, INITIAL_INFRASTRUCTURE_REVIEW_VALUES, REQUEST_METHOD } from '../constants';
 import { useAuthContext } from '../contexts';
 import { useHttp } from './useHttp';
 import { toast } from 'react-toastify';
 
-export const useBroaderReview = (applicationId: number) => {
+export const useBroaderReview = (applicationId: number, applicationType?: ApplicationType) => {
+  const reviewValues =
+    applicationType === ApplicationType.INFRASTRUCTURE_FORM
+      ? INITIAL_INFRASTRUCTURE_REVIEW_VALUES
+      : {};
   const [applicationScores, setApplicationScores] = useState<any[]>([]);
   const { fetchData, sendApiRequest, isLoading } = useHttp();
   const [selectedUser, setSelectedUser] = useState<number | undefined>();
@@ -42,7 +46,7 @@ export const useBroaderReview = (applicationId: number) => {
       data = singleScore[0];
 
       setApplicationScoresByScorer({
-        ...INITIAL_REVIEW_VALUES,
+        ...reviewValues,
         ...(data?.data ?? {}),
         overallComments: data?.overallComments ?? '',
         finalScore: data?.finalScore,
@@ -54,7 +58,7 @@ export const useBroaderReview = (applicationId: number) => {
   };
 
   const setDefaultScoreValues = () => {
-    setApplicationScoresByScorer(INITIAL_REVIEW_VALUES);
+    setApplicationScoresByScorer(reviewValues);
   };
 
   function addScores(array: any) {

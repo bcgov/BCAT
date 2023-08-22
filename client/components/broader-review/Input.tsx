@@ -12,14 +12,15 @@ export type InputProps = {
   name: string;
   tooltiptext?: string;
   description?: string;
+  descriptionList?: string[];
   disabled: boolean;
-  obj?: ObjProps[] | null | undefined;
 };
 
 export const Input: React.FC<InputProps> = ({
   label,
   name,
   description,
+  descriptionList,
   tooltiptext,
   disabled,
 }) => {
@@ -30,9 +31,18 @@ export const Input: React.FC<InputProps> = ({
           <div>
             <div>
               <span className='text-bcBluePrimary font-bold'>{label}</span>&nbsp;
-              <TooltipIcon icon={faQuestionCircle} text={tooltiptext} style='h-4 w-4' />
+              {tooltiptext && (
+                <TooltipIcon icon={faQuestionCircle} text={tooltiptext} style='h-4 w-4' />
+              )}
             </div>
-            <div className='text-bcBluePrimary'>{description}</div>
+            {description && <div className='text-bcBluePrimary'>{description}</div>}
+            {descriptionList && (
+              <ul className='text-bcBluePrimary list-disc list-inside'>
+                {descriptionList.map((item: string, index: number) => {
+                  return <li key={`ind-${item}-${index}`}>{item}</li>;
+                })}
+              </ul>
+            )}
           </div>
         )}
       </div>

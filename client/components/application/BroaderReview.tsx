@@ -32,7 +32,7 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
     handleChangeScorer,
     loggedInUser,
     isLoading,
-  } = useBroaderReview(applicationId);
+  } = useBroaderReview(applicationId, applicationType);
 
   return (
     <>
@@ -100,12 +100,11 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                         }).map((item, index) => (
                           <div key={`BroderReviewInput_${selectedUser}_${index}`} className='mb-3'>
                             <Input
-                              obj={item.obj}
+                              descriptionList={item.descriptionList}
+                              disabled={!isLoggedInUser || !!item.disabled}
                               label={item.label}
-                              description={item.description}
                               name={item.name}
                               tooltiptext={item.tooltiptext}
-                              disabled={!isLoggedInUser}
                             />
                             <Error name={item.name} />
                           </div>
