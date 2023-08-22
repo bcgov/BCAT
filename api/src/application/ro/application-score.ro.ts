@@ -11,29 +11,37 @@ type ScoreFieldsType = {
 
 export const ApplicationVsDetailsInfo = {};
 
-ApplicationVsDetailsInfo[ApplicationType.DEVELOPMENT_PLANNING] = {
-  heading: 'Facility Master Plan',
-  totalScore: 34,
+ApplicationVsDetailsInfo[ApplicationType.INFRASTRUCTURE_FORM] = {
+  heading: 'Infrastructure',
+  totalScore: 0,
 };
-ApplicationVsDetailsInfo[ApplicationType.ENVIRONMENT_PLANNING] = {
-  heading: 'Environmental Project',
-  totalScore: 53,
+
+ApplicationVsDetailsInfo[ApplicationType.NETWORK_FORM] = {
+  heading: 'Network',
+  totalScore: 0,
 };
-ApplicationVsDetailsInfo[ApplicationType.LARGE_PROJECT] = {
-  heading: 'Large Project',
-  totalScore: 112,
-};
-ApplicationVsDetailsInfo[ApplicationType.SMALL_PROJECT] = {
-  heading: 'Small Project',
-  totalScore: 46,
-};
+
+// ApplicationVsDetailsInfo[ApplicationType.DEVELOPMENT_PLANNING] = {
+//   heading: 'Facility Master Plan',
+//   totalScore: 34,
+// };
+// ApplicationVsDetailsInfo[ApplicationType.ENVIRONMENT_PLANNING] = {
+//   heading: 'Environmental Project',
+//   totalScore: 53,
+// };
+// ApplicationVsDetailsInfo[ApplicationType.LARGE_PROJECT] = {
+//   heading: 'Large Project',
+//   totalScore: 112,
+// };
+// ApplicationVsDetailsInfo[ApplicationType.SMALL_PROJECT] = {
+//   heading: 'Small Project',
+//   totalScore: 46,
+// };
 
 export class ApplicationFinalScoreRO {
   confirmationId: string;
 
   applicantName: string;
-
-  facilityName: string;
 
   projectTitle: string;
 
@@ -60,7 +68,6 @@ export class ApplicationFinalScoreRO {
     const { submission, form } = application;
     this.confirmationId = application.confirmationId;
     this.applicantName = submission.applicantName;
-    this.facilityName = submission.facilityName;
     this.projectTitle = submission.projectTitle;
     this.totalCost = `${application.totalEstimatedCost?.split('.')[0]}.`;
     this.initialAsk = `${application.asks?.split('.')[0]}.`;

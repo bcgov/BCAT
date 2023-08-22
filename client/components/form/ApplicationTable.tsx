@@ -6,12 +6,13 @@ type Props = { applications: ApplicationTableProps[] };
 const TableHeader: React.FC = () => {
   const headers = [
     'Confirmation ID',
-    'Facility',
-    'Project',
+    'Applicant Name',
+    'Application Type',
+    'Project Title',
     'Estimated Cost',
     'Asks',
     'Assigned to',
-    'Last update',
+    'Last Updated',
     'Status',
   ];
   const tdStyles =
@@ -43,7 +44,8 @@ const TableBody: React.FC<Props> = data => {
               border-gray-200 cursor-pointer'
             >
               <td className={tdStyles}>{row.confirmationId}</td>
-              <td className={tdStyles}>{row.facilityName}</td>
+              <td className={tdStyles}>{row.applicantName}</td>
+              <td className={tdStyles}>{row.applicationType}</td>
               <td className={tdStyles}>{row.projectTitle}</td>
               <td className={tdStyles}>{row.totalEstimatedCost}</td>
               <td className={tdStyles}>{row.asks}</td>

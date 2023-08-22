@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 
 import { useAuthContext } from '@contexts';
 import { Spinner } from './Spinner';
-import { Routes } from '../../constants';
 
 export const withAuth = (Component: NextComponentType<NextPageContext>) => {
   const Auth = () => {
@@ -12,8 +11,8 @@ export const withAuth = (Component: NextComponentType<NextPageContext>) => {
     const router = useRouter();
 
     useEffect(() => {
-      if (kcInitialized && !keycloak?.authenticated) {
-        router.replace(Routes.LOGIN);
+      if (kcInitialized && !keycloak?.authenticated && router.isReady) {
+        keycloak?.login({ idpHint: 'idir', redirectUri: location.origin + '/' });
       }
     }, [kcInitialized, keycloak?.authenticated]);
 

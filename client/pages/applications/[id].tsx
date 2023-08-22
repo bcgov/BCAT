@@ -6,7 +6,7 @@ import {
   Button,
   Link as LinkComponent,
   Comments,
-  BroaderReview,
+  // BroaderReview,
   MenuButton,
   Panel,
   RenderCHFSElement,
@@ -16,8 +16,9 @@ import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useApplicationDetails } from '../../services';
 import { ApplicationStatus } from '../../constants';
-import { WorkshopReview } from '../../components/application/WorkshopReview';
+// import { WorkshopReview } from '../../components/application/WorkshopReview';
 import Link from 'next/link';
+import React from 'react';
 
 const ApplicationDetails: NextPage = () => {
   const { query } = useRouter();
@@ -34,13 +35,12 @@ const ApplicationDetails: NextPage = () => {
     updateEvaluator,
     userList,
     isPanelDefaultOpen,
-    applicationType,
     downloadPDF,
   } = useApplicationDetails(id);
 
   return (
     <>
-      {details && id && typeof id === 'string' && (
+      {details && id && typeof id === 'number' && (
         <div className='min-h-screen p-5 w-full bg-white'>
           <div className='w-full mt-2'>
             <LinkComponent href='/applications' variant='link'>
@@ -60,14 +60,16 @@ const ApplicationDetails: NextPage = () => {
                   defaultEvaluator={details.assignedTo}
                 />
               </div>
+              {/** TODO: enable in admin ticket */}
               <div className='w-fit'>
-                <Button variant='outline' onClick={() => setShowComments(true)}>
+                <Button variant='outline' onClick={() => setShowComments(true)} disabled>
                   <FontAwesomeIcon icon={faComment} className='h-4 mr-2 text-bcBluePrimary' />{' '}
                   Comments
                 </Button>
               </div>
             </div>
             <div className='w-2/5 justify-end flex'>
+              {/** TODO: add once admin ticket is complete */}
               {details.status === ApplicationStatus.WORKSHOP ? (
                 <div className='gap-2 flex'>
                   <Link href={`/applications/${id}/score-table`}>
@@ -115,9 +117,7 @@ const ApplicationDetails: NextPage = () => {
           <div className='grid grid-cols-4 gap-4'>
             <div
               className={`${
-                [ApplicationStatus.BROADER_REVIEW, ApplicationStatus.WORKSHOP].includes(
-                  details.status,
-                )
+                [ApplicationStatus.WORKSHOP].includes(details.status)
                   ? 'col-span-2'
                   : showComments
                   ? 'col-span-3'
@@ -129,9 +129,8 @@ const ApplicationDetails: NextPage = () => {
                 schema
                   ?.filter(
                     each =>
-                      each.type === 'simplepanel' &&
-                      (!each.conditional.show ||
-                        (each.conditional.show && formData[each.conditional.when] == true)),
+                      !each.conditional.show ||
+                      (each.conditional.show && formData[each.conditional.when] == true),
                   )
                   .map((each, i: number) => (
                     <Panel
@@ -139,24 +138,29 @@ const ApplicationDetails: NextPage = () => {
                       key={each.key}
                       isOpen={isPanelDefaultOpen(i, details.status, each.title)}
                     >
-                      <div className='leading-6 p-6 grid lg:grid-cols-2 md:grid-cols-2 gap-4'>
-                        {each.components?.map((eachComp: any) => (
-                          <RenderCHFSElement
-                            component={eachComp}
-                            formData={formData}
-                            key={eachComp.id}
-                          />
+                      <div className='leading-6 p-6 grid gap-4'>
+                        {each.components?.map((eachComp: any, index: number) => (
+                          <div key={`cmp-${index}`}>
+                            <div className='leading-6 grid lg:grid-cols-2 md:grid-cols-2 gap-4'>
+                              <RenderCHFSElement
+                                component={eachComp}
+                                formData={formData}
+                                key={eachComp.id}
+                              />
+                            </div>
+                          </div>
                         ))}
                       </div>
                     </Panel>
                   ))}
             </div>
-            {showComments && id && typeof id === 'string' && (
+            {showComments && id && typeof id === 'number' && (
               <div className='col-span-1 pb-4'>
                 <Comments applicationId={id} onClose={() => setShowComments(false)} />
               </div>
             )}
-            {details && applicationType && details.status === ApplicationStatus.BROADER_REVIEW && (
+            {/* TODO: add these tabs once scoring and admin tickets are completed
+            {details && applicationType && (
               <div className='col-span-2 pb-4'>
                 <BroaderReview
                   applicationId={id}
@@ -170,7 +174,7 @@ const ApplicationDetails: NextPage = () => {
               <div className='col-span-2 pb-4'>
                 <WorkshopReview applicationId={id} applicationType={applicationType} />
               </div>
-            )}
+            )} */}
           </div>
         </div>
       )}

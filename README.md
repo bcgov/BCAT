@@ -37,30 +37,24 @@ Use the following steps to configure the local development environment
    - Create the `client/.env` file and add the following content
 
    ```
-      NEXT_PUBLIC_REDIRECT_URI= http://localhost:3000
-      NEXT_PUBLIC_KC_AUTH_URL= https://dev.loginproxy.gov.bc.ca/auth
-      NEXT_PUBLIC_KC_AUTH_REALM=standard
-      NEXT_PUBLIC_KC_AUTH_CLIENT_ID=pbgp-4412
+      NEXT_PUBLIC_REDIRECT_URI=http://localhost:3000
+      NEXT_PUBLIC_KC_AUTH_URL=
+      NEXT_PUBLIC_KC_AUTH_REALM=
+      NEXT_PUBLIC_KC_AUTH_CLIENT_ID=
       NEXT_PUBLIC_SERVER_URL= http://localhost:8080/api/v1
-      NEXT_PUBLIC_LARGE_PROJECT=
-      NEXT_PUBLIC_SMALL_PROJECT=bb0871ca-516f-42ed-91e6-3f8175d18448
-      NEXT_PUBLIC_ENVIRONMENT_PLANNING=
-      NEXT_PUBLIC_DEVELOPMENT_PLANNING=b723cb59-334d-4372-9a8c-212d55b3cdc3![image](https://user-images.githubusercontent.com/124090609/217051524-fb5ebaa2-1465-480d-8dd8-8ddfe547d90a.png)
-
+      NEXT_PUBLIC_INFRASTRUCTURE_PROJECT=b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54
+      NEXT_PUBLIC_NETWORK_PROJECT=f3bac574-bc64-4169-af40-9f3403b43eb6
    ```
 
    - Create the `api/.env` file and add the following content
 
    ```
-      KC_AUTH_URL= https://dev.loginproxy.gov.bc.ca/auth
-      KC_AUTH_REALM=standard
-      KC_AUTH_CLIENT_ID=pbgp-4412
-      CHEFS_FORM_IDS=["4b19eee6-f42d-481f-8279-cbc28ab68cf0","98e9d187-9285-49ca-8c66-24b9dca1e6f7","d202bc41-dee3-4c5d-bb56-53213f4d095a"]
-      LARGE_PROJECT=
-      SMALL_PROJECT=bb0871ca-516f-42ed-91e6-3f8175d18448
-      ENVIRONMENT_PLANNING=
-      DEVELOPMENT_PLANNING=b723cb59-334d-4372-9a8c-212d55b3cdc3![image](https://user-images.githubusercontent.com/124090609/217051615-1a4f78c1-88e4-40c1-8e20-244cf333f01c.png)
-
+      KC_AUTH_URL=
+      KC_AUTH_REALM=
+      KC_AUTH_CLIENT_ID=
+      CHEFS_FORM_IDS=["b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54", "f3bac574-bc64-4169-af40-9f3403b43eb6"]
+      INFRASTRUCTURE_FORM=b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54
+      NETWORK_FORM=f3bac574-bc64-4169-af40-9f3403b43eb6
    ```
 
 ### Run

@@ -3,26 +3,22 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import useSWR from 'swr';
 import {
-  ApplicationStatus,
   API_ENDPOINT,
+  ApplicationStatus,
+  ApplicationType,
+  NextStatusUpdates,
   REQUEST_METHOD,
   Routes,
-  NextStatusUpdates,
-  ApplicationType,
 } from '../constants';
 import { KeyValuePair } from '../constants/interfaces';
 import { downloadHtmlAsPdf } from '../constants/util';
-import { useAuthContext, UserInterface } from '../contexts';
-import {
-  NEXT_PUBLIC_DEVELOPMENT_PLANNING,
-  NEXT_PUBLIC_SMALL_PROJECT,
-  NEXT_PUBLIC_ENVIRONMENT_PLANNING,
-} from '../pages/_app';
+import { UserInterface } from '../contexts';
+import { NEXT_PUBLIC_INFRASTRUCTURE_PROJECT, NEXT_PUBLIC_NETWORK_PROJECT } from '../pages/_app';
 import { useHttp } from './useHttp';
 import { useTeamManagement } from './useTeamManagement';
 
 type ApplicationFormResponseType = {
-  versionSchema: { components: KeyValuePair[] };
+  versionSchema: { components: [] };
 };
 
 type ApplicationDetailsType = KeyValuePair & {
@@ -31,7 +27,6 @@ type ApplicationDetailsType = KeyValuePair & {
   lastUpdatedBy?: UserInterface;
   assignedTo?: UserInterface;
   status: ApplicationStatus;
-  facilityName: string;
   totalEstimatedCost: string;
   asks: string;
   updatedAt: string;
@@ -47,28 +42,24 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
 
   const { fetchData, sendApiRequest } = useHttp();
   const { userData } = useTeamManagement();
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
   const [applicationType, setApplicationType] = useState<ApplicationType | undefined>();
 
   const findApplicationType = (data: any): ApplicationType => {
     switch (data?.form?.chefsFormId) {
-      case NEXT_PUBLIC_DEVELOPMENT_PLANNING:
-        return ApplicationType.DEVELOPMENT_PLANNING;
+      case NEXT_PUBLIC_INFRASTRUCTURE_PROJECT:
+        return ApplicationType.INFRASTRUCTURE_FORM;
 
-      case NEXT_PUBLIC_SMALL_PROJECT:
-        return ApplicationType.SMALL_PROJECT;
-
-      case NEXT_PUBLIC_ENVIRONMENT_PLANNING:
-        return ApplicationType.ENVIRONMENT_PLANNING;
+      case NEXT_PUBLIC_NETWORK_PROJECT:
+        return ApplicationType.NETWORK_FORM;
 
       default:
-        return ApplicationType.LARGE_PROJECT;
+        return ApplicationType.INFRASTRUCTURE_FORM;
     }
   };
 
   const topStatusObj = [
     { title: 'Status', value: 'status' },
-    { title: 'Facility', value: 'facilityName' },
     { title: 'Estimated cost', value: 'totalEstimatedCost' },
     { title: 'Asks', value: 'asks' },
     { title: 'Last updated', value: 'updatedAt' },
@@ -114,30 +105,30 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   const getNextStatusUpdates = (id: number, status: ApplicationStatus) => {
     const statusUpdates = [];
 
+    // TODO: confirm logic for updating statuses
     switch (status) {
-      case ApplicationStatus.INITIAL_REVIEW:
+      case ApplicationStatus.RECEIVED:
+        // if (user?.isAdmin) {
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
-          onClick: () => updateStatus(id, ApplicationStatus.FUNDING_REVIEW),
+          onClick: () => updateStatus(id, ApplicationStatus.ASSIGNED),
         });
         statusUpdates.push({
           label: NextStatusUpdates.DISCARD,
-          onClick: () => updateStatus(id, ApplicationStatus.DISCARD),
+          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
         });
+        // }
         break;
-      case ApplicationStatus.FUNDING_REVIEW:
+
+      case ApplicationStatus.ASSIGNED:
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
-          onClick: () => updateStatus(id, ApplicationStatus.BROADER_REVIEW),
+          onClick: () => updateStatus(id, ApplicationStatus.WORKSHOP),
         });
-        break;
-      case ApplicationStatus.BROADER_REVIEW:
-        if (user?.isAdmin) {
-          statusUpdates.push({
-            label: NextStatusUpdates.PROCEED,
-            onClick: () => updateStatus(id, ApplicationStatus.WORKSHOP),
-          });
-        }
+        statusUpdates.push({
+          label: NextStatusUpdates.DISCARD,
+          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
+        });
         break;
 
       case ApplicationStatus.WORKSHOP:
@@ -145,7 +136,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
         // TODO: Logic after workshop process
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
-          onClick: () => alert('WIP'),
+          onClick: () => updateStatus(id, ApplicationStatus.APPROVED),
         });
         break;
     }
@@ -154,7 +145,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   };
 
   const updateEvaluator = (data: UserInterface) => {
-    if (id && typeof id === 'string') {
+    if (id && typeof id === 'number') {
       sendApiRequest(
         {
           endpoint: API_ENDPOINT.getApplicationEvaluator(id),
@@ -169,7 +160,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   };
 
   const isPanelDefaultOpen = (index: number, status: string, title: string): boolean => {
-    if (status === ApplicationStatus.FUNDING_REVIEW) {
+    if (status === ApplicationStatus.ASSIGNED) {
       return title === 'Funding and Project Cost Estimate Information';
     }
 
@@ -192,7 +183,14 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   useEffect(() => {
     if (data) {
       const { form, submission, ...submissionDetails } = data;
-      setSchema(form.versionSchema.components);
+      const filteredComponents: any = form?.versionSchema?.components.filter(
+        (i: any) => i.type === 'panel',
+      );
+      const sections = filteredComponents.filter((c: any) =>
+        c.components.filter((i: any) => i.type === 'container'),
+      );
+
+      setSchema(sections);
       setFormData(submission);
       setDetails(submissionDetails);
       setApplicationType(findApplicationType(data));
