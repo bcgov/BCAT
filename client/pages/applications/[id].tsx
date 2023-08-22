@@ -12,7 +12,7 @@ import {
   Button,
   Link as LinkComponent,
   Comments,
-  // BroaderReview,
+  BroaderReview,
   MenuButton,
   Panel,
   RenderCHFSElement,
