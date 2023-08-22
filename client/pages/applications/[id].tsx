@@ -64,16 +64,14 @@ const ApplicationDetails: NextPage = () => {
                   defaultEvaluator={details.assignedTo}
                 />
               </div>
-              {/** TODO: enable in admin ticket */}
               <div className='w-fit'>
-                <Button variant='outline' onClick={() => setShowComments(true)} disabled>
+                <Button variant='outline' onClick={() => setShowComments(true)}>
                   <FontAwesomeIcon icon={faComment} className='h-4 mr-2 text-bcBluePrimary' />{' '}
                   Comments
                 </Button>
               </div>
             </div>
             <div className='w-2/5 justify-end flex'>
-              {/** TODO: add once admin ticket is complete */}
               {details.status === ApplicationStatus.WORKSHOP ? (
                 <div className='gap-2 flex'>
                   <Link href={`/applications/${id}/score-table`}>
