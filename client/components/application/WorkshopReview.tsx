@@ -3,7 +3,7 @@ import { useWorkshopReview } from '../../services';
 import { Button, Spinner } from '../generic';
 import {
   EvaluationReviewQuestions,
-  APPLICATION_REVIEW_VALIDATION_SCHEMA,
+  INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA,
   ReviewCompletionStatus,
   ApplicationType,
 } from '../../constants';
@@ -29,7 +29,11 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
       ) : (
         <Formik
           initialValues={applicationScores}
-          validationSchema={APPLICATION_REVIEW_VALIDATION_SCHEMA}
+          validationSchema={
+            applicationType === ApplicationType.NETWORK_FORM
+              ? INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA
+              : ''
+          }
           onSubmit={handleSubmit}
           enableReinitialize={true}
           key={applicationId}

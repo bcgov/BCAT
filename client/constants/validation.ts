@@ -3,73 +3,64 @@ import * as Yup from 'yup';
 const minValidationText = 'Must be greater than or equal to ';
 const maxValidationText = 'Must be less than or equal to ';
 
-export const APPLICATION_REVIEW_VALIDATION_SCHEMA = Yup.object().shape({
-  projectTypeScore: Yup.number()
+export const INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA = Yup.object().shape({
+  populationScore: Yup.number()
     .min(0, minValidationText + '0')
-    .max(10, maxValidationText + '10'),
-  projectNeedScore: Yup.number()
+    .max(15, maxValidationText + '15')
+    .required('This field is required'),
+
+  communityNeedsAndSafetyGuidelinesScore: Yup.number()
     .min(0, minValidationText + '0')
-    .max(5, maxValidationText + '5'),
-  projectFundingScore: Yup.number()
-    .min(0, minValidationText + '0')
-    .max(5, maxValidationText + '5'),
-  pastBcaapFundingScore: Yup.number()
-    .min(0, minValidationText + '0')
-    .max(3, maxValidationText + '3'),
-  facilityMasterPlanScore: Yup.number().oneOf([0, 2], 'Must be either 0 or 2'),
-  facilityUsageScore: Yup.number()
-    .min(1, minValidationText + '1')
-    .max(2, maxValidationText + '2'),
-  trafficDataScore: Yup.number()
-    .min(0, minValidationText + '0')
-    .max(3, maxValidationText + '3'),
-  climatePerspectiveScore: Yup.number()
-    .min(0, minValidationText + '0')
-    .max(5, maxValidationText + '5'),
-  climateBestPracticesScore: Yup.number()
-    .min(0, minValidationText + '0')
-    .max(5, maxValidationText + '5'),
-  environmentalRisksScore: Yup.number()
-    .min(0, minValidationText + '0')
-    .max(5, maxValidationText + '5'),
-  environmentalInnovationScore: Yup.number()
-    .min(0, minValidationText + '0')
-    .max(5, maxValidationText + '5'),
-  projectDescriptionScore: Yup.number()
-    .min(0, minValidationText + '0')
-    .max(2, maxValidationText + '2'),
-  climateGoalsScore: Yup.number()
-    .min(0, minValidationText + '0')
-    .max(5, maxValidationText + '5'),
-  organizationClimateGoalScore: Yup.number()
-    .min(0, minValidationText + '0')
-    .max(5, maxValidationText + '5'),
-  successMeasurementScore: Yup.number()
-    .min(0, minValidationText + '0')
-    .max(5, maxValidationText + '5'),
+    .max(15, maxValidationText + '15')
+    .required('This field is required'),
+
   safetyScore: Yup.number()
     .min(0, minValidationText + '0')
-    .max(15, maxValidationText + '15'),
-  medevacScore: Yup.number()
+    .max(23, maxValidationText + '23')
+    .required('This field is required'),
+
+  economyAndTourismScore: Yup.number()
     .min(0, minValidationText + '0')
-    .max(15, maxValidationText + '15'),
-  localBenefitsScore: Yup.number()
+    .max(5, maxValidationText + '5')
+    .required('This field is required'),
+
+  environmentScore: Yup.number()
     .min(0, minValidationText + '0')
-    .max(10, maxValidationText + '10'),
-  longTermScore: Yup.number()
+    .max(8, maxValidationText + '8')
+    .required('This field is required'),
+
+  landUseScore: Yup.number()
     .min(0, minValidationText + '0')
-    .max(5, maxValidationText + '5'),
-  communitySupportScore: Yup.number()
+    .max(15, maxValidationText + '15')
+    .required('This field is required'),
+
+  accessibilityScore: Yup.number()
     .min(0, minValidationText + '0')
-    .max(3, maxValidationText + '3'),
-  concernsScore: Yup.number()
+    .max(8, maxValidationText + '8')
+    .required('This field is required'),
+
+  promotionScore: Yup.number()
     .min(0, minValidationText + '0')
-    .max(5, maxValidationText + '5'),
-  contingencyPlanScore: Yup.number().oneOf([0, 2], 'Must be either 0 or 2'),
-  classBCostScore: Yup.number()
-    .min(1, minValidationText + '1')
-    .max(5, maxValidationText + '5'),
-  thirdPartyContributionScore: Yup.number()
+    .max(3, maxValidationText + '3')
+    .required('This field is required'),
+
+  lettersOfSupportScore: Yup.number()
     .min(0, minValidationText + '0')
-    .max(2, maxValidationText + '2'),
+    .max(3, maxValidationText + '3')
+    .required('This field is required'),
+
+  previousFundingScore: Yup.number()
+    .min(0, minValidationText + '0')
+    .max(5, maxValidationText + '5')
+    .required('This field is required'),
+
+  regionalAdjustmentScore: Yup.number()
+    .min(0, minValidationText + '0')
+    .max(5, maxValidationText + '5')
+    .required('This field is required'),
+
+  finalScore: Yup.number()
+    .min(0, minValidationText + '0')
+    .max(100, maxValidationText + '100')
+    .required('This field is required'),
 });

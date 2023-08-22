@@ -6,7 +6,7 @@ import {
   Button,
   Link as LinkComponent,
   Comments,
-  // BroaderReview,
+  BroaderReview,
   MenuButton,
   Panel,
   RenderCHFSElement,
@@ -16,7 +16,7 @@ import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useApplicationDetails } from '../../services';
 import { ApplicationStatus } from '../../constants';
-// import { WorkshopReview } from '../../components/application/WorkshopReview';
+import { WorkshopReview } from '../../components/application/WorkshopReview';
 import Link from 'next/link';
 import React from 'react';
 import { formatDate } from 'utils';
@@ -26,17 +26,18 @@ const ApplicationDetails: NextPage = () => {
   const id = query?.id ? +query.id : undefined;
 
   const {
-    topStatusObj,
-    schema,
-    formData,
+    applicationType,
     details,
-    showComments,
-    setShowComments,
+    downloadPDF,
+    formData,
     getNextStatusUpdates,
+    isPanelDefaultOpen,
+    schema,
+    setShowComments,
+    showComments,
+    topStatusObj,
     updateEvaluator,
     userList,
-    isPanelDefaultOpen,
-    downloadPDF,
   } = useApplicationDetails(id);
 
   return (
@@ -158,7 +159,7 @@ const ApplicationDetails: NextPage = () => {
                 <Comments applicationId={id} onClose={() => setShowComments(false)} />
               </div>
             )}
-            {/*details && applicationType && (
+            {details && applicationType && (
               <div className='col-span-2 pb-4'>
                 <BroaderReview
                   applicationId={id}
@@ -172,7 +173,7 @@ const ApplicationDetails: NextPage = () => {
               <div className='col-span-2 pb-4'>
                 <WorkshopReview applicationId={id} applicationType={applicationType} />
               </div>
-            )*/}
+            )}
           </div>
         </div>
       )}

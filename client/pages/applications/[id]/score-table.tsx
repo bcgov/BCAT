@@ -11,7 +11,7 @@ const ScoreTable: NextPage = () => {
   const { details } = useApplicationDetails(id);
   return (
     <div>
-      {details && id && typeof id === 'string' && (
+      {details && id && typeof id === 'number' && (
         <div className='min-h-screen p-5 w-full bg-white'>
           <div className='w-full mt-2'>
             <Link href={`/applications/${id}`} variant='link'>

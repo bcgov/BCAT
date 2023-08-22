@@ -2,7 +2,7 @@ import { Formik, Form } from 'formik';
 import { Button, Spinner } from '../generic';
 import {
   EvaluationReviewQuestions,
-  APPLICATION_REVIEW_VALIDATION_SCHEMA,
+  INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA,
   ReviewCompletionStatus,
   ApplicationType,
 } from '../../constants';
@@ -41,7 +41,11 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
       ) : (
         <Formik
           initialValues={applicationScoresByScorer}
-          validationSchema={APPLICATION_REVIEW_VALIDATION_SCHEMA}
+          validationSchema={
+            applicationType === ApplicationType.INFRASTRUCTURE_FORM
+              ? INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA
+              : ''
+          }
           onSubmit={handleSubmit}
           enableReinitialize={true}
           key={applicationId}
