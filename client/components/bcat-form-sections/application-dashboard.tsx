@@ -47,6 +47,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
     totalApplications,
     data,
   } = state;
+
   const { push, query } = useRouter();
   const router = useRouter();
   const { fetchData, isLoading } = useHttp();
@@ -119,6 +120,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
 
   const handleFilter = () => {
     if (filterHasNoValues()) return;
+
     const params = {
       ...query,
       applicantName: searchApplicantName,

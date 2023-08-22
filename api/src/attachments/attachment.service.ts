@@ -10,8 +10,8 @@ export class AttachmentService {
     private attachmentRepository: Repository<Attachment>
   ) {}
 
-  async getAttachment(id: number): Promise<Attachment> {
-    return this.attachmentRepository.findOne(id);
+  async getAttachment(chefsId: string): Promise<Attachment> {
+    return this.attachmentRepository.findOne({ where: { chefsId } });
   }
 
   async updateAttachment(attachment: Attachment): Promise<Attachment> {
@@ -19,7 +19,7 @@ export class AttachmentService {
   }
 
   async createOrUpdateAttachment(attachment: Attachment): Promise<Attachment> {
-    const foundAttachment = await this.getAttachment(attachment.id);
+    const foundAttachment = await this.getAttachment(attachment.chefsId);
     if (!foundAttachment) {
       Logger.log('-- Attachment not found, creating');
 

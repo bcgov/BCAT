@@ -10,8 +10,8 @@ export class AttachmentController {
   constructor(private attachmentService: AttachmentService) {}
 
   @Get('/:id')
-  async getAttachment(@Param('id') attachmentId: number) {
-    const attachment: Attachment = await this.attachmentService.getAttachment(attachmentId);
+  async getAttachment(@Param('id') attachmentChefsId: string) {
+    const attachment: Attachment = await this.attachmentService.getAttachment(attachmentChefsId);
     if (attachment) {
       const file = Readable.from(attachment.data);
 
