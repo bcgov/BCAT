@@ -168,7 +168,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   };
 
   const downloadPDF = () => {
-    if (id && typeof id === 'string') {
+    if (id && typeof id === 'number') {
       fetchData(
         {
           endpoint: API_ENDPOINT.downloadApplicationScore(id),

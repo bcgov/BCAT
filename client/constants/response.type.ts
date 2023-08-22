@@ -1,8 +1,8 @@
 export type CommentType = {
   userId: number;
   displayName: string;
-  commentId: string;
-  comment: string;
+  commentId: number;
+  OVERALL_COMMENTS: string;
   createdAt: string;
 };
 
