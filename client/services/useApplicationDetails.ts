@@ -107,7 +107,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
 
     // TODO: confirm logic for updating statuses
     switch (status) {
-      case ApplicationStatus.RECEIVED:
+      /* case ApplicationStatus.RECEIVED:
         // if (user?.isAdmin) {
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
@@ -118,7 +118,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
           onClick: () => updateStatus(id, ApplicationStatus.DENIED),
         });
         // }
-        break;
+        break; */
 
       case ApplicationStatus.ASSIGNED:
         statusUpdates.push({
