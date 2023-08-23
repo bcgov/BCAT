@@ -3,7 +3,7 @@ import { ReviewCompletionStatus } from './constants';
 export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
   {
     maxScore: 15,
-    label: 'Population Score: (auto)',
+    label: 'Population Score (auto)',
     secondaryList: [
       'If Indigenous Govt or Indigenous Govt Partnership = 15 pts',
       'If Local (non Indigenous) Govt <li 15k pop = 10 pts',
@@ -28,7 +28,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
   },
   {
     maxScore: 23,
-    label: 'Does this project meet community needs and safety guidelines?',
+    label: 'Safety Score',
     descriptionList: [
       'Solid physical barrier, substantial distancing, valid other/alternative approach (traffic calming), end-of-trip facilities only = 5 pt (manual)',
       'Minimal physical barrier, minimal physical distancing, or minimal other/alternative approach = 2 pts (manual)',
@@ -47,7 +47,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
   },
   {
     maxScore: 5,
-    label: 'Economy and Tourism Score: (manual)',
+    label: 'Economy and Tourism Score (manual)',
     descriptionList: [
       'What are the economic benefits? = up to 3 pts',
       'How will this project contribute to tourism? = up to 2 pts',
@@ -58,7 +58,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
   },
   {
     maxScore: 8,
-    label: 'Environment Score: (manual)',
+    label: 'Environment Score (manual)',
     descriptionList: [
       'Environmental Benefits = 3 pts',
       'Will the project retain existing Trees?  = 2 pts',
@@ -70,7 +70,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
   },
   {
     maxScore: 15,
-    label: 'Land Use Score:',
+    label: 'Land Use Score',
     descriptionList: [
       'Does this project connect with other AT facilities = 2 pts (manual)',
       'Is this project a component of larger infrastructure project = 3 pts (manual)',
@@ -85,7 +85,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
   },
   {
     maxScore: 8,
-    label: 'Accessibility Score: (manual)',
+    label: 'Accessibility Score (manual)',
     descriptionList: [
       'Does this Project Incorporate Universal Design? = 5 pts',
       'Does This Project Incorporate GBA+ Principles? = 3 pts',
@@ -96,19 +96,19 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
   },
   {
     maxScore: 3,
-    label: 'Promotion Score: (manual)',
+    label: 'Promotion Score (manual)',
     tooltiptext:
       'Score on promotional & educational activities = media event, signage, advertising, bike/ped maps, cycling courses, targeted outreach',
     name: 'promotionScore',
   },
   {
     maxScore: 3,
-    label: 'Letters of Support: (manual)',
+    label: 'Letters of Support (manual)',
     name: 'lettersOfSupportScore',
   },
   {
     maxScore: 5,
-    label: 'Previous funding: (manual)',
+    label: 'Previous funding (manual)',
     descriptionList: [
       'None = 5 pts',
       'less than (<) $500,000 = 3 pts',
@@ -119,7 +119,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
   },
   {
     maxScore: 5,
-    label: 'Regional Adjustment Scoring: (manual)',
+    label: 'Regional Adjustment Scoring (manual)',
     descriptionList: [
       'Vancouver Island/Coast = 1',
       'Lower Mainland /Southwest = 0',
