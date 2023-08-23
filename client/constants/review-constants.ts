@@ -10,7 +10,8 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
       'If Local Govt (non Indigenous) > 15k and <25k pop = 5pts',
       'If Local Govt (non Indigenous) > 25k pop = 0 pts',
     ],
-    disabled: true,
+    isAutomated: true,
+    hiddenInput: true,
     name: 'populationScore',
   },
   {
@@ -39,6 +40,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
       'Section 6. Question "The BC Active Transportation Design Guide recommends minimum widths for different types and contexts of active transportation infrastructure (see pg. 15 of the Program Guidelines). Does the proposed infrastructure align with the Design Guide recommendations?" - If Desired, or N/A is selected = 4pts (auto); if Constrained is selected = 2pts (auto);',
       'Section 6. Question "The B.C. Active Transportation Design Guide recommends certain facility types for different road contexts, e.g., speed and volume. Does the proposed infrastructure align with Design Guide recommendations?" - If Yes, or N/A is selected = 4pts (auto)',
     ],
+    isAutomated: true,
     tooltiptext:
       'Higher points = small, rural community, legitimate space/cost/capacity concerns. Lower points = not wanting to remove parking, lack of political or community will, cost concerns from larger urban centre with more resources',
     name: 'safetyScore',
@@ -78,6 +80,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
       'Connects w/ community infrastructure = 1 pt for each box, max 4 (auto)',
       'Connect w/  AT infrastructure = 1 pt for each box, max 3 (auto)',
     ],
+    isAutomated: true,
     name: 'landUseScore',
   },
   {
@@ -133,11 +136,14 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
 
 export const INITIAL_INFRASTRUCTURE_REVIEW_VALUES = {
   populationScore: 0,
+  AApopulationScore: 0,
   communityNeedsAndSafetyGuidelinesScore: 0,
   safetyScore: 0,
+  AAsafetyScore: 0,
   economyAndTourismScore: 0,
   environmentScore: 0,
   landUseScore: 0,
+  AAlandUseScore: 0,
   accessibilityScore: 0,
   promotionScore: 0,
   lettersOfSupportScore: 0,

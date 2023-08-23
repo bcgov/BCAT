@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { Formik, Form } from 'formik';
+
 import { Button, Spinner } from '../generic';
 import {
   INFRASTRUCTURE_REVIEW_QUESTIONS,
@@ -10,6 +12,7 @@ import { Textarea, Radio, Error } from '../form';
 import { UserInterface } from '../../contexts';
 import { FinalScore, Input, UserView } from '../broader-review';
 import { useBroaderReview } from '../../services';
+import { getInfrastructureAutomatedScores } from 'helpers';
 
 export type BroaderReviewProps = {
   applicationId: number;
@@ -37,6 +40,17 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
 
   const evaluationReviewQuestions =
     applicationType === ApplicationType.INFRASTRUCTURE_FORM ? INFRASTRUCTURE_REVIEW_QUESTIONS : [];
+
+    useEffect(() => {
+      // network auto values
+      if (applicationType === ApplicationType.INFRASTRUCTURE_FORM && applicationScoresByScorer) {
+        const scoreValues = getInfrastructureAutomatedScores(formData);
+
+        applicationScoresByScorer.AAlandUseScore = scoreValues?.landUseScore || 0;
+        applicationScoresByScorer.AApopulationScore = scoreValues?.populationScore || 0;
+        applicationScoresByScorer.AAsafetyScore = scoreValues?.safetyScore || 0;
+      }
+    }, [applicationScoresByScorer]);
 
   return (
     <>
@@ -100,16 +114,24 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                           <div key={`BroderReviewInput_${index}`} className='py-5'>
                             <Input
                               descriptionList={item.descriptionList}
-                              disabled={!isLoggedInUser || !!item.disabled}
+                              disabled={!isLoggedInUser}
+                              hiddenInput={item.hiddenInput}
                               label={item.label}
                               name={item.name}
-                              secondaryList={item.secondaryList}
                               tooltiptext={item.tooltiptext}
                             />
                             <Error name={item.name} />
-                            {item.secondaryList &&
-                              item.secondaryList.length > 0 &&
-                              item.descriptionList && <Input disabled name={`AA-${item.name}`} />}
+
+                            {item.isAutomated && (
+                              <>
+                                <Input
+                                  disabled
+                                  name={`AA${item.name}`}
+                                  secondaryList={item.secondaryList}
+                                />
+                                <Error name={`AA${item.name}`} />
+                              </>
+                            )}
                           </div>
                         ))}
                       </div>

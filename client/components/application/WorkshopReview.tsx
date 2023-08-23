@@ -69,20 +69,27 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                   <div className='p-4 grid grid-flow-row gap-4'>
                     <div>
                       <div className='bg-white divide-y'>
-                        {evaluationReviewQuestions.map((item, index) => (
-                          <div key={`WorkshopReviewInput_${index}`} className='py-5'>
+                      {evaluationReviewQuestions.map((item, index) => (
+                          <div key={`BroderReviewInput_${index}`} className='py-5'>
                             <Input
                               descriptionList={item.descriptionList}
                               disabled={!loggedInUser?.isAdmin || !!item.disabled}
                               label={item.label}
                               name={item.name}
-                              secondaryList={item.secondaryList}
                               tooltiptext={item.tooltiptext}
+                              secondaryList={!item.descriptionList ? item.secondaryList : []}
                             />
                             <Error name={item.name} />
+
                             {item.secondaryList &&
-                              item.secondaryList.length > 0 &&
-                              item.descriptionList && <Input disabled name={`AA-${item.name}`} />}
+                              item.descriptionList &&
+                              item.secondaryList.length > 0 && (
+                                <Input
+                                  disabled
+                                  name={`AA-${item.name}`}
+                                  secondaryList={item.secondaryList}
+                                />
+                              )}
                           </div>
                         ))}
                       </div>
