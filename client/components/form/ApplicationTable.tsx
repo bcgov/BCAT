@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ApplicationTableProps } from '../../constants/interfaces';
+import { formatDate } from 'utils';
 
 type Props = { applications: ApplicationTableProps[] };
 
@@ -50,7 +51,7 @@ const TableBody: React.FC<Props> = data => {
               <td className={tdStyles}>{row.totalEstimatedCost}</td>
               <td className={tdStyles}>{row.asks}</td>
               <td className={tdStyles}>{row.assignedTo ? row.assignedTo.displayName : ''}</td>
-              <td className={tdStyles}>{row.updatedAt}</td>
+              <td className={tdStyles}>{formatDate(row.updatedAt)}</td>
               <td className={tdStyles}>{row.status}</td>
             </tr>
           </Link>
