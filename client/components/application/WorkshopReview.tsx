@@ -76,6 +76,7 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                               disabled={!loggedInUser?.isAdmin || !!item.disabled}
                               label={item.label}
                               name={item.name}
+                              secondaryList={item.secondaryList}
                               tooltiptext={item.tooltiptext}
                             />
                             <Error name={item.name} />

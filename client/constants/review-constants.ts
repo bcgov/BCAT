@@ -3,19 +3,19 @@ import { ReviewCompletionStatus } from './constants';
 export const EvaluationReviewQuestions = [
   {
     maxScore: 15,
-    label: 'Population Score:',
-    descriptionList: [
-      'If Indigenous Govt or Indigenous Govt Partnership = 15 pts (auto)',
-      'If Local (non Indigenous) Govt <li 15k pop = 10 pts (auto)',
-      'If Local Govt (non Indigenous) > 15k and <25k pop = 5pts (auto)',
-      'If Local Govt (non Indigenous) > 25k pop = 0 pts (auto)',
+    label: 'Population Score: (auto)',
+    secondaryList: [
+      'If Indigenous Govt or Indigenous Govt Partnership = 15 pts',
+      'If Local (non Indigenous) Govt <li 15k pop = 10 pts',
+      'If Local Govt (non Indigenous) > 15k and <25k pop = 5pts',
+      'If Local Govt (non Indigenous) > 25k pop = 0 pts',
     ],
     disabled: true,
     name: 'populationScore',
   },
   {
     maxScore: 10,
-    label: 'Does this project meet community needs and safety guidelines?',
+    label: 'Does this project meet community needs and safety guidelines? (manual)',
     descriptionList: [
       'Listing of BCAT Design Guide or other publication = 1 pt',
       'Explanation of how project aligns with guide = up to 2 pts',
@@ -29,12 +29,15 @@ export const EvaluationReviewQuestions = [
     maxScore: 23,
     label: 'Does this project meet community needs and safety guidelines?',
     descriptionList: [
-      'Solid physical barrier, substantial distancing, valid other/alternative approach (traffic calming), end-of-trip facilities only = 5 pt',
-      'Minimal physical barrier, minimal physical distancing, or minimal other/alternative approach = 2 pts',
-      'Not physically separated = 0 pts',
+      'Solid physical barrier, substantial distancing, valid other/alternative approach (traffic calming), end-of-trip facilities only = 5 pt (manual)',
+      'Minimal physical barrier, minimal physical distancing, or minimal other/alternative approach = 2 pts (manual)',
+      'Not physically separated = 0 pts (manual)',
+      'Section 6. Question "The BC Active Transportation Design Guide recommends minimum widths for different types and contexts of active transportation infrastructure (see pg. 15 of the Program Guidelines). Does the proposed infrastructure align with the Design Guide recommendations?" - Only if Local context is selected = 0-4pts (manual)',
+    ],
+    secondaryList: [
       'Section 6. Question "Identify which additional safety measures exist within the design of your project" = 1 pt each for each box ticked (ex: Lighting, Signage, etc) (auto)',
-      'Section 6. Question "The BC Active Transportation Design Guide recommends minimum widths for different types and contexts of active transportation infrastructure (see pg. 15 of the Program Guidelines). Does the proposed infrastructure align with the Design Guide recommendations?" If Desired, or N/A is selected = 4pts (auto); if Constrained is selected = 2pts (auto); if Local context is selected = 0-4',
-      'Section 6. Question "The B.C. Active Transportation Design Guide recommends certain facility types for different road contexts, e.g., speed and volume. Does the proposed infrastructure align with Design Guide recommendations?" if Yes, or N/A is selected = 4pts (auto)',
+      'Section 6. Question "The BC Active Transportation Design Guide recommends minimum widths for different types and contexts of active transportation infrastructure (see pg. 15 of the Program Guidelines). Does the proposed infrastructure align with the Design Guide recommendations?" - If Desired, or N/A is selected = 4pts (auto); if Constrained is selected = 2pts (auto);',
+      'Section 6. Question "The B.C. Active Transportation Design Guide recommends certain facility types for different road contexts, e.g., speed and volume. Does the proposed infrastructure align with Design Guide recommendations?" - If Yes, or N/A is selected = 4pts (auto)',
     ],
     tooltiptext:
       'Higher points = small, rural community, legitimate space/cost/capacity concerns. Lower points = not wanting to remove parking, lack of political or community will, cost concerns from larger urban centre with more resources',
@@ -42,7 +45,7 @@ export const EvaluationReviewQuestions = [
   },
   {
     maxScore: 5,
-    label: 'Economy and Tourism Score:',
+    label: 'Economy and Tourism Score: (manual)',
     descriptionList: [
       'What are the economic benefits? = up to 3 pts',
       'How will this project contribute to tourism? = up to 2 pts',
@@ -53,7 +56,7 @@ export const EvaluationReviewQuestions = [
   },
   {
     maxScore: 8,
-    label: 'Environment Score :',
+    label: 'Environment Score: (manual)',
     descriptionList: [
       'Environmental Benefits = 3 pts',
       'Will the project retain existing Trees?  = 2 pts',
@@ -67,17 +70,19 @@ export const EvaluationReviewQuestions = [
     maxScore: 15,
     label: 'Land Use Score:',
     descriptionList: [
+      'Does this project connect with other AT facilities = 2 pts (manual)',
+      'Is this project a component of larger infrastructure project = 3 pts (manual)',
+    ],
+    secondaryList: [
       'Multi-modal Integration = 1 pt for each box, max 3 (auto)',
       'Connects w/ community infrastructure = 1 pt for each box, max 4 (auto)',
       'Connect w/  AT infrastructure = 1 pt for each box, max 3 (auto)',
-      'Does this project connect with other AT facilities = 2 pts',
-      'Is this project a component of larger infrastructure project',
     ],
     name: 'landUseScore',
   },
   {
     maxScore: 8,
-    label: 'Accessibility Score:',
+    label: 'Accessibility Score: (manual)',
     descriptionList: [
       'Does this Project Incorporate Universal Design? = 5 pts',
       'Does This Project Incorporate GBA+ Principles? = 3 pts',
@@ -88,19 +93,19 @@ export const EvaluationReviewQuestions = [
   },
   {
     maxScore: 3,
-    label: 'Promotion Score:',
+    label: 'Promotion Score: (manual)',
     tooltiptext:
       'Score on promotional & educational activities = media event, signage, advertising, bike/ped maps, cycling courses, targeted outreach',
     name: 'promotionScore',
   },
   {
     maxScore: 3,
-    label: 'Letters of Support:',
+    label: 'Letters of Support: (manual)',
     name: 'lettersOfSupportScore',
   },
   {
     maxScore: 5,
-    label: 'Previous funding:',
+    label: 'Previous funding: (manual)',
     descriptionList: [
       'None = 5 pts',
       'less than (<) $500,000 = 3 pts',
@@ -111,7 +116,7 @@ export const EvaluationReviewQuestions = [
   },
   {
     maxScore: 5,
-    label: 'Regional Adjustment Scoring:',
+    label: 'Regional Adjustment Scoring: (manual)',
     descriptionList: [
       'Vancouver Island/Coast = 1',
       'Lower Mainland /Southwest = 0',

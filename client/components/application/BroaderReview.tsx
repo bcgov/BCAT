@@ -104,6 +104,7 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                               disabled={!isLoggedInUser || !!item.disabled}
                               label={item.label}
                               name={item.name}
+                              secondaryList={item.secondaryList}
                               tooltiptext={item.tooltiptext}
                             />
                             <Error name={item.name} />

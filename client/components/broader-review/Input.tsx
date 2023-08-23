@@ -8,21 +8,23 @@ export type ObjProps = {
 };
 
 export type InputProps = {
-  label?: string;
-  name: string;
-  tooltiptext?: string;
   description?: string;
   descriptionList?: string[];
   disabled: boolean;
+  label?: string;
+  name: string;
+  secondaryList?: string[];
+  tooltiptext?: string;
 };
 
 export const Input: React.FC<InputProps> = ({
-  label,
-  name,
   description,
   descriptionList,
-  tooltiptext,
   disabled,
+  label,
+  name,
+  secondaryList,
+  tooltiptext,
 }) => {
   return (
     <div className='md:flex md:items-center'>
@@ -39,6 +41,13 @@ export const Input: React.FC<InputProps> = ({
             {descriptionList && (
               <ul className='text-bcBluePrimary list-disc list-inside'>
                 {descriptionList.map((item: string, index: number) => {
+                  return <li key={`ind-${item}-${index}`}>{item}</li>;
+                })}
+              </ul>
+            )}
+            {secondaryList && (
+              <ul className='text-bcGray text-sm italic list-disc list-inside'>
+                {secondaryList.map((item: string, index: number) => {
                   return <li key={`ind-${item}-${index}`}>{item}</li>;
                 })}
               </ul>
