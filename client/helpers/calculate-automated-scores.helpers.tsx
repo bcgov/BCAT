@@ -1,11 +1,11 @@
-const INDIGENOUS_GOVERNMENT = ['indigenousGovernment', 'indigenousCorporation'];
-
 const calculatePopulationScore = (
   govType: string,
   populationCount: number,
   secondaryGovType?: string,
   secondaryPopulationCount?: number,
 ) => {
+  const INDIGENOUS_GOVERNMENT = ['indigenousGovernment', 'indigenousCorporation'];
+
   if (
     INDIGENOUS_GOVERNMENT.includes(govType) ||
     (secondaryGovType && INDIGENOUS_GOVERNMENT.includes(secondaryGovType))

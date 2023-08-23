@@ -42,7 +42,6 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
     applicationType === ApplicationType.INFRASTRUCTURE_FORM ? INFRASTRUCTURE_REVIEW_QUESTIONS : [];
 
     useEffect(() => {
-      // network auto values
       if (applicationType === ApplicationType.INFRASTRUCTURE_FORM && applicationScoresByScorer) {
         const scoreValues = getInfrastructureAutomatedScores(formData);
 

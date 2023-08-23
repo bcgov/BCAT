@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { Formik, Form } from 'formik';
+
 import { useWorkshopReview } from '../../services';
 import { Button, Spinner } from '../generic';
 import {
@@ -9,6 +11,7 @@ import {
 } from '../../constants';
 import { Textarea, Radio, Error } from '../form';
 import { FinalScore, Input } from '../broader-review';
+import { getInfrastructureAutomatedScores } from 'helpers';
 
 export type WorkshopReviewProps = {
   applicationId: number;
@@ -28,6 +31,16 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
 
   const evaluationReviewQuestions =
     applicationType === ApplicationType.INFRASTRUCTURE_FORM ? INFRASTRUCTURE_REVIEW_QUESTIONS : [];
+
+  useEffect(() => {
+    if (applicationType === ApplicationType.INFRASTRUCTURE_FORM && applicationScores) {
+      const scoreValues = getInfrastructureAutomatedScores(formData);
+
+      applicationScores.AAlandUseScore = scoreValues?.landUseScore || 0;
+      applicationScores.AApopulationScore = scoreValues?.populationScore || 0;
+      applicationScores.AAsafetyScore = scoreValues?.safetyScore || 0;
+    }
+  }, [applicationScores]);
 
   return (
     <>
@@ -69,27 +82,28 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                   <div className='p-4 grid grid-flow-row gap-4'>
                     <div>
                       <div className='bg-white divide-y'>
-                      {evaluationReviewQuestions.map((item, index) => (
+                        {evaluationReviewQuestions.map((item, index) => (
                           <div key={`BroderReviewInput_${index}`} className='py-5'>
                             <Input
                               descriptionList={item.descriptionList}
-                              disabled={!loggedInUser?.isAdmin || !!item.disabled}
+                              disabled={!loggedInUser?.isAdmin}
+                              hiddenInput={item.hiddenInput}
                               label={item.label}
                               name={item.name}
                               tooltiptext={item.tooltiptext}
-                              secondaryList={!item.descriptionList ? item.secondaryList : []}
                             />
                             <Error name={item.name} />
 
-                            {item.secondaryList &&
-                              item.descriptionList &&
-                              item.secondaryList.length > 0 && (
+                            {item.isAutomated && (
+                              <>
                                 <Input
                                   disabled
-                                  name={`AA-${item.name}`}
+                                  name={`AA${item.name}`}
                                   secondaryList={item.secondaryList}
                                 />
-                              )}
+                                <Error name={`AA${item.name}`} />
+                              </>
+                            )}
                           </div>
                         ))}
                       </div>

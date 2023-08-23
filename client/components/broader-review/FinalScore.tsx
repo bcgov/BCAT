@@ -1,8 +1,9 @@
-import { useFormikContext } from 'formik';
+import { useFormikContext, Field } from 'formik';
 import { useEffect, useState } from 'react';
+import { Error } from '../form';
 
 export const FinalScore: React.FC<any> = () => {
-  const { values } = useFormikContext<any>();
+  const { values, validateField } = useFormikContext<any>();
   const [total, setTotal] = useState<number>();
 
   function addScores(array: any) {
@@ -20,6 +21,7 @@ export const FinalScore: React.FC<any> = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { finalScore, ...data } = values;
     setTotal(addScores(Object.values(data)));
+    validateField('finalScore');
   }, [values]);
 
   return (
@@ -28,13 +30,15 @@ export const FinalScore: React.FC<any> = () => {
         <span className='text-bcBluePrimary font-bold text-xl'>Final Score</span>
       </div>
       <div className='w-1/4 p-2'>
-        <input
+        <Field
+          as='input'
           type='number'
           name='finalScore'
           className='w-14 text-center bg-slate-100 BroderReviewInput border border-gray-400 bg-white pl-2 py-2 rounded'
           disabled
           value={total}
         />
+        <Error name='finalScore' />
       </div>
     </div>
   );
