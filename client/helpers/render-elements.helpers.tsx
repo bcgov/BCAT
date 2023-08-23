@@ -229,13 +229,6 @@ const renderSignature = (e: any, data: any) => {
   const label = getLabel(e);
   const value = getValue(e.key, data);
 
-  // TODO: try removing Infrastructure Type container in Section 4
-  if (container === 's4Container' && data?.[e.key]) {
-    value = data?.[e.key];
-  } else {
-    value = data?.[container]?.[e.key];
-  }
-
   return (
     <div key={e.id} className='w-1/2 grid grid-flow-row'>
       <span className='font-bold'>{label}</span>
