@@ -2,7 +2,7 @@ import { Formik, Form } from 'formik';
 import { useWorkshopReview } from '../../services';
 import { Button, Spinner } from '../generic';
 import {
-  EvaluationReviewQuestions,
+  INFRASTRUCTURE_REVIEW_QUESTIONS,
   INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA,
   ReviewCompletionStatus,
   ApplicationType,
@@ -13,16 +13,21 @@ import { FinalScore, Input } from '../broader-review';
 export type WorkshopReviewProps = {
   applicationId: number;
   applicationType: ApplicationType;
+  formData: any;
 };
 
 export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
   applicationId,
   applicationType,
+  formData,
 }) => {
   const { applicationScores, handleSubmit, isLoading, loggedInUser } = useWorkshopReview(
     applicationId,
     applicationType,
   );
+
+  const evaluationReviewQuestions =
+    applicationType === ApplicationType.INFRASTRUCTURE_FORM ? INFRASTRUCTURE_REVIEW_QUESTIONS : [];
 
   return (
     <>
@@ -63,14 +68,9 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                 <div>
                   <div className='p-4 grid grid-flow-row gap-4'>
                     <div>
-                      <div className='mt-4 bg-white pt-4 pb-4'>
-                        {EvaluationReviewQuestions.filter((item: any) => {
-                          if (item.criteria) {
-                            return item.criteria.includes(applicationType);
-                          }
-                          return true;
-                        }).map((item, index) => (
-                          <div key={`WorkshopReviewInput_${index}`} className='mb-3'>
+                      <div className='bg-white divide-y'>
+                        {evaluationReviewQuestions.map((item, index) => (
+                          <div key={`WorkshopReviewInput_${index}`} className='py-5'>
                             <Input
                               descriptionList={item.descriptionList}
                               disabled={!loggedInUser?.isAdmin || !!item.disabled}
@@ -80,6 +80,9 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                               tooltiptext={item.tooltiptext}
                             />
                             <Error name={item.name} />
+                            {item.secondaryList &&
+                              item.secondaryList.length > 0 &&
+                              item.descriptionList && <Input disabled name={`AA-${item.name}`} />}
                           </div>
                         ))}
                       </div>
@@ -92,10 +95,11 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
 
                       <div className='flex flex-1 w-full justify-start'>
                         <Radio
-                          title='Status'
+                          disabled={!loggedInUser?.isAdmin}
+                          horizontal={true}
                           legend='Select status for your score on this application.'
                           name='completionStatus'
-                          horizontal={true}
+                          title='Status'
                           options={[
                             { label: 'In Progress', value: ReviewCompletionStatus.IN_PROGRESS },
                             { label: 'Completed', value: ReviewCompletionStatus.COMPLETE },

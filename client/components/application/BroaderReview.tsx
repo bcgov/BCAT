@@ -1,7 +1,7 @@
 import { Formik, Form } from 'formik';
 import { Button, Spinner } from '../generic';
 import {
-  EvaluationReviewQuestions,
+  INFRASTRUCTURE_REVIEW_QUESTIONS,
   INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA,
   ReviewCompletionStatus,
   ApplicationType,
@@ -14,13 +14,14 @@ import { useBroaderReview } from '../../services';
 export type BroaderReviewProps = {
   applicationId: number;
   applicationType: ApplicationType;
+  formData: any;
   userList: UserInterface[];
-  onClose: () => void;
 };
 
 export const BroaderReview: React.FC<BroaderReviewProps> = ({
   applicationId,
   applicationType,
+  formData,
   userList,
 }) => {
   const {
@@ -33,6 +34,9 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
     loggedInUser,
     isLoading,
   } = useBroaderReview(applicationId, applicationType);
+
+  const evaluationReviewQuestions =
+    applicationType === ApplicationType.INFRASTRUCTURE_FORM ? INFRASTRUCTURE_REVIEW_QUESTIONS : [];
 
   return (
     <>
@@ -91,14 +95,9 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                           );
                         })}
 
-                      <div className='mt-4 bg-white pt-4 pb-4'>
-                        {EvaluationReviewQuestions.filter((item: any) => {
-                          if (item.criteria) {
-                            return item.criteria.includes(applicationType);
-                          }
-                          return true;
-                        }).map((item, index) => (
-                          <div key={`BroderReviewInput_${selectedUser}_${index}`} className='mb-3'>
+                      <div className='bg-white divide-y'>
+                        {evaluationReviewQuestions.map((item, index) => (
+                          <div key={`BroderReviewInput_${index}`} className='py-5'>
                             <Input
                               descriptionList={item.descriptionList}
                               disabled={!isLoggedInUser || !!item.disabled}
@@ -108,9 +107,13 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                               tooltiptext={item.tooltiptext}
                             />
                             <Error name={item.name} />
+                            {item.secondaryList &&
+                              item.secondaryList.length > 0 &&
+                              item.descriptionList && <Input disabled name={`AA-${item.name}`} />}
                           </div>
                         ))}
                       </div>
+
                       <Textarea
                         name='overallComments'
                         label='Overall comments'

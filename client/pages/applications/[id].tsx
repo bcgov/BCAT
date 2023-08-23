@@ -166,15 +166,19 @@ const ApplicationDetails: NextPage = () => {
               <div className='col-span-2 pb-4'>
                 <BroaderReview
                   applicationId={id}
-                  userList={userList}
-                  onClose={() => setShowComments(false)}
                   applicationType={applicationType}
+                  formData={formData}
+                  userList={userList}
                 />
               </div>
             )}
             {details && applicationType && details.status === ApplicationStatus.WORKSHOP && (
               <div className='col-span-2 pb-4'>
-                <WorkshopReview applicationId={id} applicationType={applicationType} />
+                <WorkshopReview
+                  applicationId={id}
+                  applicationType={applicationType}
+                  formData={formData}
+                />
               </div>
             )}
           </div>

@@ -3,11 +3,12 @@ import { Error } from '@components';
 import { Field as FormikField, useField, useFormikContext } from 'formik';
 
 interface RadioProps {
-  title?: string;
+  disabled?: boolean;
+  horizontal?: boolean;
   legend: string;
   name: string;
   options: RadioOptionType[];
-  horizontal?: boolean;
+  title?: string;
 }
 
 export interface RadioOptionType {
@@ -19,9 +20,9 @@ export interface RadioType extends React.FC<RadioProps> {
   Boolean: React.FC<BooleanRadioProps>;
 }
 
-export const Radio: RadioType = ({ title, legend, name, options, horizontal }) => {
+export const Radio: RadioType = ({ title, legend, name, options, horizontal, disabled }) => {
   return (
-    <fieldset className='flex flex-col gap-2'>
+    <fieldset className='flex flex-col gap-2' disabled={disabled}>
       <legend className='text-xl text-bcBlack font-bold w-full'>{title}</legend>
       <p className='text-gray-400 mb-2 text-sm'>{legend}</p>
       <div
@@ -37,10 +38,10 @@ export const Radio: RadioType = ({ title, legend, name, options, horizontal }) =
             className='flex items-center cursor-pointer leading-none'
           >
             <FormikField
-              type='radio'
-              name={name}
-              value={option.value}
               className='mr-2 h-5 w-5 min-w-5 cursor-pointer'
+              name={name}
+              type='radio'
+              value={option.value}
             />
             {option.label}
           </label>

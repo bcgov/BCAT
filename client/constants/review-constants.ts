@@ -1,6 +1,6 @@
 import { ReviewCompletionStatus } from './constants';
 
-export const EvaluationReviewQuestions = [
+export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
   {
     maxScore: 15,
     label: 'Population Score: (auto)',
