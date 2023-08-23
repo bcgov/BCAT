@@ -39,6 +39,7 @@ export const Input: React.FC<InputProps> = ({
                 <TooltipIcon icon={faQuestionCircle} text={tooltiptext} style='h-4 w-4' />
               )}
             </div>
+
             {description && <div className='text-bcBluePrimary'>{description}</div>}
           </div>
         )}
