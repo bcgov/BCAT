@@ -4,6 +4,6 @@ import { renderElement } from 'helpers';
 
 export const RenderCHFSElement: React.FC<any> = ({ component, formData }) => {
   const { fetchData } = useHttp();
-  
+
   return !component.hidden && renderElement(component, formData, fetchData);
 };

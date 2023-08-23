@@ -100,6 +100,7 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                               hiddenInput={item.hiddenInput}
                               label={item.label}
                               name={item.name}
+                              secondaryList={item.secondaryList}
                               tooltiptext={item.tooltiptext}
                             />
                             <Error name={item.name} />

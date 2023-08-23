@@ -117,6 +117,7 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                               hiddenInput={item.hiddenInput}
                               label={item.label}
                               name={item.name}
+                              secondaryList={item.secondaryList}
                               tooltiptext={item.tooltiptext}
                             />
                             <Error name={item.name} />
