@@ -41,15 +41,15 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
   const evaluationReviewQuestions =
     applicationType === ApplicationType.INFRASTRUCTURE_FORM ? INFRASTRUCTURE_REVIEW_QUESTIONS : [];
 
-    useEffect(() => {
-      if (applicationType === ApplicationType.INFRASTRUCTURE_FORM && applicationScoresByScorer) {
-        const scoreValues = getInfrastructureAutomatedScores(formData);
+  useEffect(() => {
+    if (applicationType === ApplicationType.INFRASTRUCTURE_FORM && applicationScoresByScorer) {
+      const scoreValues = getInfrastructureAutomatedScores(formData);
 
-        applicationScoresByScorer.AAlandUseScore = scoreValues?.landUseScore || 0;
-        applicationScoresByScorer.AApopulationScore = scoreValues?.populationScore || 0;
-        applicationScoresByScorer.AAsafetyScore = scoreValues?.safetyScore || 0;
-      }
-    }, [applicationScoresByScorer]);
+      applicationScoresByScorer.AAlandUseScore = scoreValues?.landUseScore || 0;
+      applicationScoresByScorer.AApopulationScore = scoreValues?.populationScore || 0;
+      applicationScoresByScorer.AAsafetyScore = scoreValues?.safetyScore || 0;
+    }
+  }, [applicationScoresByScorer]);
 
   return (
     <>
