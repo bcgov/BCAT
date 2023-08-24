@@ -1,0 +1,13 @@
+{
+  "name": "pipeline",
+  "version": "1.0.0",
+  "description": "Pipeline setup for BCAT",
+  "scripts": {
+    "build": "node build.js",
+    "clean": "node clean.js",
+    "deploy": "node deploy.js"
+  },
+  "dependencies": {
+    "@bcgov/pipeline-cli": "1.0.1"
+  }
+}
