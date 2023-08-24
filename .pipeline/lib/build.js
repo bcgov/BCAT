@@ -1,4 +1,3 @@
-'use strict';
 const { OpenShiftClientX } = require('@bcgov/pipeline-cli');
 const path = require('path');
 

@@ -2,6 +2,14 @@ const options = require('@bcgov/pipeline-cli').Util.parseArguments();
 
 const changeId = options.pr;
 const name = 'bcat';
+const version = '1.0.0';
+let shortSha;
+
+if (changeId && typeof changeId === 'string') {
+  shortSha = changeId.slice(0, 7);
+}
+
+const updatedChangeId = shortSha || changeId;
 
 Object.assign(options.git, { owner: 'bcgov', repository: 'BCAT' });
 const phases = {
@@ -9,22 +17,22 @@ const phases = {
     namespace: 'bfe2da-dev',
     name: `${name}`,
     phase: 'build',
-    changeId: changeId,
-    suffix: `-build-${changeId}`,
-    instance: `${name}-build-${changeId}`,
-    version: `${version}-${changeId}`,
-    tag: `build-${version}-${changeId}`,
+    changeId: updatedChangeId,
+    suffix: `-build-${updatedChangeId}`,
+    instance: `${name}-build-${updatedChangeId}`,
+    version: `${version}-${updatedChangeId}`,
+    tag: `build-${version}-${updatedChangeId}`,
     transient: true,
   },
   dev: {
     namespace: 'bfe2da-dev',
     name: `${name}`,
     phase: 'dev',
-    changeId: changeId,
-    suffix: `-dev-${changeId}`,
-    instance: `${name}-dev-${changeId}`,
-    version: `1.0.0-${changeId}`,
-    tag: `dev-${changeId}`,
+    changeId: updatedChangeId,
+    suffix: `-dev-${updatedChangeId}`,
+    instance: `${name}-dev-${updatedChangeId}`,
+    version: `${version}-${updatedChangeId}`,
+    tag: `dev-${version}-${updatedChangeId}`,
     host: `bfe2da-dev.apps.silver.devops.gov.bc.ca`,
     url_prefix: 'dev-',
     transient: true,
