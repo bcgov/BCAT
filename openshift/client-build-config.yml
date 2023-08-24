@@ -1,0 +1,85 @@
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: ${APP_NAME}
+objects:
+  - apiVersion: v1
+    kind: ImageStream
+    metadata:
+      name: ${NAME}
+    spec:
+      lookupPolicy:
+        local: false
+  - apiVersion: v1
+    kind: BuildConfig
+    metadata:
+      name: ${NAME}-${SUFFIX}
+    spec:
+      completionDeadlineSeconds: 3600
+      triggers:
+        - type: ImageChange
+        - type: ConfigChange
+      output:
+        to:
+          kind: ImageStreamTag
+          name: ${NAME}-${VERSION}
+      resources:
+        limits:
+          cpu: ${CPU}
+          memory: ${MEMORY}
+        requests:
+          cpu: ${CPU}
+          memory: ${MEMORY}
+      postCommit: {}
+      source:
+        git:
+          uri: ${SOURCE_REPOSITORY_URL}
+          ref: ${SOURCE_REPOSITORY_REF}
+        type: Git
+        contextDir: client
+      strategy:
+        type: Docker
+        dockerStrategy:
+          dockerfilePath: Dockerfile
+          noCache: true
+parameters:
+  - description: Name of the project (BCAT)
+    displayName: APP_NAME
+    name: Project name
+    required: true
+    value: "bcat"
+  - description: The name assigned to all of the OpenShift resources associated with this config
+    displayName: Name
+    name: NAME
+    required: false
+    value: "api"
+  - description: A name suffix used for all objects
+    displayName: Suffix
+    name: SUFFIX
+    required: false
+    value: "dev"
+  - description: A version used for the image tags
+    displayName: Version
+    name: VERSION
+    required: false
+    value: "v1.0.0"
+  - description: CPU
+    displayName: CPU request
+    name: CPU
+    required: false
+    value: "100m"
+  - description: MEMORY
+    displayName: Memory request
+    name: MEMORY
+    required: false
+    value: "512Mi"
+  - description: SOURCE_REPOSITORY_URL
+    displayName: SOURCE_REPOSITORY_URL
+    name: SOURCE_REPOSITORY_URL
+    required: false
+    value: ""
+  - description: SOURCE_REPOSITORY_REF
+    displayName: SOURCE_REPOSITORY_REF
+    name: SOURCE_REPOSITORY_REF
+    required: false
+    value: "develop"
