@@ -19,7 +19,6 @@ import { ApplicationStatus } from '../../constants';
 // import { WorkshopReview } from '../../components/application/WorkshopReview';
 import Link from 'next/link';
 import React from 'react';
-import { formatDate } from 'utils';
 
 const ApplicationDetails: NextPage = () => {
   const { query } = useRouter();
@@ -108,7 +107,7 @@ const ApplicationDetails: NextPage = () => {
                   <p className='text-lg'>
                     {item.value === 'lastUpdatedBy'
                       ? details[item.value]?.displayName
-                      : formatDate(details[item.value])}
+                      : details[item.value]}
                   </p>
                 </div>
               );

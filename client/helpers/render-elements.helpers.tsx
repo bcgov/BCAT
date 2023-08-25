@@ -2,7 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import { Button } from '@components';
 import { API_ENDPOINT } from '../constants';
-import { formatDate } from 'utils';
 
 const NO_DATA_LABEL = '-';
 
@@ -171,7 +170,7 @@ const renderGeneralField = (e: any, data: any) => {
       <span className='font-bold'>{label}</span>
       <span key={e.key}>
         {(e.type === 'currency' || e.type === 'simplecurrencyadvanced') && 'CA$'}
-        {`${formatDate(value) || NO_DATA_LABEL}`}
+        {`${value || NO_DATA_LABEL}`}
       </span>
     </div>
   );
@@ -280,7 +279,7 @@ const renderUsageCountForm = (e: any, data: any) => {
                 key={formInfo[index].label + index}
                 className='bg-white border-b-2 even:bg-bcGrayInput border-gray-200'
               >
-                <td className={bodyTdStyles}>{formatDate(ad[formInfo[0].key]) || NO_DATA_LABEL}</td>
+                <td className={bodyTdStyles}>{ad[formInfo[0].key] || NO_DATA_LABEL}</td>
                 <td className={bodyTdStyles}>{ad[formInfo[1].key] || NO_DATA_LABEL}</td>
                 <td className={bodyTdStyles}>{ad[formInfo[2].key] || NO_DATA_LABEL}</td>
                 <td className={bodyTdStyles}>{ad[formInfo[3].key] || NO_DATA_LABEL}</td>
