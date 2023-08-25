@@ -12,6 +12,7 @@ module.exports = (settings) => {
   objects.push(
     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client-build-config.yml`, {
       param: {
+        APP_NAME: 'bcat',
         NAME: `${settings.phases[phase].name}-client`,
         SUFFIX: 'dev',
         VERSION: settings.phases[phase].tag,
@@ -24,6 +25,7 @@ module.exports = (settings) => {
   objects.push(
     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/api-build-config.yml`, {
       param: {
+        APP_NAME: 'bcat',
         NAME: `${settings.phases[phase].name}-client`,
         SUFFIX: 'dev',
         VERSION: settings.phases[phase].tag,

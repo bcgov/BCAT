@@ -13,6 +13,7 @@ module.exports = (settings) => {
   objects.push(
     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client-deploy-config.yml`, {
       param: {
+        APP_NAME: 'bcat',
         NAME: `${phases[phase].name}-client`,
         SUFFIX: phases[phase].suffix,
         VERSION: phases[phase].tag,
@@ -33,6 +34,7 @@ module.exports = (settings) => {
   objects.push(
     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/api-deploy-config.yml`, {
       param: {
+        APP_NAME: 'bcat',
         NAME: `${phases[phase].name}-client`,
         SUFFIX: phases[phase].suffix,
         DATABASE_NAME: phases[phase].dbName,

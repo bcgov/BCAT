@@ -38,50 +38,27 @@ objects:
           containers:
             - image: image-registry.apps.silver.devops.gov.bc.ca/bfe2da-${SUFFIX}/${NAME}:{VERSION}
               imagePullPolicy: IfNotPresent
-              name: api
+              name: client
               env:
                 - name: APP_ENV
                   value: ${VERSION}
-                - name: POSTGRESQL_USER
+                - name: NEXT_PUBLIC_KC_AUTH_URL
                   valueFrom:
                     secretKeyRef:
-                      name: ${NAME}-${SUFFIX}
-                      key: database-user
-                - name: POSTGRESQL_PASSWORD
+                      key: auth-url
+                      name: ${NAME}-keycloak
+                - name: NEXT_PUBLIC_KC_AUTH_REALM
                   valueFrom:
                     secretKeyRef:
-                      name: ${NAME}-${SUFFIX}
-                      key: database-password
-                - name: POSTGRESQL_DATABASE
-                  value: ${POSTGRESQL_DATABASE_NAME}
-                - name: POSTGRESQL_SERVER
-                  value: postgresql
-                - name: POSTGRESQL_PORT
-                  value: "5432"
-                - name: APP_PORT
-                  value: "8080"
-                # - name: KC_AUTH_URL
-                #   valueFrom:
-                #     secretKeyRef:
-                #       key: auth-url
-                #       name: ${APP_NAME}-keycloak
-                # - name: KC_AUTH_REALM
-                #   valueFrom:
-                #     secretKeyRef:
-                #       key: realm
-                #       name: ${APP_NAME}-keycloak
-                # - name: KC_AUTH_CLIENT_ID
-                #   valueFrom:
-                #     secretKeyRef:
-                #       key: client-id
-                #       name: ${APP_NAME}-keycloak
-                # - name: CHEFS_FORM_API_KEY
-                #   valueFrom:
-                #     secretKeyRef:
-                #       key: CHEFS_FORM_API_KEY
-                #       name: ${APP_NAME}-chef
+                      key: realm
+                      name: ${NAME}-keycloak
+                - name: NEXT_PUBLIC_KC_AUTH_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-id
+                      name: ${NAME}-keycloak
               ports:
-                - containerPort: 8080
+                - containerPort: 3000
                   protocol: TCP
               resources:
                 requests:
@@ -92,8 +69,8 @@ objects:
                   memory: ${MEMORY}
               livenessProbe:
                 httpGet:
-                  path: /api/v1/version
-                  port: 8080
+                  path: /
+                  port: 3000
                 initialDelaySeconds: 15
                 timeoutSeconds: 5
                 periodSeconds: 10
@@ -101,7 +78,7 @@ objects:
         - imageChangeParams:
             automatic: true
             containerNames:
-              - api
+              - client
             from:
               kind: ImageStreamTag
               name: ${NAME}:${VERSION}
@@ -129,7 +106,7 @@ objects:
       name: ${NAME}-${SUFFIX}
     spec:
       host: ""
-      path: "/api"
+      path: "/client"
       port:
         targetPort: web
       tls:
@@ -178,4 +155,4 @@ parameters:
   - description: Port the server will be exposed on
     displayName: Server port
     name: SERVER_PORT
-    value: "8080"
+    value: "3000"
