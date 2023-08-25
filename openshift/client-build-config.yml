@@ -6,7 +6,7 @@ objects:
   - apiVersion: v1
     kind: ImageStream
     metadata:
-      name: ${NAME}
+      name: ${NAME}-${SUFFIX}
     spec:
       lookupPolicy:
         local: false
@@ -39,9 +39,6 @@ objects:
         contextDir: client
       strategy:
         type: Docker
-        dockerStrategy:
-          dockerfilePath: Dockerfile
-          noCache: true
 parameters:
   - description: Name of the project (BCAT)
     displayName: APP_NAME
@@ -51,8 +48,8 @@ parameters:
   - description: The name assigned to all of the OpenShift resources associated with this config
     displayName: Name
     name: NAME
-    required: false
-    value: "api"
+    required: true
+    value: "client"
   - description: A name suffix used for all objects
     displayName: Suffix
     name: SUFFIX
@@ -76,10 +73,10 @@ parameters:
   - description: SOURCE_REPOSITORY_URL
     displayName: SOURCE_REPOSITORY_URL
     name: SOURCE_REPOSITORY_URL
-    required: false
-    value: ""
+    required: true
+    value: https://github.com/bcgov/BCAT.git
   - description: SOURCE_REPOSITORY_REF
     displayName: SOURCE_REPOSITORY_REF
     name: SOURCE_REPOSITORY_REF
-    required: false
-    value: "develop"
+    required: true
+    value: develop

@@ -10,11 +10,11 @@ module.exports = (settings) => {
   const templatesLocalBaseUrl = oc.toFileUrl(path.resolve(__dirname, '../../openshift'));
 
   objects.push(
-    ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client-build-config.yaml`, {
+    ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client-build-config.yml`, {
       param: {
         NAME: `${settings.phases[phase].name}-client`,
         SUFFIX: 'dev',
-        VERSION: settings.phases[phase].version,
+        VERSION: settings.phases[phase].tag,
         SOURCE_REPOSITORY_URL: `${oc.git.uri}`,
         SOURCE_REPOSITORY_REF: `${oc.git.branch_ref}`,
       },
@@ -22,11 +22,11 @@ module.exports = (settings) => {
   );
 
   objects.push(
-    ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/api-build-config.yaml`, {
+    ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/api-build-config.yml`, {
       param: {
         NAME: `${settings.phases[phase].name}-client`,
         SUFFIX: 'dev',
-        VERSION: settings.phases[phase].version,
+        VERSION: settings.phases[phase].tag,
         SOURCE_REPOSITORY_URL: `${oc.git.uri}`,
         SOURCE_REPOSITORY_REF: `${oc.git.branch_ref}`,
       },
