@@ -22,7 +22,7 @@ objects:
       output:
         to:
           kind: ImageStreamTag
-          name: ${NAME}-${VERSION}
+          name: ${NAME}:${VERSION}
       resources:
         limits:
           cpu: ${CPU}

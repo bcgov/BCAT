@@ -1,0 +1,179 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: ${APP_NAME}
+objects:
+  - apiVersion: v1
+    kind: ImageStream
+    metadata:
+      labels:
+        shared: true
+      name: ${NAME}
+    spec:
+      lookupPolicy:
+        local: false
+  - apiVersion: v1
+    kind: DeploymentConfig
+    metadata:
+      name: ${NAME}-${SUFFIX}
+    spec:
+      replicas: 1
+      selector:
+        deploymentconfig: ${NAME}-${SUFFIX}
+      strategy:
+        activeDeadlineSeconds: 21600
+        rollingParams:
+          intervalSeconds: 1
+          maxSurge: 1
+          maxUnavailable: 1
+          timeoutSeconds: 3600
+          updatePeriodSeconds: 1
+        type: Rolling
+      template:
+        metadata:
+          labels:
+            deploymentconfig: ${NAME}-${SUFFIX}
+        spec:
+          containers:
+            - image: ${NAME}-${VERSION}
+              name: api
+              env:
+                - name: APP_ENV
+                  value: ${VERSION}
+                # - name: POSTGRESQL_SERVER
+                #   value: postgresql
+                # - name: POSTGRESQL_DATABASE
+                #   valueFrom:
+                #     secretKeyRef:
+                #       key: database-name
+                #       name: ${APP_NAME}-db
+                # - name: POSTGRESQL_USERNAME
+                #   valueFrom:
+                #     secretKeyRef:
+                #       key: database-username
+                #       name: ${APP_NAME}-db
+                # - name: POSTGRESQL_PASSWORD
+                #   valueFrom:
+                #     secretKeyRef:
+                #       key: database-password
+                #       name: ${APP_NAME}-db
+                - name: POSTGRESQL_PASSWORD
+                  value: "5432"
+                - name: APP_PORT
+                  value: "8080"
+                # - name: KC_AUTH_URL
+                #   valueFrom:
+                #     secretKeyRef:
+                #       key: auth-url
+                #       name: ${APP_NAME}-keycloak
+                # - name: KC_AUTH_REALM
+                #   valueFrom:
+                #     secretKeyRef:
+                #       key: realm
+                #       name: ${APP_NAME}-keycloak
+                # - name: KC_AUTH_CLIENT_ID
+                #   valueFrom:
+                #     secretKeyRef:
+                #       key: client-id
+                #       name: ${APP_NAME}-keycloak
+                # - name: CHEFS_FORM_API_KEY
+                #   valueFrom:
+                #     secretKeyRef:
+                #       key: CHEFS_FORM_API_KEY
+                #       name: ${APP_NAME}-chefs
+              image: image-registry.openshift-image-registry.svc:5000/bfe2da/${NAME}:{VERSION}
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              resources:
+                requests:
+                  cpu: ${CPU}
+                  memory: ${MEMORY}
+                limits:
+                  cpu: ${CPU}
+                  memory: ${MEMORY}
+              livenessProbe:
+                httpGet:
+                  path: /api/v1/version
+                  port: 8080
+                initialDelaySeconds: 15
+                timeoutSeconds: 5
+                periodSeconds: 10
+      triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - api
+            from:
+              kind: ImageStreamTag
+              name: ${NAME}:${VERSION}
+          type: ImageChange
+        - type: ConfigChange
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: null
+      name: ${NAME}-${SUFFIX}
+    spec:
+      ports:
+        - name: web
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+      selector:
+        deploymentconfig: ${NAME}$-{SUFFIX}
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      annotations:
+        haproxy.router.openshift.io/timeout: 5m
+        haproxy.router.openshift.io/disable_cookies: true
+      name: ${NAME}-${SUFFIX}
+    spec:
+      host: ""
+      path: "/api"
+      port:
+        targetPort: web
+      tls:
+        termination: edge
+      to:
+        kind: Service
+        name: ${NAME}-${SUFFIX}
+        weight: 100
+      wildcardPolicy: None
+parameters:
+  - description: Name of the project
+    displayName: APP_NAME
+    name: APP_NAME
+    required: true
+    value: "bcat"
+  - description: The name assigned to all of the OpenShift resources associated with this config
+    displayName: Name
+    name: NAME
+    required: true
+    value: "api"
+  - description: A name suffix used for all objects
+    displayName: Suffix
+    name: SUFFIX
+    required: false
+    value: "dev"
+  - description: A version used for the image tags
+    displayName: version
+    name: VERSION
+    required: false
+    value: "v1.0.0"
+  - description: CPU request
+    displayName: CPU
+    name: CPU
+    required: false
+    value: "100m"
+  - description: Memory request
+    displayName: MEMORY
+    name: MEMORY
+    required: false
+    value: "512Mi"
+  - description: Port the server will be exposed on
+    displayName: Server port
+    name: SERVER_PORT
+    value: "8080"

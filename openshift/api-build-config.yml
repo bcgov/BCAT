@@ -22,7 +22,7 @@ objects:
       output:
         to:
           kind: ImageStreamTag
-          name: ${NAME}-${VERSION}
+          name: ${NAME}:${VERSION}
       resources:
         limits:
           cpu: ${CPU}
@@ -60,13 +60,13 @@ parameters:
     name: VERSION
     required: false
     value: "v1.0.0"
-  - description: CPU
-    displayName: CPU request
+  - description: CPU request
+    displayName: CPU
     name: CPU
     required: false
     value: "100m"
-  - description: MEMORY
-    displayName: Memory request
+  - description: Memory request
+    displayName: MEMORY
     name: MEMORY
     required: false
     value: "512Mi"

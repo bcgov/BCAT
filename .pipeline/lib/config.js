@@ -33,8 +33,6 @@ const phases = {
     instance: `${name}-dev-${updatedChangeId}`,
     version: `${version}-${updatedChangeId}`,
     tag: `dev-${version}-${updatedChangeId}`,
-    host: `bfe2da-dev.apps.silver.devops.gov.bc.ca`,
-    url_prefix: 'dev-',
     transient: true,
     cpu: '100m',
     memory: '512Mi',

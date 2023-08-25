@@ -11,13 +11,11 @@ module.exports = (settings) => {
   var objects = [];
 
   objects.push(
-    ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client-deploy-config.yaml`, {
+    ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client-deploy-config.yml`, {
       param: {
         NAME: `${phases[phase].name}-client`,
         SUFFIX: phases[phase].suffix,
         VERSION: phases[phase].tag,
-        ENV: phases[phase].phase,
-        HOST: phases[phase].host,
         CPU: phases[phase].cpu,
         MEMORY: phases[phase].memory,
       },
@@ -25,7 +23,7 @@ module.exports = (settings) => {
   );
 
 //   objects.push(
-//     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/configmaps/api-appsettings.yaml`, {
+//     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/configmaps/api-appsettings.yml`, {
 //       param: {
 //         ENV: phases[phase].phase,
 //       },
@@ -33,14 +31,11 @@ module.exports = (settings) => {
 //   );
 
   objects.push(
-    ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/api-deploy-config.yaml`, {
+    ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/api-deploy-config.yml`, {
       param: {
-        NAME: `${phases[phase].name}-api`,
-        DB_NAME: `${phases[phase].name}`,
+        NAME: `${phases[phase].name}-client`,
         SUFFIX: phases[phase].suffix,
         VERSION: phases[phase].tag,
-        HOST: phases[phase].host,
-        ENV: phases[phase].phase,
         CPU: phases[phase].cpu,
         MEMORY: phases[phase].memory,
       },
