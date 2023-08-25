@@ -35,6 +35,7 @@ module.exports = (settings) => {
       param: {
         NAME: `${phases[phase].name}-client`,
         SUFFIX: phases[phase].suffix,
+        DATABASE_NAME: phases[phase].dbName,
         VERSION: phases[phase].tag,
         CPU: phases[phase].cpu,
         MEMORY: phases[phase].memory,

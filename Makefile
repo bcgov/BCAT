@@ -30,8 +30,8 @@ export OS_NAMESPACE_PREFIX:=bfe2da
 export OS_NAMESPACE_SUFFIX?=dev
 export TARGET_NAMESPACE=$(OS_NAMESPACE_PREFIX)-$(OS_NAMESPACE_SUFFIX)
 
-export NEXT_PUBLIC_REDIRECT_URI = https://bfe2da-dev.apps.silver.devops.gov.bc.ca
-export NEXT_PUBLIC_SERVER_URL = https://bfe2da-dev.apps.silver.devops.gov.bc.ca/api/v1
+export NEXT_PUBLIC_REDIRECT_URI = 
+export NEXT_PUBLIC_SERVER_URL = 
 
 export BUILD_REF?=test-deployment
 

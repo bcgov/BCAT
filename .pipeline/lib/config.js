@@ -28,6 +28,7 @@ const phases = {
     namespace: 'bfe2da-dev',
     name: `${name}`,
     phase: 'dev',
+    dbName: 'bcat',
     changeId: updatedChangeId,
     suffix: `-dev-${updatedChangeId}`,
     instance: `${name}-dev-${updatedChangeId}`,

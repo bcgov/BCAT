@@ -36,29 +36,27 @@ objects:
             deploymentconfig: ${NAME}-${SUFFIX}
         spec:
           containers:
-            - image: ${NAME}-${VERSION}
+            - image: image-registry.apps.silver.devops.gov.bc.ca/bfe2da-${SUFFIX}/${NAME}:{VERSION}
+              imagePullPolicy: IfNotPresent
               name: api
               env:
                 - name: APP_ENV
                   value: ${VERSION}
-                # - name: POSTGRESQL_SERVER
-                #   value: postgresql
-                # - name: POSTGRESQL_DATABASE
-                #   valueFrom:
-                #     secretKeyRef:
-                #       key: database-name
-                #       name: ${APP_NAME}-db
-                # - name: POSTGRESQL_USERNAME
-                #   valueFrom:
-                #     secretKeyRef:
-                #       key: database-username
-                #       name: ${APP_NAME}-db
-                # - name: POSTGRESQL_PASSWORD
-                #   valueFrom:
-                #     secretKeyRef:
-                #       key: database-password
-                #       name: ${APP_NAME}-db
+                - name: POSTGRESQL_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}-${SUFFIX}
+                      key: database-user
                 - name: POSTGRESQL_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: ${NAME}-${SUFFIX}
+                      key: database-password
+                - name: POSTGRESQL_DATABASE
+                  value: ${POSTGRESQL_DATABASE_NAME}
+                - name: POSTGRESQL_SERVER
+                  value: postgresql
+                - name: POSTGRESQL_PORT
                   value: "5432"
                 - name: APP_PORT
                   value: "8080"
@@ -158,6 +156,11 @@ parameters:
     name: SUFFIX
     required: false
     value: "dev"
+  - description: The name of the database
+    displayName: PostgreSQL Database Name
+    name: DATABASE_NAME
+    required: true
+    value: bcat
   - description: A version used for the image tags
     displayName: version
     name: VERSION
