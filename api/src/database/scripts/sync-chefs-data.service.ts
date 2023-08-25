@@ -23,6 +23,8 @@ const MAX_PROJECT_TITLE_LENGTH = 300;
 @Injectable()
 export class SyncChefsDataService {
   CHEFS_FORM_IDS: string[];
+  CHEFS_API_KEYS: string[];
+
   constructor(
     @InjectRepository(Application)
     private readonly applicationRepo: Repository<Application>,
@@ -32,11 +34,13 @@ export class SyncChefsDataService {
     private readonly attachmentService: AttachmentService
   ) {
     this.CHEFS_FORM_IDS = JSON.parse(process.env.CHEFS_FORM_IDS);
+    this.CHEFS_API_KEYS = JSON.parse(process.env.CHEFS_API_KEYS);
   }
 
   private getFormUrl(formId: string): string {
     return `${CHEFS_BASE_URL}/forms/${formId}/submissions`;
   }
+
   private getSubmissionUrl(submissionId: string): string {
     return `${CHEFS_BASE_URL}/submissions/${submissionId}`;
   }
@@ -228,13 +232,6 @@ export class SyncChefsDataService {
     }
   }
 
-  private getHeadersFromToken(token: string) {
-    return {
-      'Content-Type': 'application/x-www-formid-urlencoded',
-      Authorization: `Bearer ${token}`,
-    };
-  }
-
   private getSubmissionsFromIds(formId: string, submissionIds: string[], options) {
     submissionIds.forEach((submissionId) => {
       this.createOrUpdateSubmission(formId, submissionId, {
@@ -245,15 +242,25 @@ export class SyncChefsDataService {
   }
 
   async syncSubmissions(): Promise<void> {
-    const method = REQUEST_METHODS.GET;
-    const token = this.getTokenFromArgs(process.argv);
-    const headers = this.getHeadersFromToken(token);
-    const options = {
-      method,
-      headers,
-    };
     const submissionIds = this.getSubmissionIdsFromArgs(process.argv);
     const formId = this.getFormIdFromArgs(process.argv);
+    let password;
+
+    if (formId === process.env.INFRASTRUCTURE_FORM) {
+      password = this.CHEFS_API_KEYS[0];
+    }
+    if (formId === process.env.NETWORK_FORM) {
+      password = this.CHEFS_API_KEYS[1];
+    }
+
+    const method = REQUEST_METHODS.GET;
+    const options = {
+      method,
+      auth: {
+        username: formId,
+        password,
+      },
+    };
 
     try {
       if (submissionIds && submissionIds.length > 0) {
@@ -272,13 +279,14 @@ export class SyncChefsDataService {
 
   async syncChefsData(): Promise<void> {
     const method = REQUEST_METHODS.GET;
-    const token = this.getTokenFromArgs(process.argv);
-    const headers = this.getHeadersFromToken(token);
 
-    this.CHEFS_FORM_IDS.forEach(async (formId) => {
+    this.CHEFS_FORM_IDS.forEach(async (formId, index) => {
       const options = {
         method,
-        headers,
+        auth: {
+          username: formId,
+          password: this.CHEFS_API_KEYS[index],
+        },
       };
 
       try {
