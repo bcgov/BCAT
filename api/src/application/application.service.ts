@@ -81,7 +81,7 @@ export class ApplicationService {
 
   async getApplication(applicationId: number): Promise<Application> {
     const application = await this.applicationRepository.findOne(applicationId, {
-      relations: ['assignedTo', 'form'],
+      relations: ['assignedTo', 'form', 'lastUpdatedBy'],
     });
     if (!application) {
       throw new GenericException(ApplicationError.APPLICATION_NOT_FOUND);
@@ -114,7 +114,8 @@ export class ApplicationService {
     const application = await this.getApplication(applicationId);
     const user = await this.userService.getUser(assignToUserDto.userId);
     application.assignedTo = user;
-    application.lastUpdatedByUserId = loggedInUser.userName;
+    application.lastUpdatedByUserId = loggedInUser.id;
+    application.lastUpdatedByUserGuid = loggedInUser.userGuid;
     await this.applicationRepository.save(application);
   }
 
@@ -124,7 +125,8 @@ export class ApplicationService {
     // can be assigned/unassigned - will need to include the passed
     // user ID's.
     application.assignedTo = null;
-    application.lastUpdatedByUserId = loggedInUser.userName;
+    application.lastUpdatedByUserId = loggedInUser.id;
+    application.lastUpdatedByUserGuid = loggedInUser.userGuid;
     await this.applicationRepository.save(application);
   }
 
@@ -152,7 +154,8 @@ export class ApplicationService {
     // TODO: Should audit the changes on who updated the status
     await this.applicationRepository.update(applicationId, {
       status,
-      lastUpdatedByUserId: user.userName,
+      lastUpdatedByUserId: user.id,
+      lastUpdatedByUserGuid: user.userGuid,
     });
     await this.unassignUser(applicationId, user);
   }

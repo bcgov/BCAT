@@ -7,8 +7,8 @@ export class CustomBaseEntity {
   @Column({ name: 'APP_CREATE_USER_GUID', type: 'varchar', length: 36, readonly: true })
   createdByUserGuid?: string;
 
-  @Column({ name: 'APP_CREATE_USER_ID', type: 'varchar', length: 30, readonly: true })
-  createdByUserId?: string;
+  @Column({ name: 'APP_CREATE_USER_ID', type: 'integer' })
+  createdByUserId?: number;
 
   @UpdateDateColumn({ name: 'APP_LAST_UPDATE_TIMESTAMP' })
   updatedAt: Date;
@@ -20,8 +20,8 @@ export class CustomBaseEntity {
   @Column({ name: 'APP_LAST_UPDATE_USER_GUID', type: 'varchar', length: 36 })
   lastUpdatedByUserGuid?: string;
 
-  @Column({ name: 'APP_LAST_UPDATE_USER_ID', type: 'varchar', length: 30 })
-  lastUpdatedByUserId?: string;
+  @Column({ name: 'APP_LAST_UPDATE_USER_ID', type: 'integer' })
+  lastUpdatedByUserId?: number;
 
   // audit columns
   @CreateDateColumn({ name: 'DB_AUDIT_CREATE_TIMESTAMP' })

@@ -56,6 +56,10 @@ export class Application extends RemovableBaseEntity {
   @JoinColumn({ name: 'ASSIGNED_TO_USER_ID' })
   assignedTo: User;
 
+  @ManyToOne(() => User, (user) => user.id)
+  @JoinColumn({ name: 'APP_LAST_UPDATE_USER_ID' })
+  lastUpdatedBy: User;
+
   @OneToMany(() => Comment, (comment) => comment.application)
   comments: Comment[];
 }
