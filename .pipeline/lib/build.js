@@ -12,9 +12,8 @@ module.exports = (settings) => {
   objects.push(
     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client-build-config.yml`, {
       param: {
-        APP_NAME: 'bcat',
         NAME: `${settings.phases[phase].name}-client`,
-        SUFFIX: 'dev',
+        SUFFIX: settings.phases[phase].suffix,
         VERSION: settings.phases[phase].tag,
         SOURCE_REPOSITORY_URL: `${oc.git.uri}`,
         SOURCE_REPOSITORY_REF: `${oc.git.branch_ref}`,
@@ -25,9 +24,8 @@ module.exports = (settings) => {
   objects.push(
     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/api-build-config.yml`, {
       param: {
-        APP_NAME: 'bcat',
-        NAME: `${settings.phases[phase].name}-client`,
-        SUFFIX: 'dev',
+        NAME: `${settings.phases[phase].name}-api`,
+        SUFFIX: settings.phases[phase].suffix,
         VERSION: settings.phases[phase].tag,
         SOURCE_REPOSITORY_URL: `${oc.git.uri}`,
         SOURCE_REPOSITORY_REF: `${oc.git.branch_ref}`,

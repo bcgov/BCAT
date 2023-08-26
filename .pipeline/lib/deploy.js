@@ -13,12 +13,13 @@ module.exports = (settings) => {
   objects.push(
     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client-deploy-config.yml`, {
       param: {
-        APP_NAME: 'bcat',
+        CPU: phases[phase].client_cpu,
+        ENV: phases[phase].phase,
+        HOST: phases[phase].host,
+        MEMORY: phases[phase].client_memory,
         NAME: `${phases[phase].name}-client`,
         SUFFIX: phases[phase].suffix,
         VERSION: phases[phase].tag,
-        CPU: phases[phase].cpu,
-        MEMORY: phases[phase].memory,
       },
     }),
   );
@@ -34,13 +35,13 @@ module.exports = (settings) => {
   objects.push(
     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/api-deploy-config.yml`, {
       param: {
-        APP_NAME: 'bcat',
-        NAME: `${phases[phase].name}-client`,
+        HOST: phases[phase].host,
+        CPU: phases[phase].api_cpu,
+        ENV: phases[phase].phase,
+        MEMORY: phases[phase].api_memory,
+        NAME: `${phases[phase].name}-api`,
         SUFFIX: phases[phase].suffix,
-        DATABASE_NAME: phases[phase].dbName,
         VERSION: phases[phase].tag,
-        CPU: phases[phase].cpu,
-        MEMORY: phases[phase].memory,
       },
     }),
   );
