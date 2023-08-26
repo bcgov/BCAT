@@ -12,13 +12,13 @@ const entities =
   'dist/**/*.entity{ .ts,.js}';
 
 const config: PostgresConnectionOptions = {
-  host: process.env.POSTGRESQL_SERVER,
+  host: process.env.POSTGRES_HOST,
   type: 'postgres',
-  port: +(process.env.POSTGRESQL_PORT || 5432),
-  username: process.env.POSTGRESQL_USER,
-  password: process.env.POSTGRESQL_PASSWORD,
-  database: process.env.POSTGRESQL_DATABASE,
-  schema: 'app_bcat',
+  port: +(process.env.POSTGRES_PORT || 5432),
+  username: process.env.POSTGRES_USERNAME,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DATABASE || 'bcat',
+  schema: 'public',
   cli: {
     migrationsDir: 'src/migration',
     entitiesDir: 'src/**/*.entity.ts',

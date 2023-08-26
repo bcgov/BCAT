@@ -13,12 +13,11 @@ export DEPLOY_DATE?=$(shell date '+%Y%m%d%H%M')
 export COMMIT_SHA?=$(shell git rev-parse --short=7 HEAD)
 export IMAGE_TAG=${COMMIT_SHA}
 
-export PROJECT := $(or $(PROJECT),bcat)
-export POSTGRESQL_USER := $(POSTGRESQL_USER)
-export POSTGRESQL_PASSWORD := $(POSTGRESQL_PASSWORD)
-export POSTGRESQL_DATABASE := $(POSTGRESQL_DATABASE)
-export POSTGRESQL_SERVER := $(or $(DB_SERVER),database)
-export POSTGRESQL_PORT := $(or $(POSTGRESQL_PORT),5432)
+export POSTGRES_USERNAME := $(POSTGRES_USERNAME)
+export POSTGRES_PASSWORD := $(POSTGRES_PASSWORD)
+export POSTGRES_DATABASE := $(POSTGRES_DATABASE)
+export POSTGRES_HOST := $(or $(POSTGRES_HOST),database)
+export PORTGRES_PORT := $(or $(PORTGRES_PORT),5432)
 export GIT_LOCAL_BRANCH := $(or $(GIT_LOCAL_BRANCH),dev)
 
 export KC_AUTH_URL = $(KC_AUTH_URL)
@@ -49,9 +48,9 @@ print-status:
 	@echo " +---------------------------------------------------------+ "
 	@echo " | GIT LOCAL BRANCH: $(GIT_LOCAL_BRANCH) "
 	@echo " | PROJECT: $(PROJECT) "
-	@echo " | DB_NAME: $(DB_NAME) "
-	@echo " | DB_SERVER: $(DB_SERVER) "
-	@echo " | DB_USER: $(DB_USER) "
+	@echo " | DB_NAME: $(POSTGRES_DATABASE) "
+	@echo " | DB_SERVER: $(POSTGRES_HOST) "
+	@echo " | DB_USER: $(POSTGRES_USERNAME) "
 	@echo " +---------------------------------------------------------+ "
 
 ####################################################################

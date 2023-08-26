@@ -46,22 +46,22 @@ objects:
               env:
                 - name: APP_ENV
                   value: ${ENV}
-                - name: POSTGRESQL_USER
+                - name: POSTGRES_USERNAME
                   valueFrom:
                     secretKeyRef:
                       name: bcat-db-${ENV}
                       key: database-user
-                - name: POSTGRESQL_PASSWORD
+                - name: POSTGRES_PASSWORD
                   valueFrom:
                     secretKeyRef:
                       name: bcat-db-${ENV}
                       key: database-password
-                - name: POSTGRESQL_DATABASE
+                - name: POSTGRES_DATABASE
                   value: ${DB_NAME}
-                - name: POSTGRESQL_SERVER
+                - name: POSTGRESQL_HOST
                   value: postgresql
-                - name: POSTGRESQL_PORT
-                  value: "5432"
+                - name: POSTGRES_PORT
+                  value: 5432
                 - name: APP_PORT
                   value: "8080"
                 - name: KC_AUTH_URL
