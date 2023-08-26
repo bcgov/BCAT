@@ -1,24 +1,31 @@
-kind: Template
 apiVersion: template.openshift.io/v1
+kind: Template
 metadata:
-  name: ${APP_NAME}
+  creationTimestamp: null
+  name: ${PROJECT_NAME}
+labels:
+  template: client-build
 objects:
   - apiVersion: v1
     kind: ImageStream
     metadata:
-      name: ${NAME}-${SUFFIX}
+      creationTimestamp: null
+      labels:
+        shared: "true"
+      name: ${NAME}
     spec:
       lookupPolicy:
         local: false
   - apiVersion: v1
     kind: BuildConfig
     metadata:
-      name: ${NAME}-${SUFFIX}
+      creationTimestamp: null
+      labels:
+        build: ${NAME}${SUFFIX}
+      name: ${NAME}${SUFFIX}
     spec:
-      completionDeadlineSeconds: 3600
-      triggers:
-        - type: ImageChange
-        - type: ConfigChange
+      nodeSelector: null
+      completionDeadlineSeconds: 600
       output:
         to:
           kind: ImageStreamTag

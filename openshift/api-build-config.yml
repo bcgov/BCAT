@@ -1,24 +1,29 @@
-kind: Template
 apiVersion: template.openshift.io/v1
+kind: Template
 metadata:
-  name: ${APP_NAME}
+  creationTimestamp: null
+  name: ${PROJECT_NAME}
+labels:
+  template: api-build
 objects:
   - apiVersion: v1
     kind: ImageStream
     metadata:
-      name: ${NAME}-${SUFFIX}
+      creationTimestamp: null
+      labels:
+        shared: "true"
+      name: ${NAME}
     spec:
       lookupPolicy:
         local: false
   - apiVersion: v1
     kind: BuildConfig
     metadata:
-      name: ${NAME}-${SUFFIX}
+      creationTimestamp: null
+      name: ${NAME}${SUFFIX}
     spec:
-      completionDeadlineSeconds: 3600
-      triggers:
-        - type: ImageChange
-        - type: ConfigChange
+      completionDeadlineSeconds: 600
+      nodeSelector: null
       output:
         to:
           kind: ImageStreamTag
@@ -41,7 +46,7 @@ objects:
         type: Docker
 parameters:
   - description: Name of the project (BCAT)
-    displayName: APP_NAME
+    displayName: PROJECT_NAME
     name: Project name
     required: true
     value: "bcat"
@@ -54,7 +59,7 @@ parameters:
     displayName: Suffix
     name: SUFFIX
     required: false
-    value: "dev"
+    value: "-dev"
   - description: A version used for the image tags
     displayName: Version
     name: VERSION
