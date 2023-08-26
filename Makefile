@@ -107,9 +107,3 @@ curl-client:
 
 add-role:
 	@oc policy add-role-to-user admin system:serviceaccount:$(TARGET_NAMESPACE):default -n $(TOOLS_NAMESPACE)
-
-# networking-prep:
-# 	@oc process -f openshift/networking.yml | oc apply -n $(TARGET_NAMESPACE) -f -
-
-# app-env-prep:
-# 	@oc process -f openshift/app.prep.yml -p APP_NAME=$(APP_NAME) KC_AUTH_URL=$(KC_AUTH_URL) KC_AUTH_REALM=$(KC_AUTH_REALM) KC_AUTH_CLIENT_ID=$(KC_AUTH_CLIENT_ID) NEXT_PUBLIC_SERVER_URL=$(NEXT_PUBLIC_SERVER_URL) NEXT_PUBLIC_REDIRECT_URI=$(NEXT_PUBLIC_REDIRECT_URI) | oc create -n $(TARGET_NAMESPACE) -f -
