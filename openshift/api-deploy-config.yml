@@ -2,11 +2,14 @@ apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
   creationTimestamp: null
-  name: ${APP_NAME}
+  name: ${PROJECT_NAME}
+labels:
+  template: api-deploy
 objects:
   - apiVersion: v1
     kind: ImageStream
     metadata:
+      creationTimestamp: null
       labels:
         shared: true
       name: ${NAME}
@@ -16,70 +19,86 @@ objects:
   - apiVersion: v1
     kind: DeploymentConfig
     metadata:
-      name: ${NAME}-${SUFFIX}
+      creationTimestamp: null
+      name: ${NAME}${SUFFIX}
     spec:
       replicas: 1
       selector:
-        deploymentconfig: ${NAME}-${SUFFIX}
+        deploymentconfig: ${NAME}${SUFFIX}
       strategy:
         activeDeadlineSeconds: 21600
         rollingParams:
           intervalSeconds: 1
           maxSurge: 1
           maxUnavailable: 1
-          timeoutSeconds: 3600
+          timeoutSeconds: 600
           updatePeriodSeconds: 1
         type: Rolling
       template:
         metadata:
+          creationTimestamp: null
           labels:
-            deploymentconfig: ${NAME}-${SUFFIX}
+            deploymentconfig: ${NAME}${SUFFIX}
         spec:
           containers:
-            - image: image-registry.apps.silver.devops.gov.bc.ca/bfe2da-${SUFFIX}/${NAME}:{VERSION}
-              imagePullPolicy: IfNotPresent
+            - image: ${NAME}:${VERSION}
               name: api
               env:
                 - name: APP_ENV
-                  value: ${VERSION}
+                  value: ${ENV}
                 - name: POSTGRESQL_USER
                   valueFrom:
                     secretKeyRef:
-                      name: ${NAME}-${SUFFIX}
+                      name: bcat-db-${ENV}
                       key: database-user
                 - name: POSTGRESQL_PASSWORD
                   valueFrom:
                     secretKeyRef:
-                      name: ${NAME}-${SUFFIX}
+                      name: bcat-db-${ENV}
                       key: database-password
                 - name: POSTGRESQL_DATABASE
-                  value: ${POSTGRESQL_DATABASE_NAME}
+                  value: ${DB_NAME}
                 - name: POSTGRESQL_SERVER
                   value: postgresql
                 - name: POSTGRESQL_PORT
                   value: "5432"
                 - name: APP_PORT
                   value: "8080"
-                # - name: KC_AUTH_URL
-                #   valueFrom:
-                #     secretKeyRef:
-                #       key: auth-url
-                #       name: ${APP_NAME}-keycloak
-                # - name: KC_AUTH_REALM
-                #   valueFrom:
-                #     secretKeyRef:
-                #       key: realm
-                #       name: ${APP_NAME}-keycloak
-                # - name: KC_AUTH_CLIENT_ID
-                #   valueFrom:
-                #     secretKeyRef:
-                #       key: client-id
-                #       name: ${APP_NAME}-keycloak
-                # - name: CHEFS_FORM_API_KEY
-                #   valueFrom:
-                #     secretKeyRef:
-                #       key: CHEFS_FORM_API_KEY
-                #       name: ${APP_NAME}-chef
+                - name: KC_AUTH_URL
+                  valueFrom:
+                    secretKeyRef:
+                      key: CLIENT_SSO_HOST
+                      name: sso-configs-${ENV}
+                - name: KC_AUTH_REALM
+                  valueFrom:
+                    secretKeyRef:
+                      key: CLIENT_SSO_REALM
+                      name: sso-configs-${ENV}
+                - name: KC_AUTH_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: CLIENT_SSO_CLIENTID
+                      name: sso-configs-${ENV}
+                - name: INFRASTRUCTURE_FORM
+                  valueFrom:
+                    secretKeyRef:
+                      key: CHEFS_INFRASTRUCTURE_FORM_ID
+                      name: chefs-keys--${ENV}
+                - name: NETWORK_FORM
+                  valueFrom:
+                    secretKeyRef:
+                      key: CHEFS_NETWORK_FORM_ID
+                      name: chefs-keys--${ENV}
+                - name: CHEFS_INFRASTRUCTURE_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: CHEFS_INFRASTRUCTURE_API_KEY
+                      name: chefs-keys--${ENV}
+                - name: CHEFS_NETWORK_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: CHEFS_NETWORK_API_KEY
+                      name: chefs-keys--${ENV}
               ports:
                 - containerPort: 8080
                   protocol: TCP
@@ -97,6 +116,7 @@ objects:
                 initialDelaySeconds: 15
                 timeoutSeconds: 5
                 periodSeconds: 10
+      test: false
       triggers:
         - imageChangeParams:
             automatic: true
@@ -111,7 +131,7 @@ objects:
     kind: Service
     metadata:
       creationTimestamp: null
-      name: ${NAME}-${SUFFIX}
+      name: ${NAME}${SUFFIX}
     spec:
       ports:
         - name: web
@@ -119,16 +139,16 @@ objects:
           protocol: TCP
           targetPort: 8080
       selector:
-        deploymentconfig: ${NAME}$-{SUFFIX}
+        deploymentconfig: ${NAME}${SUFFIX}
   - apiVersion: route.openshift.io/v1
     kind: Route
     metadata:
       annotations:
         haproxy.router.openshift.io/timeout: 5m
-        haproxy.router.openshift.io/disable_cookies: true
-      name: ${NAME}-${SUFFIX}
+      creationTimestamp: null
+      name: ${NAME}-${ENV}
     spec:
-      host: ""
+      host: api-${HOST}
       path: "/api"
       port:
         targetPort: web
@@ -136,13 +156,13 @@ objects:
         termination: edge
       to:
         kind: Service
-        name: ${NAME}-${SUFFIX}
+        name: ${NAME}${SUFFIX}
         weight: 100
       wildcardPolicy: None
 parameters:
   - description: Name of the project
-    displayName: APP_NAME
-    name: APP_NAME
+    displayName: PROJECT_NAME
+    name: PROJECT_NAME
     required: true
     value: "bcat"
   - description: The name assigned to all of the OpenShift resources associated with this config
@@ -150,21 +170,31 @@ parameters:
     name: NAME
     required: true
     value: "api"
+  - description: Database name
+    displayName: DB_NAME
+    name: DB_NAME
+    required: true
+    value: "bcat"
   - description: A name suffix used for all objects
     displayName: Suffix
     name: SUFFIX
     required: false
+    value: "-dev"
+  - description: Environment short name (dev,test,uat,prod)
+    displayName: ENV
+    name: ENV
+    required: false
     value: "dev"
-  - description: The name of the database
-    displayName: PostgreSQL Database Name
-    name: DATABASE_NAME
-    required: true
-    value: bcat
   - description: A version used for the image tags
     displayName: version
     name: VERSION
     required: false
     value: "v1.0.0"
+  - description: HOST
+    displayName: HOST
+    name: HOST
+    required: true
+    value: ""
   - description: CPU request
     displayName: CPU
     name: CPU
