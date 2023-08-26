@@ -13,12 +13,12 @@ export const ApplicationVsDetailsInfo = {};
 
 ApplicationVsDetailsInfo[ApplicationType.INFRASTRUCTURE_FORM] = {
   heading: 'Infrastructure',
-  totalScore: 0,
+  totalScore: 100,
 };
 
 ApplicationVsDetailsInfo[ApplicationType.NETWORK_FORM] = {
   heading: 'Network',
-  totalScore: 0,
+  totalScore: 100,
 };
 
 export class ApplicationFinalScoreRO {
