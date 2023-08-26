@@ -3,7 +3,6 @@ import { CompletionStatus } from '../../common/enums';
 import {
   IsEmpty,
   IsEnum,
-  IsIn,
   IsNumber,
   IsOptional,
   IsString,
@@ -13,177 +12,88 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class ScoreDataDto {
-  @IsNumber()
-  @Max(10)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  projectTypeScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  projectNeedScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  projectFundingScore: number;
-
-  @IsNumber()
-  @Max(3)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  pastBcaapFundingScore: number;
-
-  @IsNumber()
-  @IsIn([0, 2])
-  @IsOptional()
-  @IsEmpty()
-  facilityMasterPlanScore: number;
-
-  @IsNumber()
-  @Max(2)
-  @Min(1)
-  @IsOptional()
-  @IsEmpty()
-  facilityUsageScore: number;
-
-  @IsNumber()
-  @Max(3)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  trafficDataScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  climatePerspectiveScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  climateBestPracticesScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  environmentalRisksScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  environmentalInnovationScore: number;
-
-  @IsNumber()
-  @Max(2)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  projectDescriptionScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  climateGoalsScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  organizationClimateGoalScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  successMeasurementScore: number;
-
+export class ScoreInfrastructureDataDto {
   @IsNumber()
   @Max(15)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  populationScore: number;
+  
+  @IsNumber()
+  @Max(15)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  communityNeedsAndSafetyGuidelinesScore: number;
+
+  @IsNumber()
+  @Max(23)
   @Min(0)
   @IsOptional()
   @IsEmpty()
   safetyScore: number;
 
   @IsNumber()
-  @Max(15)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  medevacScore: number;
-
-  @IsNumber()
-  @Max(10)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  localBenefitsScore: number;
-
-  @IsNumber()
   @Max(5)
   @Min(0)
   @IsOptional()
   @IsEmpty()
-  longTermScore: number;
+  economyAndTourismScore: number;
+
+  @IsNumber()
+  @Max(8)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  environmentScore: number;
+
+  @IsNumber()
+  @Max(15)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  landUseScore: number;
+
+  @IsNumber()
+  @Max(8)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  accessibilityScore: number;
 
   @IsNumber()
   @Max(3)
   @Min(0)
   @IsOptional()
   @IsEmpty()
-  communitySupportScore: number;
+  promotionScore: number;
+
+  @IsNumber()
+  @Max(3)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  lettersOfSupportScore: number;
 
   @IsNumber()
   @Max(5)
   @Min(0)
   @IsOptional()
   @IsEmpty()
-  concernsScore: number;
-
-  @IsNumber()
-  @IsIn([0, 2])
-  @IsOptional()
-  @IsEmpty()
-  contingencyPlanScore: number;
+  previousFundingScore: number;
 
   @IsNumber()
   @Max(5)
-  @Min(1)
-  @IsOptional()
-  @IsEmpty()
-  classBCostScore: number;
-
-  @IsNumber()
-  @Max(2)
   @Min(0)
   @IsOptional()
   @IsEmpty()
-  thirdPartyContributionScore: number;
+  regionalAdjustmentScore: number;
 }
 
 export class ScoreDto {
   @IsOptional()
-  data: ScoreDataDto;
+  data: ScoreInfrastructureDataDto;
 
   @IsString()
   @MaxLength(2000)

@@ -4,7 +4,6 @@ import { CustomBaseEntity } from '../common/custom-base.entity';
 export class ScoreBaseEntity extends CustomBaseEntity {
   @Column({ name: 'DATA', type: 'jsonb', nullable: true })
   data?: any;
-  // data: ScoreDataDto;
 
   @Column({ name: 'FINAL_SCORE', type: 'integer' })
   finalScore?: number;
