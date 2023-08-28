@@ -44,9 +44,7 @@ objects:
             - image: ${NAME}:${VERSION}
               name: api
               env:
-                - name: APP_ENV
-                  value: ${ENV}
-                - name: POSTGRES_USERNAME
+                - name: POSTGRES_USER
                   valueFrom:
                     secretKeyRef:
                       name: bcat-db-${ENV}
@@ -58,7 +56,7 @@ objects:
                       key: database-password
                 - name: POSTGRES_DATABASE
                   value: ${DB_NAME}
-                - name: POSTGRESQL_HOST
+                - name: POSTGRES_HOST
                   value: postgresql
                 - name: POSTGRES_PORT
                   value: 5432

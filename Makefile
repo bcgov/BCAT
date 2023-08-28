@@ -13,11 +13,11 @@ export DEPLOY_DATE?=$(shell date '+%Y%m%d%H%M')
 export COMMIT_SHA?=$(shell git rev-parse --short=7 HEAD)
 export IMAGE_TAG=${COMMIT_SHA}
 
-export POSTGRES_USERNAME := $(POSTGRES_USERNAME)
+export POSTGRES_USER := $(POSTGRES_USER)
 export POSTGRES_PASSWORD := $(POSTGRES_PASSWORD)
 export POSTGRES_DATABASE := $(POSTGRES_DATABASE)
 export POSTGRES_HOST := $(or $(POSTGRES_HOST),database)
-export PORTGRES_PORT := $(or $(PORTGRES_PORT),5432)
+export POSTGRES_PORT := $(or $(POSTGRES_PORT),5432)
 export GIT_LOCAL_BRANCH := $(or $(GIT_LOCAL_BRANCH),dev)
 
 export KC_AUTH_URL = $(KC_AUTH_URL)
@@ -50,7 +50,7 @@ print-status:
 	@echo " | PROJECT: $(PROJECT) "
 	@echo " | DB_NAME: $(POSTGRES_DATABASE) "
 	@echo " | DB_SERVER: $(POSTGRES_HOST) "
-	@echo " | DB_USER: $(POSTGRES_USERNAME) "
+	@echo " | DB_USER: $(POSTGRES_USER) "
 	@echo " +---------------------------------------------------------+ "
 
 ####################################################################

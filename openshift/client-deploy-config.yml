@@ -36,8 +36,16 @@ objects:
             - image: ${NAME}:${VERSION}
               name: client
               env:
-                - name: APP_ENV
-                  value: ${ENV}
+                - name: NEXT_PUBLIC_SERVER_URL
+                  valueFrom:
+                    secretKeyRef:
+                      key: CLIENT_API_URL
+                      name: bcat-configs-${ENV}
+                - name: NEXT_PUBLIC_REDIRECT_URI
+                  valueFrom:
+                    secretKeyRef:
+                      key: CLIENT_REDIRECT_URI
+                      name: bcat-configs-${ENV}
                 - name: NEXT_PUBLIC_KC_AUTH_URL
                   valueFrom:
                     secretKeyRef:
