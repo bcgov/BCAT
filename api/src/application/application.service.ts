@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Application } from './application.entity';
 import { SaveApplicationDto } from '../common/dto/save-application.dto';
 import { GetApplicationsDto } from '../common/dto/get-applications.dto';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { PaginationRO } from '../common/ro/pagination.ro';
 import { FormMetaData } from '../FormMetaData/formmetadata.entity';
 import { UserService } from '../user/user.service';
@@ -21,6 +21,7 @@ import { ScoreDto } from '../score/dto/score.dto';
 import { WorkshopScoreService } from '../score/workshop-score.service';
 import { ApplicationFinalScoreRO } from './ro/application-score.ro';
 import { RawDataRo } from '@/score/ro/raw-data.ro';
+import { ApplicationStatus } from './constants';
 
 @Injectable()
 export class ApplicationService {
@@ -210,8 +211,29 @@ export class ApplicationService {
   }
 
   async getRawData(): Promise<any> {
-    const applicationsWithFinalScores =
-      await this.workshopScoreService.getApplicationsWithFinalScores();
-    return new RawDataRo(applicationsWithFinalScores).result;
+    const applicationsRaw = await this.getApplicationsRawData();
+    return new RawDataRo(applicationsRaw).result;
+  }
+
+  async getApplicationsRawData(): Promise<Application[]> {
+    // done this way to remove the submission object from response
+    return this.applicationRepository
+      .createQueryBuilder('a')
+      .select([
+        'a.confirmationId',
+        'a.applicantName',
+        'a.applicationType',
+        'a.projectTitle',
+        'a.totalEstimatedCost',
+        'a.asks',
+        'user.displayName',
+        'a.updatedAt',
+        'a.status',
+      ])
+      .leftJoin('a.assignedTo', 'user')
+      .where({
+        status: In([ApplicationStatus.ASSIGNED, ApplicationStatus.WORKSHOP]),
+      })
+      .getMany();
   }
 }

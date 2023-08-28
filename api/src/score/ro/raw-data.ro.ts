@@ -1,16 +1,17 @@
-import { findApplicationType } from '../../application/constants';
-import { ApplicationVsDetailsInfo } from '../../application/ro/application-score.ro';
-import { WorkshopScore } from '../workshop-score.entity';
+import { Application } from '@/application/application.entity';
 
 const roHeaders = {
   sheet: 'Raw Data',
   columns: [
+    { label: 'Confirmation ID', value: 'confirmationId' },
+    { label: 'Application Name', value: 'applicantName' },
     { label: 'Application Type', value: 'applicationType' },
     { label: 'Project Title', value: 'projectTitle' },
     { label: 'Estimated Project Cost', value: 'totalEstimatedCost' },
     { label: 'Raw Ask', value: 'asks' },
-    { label: 'Overall Score', value: 'finalScore' },
-    { label: 'Score Ratio', value: 'scoreRatio' },
+    { label: 'Assigned To', value: 'assignedTo' },
+    { label: 'Last Update', value: 'lastUpdated' },
+    { label: 'Status', value: 'status' },
   ],
 };
 
@@ -19,33 +20,35 @@ export interface RawData {
   columns: { label: string; value: string }[];
 
   content: {
+    confirmationId: string;
+    applicantName: string;
     applicationType: string;
     projectTitle: string;
     totalEstimatedCost: string;
     asks: string;
-    finalScore: number;
-    scoreRatio: string;
+    assignedTo: string;
+    lastUpdated: string;
+    status: string;
   }[];
 }
 
 export class RawDataRo {
   result: RawData[];
-  constructor(data: WorkshopScore[]) {
-    this.result = [{ ...roHeaders, ...this.convertWorkshopScoreToContent(data) }];
+  constructor(data: Application[]) {
+    this.result = [{ ...roHeaders, ...this.convertApplicationToContent(data) }];
   }
-  convertWorkshopScoreToContent(data: WorkshopScore[]) {
-    const content = data.map((item: WorkshopScore) => {
-      const applicationType = findApplicationType(item.application.form.chefsFormId);
-
+  convertApplicationToContent(data: Application[]) {
+    const content = data.map((item: Application) => {
       return {
-        applicationType: item.application.applicationType,
-        projectTitle: item.application.projectTitle,
-        totalEstimatedCost: item.application.totalEstimatedCost,
-        asks: item.application.asks,
-        finalScore: item.finalScore,
-        scoreRatio: `${(
-          item.finalScore / ApplicationVsDetailsInfo[applicationType].totalScore
-        ).toFixed(3)}`,
+        confirmationId: item.confirmationId,
+        applicantName: item.applicantName,
+        applicationType: item.applicationType,
+        projectTitle: item.projectTitle,
+        totalEstimatedCost: item.totalEstimatedCost,
+        asks: item.asks,
+        assignedTo: item?.assignedTo?.displayName || '-',
+        lastUpdated: item.updatedAt.toString(),
+        status: item.status,
       };
     });
     return { content };
