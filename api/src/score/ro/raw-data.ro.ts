@@ -1,10 +1,10 @@
+import dayjs from 'dayjs';
 import { Application } from '@/application/application.entity';
 
 const roHeaders = {
   sheet: 'Raw Data',
   columns: [
-    { label: 'Confirmation ID', value: 'confirmationId' },
-    { label: 'Application Name', value: 'applicantName' },
+    { label: 'Applicant Name', value: 'applicantName' },
     { label: 'Application Type', value: 'applicationType' },
     { label: 'Project Title', value: 'projectTitle' },
     { label: 'Estimated Project Cost', value: 'totalEstimatedCost' },
@@ -12,6 +12,7 @@ const roHeaders = {
     { label: 'Assigned To', value: 'assignedTo' },
     { label: 'Last Update', value: 'lastUpdated' },
     { label: 'Status', value: 'status' },
+    { label: 'Confirmation ID', value: 'confirmationId' },
   ],
 };
 
@@ -20,7 +21,6 @@ export interface RawData {
   columns: { label: string; value: string }[];
 
   content: {
-    confirmationId: string;
     applicantName: string;
     applicationType: string;
     projectTitle: string;
@@ -29,6 +29,7 @@ export interface RawData {
     assignedTo: string;
     lastUpdated: string;
     status: string;
+    confirmationId: string;
   }[];
 }
 
@@ -39,16 +40,20 @@ export class RawDataRo {
   }
   convertApplicationToContent(data: Application[]) {
     const content = data.map((item: Application) => {
+      const formattedDate = dayjs(item.updatedAt).isValid()
+        ? dayjs(item.updatedAt).format('YYYY-MM-DD')
+        : '-';
+
       return {
-        confirmationId: item.confirmationId,
         applicantName: item.applicantName,
         applicationType: item.applicationType,
         projectTitle: item.projectTitle,
         totalEstimatedCost: item.totalEstimatedCost,
         asks: item.asks,
         assignedTo: item?.assignedTo?.displayName || '-',
-        lastUpdated: item.updatedAt.toString(),
+        lastUpdated: formattedDate,
         status: item.status,
+        confirmationId: item.confirmationId,
       };
     });
     return { content };
