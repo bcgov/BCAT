@@ -22,7 +22,7 @@ objects:
       creationTimestamp: null
       name: ${NAME}${SUFFIX}
     spec:
-      completionDeadlineSeconds: 600
+      completionDeadlineSeconds: 3600
       nodeSelector: null
       output:
         to:
