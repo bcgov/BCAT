@@ -7,7 +7,7 @@ module.exports = (settings) => {
   const oc = new OpenShiftClientX(Object.assign({ namespace: phases.build.namespace }, options));
   const phase = 'build';
   let objects = [];
-  const templatesLocalBaseUrl = oc.toFileUrl('../../openshift');
+  const templatesLocalBaseUrl = oc.toFileUrl(path.resolve(__dirname, '../../openshift'));
 
   objects.push(
     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client-build-config.yml`, {
