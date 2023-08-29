@@ -47,7 +47,7 @@ objects:
 parameters:
   - description: Name of the project (BCAT)
     displayName: PROJECT_NAME
-    name: Project name
+    name: PROJECT_NAME
     required: true
     value: "bcat"
   - description: The name assigned to all of the OpenShift resources associated with this config
