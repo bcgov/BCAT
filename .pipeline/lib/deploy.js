@@ -18,6 +18,7 @@ module.exports = (settings) => {
         HOST: phases[phase].host,
         MEMORY: phases[phase].client_memory,
         NAME: `${phases[phase].name}-client`,
+        PROJECT_NAME: phases[phase].name,
         SUFFIX: phases[phase].suffix,
         VERSION: phases[phase].tag,
       },
@@ -35,11 +36,12 @@ module.exports = (settings) => {
   objects.push(
     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/api-deploy-config.yml`, {
       param: {
-        HOST: phases[phase].host,
         CPU: phases[phase].api_cpu,
         ENV: phases[phase].phase,
+        HOST: phases[phase].host,
         MEMORY: phases[phase].api_memory,
         NAME: `${phases[phase].name}-api`,
+        PROJECT_NAME: phases[phase].name,
         SUFFIX: phases[phase].suffix,
         VERSION: phases[phase].tag,
       },

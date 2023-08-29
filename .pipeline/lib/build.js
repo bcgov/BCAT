@@ -13,10 +13,11 @@ module.exports = (settings) => {
     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client-build-config.yml`, {
       param: {
         NAME: `${settings.phases[phase].name}-client`,
+        PROJECT_NAME: phases[phase].name,
+        SOURCE_REPOSITORY_REF: `${oc.git.branch_ref}`,
+        SOURCE_REPOSITORY_URL: `${oc.git.uri}`,
         SUFFIX: settings.phases[phase].suffix,
         VERSION: settings.phases[phase].tag,
-        SOURCE_REPOSITORY_URL: `${oc.git.uri}`,
-        SOURCE_REPOSITORY_REF: `${oc.git.branch_ref}`,
       },
     }),
   );
@@ -25,10 +26,11 @@ module.exports = (settings) => {
     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/api-build-config.yml`, {
       param: {
         NAME: `${settings.phases[phase].name}-api`,
+        PROJECT_NAME: phases[phase].name,
+        SOURCE_REPOSITORY_REF: `${oc.git.branch_ref}`,
+        SOURCE_REPOSITORY_URL: `${oc.git.uri}`,
         SUFFIX: settings.phases[phase].suffix,
         VERSION: settings.phases[phase].tag,
-        SOURCE_REPOSITORY_URL: `${oc.git.uri}`,
-        SOURCE_REPOSITORY_REF: `${oc.git.branch_ref}`,
       },
     }),
   );
