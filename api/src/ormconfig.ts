@@ -14,11 +14,11 @@ const entities =
 const config: PostgresConnectionOptions = {
   host: process.env.POSTGRES_HOST,
   type: 'postgres',
-  port: +(process.env.PORTGRES_PORT || 5432),
-  username: process.env.POSTGRES_USERNAME || 'freshworks',
+  port: +(process.env.POSTGRES_PORT || 5432),
+  username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DATABASE || 'bcat',
-  schema: 'app_bcat',
+  schema: 'public',
   cli: {
     migrationsDir: 'src/migration',
     entitiesDir: 'src/**/*.entity.ts',

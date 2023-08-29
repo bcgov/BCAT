@@ -26,7 +26,7 @@ import { AttachmentModule } from '../attachments/attachment.module';
 //       return {
 //         port: parseInt(process.env.TEST_POSTGRES_PORT || '5432'),
 //         host: process.env.TEST_POSTGRES_HOST,
-//         username: process.env.TEST_POSTGRES_USERNAME,
+//         username: process.env.TEST_POSTGRES_USER,
 //         password: process.env.TEST_POSTGRES_PASSWORD,
 //         database: process.env.TEST_POSTGRES_DATABASE,
 //         entities: ['dist/**/*.entity.js'],
