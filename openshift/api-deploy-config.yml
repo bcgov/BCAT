@@ -31,7 +31,7 @@ objects:
           intervalSeconds: 1
           maxSurge: 1
           maxUnavailable: 1
-          timeoutSeconds: 600
+          timeoutSeconds: 3600
           updatePeriodSeconds: 1
         type: Rolling
       template:
