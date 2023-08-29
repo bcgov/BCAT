@@ -20,9 +20,9 @@ jobs:
           node-version: "12"
       - name: build BCAT app
         run: |
-          oc login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
+          oc login --token=${{ secrets.OPENSHIFT_TOKEN }} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
           npm ci
-          DEBUG=* npm run build -- --pr=${{ github.sha } --git.branch.name=${{github.ref_name}} --git.ref=${{github.ref}}
+          DEBUG=* npm run build -- --pr=${{ github.sha }} --git.branch.name=${{ github.ref_name }} --git.ref=${{ github.ref }}
 
   deploy-to-dev:
     runs-on: ubuntu-latest
@@ -39,6 +39,6 @@ jobs:
           node-version: "12"
       - name: deploy to dev
         run: |
-          oc login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
+          oc login --token=${{ secrets.OPENSHIFT_TOKEN }} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
           npm ci
-          DEBUG=* npm run deploy -- --pr=${{ github.sha } --env=dev --git.branch.name=${{github.ref_name }} --git.ref=${{github.ref}}
+          DEBUG=* npm run deploy -- --pr=${{ github.sha }} --env=dev --git.branch.name=${{ github.ref_name }} --git.ref=${{ github.ref }}
