@@ -207,3 +207,13 @@ parameters:
     displayName: Server port
     name: SERVER_PORT
     value: "8080"
+  - description: SOURCE_REPOSITORY_URL
+    displayName: SOURCE_REPOSITORY_URL
+    name: SOURCE_REPOSITORY_URL
+    required: false
+    value: ""
+  - description: SOURCE_REPOSITORY_REF
+    displayName: SOURCE_REPOSITORY_REF
+    name: SOURCE_REPOSITORY_REF
+    required: false
+    value: ""
