@@ -71,12 +71,12 @@ parameters:
     displayName: CPU request
     name: CPU
     required: false
-    value: "100m"
+    value: "500m"
   - description: MEMORY
     displayName: Memory request
     name: MEMORY
     required: false
-    value: "512Mi"
+    value: "1.5Gi"
   - description: SOURCE_REPOSITORY_URL
     displayName: SOURCE_REPOSITORY_URL
     name: SOURCE_REPOSITORY_URL

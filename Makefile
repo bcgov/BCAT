@@ -13,21 +13,23 @@ export DEPLOY_DATE?=$(shell date '+%Y%m%d%H%M')
 export COMMIT_SHA?=$(shell git rev-parse --short=7 HEAD)
 export IMAGE_TAG=${COMMIT_SHA}
 
-export POSTGRES_USER := $(POSTGRES_USER)
-export POSTGRES_PASSWORD := $(POSTGRES_PASSWORD)
-export POSTGRES_DATABASE := $(POSTGRES_DATABASE)
-export POSTGRES_HOST := $(or $(POSTGRES_HOST),database)
-export POSTGRES_PORT := $(or $(POSTGRES_PORT),5432)
+export PROJECT := $(or $(PROJECT),bcat)
+export DB_USER := $(or $(DB_USER),db2inst1)
+export DB_PASSWORD := $(or $(DB_PASSWORD),development)
+export DB_NAME := $(or $(DB_NAME),testdb)
+export DB_SERVER := $(or $(DB_SERVER),database)
+export DB_PORT := $(or $(DB_PORT),5432)
 export GIT_LOCAL_BRANCH := $(or $(GIT_LOCAL_BRANCH),dev)
 
-export KC_AUTH_URL = $(KC_AUTH_URL)
-export KC_AUTH_REALM = $(KC_AUTH_REALM)
-export KC_AUTH_CLIENT_ID = $(KC_AUTH_CLIENT_ID)
+export KC_AUTH_URL := $(KC_AUTH_URL)
+export KC_AUTH_REALM := $(KC_AUTH_REALM)
+export KC_AUTH_CLIENT_ID := $(KC_AUTH_CLIENT_ID)
 
 export APP_NAME:=bcat
 export OS_NAMESPACE_PREFIX:=bfe2da
 export OS_NAMESPACE_SUFFIX?=dev
 export TARGET_NAMESPACE=$(OS_NAMESPACE_PREFIX)-$(OS_NAMESPACE_SUFFIX)
+export TOOLS_NAMESPACE=$(OS_NAMESPACE_PREFIX)-tools
 
 export NEXT_PUBLIC_REDIRECT_URI = 
 export NEXT_PUBLIC_SERVER_URL = 
@@ -48,9 +50,9 @@ print-status:
 	@echo " +---------------------------------------------------------+ "
 	@echo " | GIT LOCAL BRANCH: $(GIT_LOCAL_BRANCH) "
 	@echo " | PROJECT: $(PROJECT) "
-	@echo " | DB_NAME: $(POSTGRES_DATABASE) "
-	@echo " | DB_SERVER: $(POSTGRES_HOST) "
-	@echo " | DB_USER: $(POSTGRES_USER) "
+	@echo " | DB_NAME: $(DB_NAME) "
+	@echo " | DB_SERVER: $(DB_SERVER) "
+	@echo " | DB_USER: $(DB_USER) "
 	@echo " +---------------------------------------------------------+ "
 
 ####################################################################

@@ -97,6 +97,7 @@ objects:
             from:
               kind: ImageStreamTag
               name: ${NAME}:${VERSION}
+              namespace: bfe2da-tools
           type: ImageChange
         - type: ConfigChange
   - apiVersion: v1
@@ -166,12 +167,12 @@ parameters:
     displayName: CPU
     name: CPU
     required: false
-    value: "100m"
+    value: "500m"
   - description: Memory request
     displayName: MEMORY
     name: MEMORY
     required: false
-    value: "512Mi"
+    value: "1.5Gi"
   - description: Port the server will be exposed on
     displayName: Server port
     name: SERVER_PORT
