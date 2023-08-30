@@ -1,6 +1,6 @@
 import { ApplicationType } from '../../common/constants';
 import { WorkshopScore } from '../../score/workshop-score.entity';
-import { findApplicationType, ScoreFields } from '../constants';
+import { findApplicationType, InfrastructureScoreFields } from '../constants';
 
 type ScoreFieldsType = {
   name: string;
@@ -75,7 +75,7 @@ export class ApplicationFinalScoreRO {
     this.comments = overallComments;
     this.scoreData = {};
     Object.assign(this.scoreData, data);
-    this.fields = ScoreFields;
+    this.fields = application.applicationType === ApplicationType.INFRASTRUCTURE_FORM ? InfrastructureScoreFields : [];
     this.applicationType = findApplicationType(form.chefsFormId);
     this.applicationHeading = ApplicationVsDetailsInfo[this.applicationType].heading;
     this.points = `${(
