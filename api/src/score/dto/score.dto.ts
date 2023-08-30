@@ -3,7 +3,6 @@ import { CompletionStatus } from '../../common/enums';
 import {
   IsEmpty,
   IsEnum,
-  IsIn,
   IsNumber,
   IsOptional,
   IsString,
@@ -129,67 +128,82 @@ export class ScoreInfrastructureDataDto {
   @Min(0)
   @IsOptional()
   @IsEmpty()
+  populationScore: number;
+  
+  @IsNumber()
+  @Max(15)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  communityNeedsAndSafetyGuidelinesScore: number;
+
+  @IsNumber()
+  @Max(23)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
   safetyScore: number;
+
+  @IsNumber()
+  @Max(5)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  economyAndTourismScore: number;
+
+  @IsNumber()
+  @Max(8)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  environmentScore: number;
 
   @IsNumber()
   @Max(15)
   @Min(0)
   @IsOptional()
   @IsEmpty()
-  medevacScore: number;
+  landUseScore: number;
 
   @IsNumber()
-  @Max(10)
+  @Max(8)
   @Min(0)
   @IsOptional()
   @IsEmpty()
-  localBenefitsScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  longTermScore: number;
+  accessibilityScore: number;
 
   @IsNumber()
   @Max(3)
   @Min(0)
   @IsOptional()
   @IsEmpty()
-  communitySupportScore: number;
+  promotionScore: number;
+
+  @IsNumber()
+  @Max(3)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  lettersOfSupportScore: number;
 
   @IsNumber()
   @Max(5)
   @Min(0)
   @IsOptional()
   @IsEmpty()
-  concernsScore: number;
-
-  @IsNumber()
-  @IsIn([0, 2])
-  @IsOptional()
-  @IsEmpty()
-  contingencyPlanScore: number;
+  previousFundingScore: number;
 
   @IsNumber()
   @Max(5)
-  @Min(1)
-  @IsOptional()
-  @IsEmpty()
-  classBCostScore: number;
-
-  @IsNumber()
-  @Max(2)
   @Min(0)
   @IsOptional()
   @IsEmpty()
-  thirdPartyContributionScore: number;
+  regionalAdjustmentScore: number;
 }
 
 export class ScoreDto {
   @IsOptional()
-  data: ScoreDataDto;
+  data: ScoreInfrastructureDataDto;
 
   @IsString()
   @MaxLength(2000)

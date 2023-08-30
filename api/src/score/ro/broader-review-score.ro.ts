@@ -1,7 +1,7 @@
-import { BroaderReviewScoreInterface } from '../../common/interfaces';
+import { BroaderReviewInfrastructureScoreInterface } from '../../common/interfaces';
 import { BroaderReviewScore } from '../broader-review-score.entity';
 
-export interface BroaderReviewScoreRo extends BroaderReviewScoreInterface {
+export interface BroaderReviewScoreRo extends BroaderReviewInfrastructureScoreInterface {
   user: number;
   displayName?: string;
 }
