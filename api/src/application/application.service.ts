@@ -115,7 +115,7 @@ export class ApplicationService {
     const application = await this.getApplication(applicationId);
     const user = await this.userService.getUser(assignToUserDto.userId);
     application.assignedTo = user;
-    application.lastUpdatedByUserId = loggedInUser.id;
+    application.lastUpdatedBy = loggedInUser;
     application.lastUpdatedByUserGuid = loggedInUser.userGuid;
     await this.applicationRepository.save(application);
   }
@@ -126,7 +126,7 @@ export class ApplicationService {
     // can be assigned/unassigned - will need to include the passed
     // user ID's.
     application.assignedTo = null;
-    application.lastUpdatedByUserId = loggedInUser.id;
+    application.lastUpdatedBy = loggedInUser;
     application.lastUpdatedByUserGuid = loggedInUser.userGuid;
     await this.applicationRepository.save(application);
   }

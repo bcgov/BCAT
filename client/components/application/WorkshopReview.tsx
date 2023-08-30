@@ -8,7 +8,7 @@ import {
   INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA,
   ReviewCompletionStatus,
   ApplicationType,
-  NetworkEvaluationReviewQuestions,
+  NETWORK_REVIEW_QUESTIONS,
 } from '../../constants';
 import { Textarea, Radio, Error } from '../form';
 import { FinalScore, Input } from '../broader-review';
@@ -92,8 +92,8 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                   <div className='p-4 grid grid-flow-row gap-4'>
                     <div>
                       <div className='bg-white divide-y'>
-                        {evaluationReviewQuestions.map((item, index) => (
-                          <div key={`BroderReviewInput_${index}`} className='py-5'>
+                        {evaluationReviewQuestions.map((item: any, index) => (
+                          <div key={`BroaderReviewInput_${index}`} className='py-5'>
                             <Input
                               descriptionList={item.descriptionList}
                               disabled={!loggedInUser?.isAdmin}

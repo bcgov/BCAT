@@ -1,4 +1,8 @@
-import { ApplicationType, INFRASTRUCTURE_REVIEW_QUESTIONS } from '../constants';
+import {
+  ApplicationType,
+  INFRASTRUCTURE_REVIEW_QUESTIONS,
+  NETWORK_REVIEW_QUESTIONS,
+} from '../constants';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { BroaderReviewScore, ScoreSummaryTableProps } from 'constants/interfaces';
 import { useApplicationDetails, useBroaderReview } from 'services';
@@ -45,7 +49,9 @@ const TableBody: React.FC<TableBodyProps> = ({ scores, applicationType }) => {
   ];
 
   const evaluationReviewQuestions =
-    applicationType === ApplicationType.INFRASTRUCTURE_FORM ? INFRASTRUCTURE_REVIEW_QUESTIONS : [];
+    applicationType === ApplicationType.INFRASTRUCTURE_FORM
+      ? INFRASTRUCTURE_REVIEW_QUESTIONS
+      : NETWORK_REVIEW_QUESTIONS;
 
   const finalMaxScore = evaluationReviewQuestions
     .map((item: any) => item.maxScore)
