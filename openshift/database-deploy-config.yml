@@ -48,7 +48,7 @@ objects:
                   cpu: ${CPU}
                   memory: ${MEMORY}
                 limits:
-                   cpu: ${CPU}
+                  cpu: ${CPU}
                   memory: ${MEMORY}
               terminationMessagePath: /dev/termination-log
               terminationMessagePolicy: File
@@ -168,3 +168,13 @@ parameters:
     description: The class of the volume; netapp-file-standard, netapp-file-block
     required: false
     value: netapp-file-standard
+  - description: CPU request
+    displayName: CPU
+    name: CPU
+    required: false
+    value: "500m"
+  - description: Memory request
+    displayName: MEMORY
+    name: MEMORY
+    required: false
+    value: "1.5Gi"

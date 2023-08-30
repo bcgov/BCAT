@@ -34,7 +34,7 @@ module.exports = (settings) => {
   //   );
 
   objects.push(
-    ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/database-deploy-config.yaml`, {
+    ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/database-deploy-config.yml`, {
       param: {
         CPU: phases[phase].api_cpu,
         ENV: phases[phase].phase,
