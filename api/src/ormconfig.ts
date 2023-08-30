@@ -15,10 +15,10 @@ const config: PostgresConnectionOptions = {
   host: process.env.POSTGRES_HOST,
   type: 'postgres',
   port: +(process.env.POSTGRES_PORT || 5432),
-  username: process.env.POSTGRES_USER,
+  username: process.env.POSTGRES_USERNAME || 'db2inst1',
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DATABASE || 'bcat',
-  schema: 'public',
+  schema: 'app_bcat',
   cli: {
     migrationsDir: 'src/migration',
     entitiesDir: 'src/**/*.entity.ts',

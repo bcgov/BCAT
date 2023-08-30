@@ -44,7 +44,7 @@ objects:
             - image: ${NAME}:${VERSION}
               name: api
               env:
-                - name: POSTGRES_USER
+                - name: POSTGRES_USERNAME
                   valueFrom:
                     secretKeyRef:
                       name: bcat-db-${ENV}

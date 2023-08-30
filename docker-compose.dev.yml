@@ -35,10 +35,10 @@ services:
       context: ./api
       dockerfile: Dockerfile.dev
     environment:
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=${DB_SERVER}
+      - POSTGRES_DATABASE=${DB_NAME}
+      - POSTGRES_USERNAME=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_PORT=${DB_PORT}
       - KC_AUTH_URL=${KC_AUTH_URL}
       - KC_AUTH_REALM=${KC_AUTH_REALM}
@@ -68,9 +68,9 @@ services:
     ports:
       - '5432:5432'
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
       - PGDATA=./database/postgresql/data/pgdata
     restart: always
     networks:
