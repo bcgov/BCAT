@@ -19,7 +19,7 @@ export class ScoreInfrastructureDataDto {
   @IsOptional()
   @IsEmpty()
   populationScore: number;
-  
+
   @IsNumber()
   @Max(15)
   @Min(0)

@@ -75,7 +75,10 @@ export class ApplicationFinalScoreRO {
     this.comments = overallComments;
     this.scoreData = {};
     Object.assign(this.scoreData, data);
-    this.fields = application.applicationType === ApplicationType.INFRASTRUCTURE_FORM ? InfrastructureScoreFields : [];
+    this.fields =
+      application.applicationType === ApplicationType.INFRASTRUCTURE_FORM
+        ? InfrastructureScoreFields
+        : [];
     this.applicationType = findApplicationType(form.chefsFormId);
     this.applicationHeading = ApplicationVsDetailsInfo[this.applicationType].heading;
     this.points = `${(
