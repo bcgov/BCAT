@@ -13,13 +13,30 @@ export const ApplicationVsDetailsInfo = {};
 
 ApplicationVsDetailsInfo[ApplicationType.INFRASTRUCTURE_FORM] = {
   heading: 'Infrastructure',
-  totalScore: 100,
+  totalScore: 0,
 };
 
 ApplicationVsDetailsInfo[ApplicationType.NETWORK_FORM] = {
   heading: 'Network',
-  totalScore: 100,
+  totalScore: 0,
 };
+
+// ApplicationVsDetailsInfo[ApplicationType.DEVELOPMENT_PLANNING] = {
+//   heading: 'Facility Master Plan',
+//   totalScore: 34,
+// };
+// ApplicationVsDetailsInfo[ApplicationType.ENVIRONMENT_PLANNING] = {
+//   heading: 'Environmental Project',
+//   totalScore: 53,
+// };
+// ApplicationVsDetailsInfo[ApplicationType.LARGE_PROJECT] = {
+//   heading: 'Large Project',
+//   totalScore: 112,
+// };
+// ApplicationVsDetailsInfo[ApplicationType.SMALL_PROJECT] = {
+//   heading: 'Small Project',
+//   totalScore: 46,
+// };
 
 export class ApplicationFinalScoreRO {
   confirmationId: string;
