@@ -123,6 +123,7 @@ objects:
             from:
               kind: ImageStreamTag
               name: ${NAME}:${VERSION}
+              namespace: bfe2da-tools
           type: ImageChange
         - type: ConfigChange
   - apiVersion: v1
