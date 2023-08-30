@@ -1,26 +1,46 @@
+import { useEffect } from 'react';
 import { Formik, Form } from 'formik';
+
 import { useWorkshopReview } from '../../services';
 import { Button, Spinner } from '../generic';
 import {
-  EvaluationReviewQuestions,
-  APPLICATION_REVIEW_VALIDATION_SCHEMA,
+  INFRASTRUCTURE_REVIEW_QUESTIONS,
+  INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA,
   ReviewCompletionStatus,
   ApplicationType,
 } from '../../constants';
 import { Textarea, Radio, Error } from '../form';
 import { FinalScore, Input } from '../broader-review';
+import { getInfrastructureAutomatedScores } from 'helpers';
 
 export type WorkshopReviewProps = {
   applicationId: number;
   applicationType: ApplicationType;
+  formData: any;
 };
 
 export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
   applicationId,
   applicationType,
+  formData,
 }) => {
-  const { applicationScores, handleSubmit, isLoading, loggedInUser } =
-    useWorkshopReview(applicationId);
+  const { applicationScores, handleSubmit, isLoading, loggedInUser } = useWorkshopReview(
+    applicationId,
+    applicationType,
+  );
+
+  const evaluationReviewQuestions =
+    applicationType === ApplicationType.INFRASTRUCTURE_FORM ? INFRASTRUCTURE_REVIEW_QUESTIONS : [];
+
+  useEffect(() => {
+    if (applicationType === ApplicationType.INFRASTRUCTURE_FORM && applicationScores) {
+      const scoreValues = getInfrastructureAutomatedScores(formData);
+
+      applicationScores.AAlandUseScore = scoreValues?.landUseScore || 0;
+      applicationScores.AApopulationScore = scoreValues?.populationScore || 0;
+      applicationScores.AAsafetyScore = scoreValues?.safetyScore || 0;
+    }
+  }, [applicationScores]);
 
   return (
     <>
@@ -29,7 +49,11 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
       ) : (
         <Formik
           initialValues={applicationScores}
-          validationSchema={APPLICATION_REVIEW_VALIDATION_SCHEMA}
+          validationSchema={
+            applicationType === ApplicationType.NETWORK_FORM
+              ? INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA
+              : ''
+          }
           onSubmit={handleSubmit}
           enableReinitialize={true}
           key={applicationId}
@@ -57,23 +81,29 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                 <div>
                   <div className='p-4 grid grid-flow-row gap-4'>
                     <div>
-                      <div className='mt-4 bg-white pt-4 pb-4'>
-                        {EvaluationReviewQuestions.filter((item: any) => {
-                          if (item.criteria) {
-                            return item.criteria.includes(applicationType);
-                          }
-                          return true;
-                        }).map((item, index) => (
-                          <div key={`WorkshopReviewInput_${index}`} className='mb-3'>
+                      <div className='bg-white divide-y'>
+                        {evaluationReviewQuestions.map((item, index) => (
+                          <div key={`BroderReviewInput_${index}`} className='py-5'>
                             <Input
-                              obj={item.obj}
+                              descriptionList={item.descriptionList}
+                              disabled={!loggedInUser?.isAdmin}
+                              hiddenInput={item.hiddenInput}
                               label={item.label}
-                              description={item.description}
                               name={item.name}
                               tooltiptext={item.tooltiptext}
-                              disabled={!loggedInUser?.isAdmin}
                             />
                             <Error name={item.name} />
+
+                            {item.isAutomated && (
+                              <>
+                                <Input
+                                  disabled
+                                  name={`AA${item.name}`}
+                                  secondaryList={item.secondaryList}
+                                />
+                                <Error name={`AA${item.name}`} />
+                              </>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -86,10 +116,11 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
 
                       <div className='flex flex-1 w-full justify-start'>
                         <Radio
-                          title='Status'
+                          disabled={!loggedInUser?.isAdmin}
+                          horizontal={true}
                           legend='Select status for your score on this application.'
                           name='completionStatus'
-                          horizontal={true}
+                          title='Status'
                           options={[
                             { label: 'In Progress', value: ReviewCompletionStatus.IN_PROGRESS },
                             { label: 'Completed', value: ReviewCompletionStatus.COMPLETE },

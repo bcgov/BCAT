@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { Formik, Form } from 'formik';
+
 import { Button, Spinner } from '../generic';
 import {
-  EvaluationReviewQuestions,
-  APPLICATION_REVIEW_VALIDATION_SCHEMA,
+  INFRASTRUCTURE_REVIEW_QUESTIONS,
+  INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA,
   ReviewCompletionStatus,
   ApplicationType,
 } from '../../constants';
@@ -10,17 +12,19 @@ import { Textarea, Radio, Error } from '../form';
 import { UserInterface } from '../../contexts';
 import { FinalScore, Input, UserView } from '../broader-review';
 import { useBroaderReview } from '../../services';
+import { getInfrastructureAutomatedScores } from 'helpers';
 
 export type BroaderReviewProps = {
   applicationId: number;
   applicationType: ApplicationType;
+  formData: any;
   userList: UserInterface[];
-  onClose: () => void;
 };
 
 export const BroaderReview: React.FC<BroaderReviewProps> = ({
   applicationId,
   applicationType,
+  formData,
   userList,
 }) => {
   const {
@@ -32,7 +36,20 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
     handleChangeScorer,
     loggedInUser,
     isLoading,
-  } = useBroaderReview(applicationId);
+  } = useBroaderReview(applicationId, applicationType);
+
+  const evaluationReviewQuestions =
+    applicationType === ApplicationType.INFRASTRUCTURE_FORM ? INFRASTRUCTURE_REVIEW_QUESTIONS : [];
+
+  useEffect(() => {
+    if (applicationType === ApplicationType.INFRASTRUCTURE_FORM && applicationScoresByScorer) {
+      const scoreValues = getInfrastructureAutomatedScores(formData);
+
+      applicationScoresByScorer.AAlandUseScore = scoreValues?.landUseScore || 0;
+      applicationScoresByScorer.AApopulationScore = scoreValues?.populationScore || 0;
+      applicationScoresByScorer.AAsafetyScore = scoreValues?.safetyScore || 0;
+    }
+  }, [applicationScoresByScorer]);
 
   return (
     <>
@@ -41,7 +58,11 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
       ) : (
         <Formik
           initialValues={applicationScoresByScorer}
-          validationSchema={APPLICATION_REVIEW_VALIDATION_SCHEMA}
+          validationSchema={
+            applicationType === ApplicationType.INFRASTRUCTURE_FORM
+              ? INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA
+              : ''
+          }
           onSubmit={handleSubmit}
           enableReinitialize={true}
           key={applicationId}
@@ -87,26 +108,33 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                           );
                         })}
 
-                      <div className='mt-4 bg-white pt-4 pb-4'>
-                        {EvaluationReviewQuestions.filter((item: any) => {
-                          if (item.criteria) {
-                            return item.criteria.includes(applicationType);
-                          }
-                          return true;
-                        }).map((item, index) => (
-                          <div key={`BroderReviewInput_${selectedUser}_${index}`} className='mb-3'>
+                      <div className='bg-white divide-y'>
+                        {evaluationReviewQuestions.map((item, index) => (
+                          <div key={`BroderReviewInput_${index}`} className='py-5'>
                             <Input
-                              obj={item.obj}
+                              descriptionList={item.descriptionList}
+                              disabled={!isLoggedInUser}
+                              hiddenInput={item.hiddenInput}
                               label={item.label}
-                              description={item.description}
                               name={item.name}
                               tooltiptext={item.tooltiptext}
-                              disabled={!isLoggedInUser}
                             />
                             <Error name={item.name} />
+
+                            {item.isAutomated && (
+                              <>
+                                <Input
+                                  disabled
+                                  name={`AA${item.name}`}
+                                  secondaryList={item.secondaryList}
+                                />
+                                <Error name={`AA${item.name}`} />
+                              </>
+                            )}
                           </div>
                         ))}
                       </div>
+
                       <Textarea
                         name='overallComments'
                         label='Overall comments'

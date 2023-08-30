@@ -16,7 +16,6 @@ export class CustomBaseEntity {
   @Column({ name: 'CONCURRENCY_CONTROL_NUMBER', type: 'integer', default: 0 })
   concurrencyControlNumber: number;
 
-  // TO-DO: add relation, not quite sure what this guid is yet
   @Column({ name: 'APP_LAST_UPDATE_USER_GUID', type: 'varchar', length: 36 })
   lastUpdatedByUserGuid?: string;
 

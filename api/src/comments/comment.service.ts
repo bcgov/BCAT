@@ -23,8 +23,8 @@ export class CommentService {
         cmt.comment, 
         cmt.createdAt as "createdAt"`
       )
-      .innerJoin(Application, 'app', 'cmt.application_id = app.id')
-      .innerJoin(User, 'usr', 'usr.id = cmt.user_id')
+      .innerJoin(Application, 'app', 'cmt.application.id = app.id')
+      .innerJoin(User, 'usr', 'usr.id = cmt.user.id')
       .where('app.id = :id', { id: applicationId })
       .orderBy('cmt.createdAt', 'DESC');
 

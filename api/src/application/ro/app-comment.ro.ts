@@ -1,7 +1,7 @@
 export interface CommentRo {
-  userId: string;
+  userId: number;
   displayName: string;
-  commentId: string;
+  commentId: number;
   comment: string;
   createdAt: string;
 }

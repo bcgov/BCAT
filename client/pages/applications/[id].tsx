@@ -1,24 +1,27 @@
+import React from 'react';
+
+import Link from 'next/link';
 import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+
+import { faComment } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import {
   AssignEvaluator,
   Button,
   Link as LinkComponent,
   Comments,
-  // BroaderReview,
+  BroaderReview,
   MenuButton,
   Panel,
   RenderCHFSElement,
   withAuth,
 } from '../../components';
-import { faComment } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useApplicationDetails } from '../../services';
 import { ApplicationStatus } from '../../constants';
-// import { WorkshopReview } from '../../components/application/WorkshopReview';
-import Link from 'next/link';
-import React from 'react';
+import { WorkshopReview } from '../../components/application/WorkshopReview';
 import { formatDate } from 'utils';
 
 const ApplicationDetails: NextPage = () => {
@@ -26,17 +29,18 @@ const ApplicationDetails: NextPage = () => {
   const id = query?.id ? +query.id : undefined;
 
   const {
-    topStatusObj,
-    schema,
-    formData,
+    applicationType,
     details,
-    showComments,
-    setShowComments,
+    downloadPDF,
+    formData,
     getNextStatusUpdates,
+    isPanelDefaultOpen,
+    schema,
+    setShowComments,
+    showComments,
+    topStatusObj,
     updateEvaluator,
     userList,
-    isPanelDefaultOpen,
-    downloadPDF,
   } = useApplicationDetails(id);
 
   return (
@@ -61,16 +65,14 @@ const ApplicationDetails: NextPage = () => {
                   defaultEvaluator={details.assignedTo}
                 />
               </div>
-              {/** TODO: enable in admin ticket */}
               <div className='w-fit'>
-                <Button variant='outline' onClick={() => setShowComments(true)} disabled>
+                <Button variant='outline' onClick={() => setShowComments(true)}>
                   <FontAwesomeIcon icon={faComment} className='h-4 mr-2 text-bcBluePrimary' />{' '}
                   Comments
                 </Button>
               </div>
             </div>
             <div className='w-2/5 justify-end flex'>
-              {/** TODO: add once admin ticket is complete */}
               {details.status === ApplicationStatus.WORKSHOP ? (
                 <div className='gap-2 flex'>
                   <Link href={`/applications/${id}/score-table`}>
@@ -160,22 +162,25 @@ const ApplicationDetails: NextPage = () => {
                 <Comments applicationId={id} onClose={() => setShowComments(false)} />
               </div>
             )}
-            {/* TODO: add these tabs once scoring and admin tickets are completed
             {details && applicationType && (
               <div className='col-span-2 pb-4'>
                 <BroaderReview
                   applicationId={id}
-                  userList={userList}
-                  onClose={() => setShowComments(false)}
                   applicationType={applicationType}
+                  formData={formData}
+                  userList={userList}
                 />
               </div>
             )}
             {details && applicationType && details.status === ApplicationStatus.WORKSHOP && (
               <div className='col-span-2 pb-4'>
-                <WorkshopReview applicationId={id} applicationType={applicationType} />
+                <WorkshopReview
+                  applicationId={id}
+                  applicationType={applicationType}
+                  formData={formData}
+                />
               </div>
-            )} */}
+            )}
           </div>
         </div>
       )}

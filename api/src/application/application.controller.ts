@@ -46,7 +46,7 @@ export class ApplicationController {
 
   @Patch('/:applicationId')
   async saveApplication(
-    // To-do: Get the logged-in user data (id) as well
+    // TODO: Get the logged-in user data (id) as well
     // and allow to update only the applications that belong to them.
     @Param('applicationId') applicationId: number,
     @Body() applicationDto: SaveApplicationDto

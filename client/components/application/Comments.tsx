@@ -97,7 +97,7 @@ export const Comments: React.FC<CommentsProps> = ({ applicationId, onClose }) =>
                   <span className='text-bcBluePrimary'>By {comment.displayName}</span>
                   <span>{comment.createdAt}</span>
                 </div>
-                <span>{comment.comment}</span>
+                <span>{comment.OVERALL_COMMENTS}</span>
                 <span className='p-0.5 bg-slate-300'></span>
               </div>
             ))}

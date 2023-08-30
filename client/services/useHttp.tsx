@@ -16,6 +16,14 @@ axios.interceptors.response.use(
   error => Promise.reject(error),
 );
 
+const getErrorMessage = (errorData: any) => {
+  const errors: any[] = [];
+  errorData.forEach((error: any) => {
+    errors.push(error[0]?.errors?.join(';'));
+  });
+  return errors.join(';');
+};
+
 export const useHttp = (): HttpReturn => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { keycloak } = useKeycloak();
@@ -25,9 +33,9 @@ export const useHttp = (): HttpReturn => {
     if (err?.response?.status === 401) {
       keycloak?.logout();
       errorMessage =
-        errorMessage === 'Unauthorized' ? 'Session timed-out! Kindly login again!' : errorMessage;
+        errorMessage === 'Unauthorized' ? 'Session timed-out! Kindly login again' : errorMessage;
     } else if (err?.response?.status === 400) {
-      errorMessage = 'Kindly verify the input';
+      errorMessage = `Kindly verify the input! ${getErrorMessage(errorMessage)}`;
     }
 
     toast.error(errorMessage);

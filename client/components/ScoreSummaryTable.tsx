@@ -1,4 +1,4 @@
-import { ApplicationType, EvaluationReviewQuestions } from '../constants';
+import { ApplicationType, INFRASTRUCTURE_REVIEW_QUESTIONS } from '../constants';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { BroaderReviewScore, ScoreSummaryTableProps } from 'constants/interfaces';
 import { useApplicationDetails, useBroaderReview } from 'services';
@@ -43,24 +43,24 @@ const TableBody: React.FC<TableBodyProps> = ({ scores, applicationType }) => {
     },
     { name: 'finalScore', label: 'Final Score', tooltiptext: 'Your final score for the project' },
   ];
-  const filteredEvaluationReviewQuestions = EvaluationReviewQuestions.filter((item: any) => {
-    if (item.criteria) {
-      return item.criteria.includes(applicationType);
-    }
-    return true;
-  });
-  const finalMaxScore = filteredEvaluationReviewQuestions
+
+  const evaluationReviewQuestions =
+    applicationType === ApplicationType.INFRASTRUCTURE_FORM ? INFRASTRUCTURE_REVIEW_QUESTIONS : [];
+
+  const finalMaxScore = evaluationReviewQuestions
     .map((item: any) => item.maxScore)
     .reduce((accumulator, current) => accumulator + current);
   return (
     <tbody>
-      {filteredEvaluationReviewQuestions.map((item: any, index) => {
+      {evaluationReviewQuestions.map((item: any, index) => {
         return (
           <tr key={`row-${index}`} className={trStyles}>
             <td className={`${tdStyles} w-1/5`}>
               <div className='flex items-center justify-between'>
                 <p className='font-bold'>Question {index + 1}&nbsp;&nbsp;</p>
-                <TooltipIcon icon={faQuestionCircle} text={item.tooltiptext} style='h-4 w-4' />
+                {item.tooltiptext && (
+                  <TooltipIcon icon={faQuestionCircle} text={item.tooltiptext} style='h-4 w-4' />
+                )}
               </div>
               <p className='text-xs text-bcGray font-normal'>{item.label}</p>
             </td>
@@ -80,7 +80,9 @@ const TableBody: React.FC<TableBodyProps> = ({ scores, applicationType }) => {
             <td className={`${tdStyles} w-1/5`}>
               <div className='flex items-center justify-between'>
                 <p className='font-bold'>{item.label}&nbsp;&nbsp;</p>
-                <TooltipIcon icon={faQuestionCircle} text={item.tooltiptext} style='h-4 w-4' />
+                {item.tooltiptext && (
+                  <TooltipIcon icon={faQuestionCircle} text={item.tooltiptext} style='h-4 w-4' />
+                )}
               </div>
             </td>
 
@@ -100,8 +102,8 @@ const TableBody: React.FC<TableBodyProps> = ({ scores, applicationType }) => {
 };
 
 export const ScoreSummaryTable: React.FC<ScoreSummaryTableProps> = ({ applicationId }) => {
-  const { applicationScores } = useBroaderReview(applicationId);
   const { applicationType } = useApplicationDetails(applicationId);
+  const { applicationScores } = useBroaderReview(applicationId, applicationType);
 
   return (
     <div>

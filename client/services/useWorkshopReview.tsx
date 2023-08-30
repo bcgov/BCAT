@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react';
-import { API_ENDPOINT, INITIAL_REVIEW_VALUES, REQUEST_METHOD } from '../constants';
+import {
+  API_ENDPOINT,
+  ApplicationType,
+  INITIAL_INFRASTRUCTURE_REVIEW_VALUES,
+  REQUEST_METHOD,
+} from '../constants';
 import { useHttp } from './useHttp';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../contexts';
 
-export const useWorkshopReview = (applicationId: number) => {
-  const [applicationScores, setApplicationScores] = useState<any>(INITIAL_REVIEW_VALUES);
+export const useWorkshopReview = (applicationId: number, applicationType?: ApplicationType) => {
+  const reviewValues =
+    applicationType === ApplicationType.INFRASTRUCTURE_FORM
+      ? INITIAL_INFRASTRUCTURE_REVIEW_VALUES
+      : {};
+  const [applicationScores, setApplicationScores] = useState<any>(reviewValues);
   const { fetchData, sendApiRequest, isLoading } = useHttp();
   const [newScore, setNewScore] = useState<boolean>(true);
   const [scoreId, setScoreId] = useState<number>(0);
@@ -24,14 +33,14 @@ export const useWorkshopReview = (applicationId: number) => {
           setNewScore(false);
 
           setApplicationScores({
-            ...INITIAL_REVIEW_VALUES,
+            ...reviewValues,
             ...(data?.data ?? {}),
             overallComments: data?.overallComments ?? '',
             finalScore: data?.finalScore,
             completionStatus: data?.completionStatus,
           });
         } else {
-          setApplicationScores(INITIAL_REVIEW_VALUES);
+          setApplicationScores(reviewValues);
         }
       },
     );
