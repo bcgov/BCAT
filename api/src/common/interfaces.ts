@@ -1,5 +1,5 @@
 import { Application } from '../application/application.entity';
-import { ScoreDataDto } from '../score/dto/score.dto';
+import { ScoreInfrastructureDataDto } from '../score/dto/score.dto';
 import { REQUEST_METHODS } from './constants';
 import { CompletionStatus } from './enums';
 
@@ -9,10 +9,10 @@ export interface AxiosOptions {
   url: string;
 }
 
-export interface BroaderReviewScoreInterface {
+export interface BroaderReviewInfrastructureScoreInterface {
   createdAt: Date;
   updatedAt: Date;
-  data?: ScoreDataDto;
+  data?: ScoreInfrastructureDataDto;
   finalScore?: number;
   overallComments?: string;
   id: number;
