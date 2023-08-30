@@ -30,6 +30,7 @@ const phases = {
     changeId: updatedChangeId,
     client_cpu: '500m',
     client_memory: '1.5Gi',
+    dbName: 'bcat',
     host: `bcat-bfe2da-dev.apps.silver.devops.gov.bc.ca`,
     instance: `${name}-dev-${updatedChangeId}`,
     name: `${name}`,

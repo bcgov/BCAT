@@ -25,13 +25,28 @@ module.exports = (settings) => {
     }),
   );
 
-//   objects.push(
-//     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/configmaps/api-appsettings.yml`, {
-//       param: {
-//         ENV: phases[phase].phase,
-//       },
-//     }),
-//   );
+  //   objects.push(
+  //     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/configmaps/api-appsettings.yml`, {
+  //       param: {
+  //         ENV: phases[phase].phase,
+  //       },
+  //     }),
+  //   );
+
+  objects.push(
+    ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/database-deploy-config.yaml`, {
+      param: {
+        CPU: phases[phase].api_cpu,
+        ENV: phases[phase].phase,
+        MEMORY: phases[phase].api_memory,
+        NAME: `${phases[phase].name}-db`,
+        DATABASE_NAME: phases[phase].tag,
+        PROJECT_NAME: phases[phase].name,
+        SUFFIX: phases[phase].suffix,
+        VERSION: phases[phase].tag,
+      },
+    }),
+  );
 
   objects.push(
     ...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/api-deploy-config.yml`, {
