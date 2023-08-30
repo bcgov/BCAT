@@ -48,7 +48,7 @@ objects:
                   cpu: ${CPU}
                   memory: ${MEMORY}
                 limits:
-                   cpu: ${CPU}
+                  cpu: ${CPU}
                   memory: ${MEMORY}
               terminationMessagePath: /dev/termination-log
               terminationMessagePolicy: File
@@ -178,4 +178,3 @@ parameters:
     name: MEMORY
     required: false
     value: "1.5Gi"
-    
