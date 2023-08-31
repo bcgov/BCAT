@@ -40,7 +40,7 @@ module.exports = (settings) => {
         ENV: phases[phase].phase,
         MEMORY: phases[phase].api_memory,
         NAME: `${phases[phase].name}-db`,
-        DATABASE_NAME: phases[phase].tag,
+        DATABASE_NAME: phases[phase].dbName,
         PROJECT_NAME: phases[phase].name,
         SUFFIX: phases[phase].suffix,
         VERSION: phases[phase].tag,
