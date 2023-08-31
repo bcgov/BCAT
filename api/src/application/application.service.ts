@@ -115,7 +115,7 @@ export class ApplicationService {
     const application = await this.getApplication(applicationId);
     const user = await this.userService.getUser(assignToUserDto.userId);
     application.assignedTo = user;
-    //application.lastUpdatedByUserId = loggedInUser.id;
+    application.lastUpdatedByUserId = loggedInUser.id;
     application.lastUpdatedByUserGuid = loggedInUser.userGuid;
     await this.applicationRepository.save(application);
   }
