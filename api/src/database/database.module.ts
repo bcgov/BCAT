@@ -47,7 +47,7 @@ import { AttachmentModule } from '../attachments/attachment.module';
 
 const appOrmConfig: PostgresConnectionOptions = {
   ...config,
-  migrationsRun: true,
+  migrationsRun: false,
   synchronize: false,
 };
 
