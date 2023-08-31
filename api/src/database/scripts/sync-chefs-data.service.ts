@@ -22,9 +22,6 @@ const MAX_PROJECT_TITLE_LENGTH = 300;
 
 @Injectable()
 export class SyncChefsDataService {
-  CHEFS_FORM_IDS: string[];
-  CHEFS_API_KEYS: string[];
-
   constructor(
     @InjectRepository(Application)
     private readonly applicationRepo: Repository<Application>,
@@ -32,10 +29,7 @@ export class SyncChefsDataService {
     private readonly formMetadataRepo: Repository<FormMetaData>,
     private readonly appService: ApplicationService,
     private readonly attachmentService: AttachmentService
-  ) {
-    this.CHEFS_FORM_IDS = JSON.parse(process.env.CHEFS_FORM_IDS);
-    this.CHEFS_API_KEYS = JSON.parse(process.env.CHEFS_API_KEYS);
-  }
+  ) {}
 
   private getFormUrl(formId: string): string {
     return `${CHEFS_BASE_URL}/forms/${formId}/submissions`;
@@ -244,21 +238,13 @@ export class SyncChefsDataService {
   async syncSubmissions(): Promise<void> {
     const submissionIds = this.getSubmissionIdsFromArgs(process.argv);
     const formId = this.getFormIdFromArgs(process.argv);
-    let password;
-
-    if (formId === process.env.INFRASTRUCTURE_FORM) {
-      password = this.CHEFS_API_KEYS[0];
-    }
-    if (formId === process.env.NETWORK_FORM) {
-      password = this.CHEFS_API_KEYS[1];
-    }
 
     const method = REQUEST_METHODS.GET;
     const options = {
       method,
       auth: {
         username: formId,
-        password,
+        password: 'todo',
       },
     };
 
@@ -277,40 +263,60 @@ export class SyncChefsDataService {
     }
   }
 
+  private async getFormSubmissions(formId: string, options): Promise<void> {
+    try {
+      const formResponse = await axios({
+        ...options,
+        url: this.getFormUrl(formId),
+      });
+      const submissionIds = formResponse.data
+        .filter(
+          (submission) => submission.formSubmissionStatusCode === 'SUBMITTED' && !submission.deleted
+        )
+        .map((submission) => submission.submissionId);
+
+      if (submissionIds && submissionIds.length > 0) {
+        this.getSubmissionsFromIds(formId, submissionIds, options);
+        return;
+      }
+      Logger.log(`No submissions found in the form with ID ${formId}. \nSkipping...`);
+    } catch (e) {
+      Logger.error(
+        `Error occurred fetching form - ${formId} - `,
+        JSON.stringify(getGenericError(e))
+      );
+    }
+  }
+
   async syncChefsData(): Promise<void> {
     const method = REQUEST_METHODS.GET;
+    const INFRASTRUCTURE_FORM_ID = process.env.INFRASTRUCTURE_FORM;
+    const INFRASTRUCTURE_FORM_API_KEY = process.env.INFRASTRUCTURE_API_KEY;
+    const NETWORK_FORM_ID = process.env.NETWORK_FORM;
+    const NETWORK_FORM_API_KEY = process.env.NETWORK_API_KEY;
 
-    this.CHEFS_FORM_IDS.forEach(async (formId, index) => {
-      const options = {
-        method,
-        auth: {
-          username: formId,
-          password: this.CHEFS_API_KEYS[index],
-        },
-      };
+    const infrastructureOptions = {
+      method,
+      auth: {
+        username: INFRASTRUCTURE_FORM_ID,
+        password: INFRASTRUCTURE_FORM_API_KEY,
+      },
+    };
 
-      try {
-        const formResponse = await axios({ ...options, url: this.getFormUrl(formId) });
-        const submissionIds = formResponse.data
-          .filter(
-            (submission) =>
-              submission.formSubmissionStatusCode === 'SUBMITTED' && !submission.deleted
-          )
-          .map((submission) => submission.submissionId);
+    const networkOptions = {
+      method,
+      auth: {
+        username: NETWORK_FORM_ID,
+        password: NETWORK_FORM_API_KEY,
+      },
+    };
 
-        if (submissionIds && submissionIds.length > 0) {
-          this.getSubmissionsFromIds(formId, submissionIds, options);
-        } else {
-          Logger.log(`No submissions found in the form with ID ${formId}. \nSkipping...`);
-          return;
-        }
-      } catch (e) {
-        Logger.error(
-          `Error occurred fetching form - ${formId} - `,
-          JSON.stringify(getGenericError(e))
-        );
-      }
-    });
+    try {
+      await this.getFormSubmissions(INFRASTRUCTURE_FORM_ID, infrastructureOptions);
+      await this.getFormSubmissions(NETWORK_FORM_ID, networkOptions);
+    } catch (e) {
+      Logger.error(`Error occurred fetching form - `, JSON.stringify(getGenericError(e)));
+    }
   }
 
   async softDeleteApplications(): Promise<void> {
