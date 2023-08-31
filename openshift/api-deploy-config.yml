@@ -59,7 +59,7 @@ objects:
                 - name: POSTGRES_HOST
                   value: postgresql
                 - name: POSTGRES_PORT
-                  value: 5432
+                  value: "5432"
                 - name: APP_PORT
                   value: "8080"
                 - name: KC_AUTH_URL
