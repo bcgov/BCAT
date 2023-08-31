@@ -18,7 +18,7 @@ const config: PostgresConnectionOptions = {
   username: process.env.POSTGRES_USERNAME || 'db2inst1',
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DATABASE || 'bcat',
-  schema: 'app_bcat',
+  schema: process.env.DB_SCHEMA || 'public',
   cli: {
     migrationsDir: 'src/migration',
     entitiesDir: 'src/**/*.entity.ts',
@@ -27,7 +27,7 @@ const config: PostgresConnectionOptions = {
   migrations: ['dist/migration/*.js'],
   subscribers: ['dist/**/*.subscribers.js'],
   synchronize: false,
-  migrationsRun: true,
+  migrationsRun: false,
   namingStrategy: new DatabaseNamingStrategy(),
   logging: !!process.env.DEBUG,
   logger: process.env.DEBUG ? new DatabaseLogger() : undefined,

@@ -157,7 +157,7 @@ parameters:
     displayName: CPU
     name: CPU
     required: false
-    value: "500m"
+    value: "250m"
   - description: Memory request
     displayName: MEMORY
     name: MEMORY
