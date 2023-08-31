@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/nodejs-16:1
+FROM image-registry.apps.silver.devops.gov.bc.ca/bfe2da-tools/nodejs-16
 # Static env vars
 ARG VERSION
 ENV VERSION $VERSION

@@ -36,41 +36,31 @@ objects:
             - image: ${NAME}:${VERSION}
               name: client
               env:
-                - name: NEXT_PUBLIC_SERVER_URL
-                  valueFrom:
-                    secretKeyRef:
-                      key: CLIENT_API_URL
-                      name: bcat-configs-${ENV}
-                - name: NEXT_PUBLIC_REDIRECT_URI
-                  valueFrom:
-                    secretKeyRef:
-                      key: CLIENT_REDIRECT_URI
-                      name: bcat-configs-${ENV}
                 - name: NEXT_PUBLIC_KC_AUTH_URL
                   valueFrom:
                     secretKeyRef:
-                      key: CLIENT_SSO_HOST
                       name: sso-configs-${ENV}
+                      key: CLIENT_SSO_HOST
                 - name: NEXT_PUBLIC_KC_AUTH_REALM
                   valueFrom:
                     secretKeyRef:
-                      key: CLIENT_SSO_REALM
                       name: sso-configs-${ENV}
+                      key: CLIENT_SSO_REALM
                 - name: NEXT_PUBLIC_KC_AUTH_CLIENT_ID
                   valueFrom:
                     secretKeyRef:
-                      key: CLIENT_SSO_CLIENTID
                       name: sso-configs-${ENV}
+                      key: CLIENT_SSO_CLIENTID
                 - name: NEXT_PUBLIC_INFRASTRUCTURE_PROJECT
                   valueFrom:
                     secretKeyRef:
+                      name: chefs-keys-${ENV}
                       key: CHEFS_INFRASTRUCTURE_FORM_ID
-                      name: chefs-keys--${ENV}
                 - name: NEXT_PUBLIC_NETWORK_PROJECT
                   valueFrom:
                     secretKeyRef:
+                      name: chefs-keys-${ENV}
                       key: CHEFS_NETWORK_FORM_ID
-                      name: chefs-keys--${ENV}
               ports:
                 - containerPort: 3000
                   protocol: TCP

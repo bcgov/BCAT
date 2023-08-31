@@ -127,42 +127,42 @@ parameters:
     displayName: PROJECT_NAME
     name: PROJECT_NAME
     required: true
-    value: 'bcat'
+    value: "bcat"
   - name: NAME
     displayName: Name
     description: The name assigned to all of the OpenShift resources associated to the PostgreSQL instance.
     required: true
-    value: postgresql
+    value: "postgresql"
   - description: A name suffix used for all objects
     displayName: Suffix
     name: SUFFIX
     required: false
-    value: '-dev'
+    value: "-dev"
   - description: Environment short name (dev,test,uat,prod)
     displayName: ENV
     name: ENV
     required: false
-    value: 'dev'
+    value: "dev"
   - description: A version used for the image tags
     displayName: version
     name: VERSION
     required: false
-    value: 'v1.0.0'
+    value: "v1.0.0"
   - description: ImageStreamTag
     displayName: ImageStreamTag
     name: IMAGE_STREAM_TAG
     required: false
-    value: 'postgresql-10:1'
+    value: "postgresql-10:1"
   - name: DATABASE_NAME
     displayName: PostgreSQL Database Name
     description: The name of the PostgreSQL database.
     required: true
-    value: bcat
+    value: "bcat"
   - name: PERSISTENT_VOLUME_SIZE
     displayName: Persistent Volume Size
     description: The size of the persistent volume , e.g. 512Mi, 1Gi, 2Gi.
     required: true
-    value: 1Gi
+    value: "1Gi"
   - name: PERSISTENT_VOLUME_CLASS
     displayName: Persistent Volume Class name
     description: The class of the volume; netapp-file-standard, netapp-file-block
