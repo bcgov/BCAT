@@ -11,7 +11,7 @@ objects:
     metadata:
       creationTimestamp: null
       labels:
-        shared: "true"
+        shared: 'true'
       name: ${NAME}
     spec:
       lookupPolicy:
@@ -49,32 +49,32 @@ parameters:
     displayName: PROJECT_NAME
     name: PROJECT_NAME
     required: true
-    value: "bcat"
+    value: 'bcat'
   - description: The name assigned to all of the OpenShift resources associated with this config
     displayName: Name
     name: NAME
     required: true
-    value: "api"
+    value: 'api'
   - description: A name suffix used for all objects
     displayName: Suffix
     name: SUFFIX
     required: false
-    value: "-dev"
+    value: '-dev'
   - description: A version used for the image tags
     displayName: Version
     name: VERSION
     required: false
-    value: "v1.0.0"
+    value: 'v1.0.0'
   - description: CPU request
     displayName: CPU
     name: CPU
     required: false
-    value: "500m"
+    value: '500m'
   - description: Memory request
     displayName: MEMORY
     name: MEMORY
     required: false
-    value: "1.5Gi"
+    value: '1.5Gi'
   - description: SOURCE_REPOSITORY_URL
     displayName: SOURCE_REPOSITORY_URL
     name: SOURCE_REPOSITORY_URL

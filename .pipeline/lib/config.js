@@ -39,7 +39,7 @@ const phases = {
     suffix: `-build-${updatedChangeId}`,
     tag: `build-${version}-${updatedChangeId}`,
     transient: true,
-    url_prefix: "dev-",
+    url_prefix: 'dev-',
     version: `${version}-${updatedChangeId}`,
   },
 };
