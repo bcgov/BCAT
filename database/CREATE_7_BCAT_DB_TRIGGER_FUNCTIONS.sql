@@ -1,7 +1,7 @@
 --
--- FUNCTION: public.bcat_validate_init_audit_cols()
+-- FUNCTION: app_bcat.bcat_validate_init_audit_cols()
 --
-CREATE FUNCTION public.bcat_validate_init_audit_cols() 
+CREATE FUNCTION app_bcat.bcat_validate_init_audit_cols() 
     RETURNS trigger
     LANGUAGE 'plpgsql'
     VOLATILE NOT LEAKPROOF
@@ -45,5 +45,5 @@ AS $BODY$
 
 $BODY$;
 
-ALTER FUNCTION public.bcat_validate_init_audit_cols()
+ALTER FUNCTION app_bcat.bcat_validate_init_audit_cols()
     OWNER TO "postgres";
