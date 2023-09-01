@@ -87,7 +87,6 @@ objects:
             from:
               kind: ImageStreamTag
               name: ${NAME}:${VERSION}
-              namespace: bfe2da-tools
           type: ImageChange
         - type: ConfigChange
   - apiVersion: v1
@@ -112,7 +111,7 @@ objects:
       name: ${NAME}-${ENV}
     spec:
       host: ${HOST}
-      path: "/client"
+      path: '/client'
       port:
         targetPort: web
       tls:
@@ -127,54 +126,54 @@ parameters:
     displayName: PROJECT_NAME
     name: PROJECT_NAME
     required: true
-    value: "bcat"
+    value: 'bcat'
   - description: The name assigned to all of the OpenShift resources associated with this config
     displayName: Name
     name: NAME
     required: true
-    value: "client"
+    value: 'client'
   - description: A name suffix used for all objects
     displayName: Suffix
     name: SUFFIX
     required: false
-    value: "-dev"
+    value: '-dev'
   - description: Environment short name (dev, test, prod)
     displayName: ENV
     name: ENV
     required: false
-    value: "dev"
+    value: 'dev'
   - description: A version used for the image tags
     displayName: version
     name: VERSION
     required: false
-    value: "v1.0.0"
+    value: 'v1.0.0'
   - description: HOST
     displayName: HOST
     name: HOST
     required: false
-    value: ""
+    value: ''
   - description: CPU request
     displayName: CPU
     name: CPU
     required: false
-    value: "250m"
+    value: '250m'
   - description: Memory request
     displayName: MEMORY
     name: MEMORY
     required: false
-    value: "1.5Gi"
+    value: '1.5Gi'
   - description: Port the server will be exposed on
     displayName: Server port
     name: SERVER_PORT
     required: false
-    value: "3000"
+    value: '3000'
   - description: SOURCE_REPOSITORY_URL
     displayName: SOURCE_REPOSITORY_URL
     name: SOURCE_REPOSITORY_URL
     required: false
-    value: ""
+    value: ''
   - description: SOURCE_REPOSITORY_REF
     displayName: SOURCE_REPOSITORY_REF
     name: SOURCE_REPOSITORY_REF
     required: false
-    value: ""
+    value: ''

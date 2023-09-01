@@ -107,19 +107,6 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
 
     // TODO: confirm logic for updating statuses
     switch (status) {
-      /* case ApplicationStatus.RECEIVED:
-        // if (user?.isAdmin) {
-        statusUpdates.push({
-          label: NextStatusUpdates.PROCEED,
-          onClick: () => updateStatus(id, ApplicationStatus.ASSIGNED),
-        });
-        statusUpdates.push({
-          label: NextStatusUpdates.DISCARD,
-          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
-        });
-        // }
-        break; */
-
       case ApplicationStatus.ASSIGNED:
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
@@ -132,11 +119,14 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
         break;
 
       case ApplicationStatus.WORKSHOP:
-      default:
         // TODO: Logic after workshop process
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
           onClick: () => updateStatus(id, ApplicationStatus.APPROVED),
+        });
+        statusUpdates.push({
+          label: NextStatusUpdates.DISCARD,
+          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
         });
         break;
     }

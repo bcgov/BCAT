@@ -22,7 +22,7 @@ module.exports = (settings) => {
         SUFFIX: phases[phase].suffix,
         VERSION: phases[phase].tag,
       },
-    }),
+    })
   );
 
   objects.push(
@@ -37,7 +37,7 @@ module.exports = (settings) => {
         SUFFIX: phases[phase].suffix,
         VERSION: phases[phase].tag,
       },
-    }),
+    })
   );
 
   oc.applyRecommendedLabels(
@@ -45,7 +45,7 @@ module.exports = (settings) => {
     phases[phase].name,
     phase,
     `${changeId}`,
-    phases[phase].instance,
+    phases[phase].instance
   );
   oc.importImageStreams(objects, phases[phase].tag, phases.build.namespace, phases.build.tag);
   oc.applyAndDeploy(objects, phases[phase].instance);

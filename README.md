@@ -42,8 +42,8 @@ Use the following steps to configure the local development environment
       NEXT_PUBLIC_KC_AUTH_REALM=
       NEXT_PUBLIC_KC_AUTH_CLIENT_ID=
       NEXT_PUBLIC_SERVER_URL= http://localhost:8080/api/v1
-      NEXT_PUBLIC_INFRASTRUCTURE_PROJECT=b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54
-      NEXT_PUBLIC_NETWORK_PROJECT=f3bac574-bc64-4169-af40-9f3403b43eb6
+      NEXT_PUBLIC_INFRASTRUCTURE_PROJECT=<formId>
+      NEXT_PUBLIC_NETWORK_PROJECT=<formId>
    ```
 
    - Create the `api/.env` file and add the following content
@@ -52,9 +52,8 @@ Use the following steps to configure the local development environment
       KC_AUTH_URL=
       KC_AUTH_REALM=
       KC_AUTH_CLIENT_ID=
-      CHEFS_FORM_IDS=["b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54", "f3bac574-bc64-4169-af40-9f3403b43eb6"]
-      INFRASTRUCTURE_FORM=b6f16591-a1eb-4e26-a7fc-fb1b5cd76b54
-      NETWORK_FORM=f3bac574-bc64-4169-af40-9f3403b43eb6
+      INFRASTRUCTURE_FORM=<formId>
+      NETWORK_FORM=<formId>
    ```
 
 ### Run

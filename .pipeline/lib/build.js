@@ -19,7 +19,7 @@ module.exports = (settings) => {
         SUFFIX: settings.phases[phase].suffix,
         VERSION: settings.phases[phase].tag,
       },
-    }),
+    })
   );
 
   objects.push(
@@ -32,7 +32,7 @@ module.exports = (settings) => {
         SUFFIX: settings.phases[phase].suffix,
         VERSION: settings.phases[phase].tag,
       },
-    }),
+    })
   );
 
   oc.applyRecommendedLabels(
@@ -40,7 +40,7 @@ module.exports = (settings) => {
     phases[phase].name,
     phase,
     phases[phase].changeId,
-    phases[phase].instance,
+    phases[phase].instance
   );
   oc.applyAndBuild(objects);
 };

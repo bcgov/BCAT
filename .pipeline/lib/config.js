@@ -36,10 +36,10 @@ const phases = {
     name: `${name}`,
     namespace: 'bfe2da-dev',
     phase: 'dev',
-    suffix: `-build-${updatedChangeId}`,
-    tag: `build-${version}-${updatedChangeId}`,
+    suffix: `-dev-${updatedChangeId}`,
+    tag: `dev-${version}-${updatedChangeId}`,
     transient: true,
-    url_prefix: "dev-",
+    url_prefix: 'dev-',
     version: `${version}-${updatedChangeId}`,
   },
 };
