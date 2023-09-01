@@ -5,6 +5,7 @@ import { Button, Spinner } from '../generic';
 import {
   INFRASTRUCTURE_REVIEW_QUESTIONS,
   INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA,
+  NETWORK_REVIEW_VALIDATION_SCHEMA,
   ReviewCompletionStatus,
   ApplicationType,
   NETWORK_REVIEW_QUESTIONS,
@@ -69,7 +70,7 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
           validationSchema={
             applicationType === ApplicationType.INFRASTRUCTURE_FORM
               ? INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA
-              : ''
+              : NETWORK_REVIEW_VALIDATION_SCHEMA
           }
           onSubmit={handleSubmit}
           enableReinitialize={true}

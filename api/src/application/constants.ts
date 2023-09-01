@@ -69,7 +69,7 @@ export const NetworkAppScoreFields = [
   },
 ];
 
-export const ScoreFields = [
+export const InfrastructureScoreFields = [
   {
     name: 'populationScore',
     label: 'Population score',

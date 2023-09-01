@@ -11,118 +11,60 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
+
+export class ScoreNetworkDataDto {
+  // network items
+  @IsNumber()
+  @Max(5)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  reasonableCostforCommunitySize: number;
+
+  @IsNumber()
+  @Max(7)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  s3ComponentsScore: number;
+
+  @IsNumber()
+  @Max(1)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  s4DescribePotentialEconomicBenefits: number;
+
+  @IsNumber()
+  @Max(1)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  s5DetailsHowATNPWillAddressSafetyConcerns: number;
+
+  @IsNumber()
+  @Max(1)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  s6DescribeConsultationUndertaking: number;
+
+  @IsNumber()
+  @Max(1)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  s6DescribeDataCollectionUndertaking: number;
+
+  @IsNumber()
+  @Max(5)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  fundingReceivedLastFiveYears: number;
+}
+
 export class ScoreInfrastructureDataDto {
-  @IsNumber()
-  @Max(10)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  populationScore: number;
-
-  @IsNumber()
-  @Max(15)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  communityNeedsAndSafetyGuidelinesScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  projectNeedScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  projectFundingScore: number;
-
-  @IsNumber()
-  @Max(3)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  pastBcaapFundingScore: number;
-
-  @IsNumber()
-  @IsIn([0, 2])
-  @IsOptional()
-  @IsEmpty()
-  facilityMasterPlanScore: number;
-
-  @IsNumber()
-  @Max(2)
-  @Min(1)
-  @IsOptional()
-  @IsEmpty()
-  facilityUsageScore: number;
-
-  @IsNumber()
-  @Max(3)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  trafficDataScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  climatePerspectiveScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  climateBestPracticesScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  environmentalRisksScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  environmentalInnovationScore: number;
-
-  @IsNumber()
-  @Max(2)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  projectDescriptionScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  climateGoalsScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  organizationClimateGoalScore: number;
-
-  @IsNumber()
-  @Max(5)
-  @Min(0)
-  @IsOptional()
-  @IsEmpty()
-  successMeasurementScore: number;
-
   @IsNumber()
   @Max(15)
   @Min(0)
@@ -203,7 +145,7 @@ export class ScoreInfrastructureDataDto {
 
 export class ScoreDto {
   @IsOptional()
-  data: ScoreInfrastructureDataDto;
+  data: ScoreInfrastructureDataDto | ScoreNetworkDataDto;
 
   @IsString()
   @MaxLength(2000)

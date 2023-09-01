@@ -161,8 +161,7 @@ const ApplicationDetails: NextPage = () => {
                 <Comments applicationId={id} onClose={() => setShowComments(false)} />
               </div>
             )}
-            {/* TODO: add these tabs once scoring and admin tickets are completed */}
-            {/* {details && applicationType && (
+            {details && applicationType && (
               <div className='col-span-2 pb-4'>
                 <BroaderReview
                   applicationId={id}
@@ -171,7 +170,7 @@ const ApplicationDetails: NextPage = () => {
                   userList={userList}
                 />
               </div>
-            )} */}
+            )}
             {details && applicationType && details.status === ApplicationStatus.WORKSHOP && (
               <div className='col-span-2 pb-4'>
                 <WorkshopReview

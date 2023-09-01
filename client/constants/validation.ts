@@ -3,6 +3,49 @@ import * as Yup from 'yup';
 const minValidationText = 'Must be greater than or equal to ';
 const maxValidationText = 'Must be less than or equal to ';
 
+export const NETWORK_REVIEW_VALIDATION_SCHEMA = Yup.object().shape({
+  // network application review validation
+  reasonableCostforCommunitySize: Yup.number()
+    .min(0, minValidationText + '0')
+    .max(5, maxValidationText + '5')
+    .required('This field is required'),
+  s3ComponentsScore: Yup.number()
+    .min(0, minValidationText + '0')
+    .max(4, maxValidationText + '4')
+    .required('This field is required'),
+  s4DescribePotentialEconomicBenefits: Yup.number()
+    .min(0, minValidationText + '0')
+    .max(1, maxValidationText + '1')
+    .required('This field is required'),
+  s4DescribeHowATNPAlignsWithCommunityGoals: Yup.number()
+    .min(0, minValidationText + '0')
+    .max(1, maxValidationText + '1')
+    .required('This field is required'),
+  s5DetailsHowATNPWillAddressSafetyConcerns: Yup.number()
+    .min(0, minValidationText + '0')
+    .max(1, maxValidationText + '1')
+    .required('This field is required'),
+  s6DescribeConsultationUndertaking: Yup.number()
+    .min(0, minValidationText + '0')
+    .max(1, maxValidationText + '1')
+    .required('This field is required'),
+  s6DescribeDataCollectionUndertaking: Yup.number()
+    .min(0, minValidationText + '0')
+    .max(1, maxValidationText + '1')
+    .required('This field is required'),
+  s6DescribeHowATNPImplementationWillEnsureSuccess: Yup.number()
+    .min(0, minValidationText + '0')
+    .max(1, maxValidationText + '1')
+    .required('This field is required'),
+  fundingReceivedLastFiveYears: Yup.number()
+    .min(0, minValidationText + '0')
+    .max(5, maxValidationText + '5')
+    .required('This field is required'),
+  finalScore: Yup.number()
+    .min(0, minValidationText + '0')
+    .max(21, maxValidationText + '21'),
+});
+
 export const INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA = Yup.object().shape({
   populationScore: Yup.number()
     .min(0, minValidationText + '0')

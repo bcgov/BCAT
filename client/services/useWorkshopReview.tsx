@@ -1,39 +1,27 @@
 import { useState, useEffect } from 'react';
+import { useHttp } from './useHttp';
+import { toast } from 'react-toastify';
+
 import {
   API_ENDPOINT,
   ApplicationType,
   INITIAL_INFRASTRUCTURE_REVIEW_VALUES,
-  REQUEST_METHOD,
-} from '../constants';
-import { useHttp } from './useHttp';
-import { toast } from 'react-toastify';
-import {
-  API_ENDPOINT,
-  ApplicationType,
-  INITIAL_REVIEW_VALUES,
   NETWORK_APP_INITIAL_REVIEW_VALUES,
   REQUEST_METHOD,
 } from '../constants';
-import { useHttp } from './useHttp';
 import { useAuthContext } from '../contexts';
-import { ReviewValues, NetworkReviewValues } from 'constants/interfaces';
 
 export const useWorkshopReview = (applicationId: number, applicationType?: ApplicationType) => {
   const reviewValues =
     applicationType === ApplicationType.INFRASTRUCTURE_FORM
       ? INITIAL_INFRASTRUCTURE_REVIEW_VALUES
-      : {};
+      : NETWORK_APP_INITIAL_REVIEW_VALUES;
+
   const [applicationScores, setApplicationScores] = useState<any>(reviewValues);
   const { fetchData, sendApiRequest, isLoading } = useHttp();
   const [newScore, setNewScore] = useState<boolean>(true);
   const [scoreId, setScoreId] = useState<number>(0);
   const { user: loggedInUser } = useAuthContext();
-
-  // TODO: change roaderReviewValues to infra
-  const reviewValues: ReviewValues | NetworkReviewValues =
-    applicationType === ApplicationType.INFRASTRUCTURE_FORM
-      ? INITIAL_REVIEW_VALUES
-      : NETWORK_APP_INITIAL_REVIEW_VALUES;
 
   const fetchApplicationScores = () => {
     fetchData(
