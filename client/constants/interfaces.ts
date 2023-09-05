@@ -102,33 +102,39 @@ export type KeyValuePair = {
   [key: string]: any;
 };
 
-export interface BroaderReviewValues {
+interface BaseReviewValues {
   overallComments: string;
   finalScore: number;
-  projectTypeScore: string;
-  projectNeedScore: number;
-  projectFundingScore: number;
-  pastBcaapFundingScore: number;
-  facilityMasterPlanScore: number;
-  facilityUsageScore: number;
-  trafficDataScore: number;
-  climatePerspectiveScore: number;
-  climateBestPracticesScore: number;
-  environmentalRisksScore: number;
-  environmentalInnovationScore: number;
-  projectDescriptionScore: number;
-  climateGoalsScore: number;
-  organizationClimateGoalScore: number;
-  successMeasurementScore: number;
-  safetyScore: number;
-  medevacScore: number;
-  localBenefitsScore: number;
-  longTermScore: number;
-  communitySupportScore: number;
-  contingencyPlanScore: number;
-  classBCostScore: number;
-  thirdPartyContributionScore: number;
   completionStatus: string;
+}
+
+export interface NetworkReviewValues extends BaseReviewValues {
+  reasonableCostforCommunitySize: number;
+  s3ComponentsScore: number;
+  s4DescribeHowATNPAlignsWithCommunityGoals: number;
+  s4DescribePotentialEconomicBenefits: number;
+  s5DetailsHowATNPWillAddressSafetyConcerns: number;
+  s6DescribeConsultationUndertaking: number;
+  s6DescribeDataCollectionUndertaking: number;
+  s6DescribeHowATNPImplementationWillEnsureSuccess: number;
+  fundingReceivedLastFiveYears: number;
+}
+
+export interface InfrastructureReviewValues extends BaseReviewValues {
+  populationScore: number;
+  AApopulationScore: number;
+  communityNeedsAndSafetyGuidelinesScore: number;
+  safetyScore: number;
+  AAsafetyScore: number;
+  economyAndTourismScore: number;
+  environmentScore: number;
+  landUseScore: number;
+  AAlandUseScore: number;
+  accessibilityScore: number;
+  promotionScore: number;
+  lettersOfSupportScore: number;
+  previousFundingScore: number;
+  regionalAdjustmentScore: number;
 }
 
 export interface ScoreSummaryTableProps {
@@ -138,7 +144,7 @@ export interface ScoreSummaryTableProps {
 export interface BroaderReviewScore {
   createdAt: Date;
   updatedAt: Date;
-  data: BroaderReviewValues;
+  data: InfrastructureReviewValues | NetworkReviewValues;
   finalScore: number;
   overallComments: string;
   id: number;

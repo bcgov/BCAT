@@ -21,6 +21,54 @@ export const findApplicationType = (chefsFormId: string): ApplicationType => {
   }
 };
 
+export const NetworkAppScoreFields = [
+  {
+    name: 'reasonableCostforCommunitySize',
+    label: 'Is project a reasonable cost for the community size',
+    score: 5,
+  },
+  {
+    name: 's3ComponentsScore',
+    label: 'Components score',
+    score: 4,
+  },
+  {
+    name: 's4DescribeHowATNPAlignsWithCommunityGoals',
+    label: 'How ATNP aligns with community goals',
+    score: 1,
+  },
+  {
+    name: 's4DescribePotentialEconomicBenefits',
+    label: 'Potential Economic Benefits',
+    score: 1,
+  },
+  {
+    name: 's5DetailsHowATNPWillAddressSafetyConcerns',
+    label: 'Details how ATNP will address safety concerns',
+    score: 1,
+  },
+  {
+    name: 's6DescribeConsultationUndertaking',
+    label: 'Consultation and/or engagement undertaking',
+    score: 1,
+  },
+  {
+    name: 's6DescribeDataCollectionUndertaking',
+    label: 'Data collection undertaking',
+    score: 1,
+  },
+  {
+    name: 's6DescribeHowATNPImplementationWillEnsureSuccess',
+    label: 'How you will monitor ATNP implementation to ensure success',
+    score: 1,
+  },
+  {
+    name: 'fundingReceivedLastFiveYears',
+    label: 'Funding received over the last 5 years',
+    score: 5,
+  },
+];
+
 export const InfrastructureScoreFields = [
   {
     name: 'populationScore',

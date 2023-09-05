@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
+import { useHttp } from './useHttp';
+import { toast } from 'react-toastify';
+
 import {
   API_ENDPOINT,
   ApplicationType,
   INITIAL_INFRASTRUCTURE_REVIEW_VALUES,
+  NETWORK_APP_INITIAL_REVIEW_VALUES,
   REQUEST_METHOD,
 } from '../constants';
-import { useHttp } from './useHttp';
-import { toast } from 'react-toastify';
 import { useAuthContext } from '../contexts';
 
 export const useWorkshopReview = (applicationId: number, applicationType?: ApplicationType) => {
   const reviewValues =
     applicationType === ApplicationType.INFRASTRUCTURE_FORM
       ? INITIAL_INFRASTRUCTURE_REVIEW_VALUES
-      : {};
+      : NETWORK_APP_INITIAL_REVIEW_VALUES;
+
   const [applicationScores, setApplicationScores] = useState<any>(reviewValues);
   const { fetchData, sendApiRequest, isLoading } = useHttp();
   const [newScore, setNewScore] = useState<boolean>(true);

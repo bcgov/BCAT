@@ -12,6 +12,58 @@ import {
   MinLength,
 } from 'class-validator';
 
+export class ScoreNetworkDataDto {
+  // network items
+  @IsNumber()
+  @Max(5)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  reasonableCostforCommunitySize: number;
+
+  @IsNumber()
+  @Max(7)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  s3ComponentsScore: number;
+
+  @IsNumber()
+  @Max(1)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  s4DescribePotentialEconomicBenefits: number;
+
+  @IsNumber()
+  @Max(1)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  s5DetailsHowATNPWillAddressSafetyConcerns: number;
+
+  @IsNumber()
+  @Max(1)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  s6DescribeConsultationUndertaking: number;
+
+  @IsNumber()
+  @Max(1)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  s6DescribeDataCollectionUndertaking: number;
+
+  @IsNumber()
+  @Max(5)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  fundingReceivedLastFiveYears: number;
+}
+
 export class ScoreInfrastructureDataDto {
   @IsNumber()
   @Max(15)
@@ -93,7 +145,7 @@ export class ScoreInfrastructureDataDto {
 
 export class ScoreDto {
   @IsOptional()
-  data: ScoreInfrastructureDataDto;
+  data: ScoreInfrastructureDataDto | ScoreNetworkDataDto;
 
   @IsString()
   @MaxLength(2000)

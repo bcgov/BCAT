@@ -5,14 +5,16 @@ import { Button, Spinner } from '../generic';
 import {
   INFRASTRUCTURE_REVIEW_QUESTIONS,
   INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA,
+  NETWORK_REVIEW_VALIDATION_SCHEMA,
   ReviewCompletionStatus,
   ApplicationType,
+  NETWORK_REVIEW_QUESTIONS,
 } from '../../constants';
 import { Textarea, Radio, Error } from '../form';
 import { UserInterface } from '../../contexts';
 import { FinalScore, Input, UserView } from '../broader-review';
 import { useBroaderReview } from '../../services';
-import { getInfrastructureAutomatedScores } from 'helpers';
+import { getComponentsScore, getInfrastructureAutomatedScores } from 'helpers';
 
 export type BroaderReviewProps = {
   applicationId: number;
@@ -39,9 +41,16 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
   } = useBroaderReview(applicationId, applicationType);
 
   const evaluationReviewQuestions =
-    applicationType === ApplicationType.INFRASTRUCTURE_FORM ? INFRASTRUCTURE_REVIEW_QUESTIONS : [];
+    applicationType === ApplicationType.INFRASTRUCTURE_FORM
+      ? INFRASTRUCTURE_REVIEW_QUESTIONS
+      : NETWORK_REVIEW_QUESTIONS;
 
   useEffect(() => {
+    // network auto values
+    if (applicationType === ApplicationType.NETWORK_FORM && applicationScoresByScorer) {
+      const componentsScore = getComponentsScore(formData.s3Container);
+      applicationScoresByScorer.s3ComponentsScore = componentsScore;
+    }
     if (applicationType === ApplicationType.INFRASTRUCTURE_FORM && applicationScoresByScorer) {
       const scoreValues = getInfrastructureAutomatedScores(formData);
 
@@ -61,7 +70,7 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
           validationSchema={
             applicationType === ApplicationType.INFRASTRUCTURE_FORM
               ? INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA
-              : ''
+              : NETWORK_REVIEW_VALIDATION_SCHEMA
           }
           onSubmit={handleSubmit}
           enableReinitialize={true}
@@ -109,8 +118,8 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                         })}
 
                       <div className='bg-white divide-y'>
-                        {evaluationReviewQuestions.map((item, index) => (
-                          <div key={`BroderReviewInput_${index}`} className='py-5'>
+                        {evaluationReviewQuestions.map((item: any, index) => (
+                          <div key={`BroaderReviewInput_${index}`} className='py-5'>
                             <Input
                               descriptionList={item.descriptionList}
                               disabled={!isLoggedInUser}
