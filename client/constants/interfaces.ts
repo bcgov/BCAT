@@ -120,30 +120,21 @@ export interface NetworkReviewValues extends BaseReviewValues {
   fundingReceivedLastFiveYears: number;
 }
 
-export interface ReviewValues extends BaseReviewValues {
-  projectTypeScore: string;
-  projectNeedScore: string;
-  projectFundingScore: string;
-  pastBcaapFundingScore: string;
-  facilityMasterPlanScore: string;
-  facilityUsageScore: string;
-  trafficDataScore: string;
-  climatePerspectiveScore: string;
-  climateBestPracticesScore: string;
-  environmentalRisksScore: string;
-  environmentalInnovationScore: string;
-  projectDescriptionScore: string;
-  climateGoalsScore: string;
-  organizationClimateGoalScore: string;
-  successMeasurementScore: string;
-  safetyScore: string;
-  medevacScore: string;
-  localBenefitsScore: string;
-  longTermScore: string;
-  communitySupportScore: string;
-  contingencyPlanScore: string;
-  classBCostScore: string;
-  thirdPartyContributionScore: string;
+export interface InfrastructureReviewValues extends BaseReviewValues {
+  populationScore: number;
+  AApopulationScore: number;
+  communityNeedsAndSafetyGuidelinesScore: number;
+  safetyScore: number;
+  AAsafetyScore: number;
+  economyAndTourismScore: number;
+  environmentScore: number;
+  landUseScore: number;
+  AAlandUseScore: number;
+  accessibilityScore: number;
+  promotionScore: number;
+  lettersOfSupportScore: number;
+  previousFundingScore: number;
+  regionalAdjustmentScore: number;
 }
 
 export interface ScoreSummaryTableProps {
@@ -153,7 +144,7 @@ export interface ScoreSummaryTableProps {
 export interface BroaderReviewScore {
   createdAt: Date;
   updatedAt: Date;
-  data: ReviewValues;
+  data: InfrastructureReviewValues | NetworkReviewValues;
   finalScore: number;
   overallComments: string;
   id: number;
