@@ -111,7 +111,7 @@ objects:
       name: ${NAME}-${ENV}
     spec:
       host: ${HOST}
-      path: '/client'
+      path: '/'
       port:
         targetPort: web
       tls:

@@ -147,7 +147,7 @@ objects:
       name: ${NAME}-${ENV}
     spec:
       host: api-${HOST}
-      path: '/api'
+      path: '/'
       port:
         targetPort: web
       tls:
