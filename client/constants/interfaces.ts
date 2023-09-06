@@ -154,3 +154,13 @@ export interface BroaderReviewScore {
   user: string;
   displayName: string;
 }
+
+export interface AuthorizationInterface {
+  projectManagerSignature: string;
+  financialOfficerSignature: string;
+}
+
+export interface ApplicationStatusInterface {
+  id: number;
+  name: string;
+}

@@ -12,7 +12,7 @@ import {
   Button,
   Link as LinkComponent,
   Comments,
-  BroaderReview,
+  // BroaderReview,
   MenuButton,
   Panel,
   RenderCHFSElement,
@@ -20,7 +20,7 @@ import {
 } from '../../components';
 import { useApplicationDetails } from '../../services';
 import { ApplicationStatus } from '../../constants';
-import { WorkshopReview } from '../../components/application/WorkshopReview';
+// import { WorkshopReview } from '../../components/application/WorkshopReview';
 import { formatDate } from 'utils';
 
 const ApplicationDetails: NextPage = () => {
@@ -28,7 +28,7 @@ const ApplicationDetails: NextPage = () => {
   const id = query?.id ? +query.id : undefined;
 
   const {
-    applicationType,
+    // applicationType,
     details,
     downloadPDF,
     formData,
@@ -41,6 +41,30 @@ const ApplicationDetails: NextPage = () => {
     updateEvaluator,
     userList,
   } = useApplicationDetails(id);
+
+  const applicationStatus: ApplicationStatus = (details?.status?.name ||
+    ApplicationStatus.RECEIVED) as ApplicationStatus;
+
+  const renderItemValue = (details: any, title: string, key: string) => {
+    const getItemValue = () => {
+      if (key === 'status') {
+        return details[key].name || '-';
+      }
+
+      if (key === 'lastUpdatedBy') {
+        return details[key]?.displayName || '-';
+      }
+
+      return formatDate(details[key]);
+    };
+
+    return (
+      <>
+        <p className='text-sm text-slate-400'>{title}</p>
+        <p className='text-lg'>{getItemValue()}</p>
+      </>
+    );
+  };
 
   return (
     <>
@@ -72,7 +96,7 @@ const ApplicationDetails: NextPage = () => {
               </div>
             </div>
             <div className='w-2/5 justify-end flex'>
-              {details.status === ApplicationStatus.WORKSHOP ? (
+              {applicationStatus === ApplicationStatus.WORKSHOP ? (
                 <div className='gap-2 flex'>
                   <Link href={`/applications/${id}/score-table`}>
                     <a
@@ -91,7 +115,7 @@ const ApplicationDetails: NextPage = () => {
                   </Button>
                 </div>
               ) : (
-                <MenuButton title='Open' items={getNextStatusUpdates(id, details.status)} />
+                <MenuButton title='Open' items={getNextStatusUpdates(id, applicationStatus)} />
               )}
             </div>
           </div>
@@ -105,12 +129,7 @@ const ApplicationDetails: NextPage = () => {
                     index == 0 ? ' bg-bcBluePrimary text-white' : ' bg-gray-100'
                   }  items-center text-center justify-center`}
                 >
-                  <p className='text-sm text-slate-400'>{item.title}</p>
-                  <p className='text-lg'>
-                    {item.value === 'lastUpdatedBy'
-                      ? details[item.value]?.displayName
-                      : formatDate(details[item.value])}
-                  </p>
+                  {renderItemValue(details, item.title, item.value)}
                 </div>
               );
             })}
@@ -119,7 +138,7 @@ const ApplicationDetails: NextPage = () => {
           <div className='grid grid-cols-4 gap-4'>
             <div
               className={`${
-                [ApplicationStatus.WORKSHOP].includes(details.status)
+                [ApplicationStatus.WORKSHOP].includes(applicationStatus)
                   ? 'col-span-2'
                   : showComments
                   ? 'col-span-3'
@@ -138,7 +157,7 @@ const ApplicationDetails: NextPage = () => {
                     <Panel
                       title={each.title}
                       key={each.key}
-                      isOpen={isPanelDefaultOpen(i, details.status, each.title)}
+                      isOpen={isPanelDefaultOpen(i, applicationStatus, each.title)}
                     >
                       <div className='leading-6 p-6 grid gap-4'>
                         {each.components?.map((eachComp: any, index: number) => (
@@ -161,6 +180,7 @@ const ApplicationDetails: NextPage = () => {
                 <Comments applicationId={id} onClose={() => setShowComments(false)} />
               </div>
             )}
+            {/** TODO: Add CompletionStatus relation 
             {details && applicationType && (
               <div className='col-span-2 pb-4'>
                 <BroaderReview
@@ -171,7 +191,7 @@ const ApplicationDetails: NextPage = () => {
                 />
               </div>
             )}
-            {details && applicationType && details.status === ApplicationStatus.WORKSHOP && (
+            {details && applicationType && applicationStatus === ApplicationStatus.WORKSHOP && (
               <div className='col-span-2 pb-4'>
                 <WorkshopReview
                   applicationId={id}
@@ -179,7 +199,7 @@ const ApplicationDetails: NextPage = () => {
                   formData={formData}
                 />
               </div>
-            )}
+            )}*/}
           </div>
         </div>
       )}
