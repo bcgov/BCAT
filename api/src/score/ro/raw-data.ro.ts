@@ -54,6 +54,8 @@ export class RawDataRo {
         lastUpdated: formattedDate,
         status: item.status,
         confirmationId: item.confirmationId,
+        lastUpdated: item.updatedAt.toString(),
+        status: item.status?.name || '-',
       };
     });
     return { content };

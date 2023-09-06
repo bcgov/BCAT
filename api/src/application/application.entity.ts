@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColum
 import { FormMetaData } from '../FormMetaData/formmetadata.entity';
 import { User } from '../user/user.entity';
 import { Comment } from '../comments/comment.entity';
-import { ApplicationStatus } from './constants';
+import { ApplicationStatus } from '../applicationStatus/applicationStatus.entity';
 import { RemovableBaseEntity } from '../common/removable-base.entity';
 
 @Entity({
@@ -37,13 +37,8 @@ export class Application extends RemovableBaseEntity {
   @Column({ name: 'ASKS', type: 'money' })
   asks?: string;
 
-  @Column({
-    name: 'STATUS',
-    type: 'varchar',
-    length: '100',
-    nullable: false,
-    default: ApplicationStatus.RECEIVED,
-  })
+  @ManyToOne(() => ApplicationStatus, (status) => status.applications)
+  @JoinColumn({ name: 'STATUS_ID' })
   status: ApplicationStatus;
 
   @ManyToOne(() => FormMetaData, (form) => form.applications)
