@@ -100,7 +100,6 @@ export class ApplicationService {
   ): Promise<Application> {
     const application = this.applicationRepository.create(applicationDto);
     application.form = formMetaData;
-    application.updateConcurrencyControlNumber();
     return await this.applicationRepository.save(application);
   }
 

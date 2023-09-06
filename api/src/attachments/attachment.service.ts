@@ -31,7 +31,6 @@ export class AttachmentService {
   }
 
   async createAttachment(attachment: Attachment): Promise<Attachment> {
-    attachment.updateConcurrencyControlNumber();
     const newAttachment = this.attachmentRepository.create(attachment);
 
     return await this.attachmentRepository.save(newAttachment);
