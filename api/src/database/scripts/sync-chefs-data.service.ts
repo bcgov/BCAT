@@ -115,8 +115,9 @@ export class SyncChefsDataService {
         const url = FILE_URL + file.url;
         const fileRes = await axios({ ...options, url });
         const fileData = Buffer.from(fileRes.data);
-
-        await this.attachmentService.updateAttachment({ ...file, data: fileData });
+        // TODO: fix this, remove logger
+        Logger.log(`${fileData}`);
+        // await this.attachmentService.updateAttachment({ ...file, data: fileData });
       } catch (error) {
         Logger.error(
           `Error occurred fetching attachment - ${file.id} - `,

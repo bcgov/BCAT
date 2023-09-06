@@ -100,7 +100,7 @@ export class ApplicationService {
   ): Promise<Application> {
     const application = this.applicationRepository.create(applicationDto);
     application.form = formMetaData;
-
+    application.updateConcurrencyControlNumber();
     return await this.applicationRepository.save(application);
   }
 
@@ -108,7 +108,9 @@ export class ApplicationService {
     applicationId: number,
     applicationDto: SaveApplicationDto
   ): Promise<void> {
-    await this.applicationRepository.update(applicationId, applicationDto);
+    const application = await this.getApplication(applicationId);
+    application.updateConcurrencyControlNumber();
+    await this.applicationRepository.save({ ...application, ...applicationDto });
   }
 
   async assignToUser(
@@ -121,6 +123,7 @@ export class ApplicationService {
     application.assignedTo = user;
     application.lastUpdatedBy = loggedInUser;
     application.lastUpdatedByUserGuid = loggedInUser.userGuid;
+    application.updateConcurrencyControlNumber();
     await this.applicationRepository.save(application);
   }
 
@@ -132,6 +135,7 @@ export class ApplicationService {
     application.assignedTo = null;
     application.lastUpdatedBy = loggedInUser;
     application.lastUpdatedByUserGuid = loggedInUser.userGuid;
+    application.updateConcurrencyControlNumber();
     await this.applicationRepository.save(application);
   }
 
@@ -154,11 +158,12 @@ export class ApplicationService {
     if (application.status.name === status) {
       return;
     }
-
     const statusId = await this.applicationStatusService.getApplicationStatusByName(status);
 
+    application.updateConcurrencyControlNumber();
     // TODO: Should audit the changes on who updated the status
-    await this.applicationRepository.update(applicationId, {
+    await this.applicationRepository.save({
+      ...application,
       status: statusId,
       lastUpdatedByUserId: user.id,
       lastUpdatedByUserGuid: user.userGuid,

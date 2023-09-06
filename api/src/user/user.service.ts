@@ -39,7 +39,7 @@ export class UserService {
 
   async updateUserAccess(userId: number, body: UserAccessDto): Promise<void> {
     const user = await this.getUser(userId);
-
+    user.updateConcurrencyControlNumber();
     // Right now only updates isAuthorized and isAdmin, add more in the future as needed.
     await this.userRepository.save({ ...user, ...body });
   }

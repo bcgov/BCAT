@@ -35,6 +35,8 @@ export class CustomBaseEntity {
   @Column({ name: 'DB_AUDIT_LAST_UPDATE_USER_ID', type: 'varchar', length: 30 })
   auditLastUpdatedByUserId?: string;
 
-  // @VersionColumn()
-  // version: number;
+  // update concurrency control number for INSERT and UPDATE
+  updateConcurrencyControlNumber() {
+    this.concurrencyControlNumber += 1;
+  }
 }
