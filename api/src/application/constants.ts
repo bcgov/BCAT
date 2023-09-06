@@ -24,47 +24,47 @@ export const findApplicationType = (chefsFormId: string): ApplicationType => {
 export const NetworkAppScoreFields = [
   {
     name: 'reasonableCostforCommunitySize',
-    label: 'Is project a reasonable cost for the community size',
+    label: 'Project Cost',
     score: 5,
   },
   {
     name: 's3ComponentsScore',
-    label: 'Components score',
+    label: 'Components',
     score: 4,
   },
   {
     name: 's4DescribeHowATNPAlignsWithCommunityGoals',
-    label: 'How ATNP aligns with community goals',
+    label: 'ATNP Alignment With Communities Goals',
     score: 1,
   },
   {
     name: 's4DescribePotentialEconomicBenefits',
-    label: 'Potential Economic Benefits',
+    label: 'Economic Benefits',
     score: 1,
   },
   {
     name: 's5DetailsHowATNPWillAddressSafetyConcerns',
-    label: 'Details how ATNP will address safety concerns',
+    label: 'Safety',
     score: 1,
   },
   {
     name: 's6DescribeConsultationUndertaking',
-    label: 'Consultation and/or engagement undertaking',
+    label: 'Consultation',
     score: 1,
   },
   {
     name: 's6DescribeDataCollectionUndertaking',
-    label: 'Data collection undertaking',
+    label: 'Data Collection',
     score: 1,
   },
   {
     name: 's6DescribeHowATNPImplementationWillEnsureSuccess',
-    label: 'How you will monitor ATNP implementation to ensure success',
+    label: ' ATNP Implementation',
     score: 1,
   },
   {
     name: 'fundingReceivedLastFiveYears',
-    label: 'Funding received over the last 5 years',
+    label: 'Funding Over The Last 5 Years',
     score: 5,
   },
 ];
@@ -72,57 +72,53 @@ export const NetworkAppScoreFields = [
 export const InfrastructureScoreFields = [
   {
     name: 'populationScore',
-    label: 'Population score',
+    label: 'Population Score',
     score: 15,
   },
   {
-    name: 'communityNeedsAndSafetyGuidelinesScore',
-    label: 'Community and safety score',
-    score: 15,
-  },
-  {
+    //safety score = 23, community and safety score = 15
     name: 'safetyScore',
-    label: 'Safety score',
-    score: 23,
+    label: 'Safety',
+    score: 38,
   },
   {
     name: 'economyAndTourismScore',
-    label: 'Economy and tourism score',
+    label: 'Economy / Tourism',
     score: 5,
   },
   {
     name: 'environmentScore',
-    label: 'Environment score',
+    label: 'Environment',
     score: 8,
   },
   {
     name: 'landUseScore',
-    label: 'Land use score',
+    label: 'Connectivity / Land Use',
     score: 15,
   },
   {
     name: 'accessibilityScore',
-    label: 'Accessibility score',
+    label: 'Accessibility / Intersectionality',
     score: 8,
   },
   {
     name: 'promotionScore',
-    label: 'Promotion score',
+    label: 'Promotion / Education',
     score: 3,
   },
   {
     name: 'lettersOfSupportScore',
-    label: 'Letters of support score',
+    label: 'Letters of Support',
     score: 3,
   },
   {
     name: 'previousFundingScore',
-    label: 'Previous funding score',
+    label: 'No Previous Funding',
     score: 5,
   },
   {
     name: 'regionalAdjustmentScore',
-    label: 'Regional adjustments score',
+    label: 'Regional Adjustment Scoring',
     score: 5,
   },
 ];

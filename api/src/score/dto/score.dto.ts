@@ -33,6 +33,13 @@ export class ScoreNetworkDataDto {
   @Min(0)
   @IsOptional()
   @IsEmpty()
+  s4DescribeHowATNPAlignsWithCommunityGoals: number;
+
+  @IsNumber()
+  @Max(1)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
   s4DescribePotentialEconomicBenefits: number;
 
   @IsNumber()
@@ -55,6 +62,13 @@ export class ScoreNetworkDataDto {
   @IsOptional()
   @IsEmpty()
   s6DescribeDataCollectionUndertaking: number;
+
+  @IsNumber()
+  @Max(1)
+  @Min(0)
+  @IsOptional()
+  @IsEmpty()
+  s6DescribeHowATNPImplementationWillEnsureSuccess: number;
 
   @IsNumber()
   @Max(5)
