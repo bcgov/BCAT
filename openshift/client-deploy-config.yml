@@ -61,6 +61,16 @@ objects:
                     secretKeyRef:
                       name: chefs-keys-${ENV}
                       key: CHEFS_NETWORK_FORM_ID
+                - name: NEXT_PUBLIC_SERVER_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: bcat-client-${ENV}
+                      key: NEXT_SERVER_URL
+                - name: NEXT_PUBLIC_REDIRECT_URI
+                  valueFrom:
+                    secretKeyRef:
+                      name: bcat-client-${ENV}
+                      key: NEXT_REDIRECT_URI
               ports:
                 - containerPort: 3000
                   protocol: TCP
