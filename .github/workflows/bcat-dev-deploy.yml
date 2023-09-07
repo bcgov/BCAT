@@ -1,4 +1,4 @@
-name: BCAT build and deploy to OpenShift
+name: BCAT build and deploy to OpenShift (dev)
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - name: build BCAT app
+      - name: Build BCAT app
         run: |
           oc login --token=${{ secrets.OPENSHIFT_TOKEN }} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
           npm ci
@@ -37,7 +37,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - name: deploy to dev
+      - name: Deploy to dev
         run: |
           oc login --token=${{ secrets.OPENSHIFT_TOKEN }} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
           npm ci
