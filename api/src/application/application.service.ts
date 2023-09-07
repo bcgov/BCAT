@@ -163,12 +163,11 @@ export class ApplicationService {
     const statusId = await this.applicationStatusService.getApplicationStatusByName(status);
 
     application.updateConcurrencyControlNumber();
+    application.lastUpdatedBy = user;
     // TODO: Should audit the changes on who updated the status
     await this.applicationRepository.save({
       ...application,
       status: statusId,
-      lastUpdatedByUserId: user.id,
-      lastUpdatedByUserGuid: user.userGuid,
     });
     await this.unassignUser(applicationId, user);
   }
