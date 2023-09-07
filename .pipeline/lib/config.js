@@ -52,11 +52,11 @@ const phases = {
     host: `bcat-bfe2da-test.apps.silver.devops.gov.bc.ca`,
     instance: `${name}-test`,
     name: `${name}`,
-    namespace: 'bfe2da-dev',
+    namespace: 'bfe2da-test',
     phase: 'test',
     suffix: `-test`,
     tag: `test-${version}`,
-    url_prefix: 'tst-',
+    url_prefix: 'test-',
     version: `${version}`,
   },
 };

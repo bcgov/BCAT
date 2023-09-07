@@ -3,7 +3,7 @@ name: BCAT build and deploy to OpenShift (test)
 on:
   pull_request:
     branches:
-      - 'uat'
+      - 'test'
 
 jobs:
   cancel-previous-runs:
