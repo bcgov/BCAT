@@ -1,42 +1,46 @@
+import { In, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+
 import { Application } from './application.entity';
-import { SaveApplicationDto } from '../common/dto/save-application.dto';
-import { GetApplicationsDto } from '../common/dto/get-applications.dto';
-import { In, Repository } from 'typeorm';
-import { PaginationRO } from '../common/ro/pagination.ro';
-import { FormMetaData } from '../FormMetaData/formmetadata.entity';
-import { UserService } from '../user/user.service';
+import { ApplicationError } from './application.errors';
+import { ApplicationFinalScoreRO } from './ro/application-score.ro';
+import { ApplicationStatus } from './constants';
+import { ApplicationStatusService } from '../applicationStatus/applicationStatus.service';
 import { AssignToUserDto } from '../common/dto/assign-to-user.dto';
+import { BroaderReviewScoreService } from '../score/broader-review-score.service';
 import { Comment } from '../comments/comment.entity';
 import { CommentDto } from '../comments/dto/comment.dto';
-import { User } from '../user/user.entity';
 import { CommentResultRo } from './ro/app-comment.ro';
 import { CommentService } from '../comments/comment.service';
+import { FormMetaData } from '../FormMetaData/formmetadata.entity';
 import { GenericException } from '../common/generic-exception';
-import { ApplicationError } from './application.errors';
-import { UpdateStatusDto } from './dto/update-status.dto';
-import { BroaderReviewScoreService } from '../score/broader-review-score.service';
-import { ScoreDto } from '../score/dto/score.dto';
-import { WorkshopScoreService } from '../score/workshop-score.service';
-import { ApplicationFinalScoreRO } from './ro/application-score.ro';
+import { GetApplicationsDto } from '../common/dto/get-applications.dto';
+import { PaginationRO } from '../common/ro/pagination.ro';
 import { RawDataRo } from '@/score/ro/raw-data.ro';
-import { ApplicationStatus } from './constants';
+import { SaveApplicationDto } from '../common/dto/save-application.dto';
+import { ScoreDto } from '../score/dto/score.dto';
+import { UpdateStatusDto } from './dto/update-status.dto';
+import { User } from '../user/user.entity';
+import { UserService } from '../user/user.service';
+import { WorkshopScoreService } from '../score/workshop-score.service';
 
 @Injectable()
 export class ApplicationService {
   constructor(
     @InjectRepository(Application)
     private applicationRepository: Repository<Application>,
-    private userService: UserService,
-    private commentService: CommentService,
+    private applicationStatusService: ApplicationStatusService,
     private broaderScoreService: BroaderReviewScoreService,
+    private commentService: CommentService,
+    private userService: UserService,
     private workshopScoreService: WorkshopScoreService
   ) {}
 
   async getApplications(query: GetApplicationsDto): Promise<PaginationRO<Application>> | null {
     const queryBuilder = this.applicationRepository
       .createQueryBuilder('app')
+      .leftJoinAndSelect('app.status', 'status')
       .leftJoinAndSelect('app.assignedTo', 'assignedTo');
 
     if (query.applicationType) {
@@ -82,7 +86,7 @@ export class ApplicationService {
 
   async getApplication(applicationId: number): Promise<Application> {
     const application = await this.applicationRepository.findOne(applicationId, {
-      relations: ['assignedTo', 'form'],
+      relations: ['assignedTo', 'status', 'lastUpdatedBy', 'form'],
     });
     if (!application) {
       throw new GenericException(ApplicationError.APPLICATION_NOT_FOUND);
@@ -147,14 +151,15 @@ export class ApplicationService {
   async updateStatus(applicationId: number, statusDto: UpdateStatusDto, user: User): Promise<void> {
     const application = await this.getApplication(applicationId);
     const { status } = statusDto;
-    //
-    if (application.status === status) {
+    if (application.status.name === status) {
       return;
     }
 
+    const statusId = await this.applicationStatusService.getApplicationStatusByName(status);
+
     // TODO: Should audit the changes on who updated the status
     await this.applicationRepository.update(applicationId, {
-      status,
+      status: statusId,
       lastUpdatedByUserId: user.id,
       lastUpdatedByUserGuid: user.userGuid,
     });
@@ -228,9 +233,9 @@ export class ApplicationService {
         'a.asks',
         'user.displayName',
         'a.updatedAt',
-        'a.status',
       ])
       .leftJoin('a.assignedTo', 'user')
+      .leftJoin('a.status', 'status')
       .where({
         status: In([ApplicationStatus.ASSIGNED, ApplicationStatus.WORKSHOP]),
       })

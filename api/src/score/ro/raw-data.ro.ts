@@ -40,20 +40,21 @@ export class RawDataRo {
   }
   convertApplicationToContent(data: Application[]) {
     const content = data.map((item: Application) => {
+      const NO_VALUE = '-';
       const formattedDate = dayjs(item.updatedAt).isValid()
         ? dayjs(item.updatedAt).format('YYYY-MM-DD')
-        : '-';
+        : NO_VALUE;
 
       return {
         applicantName: item.applicantName,
         applicationType: item.applicationType,
-        projectTitle: item.projectTitle,
-        totalEstimatedCost: item.totalEstimatedCost,
         asks: item.asks,
-        assignedTo: item?.assignedTo?.displayName || '-',
-        lastUpdated: formattedDate,
-        status: item.status,
+        assignedTo: item?.assignedTo?.displayName || NO_VALUE,
         confirmationId: item.confirmationId,
+        lastUpdated: formattedDate,
+        projectTitle: item.projectTitle,
+        status: item.status?.name || NO_VALUE,
+        totalEstimatedCost: item.totalEstimatedCost,
       };
     });
     return { content };

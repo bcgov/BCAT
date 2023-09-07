@@ -10,7 +10,7 @@ import {
   REQUEST_METHOD,
   Routes,
 } from '../constants';
-import { KeyValuePair } from '../constants/interfaces';
+import { KeyValuePair, ApplicationStatusInterface } from '../constants/interfaces';
 import { downloadHtmlAsPdf } from '../constants/util';
 import { UserInterface } from '../contexts';
 import { NEXT_PUBLIC_INFRASTRUCTURE_PROJECT, NEXT_PUBLIC_NETWORK_PROJECT } from '../pages/_app';
@@ -26,7 +26,7 @@ type ApplicationDetailsType = KeyValuePair & {
   confirmationId: string;
   lastUpdatedBy?: UserInterface;
   assignedTo?: UserInterface;
-  status: ApplicationStatus;
+  status: ApplicationStatusInterface;
   totalEstimatedCost: string;
   asks: string;
   updatedAt: string;
@@ -107,6 +107,17 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
 
     // TODO: confirm logic for updating statuses
     switch (status) {
+      case ApplicationStatus.RECEIVED:
+        statusUpdates.push({
+          label: NextStatusUpdates.PROCEED,
+          onClick: () => updateStatus(id, ApplicationStatus.ASSIGNED),
+        });
+        statusUpdates.push({
+          label: NextStatusUpdates.DISCARD,
+          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
+        });
+        break;
+
       case ApplicationStatus.ASSIGNED:
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
