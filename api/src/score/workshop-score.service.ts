@@ -60,6 +60,7 @@ export class WorkshopScoreService {
     if (score.application.id !== application.id) {
       throw new GenericException(ScoreError.APPLICATION_MISMATCH);
     }
+    score.updateConcurrencyControlNumber();
     return this.workshopScoreRepository.save({ ...score, ...scoreDto });
   }
 

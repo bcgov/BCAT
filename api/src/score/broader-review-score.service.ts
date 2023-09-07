@@ -58,6 +58,9 @@ export class BroaderReviewScoreService {
     if (score.application.id !== application.id) {
       throw new GenericException(ScoreError.APPLICATION_MISMATCH);
     }
+
+    score.updateConcurrencyControlNumber();
+
     return this.scoreRepository.save({ ...score, ...scoreDto });
   }
 }
