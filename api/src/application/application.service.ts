@@ -13,6 +13,7 @@ import { Comment } from '../comments/comment.entity';
 import { CommentDto } from '../comments/dto/comment.dto';
 import { CommentResultRo } from './ro/app-comment.ro';
 import { CommentService } from '../comments/comment.service';
+import { CompletionStatusService } from '../completionStatus/completionStatus.service';
 import { FormMetaData } from '../FormMetaData/formmetadata.entity';
 import { GenericException } from '../common/generic-exception';
 import { GetApplicationsDto } from '../common/dto/get-applications.dto';
@@ -33,6 +34,7 @@ export class ApplicationService {
     private applicationStatusService: ApplicationStatusService,
     private broaderScoreService: BroaderReviewScoreService,
     private commentService: CommentService,
+    private completionStatusService: CompletionStatusService,
     private userService: UserService,
     private workshopScoreService: WorkshopScoreService
   ) {}
@@ -177,8 +179,16 @@ export class ApplicationService {
 
   async createBroaderReviewScore(user: User, applicationId: number, scoreDto: ScoreDto) {
     const application = await this.getApplication(applicationId);
+    const completionStatus = await this.completionStatusService.getCompletionStatusByName(
+      scoreDto.status
+    );
 
-    return this.broaderScoreService.createBroaderReviewScore(user, application, scoreDto);
+    return this.broaderScoreService.createBroaderReviewScore(
+      user,
+      application,
+      completionStatus,
+      scoreDto
+    );
   }
   async updateBroaderReviewScore(
     user: User,
@@ -198,8 +208,16 @@ export class ApplicationService {
 
   async createWorkshopScore(user: User, applicationId: number, scoreDto: ScoreDto) {
     const application = await this.getApplication(applicationId);
+    const completionStatus = await this.completionStatusService.getCompletionStatusByName(
+      scoreDto.status
+    );
 
-    return this.workshopScoreService.createWorkshopScore(user, application, scoreDto);
+    return this.workshopScoreService.createWorkshopScore(
+      user,
+      application,
+      completionStatus,
+      scoreDto
+    );
   }
   async updateWorkshopScore(applicationId: number, scoreId: string, scoreDto: ScoreDto) {
     const application = await this.getApplication(applicationId);
