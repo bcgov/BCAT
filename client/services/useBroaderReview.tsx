@@ -56,7 +56,7 @@ export const useBroaderReview = (applicationId: number, applicationType?: Applic
         ...(data?.data ?? {}),
         overallComments: data?.overallComments ?? '',
         finalScore: data?.finalScore,
-        completionStatus: data?.completionStatus,
+        status: data?.completionStatus?.name,
       });
     } else {
       setDefaultScoreValues();
@@ -78,9 +78,9 @@ export const useBroaderReview = (applicationId: number, applicationType?: Applic
   }
 
   const handleSubmit = (values: any) => {
-    const { overallComments, finalScore, completionStatus, ...data } = values;
+    const { overallComments, finalScore, status, ...data } = values;
 
-    const obj = { data, overallComments, finalScore, completionStatus };
+    const obj = { data, overallComments, finalScore, status };
     // calculate all score values for finalScore
     const total = Object.values(data);
     obj.finalScore = addScores(total);
