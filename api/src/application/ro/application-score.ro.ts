@@ -9,7 +9,6 @@ import {
 type ScoreFieldsType = {
   name: string;
   label: string;
-  criteria?: ApplicationType[];
   score: number;
 };
 
@@ -71,7 +70,7 @@ export class ApplicationFinalScoreRO {
     }
     Object.assign(this.scoreData, data);
     this.fields =
-      application.applicationType === ApplicationType.INFRASTRUCTURE_FORM
+      application.applicationType.name === ApplicationType.INFRASTRUCTURE_FORM
         ? InfrastructureScoreFields
         : NetworkAppScoreFields;
     this.applicationType = findApplicationType(form.chefsFormId);

@@ -1,4 +1,4 @@
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -42,11 +42,12 @@ export class ApplicationService {
   async getApplications(query: GetApplicationsDto): Promise<PaginationRO<Application>> | null {
     const queryBuilder = this.applicationRepository
       .createQueryBuilder('app')
-      .leftJoinAndSelect('app.status', 'status')
-      .leftJoinAndSelect('app.assignedTo', 'assignedTo');
+      .leftJoinAndSelect('app.applicationType', 'applicationType')
+      .leftJoinAndSelect('app.assignedTo', 'assignedTo')
+      .leftJoinAndSelect('app.status', 'status');
 
     if (query.applicationType) {
-      queryBuilder.andWhere('app.applicationType ILIKE :applicationType', {
+      queryBuilder.andWhere('applicationType.name ILIKE :applicationType', {
         applicationType: `%${query.applicationType}%`,
       });
     }
@@ -88,7 +89,7 @@ export class ApplicationService {
 
   async getApplication(applicationId: number): Promise<Application> {
     const application = await this.applicationRepository.findOne(applicationId, {
-      relations: ['assignedTo', 'status', 'lastUpdatedBy', 'form'],
+      relations: ['assignedTo', 'status', 'applicationType', 'lastUpdatedBy', 'form'],
     });
     if (!application) {
       throw new GenericException(ApplicationError.APPLICATION_NOT_FOUND);
@@ -247,19 +248,22 @@ export class ApplicationService {
     return this.applicationRepository
       .createQueryBuilder('a')
       .select([
-        'a.confirmationId',
         'a.applicantName',
-        'a.applicationType',
+        'a.asks',
+        'a.confirmationId',
         'a.projectTitle',
         'a.totalEstimatedCost',
-        'a.asks',
-        'user.displayName',
         'a.updatedAt',
+        'applicationType.name',
+        'status.name',
+        'user.displayName',
       ])
       .leftJoin('a.assignedTo', 'user')
       .leftJoin('a.status', 'status')
-      .where({
-        status: In([ApplicationStatus.ASSIGNED, ApplicationStatus.WORKSHOP]),
+      .leftJoin('a.applicationType', 'applicationType')
+      .where('status.name = :assignedStatus OR status.name = :workshopStatus', {
+        assignedStatus: ApplicationStatus.ASSIGNED,
+        workshopStatus: ApplicationStatus.WORKSHOP,
       })
       .getMany();
   }
