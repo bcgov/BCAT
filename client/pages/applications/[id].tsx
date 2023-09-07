@@ -12,7 +12,7 @@ import {
   Button,
   Link as LinkComponent,
   Comments,
-  // BroaderReview,
+  BroaderReview,
   MenuButton,
   Panel,
   RenderCHFSElement,
@@ -20,7 +20,7 @@ import {
 } from '../../components';
 import { useApplicationDetails } from '../../services';
 import { ApplicationStatus } from '../../constants';
-// import { WorkshopReview } from '../../components/application/WorkshopReview';
+import { WorkshopReview } from '../../components/application/WorkshopReview';
 import { formatDate } from 'utils';
 
 const ApplicationDetails: NextPage = () => {
@@ -28,7 +28,7 @@ const ApplicationDetails: NextPage = () => {
   const id = query?.id ? +query.id : undefined;
 
   const {
-    // applicationType,
+    applicationType,
     details,
     downloadPDF,
     formData,
@@ -180,7 +180,6 @@ const ApplicationDetails: NextPage = () => {
                 <Comments applicationId={id} onClose={() => setShowComments(false)} />
               </div>
             )}
-            {/** TODO: Add CompletionStatus relation 
             {details && applicationType && (
               <div className='col-span-2 pb-4'>
                 <BroaderReview
@@ -199,7 +198,7 @@ const ApplicationDetails: NextPage = () => {
                   formData={formData}
                 />
               </div>
-            )}*/}
+            )}
           </div>
         </div>
       )}

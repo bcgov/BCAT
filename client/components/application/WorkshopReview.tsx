@@ -130,7 +130,7 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                           disabled={!loggedInUser?.isAdmin}
                           horizontal={true}
                           legend='Select status for your score on this application.'
-                          name='completionStatus'
+                          name='status'
                           title='Status'
                           options={[
                             { label: 'In Progress', value: ReviewCompletionStatus.IN_PROGRESS },
