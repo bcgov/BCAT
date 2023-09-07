@@ -1,4 +1,4 @@
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -244,20 +244,22 @@ export class ApplicationService {
     return this.applicationRepository
       .createQueryBuilder('a')
       .select([
-        'a.confirmationId',
         'a.applicantName',
-        'applicationType.name',
+        'a.asks',
+        'a.confirmationId',
         'a.projectTitle',
         'a.totalEstimatedCost',
-        'a.asks',
-        'user.displayName',
         'a.updatedAt',
+        'applicationType.name',
+        'status.name',
+        'user.displayName',
       ])
       .leftJoin('a.assignedTo', 'user')
       .leftJoin('a.status', 'status')
       .leftJoin('a.applicationType', 'applicationType')
-      .where({
-        status: In([ApplicationStatus.ASSIGNED, ApplicationStatus.WORKSHOP]),
+      .where('status.name = :assignedStatus OR status.name = :workshopStatus', {
+        assignedStatus: ApplicationStatus.ASSIGNED,
+        workshopStatus: ApplicationStatus.WORKSHOP,
       })
       .getMany();
   }
