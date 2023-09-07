@@ -1,31 +1,37 @@
-import { Application } from '../application/application.entity';
-import { GenericException } from '../common/generic-exception';
-import { User } from '../user/user.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ScoreDto } from './dto/score.dto';
+
+import { Application } from '../application/application.entity';
 import { BroaderReviewScore } from './broader-review-score.entity';
-import { ScoreError } from './score.errors';
 import { BroaderReviewScoreResultRo } from './ro/broader-review-score.ro';
+import { CompletionStatus } from '../completionStatus/completionStatus.entity';
+import { CompletionStatusService } from '../completionStatus/completionStatus.service';
+import { GenericException } from '../common/generic-exception';
+import { ScoreDto } from './dto/score.dto';
+import { ScoreError } from './score.errors';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class BroaderReviewScoreService {
   constructor(
     @InjectRepository(BroaderReviewScore)
-    private scoreRepository: Repository<BroaderReviewScore>
+    private scoreRepository: Repository<BroaderReviewScore>,
+    private completionStatusService: CompletionStatusService
   ) {}
 
   async getBroaderReviewScores(applicationId: number) {
     const scores = await this.scoreRepository.find({
       where: { application: applicationId },
-      relations: ['user'],
+      relations: ['user', 'completionStatus'],
     });
     return new BroaderReviewScoreResultRo(scores).result;
   }
 
   async getBroaderReviewScore(id: string) {
-    const score = await this.scoreRepository.findOne(id, { relations: ['user', 'application'] });
+    const score = await this.scoreRepository.findOne(id, {
+      relations: ['user', 'application', 'completionStatus'],
+    });
     if (!score) {
       throw new GenericException(ScoreError.SCORE_NOT_FOUND);
     }
@@ -35,12 +41,11 @@ export class BroaderReviewScoreService {
   async createBroaderReviewScore(
     user: User,
     application: Application,
+    completionStatus: CompletionStatus,
     scoreDto: ScoreDto
   ): Promise<BroaderReviewScore> {
     // const scoreObj = { finalScore: 0, data: scoreDto, overallComments: scoreDto.overallComments}
-    const score = this.scoreRepository.create(scoreDto);
-    score.user = user;
-    score.application = application;
+    const score = this.scoreRepository.create({ ...scoreDto, user, application, completionStatus });
 
     return this.scoreRepository.save(score);
   }
@@ -59,8 +64,17 @@ export class BroaderReviewScoreService {
       throw new GenericException(ScoreError.APPLICATION_MISMATCH);
     }
 
+    const newScore = {
+      completionStatus: null,
+      data: scoreDto.data,
+      finalScore: scoreDto.finalScore,
+      overallComments: scoreDto.overallComments,
+    };
+    const completionStatus = await this.completionStatusService.getCompletionStatusByName(
+      scoreDto.status
+    );
+    newScore.completionStatus = completionStatus;
     score.updateConcurrencyControlNumber();
-
-    return this.scoreRepository.save({ ...score, ...scoreDto });
+    return this.scoreRepository.save({ ...score, ...newScore });
   }
 }

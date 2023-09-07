@@ -1,9 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
-import { FormMetaData } from '../FormMetaData/formmetadata.entity';
-import { User } from '../user/user.entity';
-import { Comment } from '../comments/comment.entity';
 import { ApplicationStatus } from '../applicationStatus/applicationStatus.entity';
+import { ApplicationType } from '../applicationType/applicationType.entity';
+import { Comment } from '../comments/comment.entity';
+import { FormMetaData } from '../FormMetaData/formmetadata.entity';
 import { RemovableBaseEntity } from '../common/removable-base.entity';
+import { User } from '../user/user.entity';
 
 @Entity({
   name: 'BCAT_APPLICATION',
@@ -16,8 +17,9 @@ export class Application extends RemovableBaseEntity {
   // It's dynamic, so putting any here
   submission: any;
 
-  @Column({ name: 'APPLICATION_TYPE', type: 'varchar', length: '100', nullable: true })
-  applicationType: string;
+  @ManyToOne(() => ApplicationType, (status) => status.applications)
+  @JoinColumn({ name: 'APPLICATION_TYPE_ID' })
+  applicationType: ApplicationType;
 
   @Column({ name: 'SUBMISSION_ID', type: 'uuid', nullable: false, unique: true })
   submissionId: string;

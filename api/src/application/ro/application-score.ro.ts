@@ -9,7 +9,6 @@ import {
 type ScoreFieldsType = {
   name: string;
   label: string;
-  criteria?: ApplicationType[];
   score: number;
 };
 
@@ -64,14 +63,14 @@ export class ApplicationFinalScoreRO {
     this.scoreData = {};
     // infrastructure form has more complex fields, some are half automated and half manual
     // and some sub sections are combined into one score for print summary (ie. safety)
-    if (application.applicationType === ApplicationType.INFRASTRUCTURE_FORM) {
+    if (application.applicationType.name === ApplicationType.INFRASTRUCTURE_FORM) {
       data.safetyScore += data.AAsafetyScore + data.communityNeedsAndSafetyGuidelinesScore;
       data.landUseScore += data.AAlandUseScore;
       data.populationScore += data.AApopulationScore;
     }
     Object.assign(this.scoreData, data);
     this.fields =
-      application.applicationType === ApplicationType.INFRASTRUCTURE_FORM
+      application.applicationType.name === ApplicationType.INFRASTRUCTURE_FORM
         ? InfrastructureScoreFields
         : NetworkAppScoreFields;
     this.applicationType = findApplicationType(form.chefsFormId);

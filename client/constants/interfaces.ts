@@ -105,7 +105,7 @@ export type KeyValuePair = {
 interface BaseReviewValues {
   overallComments: string;
   finalScore: number;
-  completionStatus: string;
+  status: string;
 }
 
 export interface NetworkReviewValues extends BaseReviewValues {
@@ -148,7 +148,7 @@ export interface BroaderReviewScore {
   finalScore: number;
   overallComments: string;
   id: number;
-  completionStatus: ReviewCompletionStatus;
+  status: ReviewCompletionStatus;
   // TODO: determine what application and user is, id?
   application: string;
   user: string;
