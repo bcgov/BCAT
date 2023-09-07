@@ -6,16 +6,6 @@ on:
       - 'test'
 
 jobs:
-  cancel-previous-runs:
-    runs-on: ubuntu-latest
-    permissions:
-      actions: write
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          access_token: ${{ github.token }}
-
   build:
     runs-on: ubuntu-latest
     defaults:
@@ -46,7 +36,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "12"
-      - name: Deploy the image
+      - name: Deploy to test
         run: |
           oc version
           oc login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
