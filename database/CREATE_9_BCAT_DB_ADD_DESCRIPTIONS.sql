@@ -46,9 +46,9 @@ COMMENT ON COLUMN app_bcat."BCAT_APPLICATION"."FORM_METADATA_ID" IS 'Id of a for
 COMMENT ON COLUMN app_bcat."BCAT_APPLICATION"."ASSIGNED_TO_USER_ID" IS 'Id of assigned evaluator, if applicable.';
 COMMENT ON COLUMN app_bcat."BCAT_APPLICATION"."SUBMISSION_ID" IS 'Id of submitted application in CHEFS.';
 COMMENT ON COLUMN app_bcat."BCAT_APPLICATION"."SUBMISSION" IS 'Submission data that includes all fields with their values.';
-COMMENT ON COLUMN app_bcat."BCAT_APPLICATION"."CONFIRMATION_ID" IS '';
-COMMENT ON COLUMN app_bcat."BCAT_APPLICATION"."APPLICATION_TYPE" IS '';
-COMMENT ON COLUMN app_bcat."BCAT_APPLICATION"."APPLICANT_NAME" IS '';
+COMMENT ON COLUMN app_bcat."BCAT_APPLICATION"."CONFIRMATION_ID" IS 'Submission confirmation id from CHEFS';
+COMMENT ON COLUMN app_bcat."BCAT_APPLICATION"."APPLICATION_TYPE_ID" IS 'Reference to type of application form in the BCAT_APPLICATION_TYPE table.';
+COMMENT ON COLUMN app_bcat."BCAT_APPLICATION"."APPLICANT_NAME" IS 'Legal name of the government applicant who submitted application.';
 COMMENT ON COLUMN app_bcat."BCAT_APPLICATION"."PROJECT_TITLE" IS 'Title of a project for which this application was filed.';
 COMMENT ON COLUMN app_bcat."BCAT_APPLICATION"."TOTAL_ESTIMATED_COST" IS 'Total cost of a project.';
 COMMENT ON COLUMN app_bcat."BCAT_APPLICATION"."ASKS" IS 'Grant ask for this project.';
@@ -214,6 +214,17 @@ COMMENT ON COLUMN app_bcat."BCAT_COMPLETION_STATUS"."DB_AUDIT_CREATE_TIMESTAMP" 
 COMMENT ON COLUMN app_bcat."BCAT_COMPLETION_STATUS"."DB_AUDIT_LAST_UPDATE_TIMESTAMP" IS 'The date and time the record was created or last updated.';
 COMMENT ON COLUMN app_bcat."BCAT_COMPLETION_STATUS"."DB_AUDIT_LAST_UPDATE_USER_ID" IS 'The user or proxy account that created or last updated the record.';
 
+COMMENT ON TABLE app_bcat."BCAT_APPLICATION_TYPE" IS 'Lookup table for valid application types.';
+
+COMMENT ON COLUMN app_bcat."BCAT_APPLICATION_TYPE"."APPLICATION_TYPE_ID" IS 'The table primary key.';
+COMMENT ON COLUMN app_bcat."BCAT_APPLICATION_TYPE"."NAME" IS 'Application type name.';
+COMMENT ON COLUMN app_bcat."BCAT_APPLICATION_TYPE"."CONCURRENCY_CONTROL_NUMBER" IS 'Control number to handle concurrent api requests for update.';
+COMMENT ON COLUMN app_bcat."BCAT_APPLICATION_TYPE"."DB_AUDIT_CREATE_USER_ID" IS 'The user or proxy account that created the record.';
+COMMENT ON COLUMN app_bcat."BCAT_APPLICATION_TYPE"."DB_AUDIT_CREATE_TIMESTAMP" IS 'The date and time the record was created.';
+COMMENT ON COLUMN app_bcat."BCAT_APPLICATION_TYPE"."DB_AUDIT_LAST_UPDATE_TIMESTAMP" IS 'The date and time the record was created or last updated.';
+COMMENT ON COLUMN app_bcat."BCAT_APPLICATION_TYPE"."DB_AUDIT_LAST_UPDATE_USER_ID" IS 'The user or proxy account that created or last updated the record.';
+
+
 COMMENT ON ROLE bcat_application_proxy IS 'Database role for BCAT application.';
 COMMENT ON FUNCTION app_bcat.bcat_validate_init_audit_cols IS 'Function for DB audit trigger.';
 
@@ -226,4 +237,4 @@ COMMENT ON TRIGGER bcat_attachment_br_iu_tr ON app_bcat."BCAT_ATTACHMENT" IS 'Th
 COMMENT ON TRIGGER bcat_form_metadata_br_iu_tr ON app_bcat."BCAT_FORM_METADATA" IS 'The trigger updates audit columns in the table.';
 COMMENT ON TRIGGER bcat_status_br_iu_tr ON app_bcat."BCAT_STATUS" IS 'The trigger updates audit columns in the table.';
 COMMENT ON TRIGGER bcat_completion_status_br_iu_tr ON app_bcat."BCAT_COMPLETION_STATUS" IS 'The trigger updates audit columns in the table.';
-
+COMMENT ON TRIGGER bcat_application_type_br_iu_tr ON app_bcat."BCAT_APPLICATION_TYPE" IS 'The trigger updates audit columns in the table.';

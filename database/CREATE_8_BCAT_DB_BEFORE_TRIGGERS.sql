@@ -69,3 +69,12 @@ CREATE TRIGGER bcat_completion_status_br_iu_tr
     ON app_bcat."BCAT_COMPLETION_STATUS"
     FOR EACH ROW
     EXECUTE PROCEDURE app_bcat.bcat_validate_init_audit_cols();
+
+
+-- Trigger: bcat_application_type_br_iu_tr
+-- DROP TRIGGER bcat_application_type_br_iu_tr ON app_bcat."BCAT_APPLICATION_TYPE";
+CREATE TRIGGER bcat_application_type_br_iu_tr
+    BEFORE INSERT OR UPDATE 
+    ON app_bcat."BCAT_APPLICATION_TYPE"
+    FOR EACH ROW
+    EXECUTE PROCEDURE app_bcat.bcat_validate_init_audit_cols();

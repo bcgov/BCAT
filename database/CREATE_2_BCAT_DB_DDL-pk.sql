@@ -8,6 +8,12 @@ SET client_min_messages = warning;
 
 
 --
+-- Name: BCAT_APPLICATION_TYPE_PK; Type: CONSTRAINT; Schema: public; Owner: -
+--
+ALTER TABLE ONLY app_bcat."BCAT_APPLICATION_TYPE"
+    ADD CONSTRAINT "BCAT_APPLICATION_TYPE_PK" PRIMARY KEY ("APPLICATION_TYPE_ID");
+
+--
 -- Name: BCAT_STATUS_PK; Type: CONSTRAINT; Schema: public; Owner: -
 --
 ALTER TABLE ONLY app_bcat."BCAT_STATUS"
