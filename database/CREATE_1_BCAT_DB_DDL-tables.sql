@@ -54,6 +54,19 @@ CREATE TABLE app_bcat."BCAT_COMPLETION_STATUS" (
 );
 
 --
+-- Name: BCAT_COMPLETION_STATUS; Type: TABLE; Schema: public; Owner: -
+--
+CREATE TABLE app_bcat."BCAT_APPLICATION_TYPE" (
+    "APPLICATION_TYPE_ID" integer NOT NULL, 
+    "NAME" character varying(50),
+    "CONCURRENCY_CONTROL_NUMBER" integer NOT NULL DEFAULT 0,
+	"DB_AUDIT_CREATE_USER_ID" character varying(30) COLLATE pg_catalog."default",
+	"DB_AUDIT_CREATE_TIMESTAMP" timestamp without time zone NOT NULL DEFAULT '0001-01-01 00:00:00'::timestamp without time zone,
+	"DB_AUDIT_LAST_UPDATE_TIMESTAMP" timestamp without time zone NOT NULL DEFAULT '0001-01-01 00:00:00'::timestamp without time zone,
+    "DB_AUDIT_LAST_UPDATE_USER_ID" character varying(30) COLLATE pg_catalog."default"
+);
+
+--
 -- Name: BCAT_USER_ID_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 CREATE SEQUENCE app_bcat."BCAT_USER_ID_seq"
@@ -111,7 +124,8 @@ CREATE TABLE app_bcat."BCAT_APPLICATION" (
     "SUBMISSION" JSONB NOT NULL,
     "CONFIRMATION_ID" character varying(30) NOT NULL,
 
-    "APPLICATION_TYPE" character varying(100),
+    --"APPLICATION_TYPE" character varying(100),
+    "APPLICATION_TYPE_ID" integer NOT NULL,
     "APPLICANT_NAME" character varying(300),
     "PROJECT_TITLE" character varying(100) NOT NULL,
     "TOTAL_ESTIMATED_COST" money,
