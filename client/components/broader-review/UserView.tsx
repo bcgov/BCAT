@@ -12,7 +12,9 @@ export const UserView: React.FC<any> = ({
     Object.keys(scoreStatus).length > 0 ? (
       <span
         className={`rounded px-2 ml-2 text-xs ${
-          scoreStatus[0].completionStatus?.name == ReviewCompletionStatus.COMPLETE ? 'bg-bcGreenSuccess' : 'bg-slate-400'
+          scoreStatus[0].completionStatus?.name == ReviewCompletionStatus.COMPLETE
+            ? 'bg-bcGreenSuccess'
+            : 'bg-slate-400'
         } py-1 text-white`}
       >
         {scoreStatus[0].completionStatus?.name || '-'}

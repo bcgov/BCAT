@@ -17,7 +17,7 @@ export class WorkshopScoreService {
   constructor(
     @InjectRepository(WorkshopScore)
     private workshopScoreRepository: Repository<WorkshopScore>,
-    private completionStatusService: CompletionStatusService,
+    private completionStatusService: CompletionStatusService
   ) {}
 
   async getWorkshopScoreForApplication(applicationId: number) {
@@ -50,7 +50,12 @@ export class WorkshopScoreService {
     if (existingScore) {
       throw new GenericException(ScoreError.SCORE_EXISTS);
     }
-    const score = this.workshopScoreRepository.create({ ...scoreDto, user, application, completionStatus });
+    const score = this.workshopScoreRepository.create({
+      ...scoreDto,
+      user,
+      application,
+      completionStatus,
+    });
 
     return this.workshopScoreRepository.save(score);
   }
