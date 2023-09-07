@@ -70,7 +70,7 @@ export class WorkshopScoreService {
     if (score.application.id !== application.id) {
       throw new GenericException(ScoreError.APPLICATION_MISMATCH);
     }
-    
+
     const newScore = {
       completionStatus: null,
       data: scoreDto.data,
@@ -81,6 +81,7 @@ export class WorkshopScoreService {
       scoreDto.status
     );
     newScore.completionStatus = completionStatus;
+    score.updateConcurrencyControlNumber();
 
     return this.workshopScoreRepository.save({ ...score, ...newScore });
   }

@@ -63,7 +63,7 @@ export class BroaderReviewScoreService {
     if (score.application.id !== application.id) {
       throw new GenericException(ScoreError.APPLICATION_MISMATCH);
     }
-    
+
     const newScore = {
       completionStatus: null,
       data: scoreDto.data,
@@ -74,6 +74,7 @@ export class BroaderReviewScoreService {
       scoreDto.status
     );
     newScore.completionStatus = completionStatus;
+    score.updateConcurrencyControlNumber();
     return this.scoreRepository.save({ ...score, ...newScore });
   }
 }

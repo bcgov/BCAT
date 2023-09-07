@@ -6,6 +6,7 @@ import { CompletionStatusService } from './completionStatus.service';
 @Module({
   imports: [TypeOrmModule.forFeature([CompletionStatus])],
   exports: [CompletionStatusService],
+  controllers: [],
   providers: [CompletionStatusService],
 })
 export class CompletionStatusModule {}

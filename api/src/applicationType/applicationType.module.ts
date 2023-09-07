@@ -6,6 +6,7 @@ import { ApplicationTypeService } from './applicationType.service';
 @Module({
   imports: [TypeOrmModule.forFeature([ApplicationType])],
   exports: [ApplicationTypeService],
+  controllers: [],
   providers: [ApplicationTypeService],
 })
 export class ApplicationTypeModule {}
