@@ -17,12 +17,12 @@ export const ApplicationVsDetailsInfo = {};
 
 ApplicationVsDetailsInfo[ApplicationType.INFRASTRUCTURE_FORM] = {
   heading: 'Infrastructure',
-  totalScore: 0,
+  totalScore: 100,
 };
 
 ApplicationVsDetailsInfo[ApplicationType.NETWORK_FORM] = {
   heading: 'Network',
-  totalScore: 0,
+  totalScore: 20,
 };
 
 export class ApplicationFinalScoreRO {
@@ -52,16 +52,23 @@ export class ApplicationFinalScoreRO {
 
   constructor(workshopScore: WorkshopScore) {
     const { application, finalScore, overallComments, data } = workshopScore;
-    const { submission, form } = application;
+    const { form } = application;
 
     this.confirmationId = application.confirmationId;
-    this.applicantName = submission.applicantName;
-    this.projectTitle = submission.projectTitle;
-    this.totalCost = `${application.totalEstimatedCost?.split('.')[0]}.`;
-    this.initialAsk = `${application.asks?.split('.')[0]}.`;
+    this.applicantName = application.applicantName;
+    this.projectTitle = application.projectTitle;
+    this.totalCost = `${application.totalEstimatedCost}`;
+    this.initialAsk = `${application.asks}`;
     this.overallScore = `${finalScore}`;
     this.comments = overallComments;
     this.scoreData = {};
+    // infrastructure form has more complex fields, some are half automated and half manual
+    // and some sub sections are combined into one score for print summary (ie. safety)
+    if (application.applicationType === ApplicationType.INFRASTRUCTURE_FORM) {
+      data.safetyScore += data.AAsafetyScore + data.communityNeedsAndSafetyGuidelinesScore;
+      data.landUseScore += data.AAlandUseScore;
+      data.populationScore += data.AApopulationScore;
+    }
     Object.assign(this.scoreData, data);
     this.fields =
       application.applicationType === ApplicationType.INFRASTRUCTURE_FORM
