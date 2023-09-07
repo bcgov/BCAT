@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, JoinColumn, ManyToOne } from 'typeorm';
+
 import { Application } from '../application/application.entity';
+import { CompletionStatus } from '../completionStatus/completionStatus.entity';
 import { ScoreBaseEntity } from '../common/score-base.entity';
 import { User } from '../user/user.entity';
-import { CompletionStatus } from '../common/enums';
 
 @Entity({
   name: 'BCAT_BROADER_REVIEW_SCORE',
@@ -19,12 +20,7 @@ export class BroaderReviewScore extends ScoreBaseEntity {
   @JoinColumn({ name: 'APPLICATION_ID' })
   application: Application;
 
-  @Column({
-    name: 'COMPLETION_STATUS',
-    type: 'varchar',
-    nullable: false,
-    length: 30,
-    default: CompletionStatus.IN_PROGRESS,
-  })
+  @ManyToOne(() => CompletionStatus)
+  @JoinColumn({ name: 'COMPLETION_STATUS_ID' })
   completionStatus?: CompletionStatus;
 }
