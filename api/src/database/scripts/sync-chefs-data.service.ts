@@ -1,20 +1,22 @@
 import axios from 'axios';
-import { Injectable, Logger } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+
 import { Application } from '../../application/application.entity';
-import { ApplicationType, REQUEST_METHODS } from '../../common/constants';
 import { ApplicationService } from '../../application/application.service';
-import { SaveApplicationDto } from '../../common/dto/save-application.dto';
+import { ApplicationType, REQUEST_METHODS } from '../../common/constants';
+import { ApplicationTypeService } from '../../applicationType/applicationType.service';
+import { Attachment } from '../../attachments/attachment.entity';
+import { AttachmentService } from '../../attachments/attachment.service';
 import { AxiosOptions } from '../../common/interfaces';
+import { AxiosResponseTypes } from '../../common/enums';
+import { DatabaseError } from '../database.error';
+import { extractObjects, getGenericError } from '../../common/utils';
 import { FormMetaData } from '../../FormMetaData/formmetadata.entity';
 import { FormMetaDataDto } from '../../common/dto/form-metadata.dto';
-import { extractObjects, getGenericError } from '../../common/utils';
-import { AttachmentService } from '../../attachments/attachment.service';
-import { Attachment } from '../../attachments/attachment.entity';
-import { AxiosResponseTypes } from '../../common/enums';
 import { GenericException } from '../../common/generic-exception';
-import { DatabaseError } from '../database.error';
+import { SaveApplicationDto } from '../../common/dto/save-application.dto';
 
 const CHEFS_BASE_URL = 'https://submit.digital.gov.bc.ca/app/api/v1';
 const FILE_URL = 'https://submit.digital.gov.bc.ca';
@@ -27,6 +29,7 @@ export class SyncChefsDataService {
     private readonly applicationRepo: Repository<Application>,
     @InjectRepository(FormMetaData)
     private readonly formMetadataRepo: Repository<FormMetaData>,
+    private readonly applicationTypeService: ApplicationTypeService,
     private readonly appService: ApplicationService,
     private readonly attachmentService: AttachmentService
   ) {}
@@ -155,7 +158,7 @@ export class SyncChefsDataService {
     try {
       let projectTitle = '';
       let attachments = '';
-      let applicationType = '';
+      let type = '';
       let applicantName = '';
 
       const submissionResponse = await axios(axiosOptions);
@@ -164,19 +167,21 @@ export class SyncChefsDataService {
       if (formId === process.env.INFRASTRUCTURE_FORM) {
         // infrastructure form
         applicantName = responseData.submission.data.s1Container.s1LegalNameOfGovernmentApplicant;
-        applicationType = ApplicationType.INFRASTRUCTURE_FORM;
+        type = ApplicationType.INFRASTRUCTURE_FORM;
         attachments = responseData.submission.data.s10Container;
         projectTitle = responseData.submission.data.s4Container.s4ProjectTitle;
       } else if (formId === process.env.NETWORK_FORM) {
         // network form
         applicantName = responseData.submission.data.s1Container.s1LegalName;
-        applicationType = ApplicationType.NETWORK_FORM;
+        type = ApplicationType.NETWORK_FORM;
         attachments = responseData.submission.data.s9Container;
         projectTitle = responseData.submission.data.s3Container.s3ProjectTitle;
       } else {
         Logger.log(`Form ID: ${formId} is not a valid form. \nSkipping...`);
         return;
       }
+
+      const applicationType = await this.applicationTypeService.getApplicationTypeByName(type);
 
       const dbSubmission = await this.applicationRepo.findOne({
         where: { submissionId: submissionId },

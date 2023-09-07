@@ -47,7 +47,7 @@ export class RawDataRo {
 
       return {
         applicantName: item.applicantName,
-        applicationType: item.applicationType,
+        applicationType: item.applicationType?.name || NO_VALUE,
         asks: item.asks,
         assignedTo: item?.assignedTo?.displayName || NO_VALUE,
         confirmationId: item.confirmationId,

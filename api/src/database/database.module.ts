@@ -1,18 +1,18 @@
 import { Module, Logger } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
-import { SyncChefsDataService } from './scripts/sync-chefs-data.service';
 
 import config from '../ormconfig';
 import { Application } from '../application/application.entity';
-import { FormMetaDataService } from '../FormMetaData/formmetadata.service';
-import { FormMetaData } from '../FormMetaData/formmetadata.entity';
-import { Comment } from '../comments/comment.entity';
-import { User } from '../user/user.entity';
 import { ApplicationModule } from '../application/application.module';
+import { ApplicationTypeModule } from '../applicationType/applicationType.module';
 import { Attachment } from '../attachments/attachment.entity';
 import { AttachmentModule } from '../attachments/attachment.module';
+import { Comment } from '../comments/comment.entity';
+import { FormMetaData } from '../FormMetaData/formmetadata.entity';
+import { FormMetaDataService } from '../FormMetaData/formmetadata.service';
+import { SyncChefsDataService } from './scripts/sync-chefs-data.service';
+import { User } from '../user/user.entity';
 
 // const getEnvironmentSpecificConfig = (env?: string) => {
 //   switch (env) {
@@ -55,6 +55,7 @@ const appOrmConfig: PostgresConnectionOptions = {
   imports: [
     TypeOrmModule.forRoot(appOrmConfig),
     TypeOrmModule.forFeature([Application, FormMetaData, Comment, User, Attachment]),
+    ApplicationTypeModule,
     ApplicationModule,
     AttachmentModule,
   ],

@@ -42,11 +42,12 @@ export class ApplicationService {
   async getApplications(query: GetApplicationsDto): Promise<PaginationRO<Application>> | null {
     const queryBuilder = this.applicationRepository
       .createQueryBuilder('app')
-      .leftJoinAndSelect('app.status', 'status')
-      .leftJoinAndSelect('app.assignedTo', 'assignedTo');
+      .leftJoinAndSelect('app.applicationType', 'applicationType')
+      .leftJoinAndSelect('app.assignedTo', 'assignedTo')
+      .leftJoinAndSelect('app.status', 'status');
 
     if (query.applicationType) {
-      queryBuilder.andWhere('app.applicationType ILIKE :applicationType', {
+      queryBuilder.andWhere('applicationType.name ILIKE :applicationType', {
         applicationType: `%${query.applicationType}%`,
       });
     }
@@ -88,7 +89,7 @@ export class ApplicationService {
 
   async getApplication(applicationId: number): Promise<Application> {
     const application = await this.applicationRepository.findOne(applicationId, {
-      relations: ['assignedTo', 'status', 'lastUpdatedBy', 'form'],
+      relations: ['assignedTo', 'status', 'applicationType', 'lastUpdatedBy', 'form'],
     });
     if (!application) {
       throw new GenericException(ApplicationError.APPLICATION_NOT_FOUND);
@@ -245,7 +246,7 @@ export class ApplicationService {
       .select([
         'a.confirmationId',
         'a.applicantName',
-        'a.applicationType',
+        'applicationType.name',
         'a.projectTitle',
         'a.totalEstimatedCost',
         'a.asks',
@@ -254,6 +255,7 @@ export class ApplicationService {
       ])
       .leftJoin('a.assignedTo', 'user')
       .leftJoin('a.status', 'status')
+      .leftJoin('a.applicationType', 'applicationType')
       .where({
         status: In([ApplicationStatus.ASSIGNED, ApplicationStatus.WORKSHOP]),
       })
