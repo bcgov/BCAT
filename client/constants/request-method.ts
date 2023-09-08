@@ -20,7 +20,7 @@ export const API_ENDPOINT = {
   updateBroaderScores: (applicationId: number, scoreId: number) =>
     `/applications/${applicationId}/broader/${scoreId}`,
   getWorkshopScores: (applicationId: number) => `/applications/${applicationId}/workshop`,
-  updateWorksopScores: (applicationId: number, scoreId: number) =>
+  updateWorkshopScores: (applicationId: number, scoreId: number) =>
     `/applications/${applicationId}/workshop/${scoreId}`,
   downloadApplicationScore: (applicationId: number) => `/applications/${applicationId}/download`,
   APPLICATIONS_RAW_DATA: '/applications/raw-data',

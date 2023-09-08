@@ -64,7 +64,6 @@ export interface BroaderReviewScore {
   overallComments: string;
   id: number;
   status: ReviewCompletionStatus;
-  // TODO: determine what application and user is, id?
   application: string;
   user: string;
   displayName: string;

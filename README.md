@@ -38,7 +38,7 @@ Use the following steps to configure the local development environment
 
    ```
       NEXT_PUBLIC_REDIRECT_URI=http://localhost:3000
-     NEXT_PUBLIC_KC_AUTH_URL=https://dev.loginproxy.gov.bc.ca/auth
+      NEXT_PUBLIC_KC_AUTH_URL=<auth-url>
       NEXT_PUBLIC_KC_AUTH_REALM=<realm-id>
       NEXT_PUBLIC_KC_AUTH_CLIENT_ID=<client-id>
       NEXT_PUBLIC_SERVER_URL= http://localhost:8080/api/v1
@@ -51,9 +51,9 @@ Use the following steps to configure the local development environment
    - Create the `api/.env` file and add the following content:
 
    ```
-      KC_AUTH_URL=
-      KC_AUTH_REALM=
-      KC_AUTH_CLIENT_ID=
+      KC_AUTH_URL=<auth-url>
+      KC_AUTH_REALM=<realm-id>
+      KC_AUTH_CLIENT_ID=<client-id>
       INFRASTRUCTURE_FORM=<formId>
       NETWORK_FORM=<formId>
    ```
