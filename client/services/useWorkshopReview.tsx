@@ -92,10 +92,10 @@ export const useWorkshopReview = (applicationId: number, applicationType?: Appli
 
   return {
     applicationScores,
-    setApplicationScores,
     fetchApplicationScores,
     handleSubmit,
     isLoading,
     loggedInUser,
+    setApplicationScores,
   };
 };

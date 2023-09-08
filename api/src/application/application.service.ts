@@ -58,12 +58,6 @@ export class ApplicationService {
       });
     }
 
-    if (query.applicationType) {
-      queryBuilder.andWhere('LOWER(app.applicationType) = LOWER(:applicationType)', {
-        applicationType: query.applicationType,
-      });
-    }
-
     if (query.confirmationId) {
       queryBuilder.andWhere('LOWER(app.confirmationId) = LOWER(:confirmationId)', {
         confirmationId: query.confirmationId,

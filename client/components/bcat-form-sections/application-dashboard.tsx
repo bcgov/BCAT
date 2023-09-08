@@ -69,7 +69,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
 
   useEffect(() => {
     (async () => {
-      const params = { ...query, page: 1, limit: 20, confirmationId: '', applicationType: '' };
+      const params = { ...query, page: 1, limit: 20 };
       SetQueryParams(push, query, params);
     })();
   }, []);
@@ -210,6 +210,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
                 onChange={(e: any) => setState(p => ({ ...p, searchAssignedTo: e.target.value }))}
                 searchType={searchAssignedTo}
               />
+              
               <div className='grid grid-cols-2 gap-1'>
                 <Button onClick={handleFilter} variant='primary' disabled={filterHasNoValues()}>
                   <FontAwesomeIcon icon={faFilter} className='h-4 mr-2' />

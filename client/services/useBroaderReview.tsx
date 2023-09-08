@@ -125,14 +125,14 @@ export const useBroaderReview = (applicationId: number, applicationType?: Applic
 
   return {
     applicationScores,
-    setApplicationScores,
-    fetchApplicationScores,
     applicationScoresByScorer,
-    handleSubmit,
-    selectedUser,
-    loggedInUser,
+    fetchApplicationScores,
     handleChangeScorer,
-    isLoggedInUser,
+    handleSubmit,
     isLoading,
+    isLoggedInUser,
+    loggedInUser,
+    selectedUser,
+    setApplicationScores,
   };
 };
