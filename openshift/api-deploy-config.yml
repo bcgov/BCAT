@@ -57,7 +57,7 @@ objects:
                 - name: POSTGRES_DATABASE
                   value: ${DB_NAME}
                 - name: POSTGRES_HOST
-                  value: bcat-db-dev
+                  value: bcat-db-${ENV}
                 - name: POSTGRES_PORT
                   value: '5432'
                 - name: APP_PORT
