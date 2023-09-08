@@ -37,8 +37,10 @@ export class UserService {
     return await this.userRepository.createQueryBuilder().limit(50).getMany();
   }
 
-  async updateUserAccess(userId: number, body: UserAccessDto): Promise<void> {
+  async updateUserAccess(userId: number, body: UserAccessDto, loggedInUser: User): Promise<void> {
     const user = await this.getUser(userId);
+    user.lastUpdatedByUserId = loggedInUser.id;
+    user.lastUpdatedByUserGuid = loggedInUser.userGuid;
     user.updateConcurrencyControlNumber();
     // Right now only updates isAuthorized and isAdmin, add more in the future as needed.
     await this.userRepository.save({ ...user, ...body });
