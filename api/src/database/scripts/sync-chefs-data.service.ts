@@ -118,9 +118,9 @@ export class SyncChefsDataService {
         const url = FILE_URL + file.url;
         const fileRes = await axios({ ...options, url });
         const fileData = Buffer.from(fileRes.data);
-        // TODO: fix this, remove logger
-        Logger.log(`${fileData}`);
-        // await this.attachmentService.updateAttachment({ ...file, data: fileData });
+        file.data = fileData;
+
+        await this.attachmentService.updateAttachment(file);
       } catch (error) {
         Logger.error(
           `Error occurred fetching attachment - ${file.id} - `,
@@ -244,13 +244,17 @@ export class SyncChefsDataService {
   async syncSubmissions(): Promise<void> {
     const submissionIds = this.getSubmissionIdsFromArgs(process.argv);
     const formId = this.getFormIdFromArgs(process.argv);
+    const password =
+      formId === process.env.INFRASTRUCTURE_FORM
+        ? process.env.INFRASTRUCTURE_FORM_API_KEY
+        : process.env.NETWORK_FORM_API_KEY;
 
     const method = REQUEST_METHODS.GET;
     const options = {
       method,
       auth: {
         username: formId,
-        password: 'todo',
+        password,
       },
     };
 

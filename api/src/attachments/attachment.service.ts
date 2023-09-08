@@ -36,7 +36,7 @@ export class AttachmentService {
     return await this.attachmentRepository.save(newAttachment);
   }
 
-  async getAllAttachments(withData = true) {
+  async getAllAttachments(withData = true): Promise<Attachment[]> {
     const qb = this.attachmentRepository.createQueryBuilder('attachment');
 
     if (!withData) {
