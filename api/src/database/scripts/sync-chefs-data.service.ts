@@ -17,6 +17,7 @@ import { FormMetaData } from '../../FormMetaData/formmetadata.entity';
 import { FormMetaDataDto } from '../../common/dto/form-metadata.dto';
 import { GenericException } from '../../common/generic-exception';
 import { SaveApplicationDto } from '../../common/dto/save-application.dto';
+import { SyncDataError } from './sync-chefs-data.errors';
 
 const CHEFS_BASE_URL = 'https://submit.digital.gov.bc.ca/app/api/v1';
 const FILE_URL = 'https://submit.digital.gov.bc.ca';
@@ -24,9 +25,18 @@ const MAX_PROJECT_TITLE_LENGTH = 300;
 
 @Injectable()
 export class SyncChefsDataService {
+  /*constructor(
+     @InjectRepository(Application)
+    private readonly applicationRepo: Repository<Application>,
+    @InjectRepository(FormMetaData)
+    private readonly formMetadataRepo: Repository<FormMetaData>,
+    private readonly applicationTypeService: ApplicationTypeService,
+    private readonly appService: ApplicationService,
+    private readonly attachmentService: AttachmentService
+  ) {} */
   constructor(
     @InjectRepository(Application)
-    private readonly applicationRepo: Repository<Application>,
+    private applicationRepo: Repository<Application>,
     @InjectRepository(FormMetaData)
     private readonly formMetadataRepo: Repository<FormMetaData>,
     private readonly applicationTypeService: ApplicationTypeService,
@@ -95,11 +105,11 @@ export class SyncChefsDataService {
     return '';
   }
 
-  async updateAttachments() {
+  async updateAttachments(paramToken?: string) {
     // Axios stuff
     const method = REQUEST_METHODS.GET;
     // Make sure you include the -- token=<token> into the script args
-    const token = this.getTokenFromArgs(process.argv);
+    const token = paramToken || this.getTokenFromArgs(process.argv);
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -290,11 +300,13 @@ export class SyncChefsDataService {
         return;
       }
       Logger.log(`No submissions found in the form with ID ${formId}. \nSkipping...`);
+      throw new GenericException(SyncDataError.SUBMISSION_NOT_FOUND);
     } catch (e) {
       Logger.error(
         `Error occurred fetching form - ${formId} - `,
         JSON.stringify(getGenericError(e))
       );
+      throw new GenericException(SyncDataError.SYNC_DATA_ERROR);
     }
   }
 
@@ -321,12 +333,12 @@ export class SyncChefsDataService {
       },
     };
 
-    try {
-      await this.getFormSubmissions(INFRASTRUCTURE_FORM_ID, infrastructureOptions);
-      await this.getFormSubmissions(NETWORK_FORM_ID, networkOptions);
-    } catch (e) {
-      Logger.error(`Error occurred fetching form - `, JSON.stringify(getGenericError(e)));
-    }
+    //try {
+    await this.getFormSubmissions(INFRASTRUCTURE_FORM_ID, infrastructureOptions);
+    await this.getFormSubmissions(NETWORK_FORM_ID, networkOptions);
+    //} catch (e) {
+    //Logger.error(`Error occurred fetching form - `, JSON.stringify(getGenericError(e)));
+    //}
   }
 
   async softDeleteApplications(): Promise<void> {

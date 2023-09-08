@@ -13,6 +13,7 @@ import { FormMetaData } from '../FormMetaData/formmetadata.entity';
 import { FormMetaDataService } from '../FormMetaData/formmetadata.service';
 import { SyncChefsDataService } from './scripts/sync-chefs-data.service';
 import { User } from '../user/user.entity';
+import { SyncChefsDataModule } from './scripts/sync-chefs-data.module';
 
 // const getEnvironmentSpecificConfig = (env?: string) => {
 //   switch (env) {
@@ -55,9 +56,10 @@ const appOrmConfig: PostgresConnectionOptions = {
   imports: [
     TypeOrmModule.forRoot(appOrmConfig),
     TypeOrmModule.forFeature([Application, FormMetaData, Comment, User, Attachment]),
-    ApplicationTypeModule,
     ApplicationModule,
+    ApplicationTypeModule,
     AttachmentModule,
+    SyncChefsDataModule,
   ],
   providers: [Logger, SyncChefsDataService, FormMetaDataService],
   exports: [TypeOrmModule],
