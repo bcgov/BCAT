@@ -156,7 +156,7 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                           <Radio
                             title='Status'
                             legend='Select status for your score on this application.'
-                            name='completionStatus'
+                            name='status'
                             horizontal={true}
                             options={[
                               { label: 'In Progress', value: ReviewCompletionStatus.IN_PROGRESS },

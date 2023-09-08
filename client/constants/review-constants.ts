@@ -1,5 +1,3 @@
-import { ReviewCompletionStatus } from './constants';
-
 export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
   {
     maxScore: 15,
@@ -235,7 +233,6 @@ export const NETWORK_APP_INITIAL_REVIEW_VALUES = {
   s6DescribeDataCollectionUndertaking: 0,
   s6DescribeHowATNPImplementationWillEnsureSuccess: 0,
   fundingReceivedLastFiveYears: 0,
-  completionStatus: ReviewCompletionStatus.IN_PROGRESS,
   finalScore: 0,
   overallComments: '',
 };

@@ -1,4 +1,4 @@
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -13,6 +13,7 @@ import { Comment } from '../comments/comment.entity';
 import { CommentDto } from '../comments/dto/comment.dto';
 import { CommentResultRo } from './ro/app-comment.ro';
 import { CommentService } from '../comments/comment.service';
+import { CompletionStatusService } from '../completionStatus/completionStatus.service';
 import { FormMetaData } from '../FormMetaData/formmetadata.entity';
 import { GenericException } from '../common/generic-exception';
 import { GetApplicationsDto } from '../common/dto/get-applications.dto';
@@ -33,6 +34,7 @@ export class ApplicationService {
     private applicationStatusService: ApplicationStatusService,
     private broaderScoreService: BroaderReviewScoreService,
     private commentService: CommentService,
+    private completionStatusService: CompletionStatusService,
     private userService: UserService,
     private workshopScoreService: WorkshopScoreService
   ) {}
@@ -40,11 +42,12 @@ export class ApplicationService {
   async getApplications(query: GetApplicationsDto): Promise<PaginationRO<Application>> | null {
     const queryBuilder = this.applicationRepository
       .createQueryBuilder('app')
-      .leftJoinAndSelect('app.status', 'status')
-      .leftJoinAndSelect('app.assignedTo', 'assignedTo');
+      .leftJoinAndSelect('app.applicationType', 'applicationType')
+      .leftJoinAndSelect('app.assignedTo', 'assignedTo')
+      .leftJoinAndSelect('app.status', 'status');
 
     if (query.applicationType) {
-      queryBuilder.andWhere('app.applicationType ILIKE :applicationType', {
+      queryBuilder.andWhere('applicationType.name ILIKE :applicationType', {
         applicationType: `%${query.applicationType}%`,
       });
     }
@@ -86,7 +89,7 @@ export class ApplicationService {
 
   async getApplication(applicationId: number): Promise<Application> {
     const application = await this.applicationRepository.findOne(applicationId, {
-      relations: ['assignedTo', 'status', 'lastUpdatedBy', 'form'],
+      relations: ['assignedTo', 'status', 'applicationType', 'lastUpdatedBy', 'form'],
     });
     if (!application) {
       throw new GenericException(ApplicationError.APPLICATION_NOT_FOUND);
@@ -160,12 +163,11 @@ export class ApplicationService {
     const statusId = await this.applicationStatusService.getApplicationStatusByName(status);
 
     application.updateConcurrencyControlNumber();
+    application.lastUpdatedBy = user;
     // TODO: Should audit the changes on who updated the status
     await this.applicationRepository.save({
       ...application,
       status: statusId,
-      lastUpdatedByUserId: user.id,
-      lastUpdatedByUserGuid: user.userGuid,
     });
     await this.unassignUser(applicationId, user);
   }
@@ -177,8 +179,16 @@ export class ApplicationService {
 
   async createBroaderReviewScore(user: User, applicationId: number, scoreDto: ScoreDto) {
     const application = await this.getApplication(applicationId);
+    const completionStatus = await this.completionStatusService.getCompletionStatusByName(
+      scoreDto.status
+    );
 
-    return this.broaderScoreService.createBroaderReviewScore(user, application, scoreDto);
+    return this.broaderScoreService.createBroaderReviewScore(
+      user,
+      application,
+      completionStatus,
+      scoreDto
+    );
   }
   async updateBroaderReviewScore(
     user: User,
@@ -198,8 +208,16 @@ export class ApplicationService {
 
   async createWorkshopScore(user: User, applicationId: number, scoreDto: ScoreDto) {
     const application = await this.getApplication(applicationId);
+    const completionStatus = await this.completionStatusService.getCompletionStatusByName(
+      scoreDto.status
+    );
 
-    return this.workshopScoreService.createWorkshopScore(user, application, scoreDto);
+    return this.workshopScoreService.createWorkshopScore(
+      user,
+      application,
+      completionStatus,
+      scoreDto
+    );
   }
   async updateWorkshopScore(applicationId: number, scoreId: string, scoreDto: ScoreDto) {
     const application = await this.getApplication(applicationId);
@@ -229,19 +247,22 @@ export class ApplicationService {
     return this.applicationRepository
       .createQueryBuilder('a')
       .select([
-        'a.confirmationId',
         'a.applicantName',
-        'a.applicationType',
+        'a.asks',
+        'a.confirmationId',
         'a.projectTitle',
         'a.totalEstimatedCost',
-        'a.asks',
-        'user.displayName',
         'a.updatedAt',
+        'applicationType.name',
+        'status.name',
+        'user.displayName',
       ])
       .leftJoin('a.assignedTo', 'user')
       .leftJoin('a.status', 'status')
-      .where({
-        status: In([ApplicationStatus.ASSIGNED, ApplicationStatus.WORKSHOP]),
+      .leftJoin('a.applicationType', 'applicationType')
+      .where('status.name = :assignedStatus OR status.name = :workshopStatus', {
+        assignedStatus: ApplicationStatus.ASSIGNED,
+        workshopStatus: ApplicationStatus.WORKSHOP,
       })
       .getMany();
   }

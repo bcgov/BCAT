@@ -5,42 +5,59 @@ const name = 'bcat';
 const version = '1.0.0';
 let shortSha;
 
-if (changeId && typeof changeId === 'string') {
+if (changeId && typeof changeId === 'string' && changeId.length > 7) {
   shortSha = changeId.slice(0, 7);
 }
 
-const updatedChangeId = shortSha || changeId;
+const devChangeId = shortSha || changeId;
 
 Object.assign(options.git, { owner: 'bcgov', repository: 'BCAT' });
 const phases = {
   build: {
-    changeId: updatedChangeId,
-    instance: `${name}-build-${updatedChangeId}`,
+    changeId: devChangeId,
+    instance: `${name}-build-${devChangeId}`,
     name: `${name}`,
     namespace: 'bfe2da-tools',
     phase: 'build',
-    suffix: `-build-${updatedChangeId}`,
-    tag: `build-${version}-${updatedChangeId}`,
+    suffix: `-build-${devChangeId}`,
+    tag: `build-${version}-${devChangeId}`,
     transient: true,
-    version: `${version}-${updatedChangeId}`,
+    version: `${version}-${devChangeId}`,
   },
   dev: {
     api_cpu: '250m',
     api_memory: '512Mi',
-    changeId: updatedChangeId,
+    changeId: devChangeId,
     client_cpu: '150m',
     client_memory: '512Mi',
     dbName: 'bcat',
     host: `bcat-bfe2da-dev.apps.silver.devops.gov.bc.ca`,
-    instance: `${name}-dev-${updatedChangeId}`,
+    instance: `${name}-dev-${devChangeId}`,
     name: `${name}`,
     namespace: 'bfe2da-dev',
     phase: 'dev',
-    suffix: `-dev-${updatedChangeId}`,
-    tag: `dev-${version}-${updatedChangeId}`,
+    suffix: `-dev-${devChangeId}`,
+    tag: `dev-${version}-${devChangeId}`,
     transient: true,
     url_prefix: 'dev-',
-    version: `${version}-${updatedChangeId}`,
+    version: `${version}-${devChangeId}`,
+  },
+  test: {
+    api_cpu: '250m',
+    api_memory: '512Mi',
+    changeId: changeId,
+    client_cpu: '150m',
+    client_memory: '512Mi',
+    dbName: 'bcat',
+    host: `bcat-bfe2da-test.apps.silver.devops.gov.bc.ca`,
+    instance: `${name}-test`,
+    name: `${name}`,
+    namespace: 'bfe2da-test',
+    phase: 'test',
+    suffix: `-test`,
+    tag: `test-${version}`,
+    url_prefix: 'test-',
+    version: `${version}`,
   },
 };
 

@@ -1,5 +1,7 @@
 import { Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+
 import { useHttp } from '../../services/useHttp';
 import { Button } from '../generic/Button';
 import { Textarea } from '../form';
@@ -95,7 +97,7 @@ export const Comments: React.FC<CommentsProps> = ({ applicationId, onClose }) =>
               <div className='w-full grid grid-flow-row gap-3 p-3' key={comment.commentId}>
                 <div className='grid grid-cols-2'>
                   <span className='text-bcBluePrimary'>By {comment.displayName}</span>
-                  <span>{comment.createdAt}</span>
+                  <span>{dayjs(comment.createdAt).format('YYYY-MM-DD h:mm:ss A')}</span>
                 </div>
                 <span>{comment.OVERALL_COMMENTS}</span>
                 <span className='p-0.5 bg-slate-300'></span>

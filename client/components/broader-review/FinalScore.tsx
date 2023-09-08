@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Error } from '../form';
 
 export const FinalScore: React.FC<any> = () => {
-  const { values, validateField } = useFormikContext<any>();
+  const { values } = useFormikContext<any>();
   const [total, setTotal] = useState<number>();
 
   function addScores(array: any) {
@@ -21,7 +21,6 @@ export const FinalScore: React.FC<any> = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { finalScore, ...data } = values;
     setTotal(addScores(Object.values(data)));
-    validateField('finalScore');
   }, [values]);
 
   return (

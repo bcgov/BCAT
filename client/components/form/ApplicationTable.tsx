@@ -46,13 +46,13 @@ const TableBody: React.FC<Props> = data => {
             >
               <td className={tdStyles}>{row.confirmationId}</td>
               <td className={tdStyles}>{row.applicantName}</td>
-              <td className={tdStyles}>{row.applicationType}</td>
+              <td className={tdStyles}>{row.applicationType ? row.applicationType.name : '-'}</td>
               <td className={tdStyles}>{row.projectTitle}</td>
               <td className={tdStyles}>{row.totalEstimatedCost}</td>
               <td className={tdStyles}>{row.asks}</td>
-              <td className={tdStyles}>{row.assignedTo ? row.assignedTo.displayName : ''}</td>
+              <td className={tdStyles}>{row.assignedTo ? row.assignedTo.displayName : '-'}</td>
               <td className={tdStyles}>{formatDate(row.updatedAt)}</td>
-              <td className={tdStyles}>{row.status ? row.status.name : ''}</td>
+              <td className={tdStyles}>{row.status ? row.status.name : '-'}</td>
             </tr>
           </Link>
         ))}

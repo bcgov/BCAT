@@ -174,5 +174,5 @@ export class ScoreDto {
   finalScore: number;
 
   @IsEnum(CompletionStatus)
-  completionStatus: CompletionStatus;
+  status: CompletionStatus;
 }
