@@ -6,7 +6,7 @@ import { UserModule } from '../user/user.module';
 
 export const Documentation = (app: INestApplication) => {
   const options = new DocumentBuilder()
-    .setTitle('TBCM API Documentation')
+    .setTitle('API Documentation (BCAT)')
     .setDescription('API')
     .setVersion(`1.0.0`)
     .addBearerAuth()

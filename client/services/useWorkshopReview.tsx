@@ -72,7 +72,7 @@ export const useWorkshopReview = (applicationId: number, applicationType?: Appli
       {
         endpoint: newScore
           ? API_ENDPOINT.getWorkshopScores(applicationId)
-          : API_ENDPOINT.updateWorksopScores(applicationId, scoreId),
+          : API_ENDPOINT.updateWorkshopScores(applicationId, scoreId),
         method: newScore ? REQUEST_METHOD.POST : REQUEST_METHOD.PATCH,
         data: obj,
       },
@@ -92,10 +92,10 @@ export const useWorkshopReview = (applicationId: number, applicationType?: Appli
 
   return {
     applicationScores,
-    setApplicationScores,
     fetchApplicationScores,
     handleSubmit,
     isLoading,
     loggedInUser,
+    setApplicationScores,
   };
 };
