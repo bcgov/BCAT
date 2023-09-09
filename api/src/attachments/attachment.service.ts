@@ -15,6 +15,12 @@ export class AttachmentService {
   }
 
   async updateAttachment(attachment: Attachment): Promise<Attachment> {
+    if (!attachment || !attachment.updateConcurrencyControlNumber) {
+      Logger.error(
+        `Cannot update attachment - ${attachment?.chefsId}; updateConcurrencyControlNumber does not exist!`
+      );
+      return;
+    }
     attachment.updateConcurrencyControlNumber();
     return await this.attachmentRepository.save({ ...attachment });
   }

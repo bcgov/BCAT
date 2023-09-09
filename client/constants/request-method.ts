@@ -24,6 +24,6 @@ export const API_ENDPOINT = {
     `/applications/${applicationId}/workshop/${scoreId}`,
   downloadApplicationScore: (applicationId: number) => `/applications/${applicationId}/download`,
   APPLICATIONS_RAW_DATA: '/applications/raw-data',
-  syncChefsData: '/syncdata',
-  syncChefsAttachments: '/syncdata/attachments',
+  syncChefsData: '/sync-data',
+  syncChefsAttachments: '/sync-data/attachments',
 };

@@ -29,7 +29,9 @@ export const DataSyncForm: React.FC<any> = () => {
         <Spinner className='h-10 w-10' />
       ) : (
         <div className='flex space-x-16 py-5'>
-          <Button variant='primary' onClick={syncChefsData}>Sync CHEFS applications</Button>
+          <Button variant='primary' onClick={syncChefsData}>
+            Sync CHEFS applications
+          </Button>
           <Button variant='primary'>Sync CHEFS attachments</Button>
         </div>
       )}

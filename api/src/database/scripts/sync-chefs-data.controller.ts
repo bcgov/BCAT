@@ -4,7 +4,7 @@ import { SUCCESS_RESPONSE, UserRoles } from '../../common/constants';
 import { Roles } from '../../common/decorator';
 import { SyncChefsDataService } from './sync-chefs-data.service';
 
-@Controller('syncdata')
+@Controller('sync-data')
 export class SyncDataController {
   constructor(private syncService: SyncChefsDataService) {}
 

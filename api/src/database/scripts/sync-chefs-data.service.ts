@@ -220,10 +220,10 @@ export class SyncChefsDataService {
         versionSchema: submissionResponse.data.version.schema,
       };
       const formMetaData = await this.createOrFindFormMetadata(newFormData);
-      await this.appService.createApplication(newSubmissionData, formMetaData);
+      const application = await this.appService.createApplication(newSubmissionData, formMetaData);
 
       // Process attachments
-      // await this.createOrUpdateAttachments(attachments, application.id);
+      await this.createOrUpdateAttachments(attachments, application.id);
     } catch (e) {
       Logger.error(
         `Error occurred fetching submission - ${submissionId} - `,
