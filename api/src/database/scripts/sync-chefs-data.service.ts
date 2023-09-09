@@ -25,23 +25,14 @@ const MAX_PROJECT_TITLE_LENGTH = 300;
 
 @Injectable()
 export class SyncChefsDataService {
-  /*constructor(
-     @InjectRepository(Application)
-    private readonly applicationRepo: Repository<Application>,
-    @InjectRepository(FormMetaData)
-    private readonly formMetadataRepo: Repository<FormMetaData>,
-    private readonly applicationTypeService: ApplicationTypeService,
-    private readonly appService: ApplicationService,
-    private readonly attachmentService: AttachmentService
-  ) {} */
   constructor(
     @InjectRepository(Application)
     private applicationRepo: Repository<Application>,
     @InjectRepository(FormMetaData)
-    private readonly formMetadataRepo: Repository<FormMetaData>,
-    private readonly applicationTypeService: ApplicationTypeService,
-    private readonly appService: ApplicationService,
-    private readonly attachmentService: AttachmentService
+    private formMetadataRepo: Repository<FormMetaData>,
+    private applicationTypeService: ApplicationTypeService,
+    private appService: ApplicationService,
+    private attachmentService: AttachmentService
   ) {}
 
   private getFormUrl(formId: string): string {
@@ -128,9 +119,9 @@ export class SyncChefsDataService {
         const url = FILE_URL + file.url;
         const fileRes = await axios({ ...options, url });
         const fileData = Buffer.from(fileRes.data);
-        file.data = fileData;
-
-        await this.attachmentService.updateAttachment(file);
+        // TODO: fix this, remove logger
+        Logger.log(`${fileData}`);
+        // await this.attachmentService.updateAttachment({ ...file, data: fileData });
       } catch (error) {
         Logger.error(
           `Error occurred fetching attachment - ${file.id} - `,
@@ -209,31 +200,30 @@ export class SyncChefsDataService {
         asks: responseData.submission.data.s8Container.s8GrantRequest,
       };
 
+      // update submission
       if (dbSubmission) {
         Logger.log('Submission exists: updating');
         await this.appService.updateApplication(dbSubmission.id, newSubmissionData);
-      } else {
-        Logger.log("Submission doesn't exist: creating");
-
-        Logger.log('Processing FormMetadata');
-        const newFormData: FormMetaDataDto = {
-          name: submissionResponse.data.form.name,
-          description: submissionResponse.data.form.description,
-          active: submissionResponse.data.form.active,
-          chefsFormId: submissionResponse.data.form.id,
-          versionId: submissionResponse.data.version.id,
-          versionSchema: submissionResponse.data.version.schema,
-        };
-        const formMetaData = await this.createOrFindFormMetadata(newFormData);
-
-        const application = await this.appService.createApplication(
-          newSubmissionData,
-          formMetaData
-        );
-
-        // Process attachments
-        await this.createOrUpdateAttachments(attachments, application.id);
+        return;
       }
+
+      // create submission
+      Logger.log("Submission doesn't exist: creating");
+      Logger.log('Processing FormMetadata');
+
+      const newFormData: FormMetaDataDto = {
+        name: submissionResponse.data.form.name,
+        description: submissionResponse.data.form.description,
+        active: submissionResponse.data.form.active,
+        chefsFormId: submissionResponse.data.form.id,
+        versionId: submissionResponse.data.version.id,
+        versionSchema: submissionResponse.data.version.schema,
+      };
+      const formMetaData = await this.createOrFindFormMetadata(newFormData);
+      await this.appService.createApplication(newSubmissionData, formMetaData);
+
+      // Process attachments
+      // await this.createOrUpdateAttachments(attachments, application.id);
     } catch (e) {
       Logger.error(
         `Error occurred fetching submission - ${submissionId} - `,
@@ -300,7 +290,6 @@ export class SyncChefsDataService {
         return;
       }
       Logger.log(`No submissions found in the form with ID ${formId}. \nSkipping...`);
-      throw new GenericException(SyncDataError.SUBMISSION_NOT_FOUND);
     } catch (e) {
       Logger.error(
         `Error occurred fetching form - ${formId} - `,
@@ -333,12 +322,8 @@ export class SyncChefsDataService {
       },
     };
 
-    //try {
     await this.getFormSubmissions(INFRASTRUCTURE_FORM_ID, infrastructureOptions);
     await this.getFormSubmissions(NETWORK_FORM_ID, networkOptions);
-    //} catch (e) {
-    //Logger.error(`Error occurred fetching form - `, JSON.stringify(getGenericError(e)));
-    //}
   }
 
   async softDeleteApplications(): Promise<void> {

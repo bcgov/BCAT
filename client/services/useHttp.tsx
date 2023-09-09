@@ -17,6 +17,8 @@ axios.interceptors.response.use(
 );
 
 const getErrorMessage = (errorData: any) => {
+  if (typeof errorData === 'string') return errorData;
+  
   const errors: any[] = [];
   errorData.forEach((error: any) => {
     errors.push(error[0]?.errors?.join(';'));
