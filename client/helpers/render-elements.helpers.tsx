@@ -244,7 +244,7 @@ const renderUsageCountForm = (e: any, data: any) => {
   const formInfo: { key: string; label: string }[] = [];
   const usageFormData = getValue(e.key, data);
 
-  if (!checkIfGridHasValues(usageFormData)) return NO_DATA_LABEL;
+  if (!checkIfGridHasValues(usageFormData) || usageFormData === '-') return NO_DATA_LABEL;
 
   // create array of key and label values from the form grid
   e?.components.forEach((c: any) => {
