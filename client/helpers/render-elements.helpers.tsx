@@ -261,7 +261,7 @@ const renderUsageCountForm = (e: any, data: any) => {
   });
 
   return (
-    <div className='col-span-2' key={e.id}>
+    <div className='col-span-2 overflow-auto' key={e.id}>
       <table className='min-w-full border-2 border-black rounded'>
         <thead className='bg-bcGrayInput'>
           <tr>
