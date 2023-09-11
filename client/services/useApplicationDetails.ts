@@ -46,7 +46,6 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   // remove unauthorized users
   const filteredUserData = userData.filter(u => u.isAuthorized);
 
-  // const { user } = useAuthContext();
   const [applicationType, setApplicationType] = useState<ApplicationType | undefined>();
 
   const findApplicationType = (data: any): ApplicationType => {
