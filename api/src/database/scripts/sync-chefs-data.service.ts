@@ -96,11 +96,11 @@ export class SyncChefsDataService {
     return '';
   }
 
-  async updateAttachments(paramToken?: string) {
+  async updateAttachments(data?: any) {
     // Axios stuff
     const method = REQUEST_METHODS.GET;
     // Make sure you include the -- token=<token> into the script args
-    const token = paramToken || this.getTokenFromArgs(process.argv);
+    const token = data?.token || this.getTokenFromArgs(process.argv);
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -119,14 +119,14 @@ export class SyncChefsDataService {
         const url = FILE_URL + file.url;
         const fileRes = await axios({ ...options, url });
         const fileData = Buffer.from(fileRes.data);
-        // TODO: fix this, remove logger
-        Logger.log(`${fileData}`);
-        // await this.attachmentService.updateAttachment({ ...file, data: fileData });
+        file.data = fileData;
+        await this.attachmentService.updateAttachment(file);
       } catch (error) {
         Logger.error(
           `Error occurred fetching attachment - ${file.id} - `,
           JSON.stringify(getGenericError(error))
         );
+        throw new GenericException(SyncDataError.SYNC_ATTACHMENT_ERROR);
       }
     }
   }

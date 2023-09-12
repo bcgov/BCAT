@@ -17,8 +17,8 @@ export class SyncDataController {
 
   @Post('/attachments')
   @Roles(UserRoles.ADMIN)
-  async getChefsAttachments(@Body() token: string): Promise<any> {
-    await this.syncService.updateAttachments(token);
+  async getChefsAttachments(@Body() data: any): Promise<any> {
+    await this.syncService.updateAttachments(data);
     return SUCCESS_RESPONSE;
   }
 }

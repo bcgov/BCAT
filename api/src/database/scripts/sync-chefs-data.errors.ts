@@ -7,9 +7,16 @@ export const SyncDataError = {
     errorMessage: 'No submissions found in the form',
     httpStatus: HttpStatus.NOT_FOUND,
   } as GenericError,
+
   SYNC_DATA_ERROR: {
     errorType: 'SYNC_DATA_ERROR',
     errorMessage: 'Error occurred fetching form',
+    httpStatus: HttpStatus.BAD_REQUEST,
+  } as GenericError,
+
+  SYNC_ATTACHMENT_ERROR: {
+    errorType: 'SYNC_ATTACHMENT_ERROR',
+    errorMessage: 'Error occurred while fetching attachment',
     httpStatus: HttpStatus.BAD_REQUEST,
   } as GenericError,
 };
