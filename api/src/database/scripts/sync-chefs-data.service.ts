@@ -17,6 +17,7 @@ import { FormMetaData } from '../../FormMetaData/formmetadata.entity';
 import { FormMetaDataDto } from '../../common/dto/form-metadata.dto';
 import { GenericException } from '../../common/generic-exception';
 import { SaveApplicationDto } from '../../common/dto/save-application.dto';
+import { SyncDataError } from './sync-chefs-data.errors';
 
 const CHEFS_BASE_URL = 'https://submit.digital.gov.bc.ca/app/api/v1';
 const FILE_URL = 'https://submit.digital.gov.bc.ca';
@@ -26,12 +27,12 @@ const MAX_PROJECT_TITLE_LENGTH = 300;
 export class SyncChefsDataService {
   constructor(
     @InjectRepository(Application)
-    private readonly applicationRepo: Repository<Application>,
+    private applicationRepo: Repository<Application>,
     @InjectRepository(FormMetaData)
-    private readonly formMetadataRepo: Repository<FormMetaData>,
-    private readonly applicationTypeService: ApplicationTypeService,
-    private readonly appService: ApplicationService,
-    private readonly attachmentService: AttachmentService
+    private formMetadataRepo: Repository<FormMetaData>,
+    private applicationTypeService: ApplicationTypeService,
+    private appService: ApplicationService,
+    private attachmentService: AttachmentService
   ) {}
 
   private getFormUrl(formId: string): string {
@@ -95,11 +96,11 @@ export class SyncChefsDataService {
     return '';
   }
 
-  async updateAttachments() {
+  async updateAttachments(data?: any) {
     // Axios stuff
     const method = REQUEST_METHODS.GET;
     // Make sure you include the -- token=<token> into the script args
-    const token = this.getTokenFromArgs(process.argv);
+    const token = data?.token || this.getTokenFromArgs(process.argv);
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -118,14 +119,14 @@ export class SyncChefsDataService {
         const url = FILE_URL + file.url;
         const fileRes = await axios({ ...options, url });
         const fileData = Buffer.from(fileRes.data);
-        // TODO: fix this, remove logger
-        Logger.log(`${fileData}`);
-        // await this.attachmentService.updateAttachment({ ...file, data: fileData });
+        file.data = fileData;
+        await this.attachmentService.updateAttachment(file);
       } catch (error) {
         Logger.error(
           `Error occurred fetching attachment - ${file.id} - `,
           JSON.stringify(getGenericError(error))
         );
+        throw new GenericException(SyncDataError.SYNC_ATTACHMENT_ERROR);
       }
     }
   }
@@ -199,31 +200,30 @@ export class SyncChefsDataService {
         asks: responseData.submission.data.s8Container.s8GrantRequest,
       };
 
+      // update submission
       if (dbSubmission) {
         Logger.log('Submission exists: updating');
         await this.appService.updateApplication(dbSubmission.id, newSubmissionData);
-      } else {
-        Logger.log("Submission doesn't exist: creating");
-
-        Logger.log('Processing FormMetadata');
-        const newFormData: FormMetaDataDto = {
-          name: submissionResponse.data.form.name,
-          description: submissionResponse.data.form.description,
-          active: submissionResponse.data.form.active,
-          chefsFormId: submissionResponse.data.form.id,
-          versionId: submissionResponse.data.version.id,
-          versionSchema: submissionResponse.data.version.schema,
-        };
-        const formMetaData = await this.createOrFindFormMetadata(newFormData);
-
-        const application = await this.appService.createApplication(
-          newSubmissionData,
-          formMetaData
-        );
-
-        // Process attachments
-        await this.createOrUpdateAttachments(attachments, application.id);
+        return;
       }
+
+      // create submission
+      Logger.log("Submission doesn't exist: creating");
+      Logger.log('Processing FormMetadata');
+
+      const newFormData: FormMetaDataDto = {
+        name: submissionResponse.data.form.name,
+        description: submissionResponse.data.form.description,
+        active: submissionResponse.data.form.active,
+        chefsFormId: submissionResponse.data.form.id,
+        versionId: submissionResponse.data.version.id,
+        versionSchema: submissionResponse.data.version.schema,
+      };
+      const formMetaData = await this.createOrFindFormMetadata(newFormData);
+      const application = await this.appService.createApplication(newSubmissionData, formMetaData);
+
+      // Process attachments
+      await this.createOrUpdateAttachments(attachments, application.id);
     } catch (e) {
       Logger.error(
         `Error occurred fetching submission - ${submissionId} - `,
@@ -244,13 +244,17 @@ export class SyncChefsDataService {
   async syncSubmissions(): Promise<void> {
     const submissionIds = this.getSubmissionIdsFromArgs(process.argv);
     const formId = this.getFormIdFromArgs(process.argv);
+    const password =
+      formId === process.env.INFRASTRUCTURE_FORM
+        ? process.env.INFRASTRUCTURE_FORM_API_KEY
+        : process.env.NETWORK_FORM_API_KEY;
 
     const method = REQUEST_METHODS.GET;
     const options = {
       method,
       auth: {
         username: formId,
-        password: 'todo',
+        password,
       },
     };
 
@@ -291,6 +295,7 @@ export class SyncChefsDataService {
         `Error occurred fetching form - ${formId} - `,
         JSON.stringify(getGenericError(e))
       );
+      throw new GenericException(SyncDataError.SYNC_DATA_ERROR);
     }
   }
 
@@ -317,12 +322,8 @@ export class SyncChefsDataService {
       },
     };
 
-    try {
-      await this.getFormSubmissions(INFRASTRUCTURE_FORM_ID, infrastructureOptions);
-      await this.getFormSubmissions(NETWORK_FORM_ID, networkOptions);
-    } catch (e) {
-      Logger.error(`Error occurred fetching form - `, JSON.stringify(getGenericError(e)));
-    }
+    await this.getFormSubmissions(INFRASTRUCTURE_FORM_ID, infrastructureOptions);
+    await this.getFormSubmissions(NETWORK_FORM_ID, networkOptions);
   }
 
   async softDeleteApplications(): Promise<void> {
