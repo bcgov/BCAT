@@ -142,7 +142,7 @@ const ApplicationDetails: NextPage = () => {
                   ? 'col-span-2'
                   : showComments
                   ? 'col-span-3'
-                  : 'col-span-full'
+                  : 'col-span-2'
               } `}
             >
               {schema?.length > 0 &&
