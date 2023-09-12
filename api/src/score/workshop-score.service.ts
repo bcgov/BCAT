@@ -24,7 +24,6 @@ export class WorkshopScoreService {
     return await this.workshopScoreRepository.find({
       where: { application: applicationId },
       relations: ['user', 'completionStatus'],
-      loadRelationIds: true,
     });
   }
 

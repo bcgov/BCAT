@@ -244,7 +244,7 @@ const renderUsageCountForm = (e: any, data: any) => {
   const formInfo: { key: string; label: string }[] = [];
   const usageFormData = getValue(e.key, data);
 
-  if (!checkIfGridHasValues(usageFormData)) return NO_DATA_LABEL;
+  if (!checkIfGridHasValues(usageFormData) || usageFormData === '-') return NO_DATA_LABEL;
 
   // create array of key and label values from the form grid
   e?.components.forEach((c: any) => {
@@ -261,7 +261,7 @@ const renderUsageCountForm = (e: any, data: any) => {
   });
 
   return (
-    <div className='col-span-2' key={e.id}>
+    <div className='col-span-2 overflow-auto' key={e.id}>
       <table className='min-w-full border-2 border-black rounded'>
         <thead className='bg-bcGrayInput'>
           <tr>
@@ -280,12 +280,13 @@ const renderUsageCountForm = (e: any, data: any) => {
                 key={formInfo[index].label + index}
                 className='bg-white border-b-2 even:bg-bcGrayInput border-gray-200'
               >
-                <td className={bodyTdStyles}>{formatDate(ad[formInfo[0].key]) || NO_DATA_LABEL}</td>
-                <td className={bodyTdStyles}>{ad[formInfo[1].key] || NO_DATA_LABEL}</td>
-                <td className={bodyTdStyles}>{ad[formInfo[2].key] || NO_DATA_LABEL}</td>
-                <td className={bodyTdStyles}>{ad[formInfo[3].key] || NO_DATA_LABEL}</td>
-                <td className={bodyTdStyles}>{ad[formInfo[4].key] || NO_DATA_LABEL}</td>
-                <td className={bodyTdStyles}>{ad[formInfo[5].key] || NO_DATA_LABEL}</td>
+                {formInfo.map((item, tdIndex) => {
+                  return (
+                    <td key={`td-${tdIndex}`} className={bodyTdStyles}>
+                      {formatDate(ad[item.key]) || NO_DATA_LABEL}
+                    </td>
+                  );
+                })}
               </tr>
             ))}
         </tbody>

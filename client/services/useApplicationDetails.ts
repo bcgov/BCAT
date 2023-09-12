@@ -42,7 +42,10 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
 
   const { fetchData, sendApiRequest } = useHttp();
   const { userData } = useTeamManagement();
-  // const { user } = useAuthContext();
+
+  // remove unauthorized users
+  const filteredUserData = userData.filter(u => u.isAuthorized);
+
   const [applicationType, setApplicationType] = useState<ApplicationType | undefined>();
 
   const findApplicationType = (data: any): ApplicationType => {
@@ -207,7 +210,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
     setShowComments,
     getNextStatusUpdates,
     updateEvaluator,
-    userList: userData,
+    userList: filteredUserData,
     isPanelDefaultOpen,
     applicationType,
     downloadPDF,

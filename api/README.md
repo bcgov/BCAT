@@ -1,1 +1,1 @@
-This readme file needs descripton of the server code and how it runs. 
+This readme file needs description of the server code and how it runs. 

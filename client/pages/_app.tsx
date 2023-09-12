@@ -70,7 +70,7 @@ function CustomApp({ Component, pageProps, cookies }: AppProps) {
       <StrictMode>
         <AuthProvider tokensInitialized={tokensInitialized} user={user}>
           <Head>
-            <title>BC - Programs Branch Grant Programs</title>
+            <title>B.C. - Programs Branch Grant Programs</title>
             <link rel='icon' href='/assets/img/bc_favicon.ico' />
           </Head>
 

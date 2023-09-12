@@ -107,3 +107,7 @@ export const INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA = Yup.object().shape({
     .max(100, maxValidationText + '100')
     .required('This field is required'),
 });
+
+export const TOKEN_VALIDATION_SCHEMA = Yup.object().shape({
+  token: Yup.string().required('This field is required'),
+});
