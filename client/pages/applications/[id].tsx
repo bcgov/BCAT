@@ -22,9 +22,13 @@ import { useApplicationDetails } from '../../services';
 import { ApplicationStatus } from '../../constants';
 import { WorkshopReview } from '../../components/application/WorkshopReview';
 import { formatDate } from 'utils';
+import { useAuthContext } from '@contexts';
+
+const finalStatuses = [ApplicationStatus.APPROVED, ApplicationStatus.DENIED];
 
 const ApplicationDetails: NextPage = () => {
   const { query } = useRouter();
+  const { user } = useAuthContext();
   const id = query?.id ? +query.id : undefined;
 
   const {
@@ -96,7 +100,7 @@ const ApplicationDetails: NextPage = () => {
               </div>
             </div>
             <div className='w-2/5 justify-end flex'>
-              {applicationStatus === ApplicationStatus.WORKSHOP ? (
+              {applicationStatus === ApplicationStatus.WORKSHOP && (
                 <div className='gap-2 flex'>
                   <Link href={`/applications/${id}/score-table`}>
                     <a
@@ -114,7 +118,9 @@ const ApplicationDetails: NextPage = () => {
                     Download As PDF
                   </Button>
                 </div>
-              ) : (
+              )}
+              {finalStatuses.includes(applicationStatus) ||
+              (applicationStatus === ApplicationStatus.WORKSHOP && !user?.isAdmin) ? null : (
                 <MenuButton title='Open' items={getNextStatusUpdates(id, applicationStatus)} />
               )}
             </div>

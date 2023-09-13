@@ -125,6 +125,11 @@ export class ApplicationService {
     application.assignedTo = user;
     application.lastUpdatedBy = loggedInUser;
     application.lastUpdatedByUserGuid = loggedInUser.userGuid;
+    if (application.status?.name === ApplicationStatus.RECEIVED) {
+      application.status = await this.applicationStatusService.getApplicationStatusByName(
+        ApplicationStatus.ASSIGNED
+      );
+    }
     application.updateConcurrencyControlNumber();
     await this.applicationRepository.save(application);
   }
