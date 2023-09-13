@@ -62,6 +62,7 @@ export class ApplicationFinalScoreRO {
     this.comments = overallComments;
     this.applicationType = findApplicationType(form.chefsFormId);
     this.scoreData = {};
+
     // infrastructure form has more complex fields, some are half automated and half manual
     // and some sub sections are combined into one score for print summary (ie. safety)
     if (this.applicationType === ApplicationType.INFRASTRUCTURE_FORM) {
@@ -69,6 +70,11 @@ export class ApplicationFinalScoreRO {
       data.landUseScore += data.AAlandUseScore;
       data.populationScore += data.AApopulationScore;
     }
+
+    if (this.applicationType === ApplicationType.NETWORK_FORM) {
+      data.s3ComponentsScore += data.AAs3ComponentsScore;
+    }
+
     Object.assign(this.scoreData, data);
     this.fields =
       this.applicationType === ApplicationType.INFRASTRUCTURE_FORM
