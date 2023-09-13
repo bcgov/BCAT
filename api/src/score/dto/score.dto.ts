@@ -14,6 +14,11 @@ import {
 
 export class ScoreNetworkDataDto {
   // network items
+  @IsString()
+  @IsOptional()
+  @IsEmpty()
+  eligibilityScore: string;
+
   @IsNumber()
   @Max(5)
   @Min(0)
@@ -79,6 +84,11 @@ export class ScoreNetworkDataDto {
 }
 
 export class ScoreInfrastructureDataDto {
+  @IsString()
+  @IsOptional()
+  @IsEmpty()
+  eligibilityScore: string;
+
   @IsNumber()
   @Max(15)
   @Min(0)
