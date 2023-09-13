@@ -108,7 +108,6 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   const getNextStatusUpdates = (id: number, status: ApplicationStatus) => {
     const statusUpdates = [];
 
-    // TODO: confirm logic for updating statuses
     switch (status) {
       case ApplicationStatus.RECEIVED:
         statusUpdates.push({
@@ -133,7 +132,6 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
         break;
 
       case ApplicationStatus.WORKSHOP:
-        // TODO: Logic after workshop process
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
           onClick: () => updateStatus(id, ApplicationStatus.APPROVED),
@@ -141,6 +139,20 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
         statusUpdates.push({
           label: NextStatusUpdates.DISCARD,
           onClick: () => updateStatus(id, ApplicationStatus.DENIED),
+        });
+        break;
+
+      case ApplicationStatus.APPROVED:
+        statusUpdates.push({
+          label: `Change to ${ApplicationStatus.DENIED}`,
+          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
+        });
+        break;
+
+      case ApplicationStatus.DENIED:
+        statusUpdates.push({
+          label: `Change to ${ApplicationStatus.APPROVED}`,
+          onClick: () => updateStatus(id, ApplicationStatus.APPROVED),
         });
         break;
     }

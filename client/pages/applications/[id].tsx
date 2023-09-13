@@ -24,8 +24,6 @@ import { WorkshopReview } from '../../components/application/WorkshopReview';
 import { formatDate } from 'utils';
 import { useAuthContext } from '@contexts';
 
-const finalStatuses = [ApplicationStatus.APPROVED, ApplicationStatus.DENIED];
-
 const ApplicationDetails: NextPage = () => {
   const { query } = useRouter();
   const { user } = useAuthContext();
@@ -119,8 +117,7 @@ const ApplicationDetails: NextPage = () => {
                   </Button>
                 </div>
               )}
-              {finalStatuses.includes(applicationStatus) ||
-              (applicationStatus === ApplicationStatus.WORKSHOP && !user?.isAdmin) ? null : (
+              {applicationStatus === ApplicationStatus.WORKSHOP && !user?.isAdmin ? null : (
                 <MenuButton title='Open' items={getNextStatusUpdates(id, applicationStatus)} />
               )}
             </div>
