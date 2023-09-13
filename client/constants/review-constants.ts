@@ -196,7 +196,8 @@ export const NETWORK_REVIEW_QUESTIONS = [
   },
   {
     maxScore: 1,
-    label: 'Section 6: Describe any consultation and/or engagement you will be undertaking (manual)',
+    label:
+      'Section 6: Describe any consultation and/or engagement you will be undertaking (manual)',
     name: 's6DescribeConsultationUndertaking',
     descriptionList: ['1 point for thoughtful, good-quality answer, 0 points otherwise'],
   },
@@ -208,7 +209,8 @@ export const NETWORK_REVIEW_QUESTIONS = [
   },
   {
     maxScore: 1,
-    label: 'Section 6: Describe how you will monitor the ATNP Implementation to ensure success (manual)',
+    label:
+      'Section 6: Describe how you will monitor the ATNP Implementation to ensure success (manual)',
     name: 's6DescribeHowATNPImplementationWillEnsureSuccess',
     descriptionList: ['1 point for thoughtful, good-quality answer, 0 points otherwise'],
   },
