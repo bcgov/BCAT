@@ -41,7 +41,7 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
     // network auto values
     if (applicationType === ApplicationType.NETWORK_FORM && applicationScores) {
       const componentsScore = getComponentsScore(formData.s3Container);
-      applicationScores.s3ComponentsScore = componentsScore;
+      applicationScores.AAs3ComponentsScore = componentsScore;
     }
 
     if (applicationType === ApplicationType.INFRASTRUCTURE_FORM && applicationScores) {

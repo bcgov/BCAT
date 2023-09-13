@@ -25,6 +25,7 @@ interface BaseReviewValues {
 
 export interface NetworkReviewValues extends BaseReviewValues {
   reasonableCostforCommunitySize: number;
+  AAs3ComponentsScore: number;
   s3ComponentsScore: number;
   s4DescribeHowATNPAlignsWithCommunityGoals: number;
   s4DescribePotentialEconomicBenefits: number;
@@ -59,7 +60,7 @@ export interface ScoreSummaryTableProps {
 export interface BroaderReviewScore {
   createdAt: Date;
   updatedAt: Date;
-  data: InfrastructureReviewValues | NetworkReviewValues;
+  data: InfrastructureReviewValues & NetworkReviewValues;
   finalScore: number;
   overallComments: string;
   id: number;
