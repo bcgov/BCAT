@@ -49,7 +49,7 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
     // network auto values
     if (applicationType === ApplicationType.NETWORK_FORM && applicationScoresByScorer) {
       const componentsScore = getComponentsScore(formData.s3Container);
-      applicationScoresByScorer.s3ComponentsScore = componentsScore;
+      applicationScoresByScorer.AAs3ComponentsScore = componentsScore;
     }
     if (applicationType === ApplicationType.INFRASTRUCTURE_FORM && applicationScoresByScorer) {
       const scoreValues = getInfrastructureAutomatedScores(formData);

@@ -56,6 +56,12 @@ const TableBody: React.FC<TableBodyProps> = ({ scores, applicationType }) => {
   const finalMaxScore = evaluationReviewQuestions
     .map((item: any) => item.maxScore)
     .reduce((accumulator, current) => accumulator + current);
+
+  const getScoreValue = (key: string, score: any) => {
+    const automatedScore = score.data[`AA${key}`] || 0;
+    return score.data[key] + automatedScore;
+  };
+
   return (
     <tbody>
       {evaluationReviewQuestions.map((item: any, index) => {
@@ -74,7 +80,7 @@ const TableBody: React.FC<TableBodyProps> = ({ scores, applicationType }) => {
             {scores &&
               scores.map((score: any, index: number) => (
                 <td key={`score-${index}`} className={tdStyles}>
-                  {`${score.data[item.name]}/${item.maxScore}`}
+                  {`${getScoreValue(item.name, score)}/${item.maxScore}`}
                 </td>
               ))}
           </tr>

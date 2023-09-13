@@ -23,7 +23,7 @@ export class BroaderReviewScoreService {
   async getBroaderReviewScores(applicationId: number) {
     const scores = await this.scoreRepository.find({
       where: { application: applicationId },
-      relations: ['user', 'completionStatus'],
+      relations: ['user', 'completionStatus', 'application'],
     });
     return new BroaderReviewScoreResultRo(scores).result;
   }
