@@ -5,6 +5,8 @@ const maxValidationText = 'Must be less than or equal to ';
 
 export const NETWORK_REVIEW_VALIDATION_SCHEMA = Yup.object().shape({
   // network application review validation
+  eligibilityScore: Yup.string().required('This field is required'),
+
   reasonableCostforCommunitySize: Yup.number()
     .min(0, minValidationText + '0')
     .max(5, maxValidationText + '5')
@@ -47,6 +49,8 @@ export const NETWORK_REVIEW_VALIDATION_SCHEMA = Yup.object().shape({
 });
 
 export const INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA = Yup.object().shape({
+  eligibilityScore: Yup.string().required('This field is required'),
+
   populationScore: Yup.number()
     .min(0, minValidationText + '0')
     .max(15, maxValidationText + '15')

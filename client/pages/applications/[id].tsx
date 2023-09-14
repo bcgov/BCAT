@@ -117,7 +117,7 @@ const ApplicationDetails: NextPage = () => {
                   </Button>
                 </div>
               )}
-              {applicationStatus === ApplicationStatus.WORKSHOP && !user?.isAdmin ? null : (
+              {(applicationStatus !== ApplicationStatus.WORKSHOP || user?.isAdmin) && (
                 <MenuButton title='Open' items={getNextStatusUpdates(id, applicationStatus)} />
               )}
             </div>

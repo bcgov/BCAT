@@ -23,6 +23,11 @@ export const findApplicationType = (chefsFormId: string): ApplicationType => {
 
 export const NetworkAppScoreFields = [
   {
+    name: 'eligibilityScore',
+    label: 'Eligibility Score',
+    score: 1,
+  },
+  {
     name: 'reasonableCostforCommunitySize',
     label: 'Project Cost',
     score: 5,
@@ -70,6 +75,11 @@ export const NetworkAppScoreFields = [
 ];
 
 export const InfrastructureScoreFields = [
+  {
+    name: 'eligibilityScore',
+    label: 'Eligibility Score',
+    score: 1,
+  },
   {
     name: 'populationScore',
     label: 'Population Score',
