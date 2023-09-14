@@ -53,12 +53,12 @@ const checkIfGridHasValues = (gridData: any) => {
 // addYear is a custom key containing specific years to add from current year
 // portalWording is a custom key containing the updated wording added by us, sent from CHEFS
 const getLabel = (component: any) => {
+  let label = component.properties?.portalWording ?? component.label;
   if (component.properties?.addYear) {
     const yearsToAdd = +component.properties?.addYear;
-    component.label += ` ${dayjs().add(yearsToAdd, 'year').format('YYYY')}`;
+    label += ` ${dayjs().add(yearsToAdd, 'year').format('YYYY')}`;
   }
-
-  return component.properties?.portalWording ?? component.label;
+  return label;
 };
 
 const getValue = (componentKey: string, data: any, dataVal?: any) => {
