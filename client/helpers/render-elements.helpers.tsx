@@ -1,5 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
+import dayjs from 'dayjs';
+
 import { Button } from '@components';
 import { API_ENDPOINT } from '../constants';
 import { formatDate } from 'utils';
@@ -48,8 +50,14 @@ const checkIfGridHasValues = (gridData: any) => {
 };
 
 // some questions require wording changes on FE,
+// addYear is a custom key containing specific years to add from current year
 // portalWording is a custom key containing the updated wording added by us, sent from CHEFS
 const getLabel = (component: any) => {
+  if (component.properties?.addYear) {
+    const yearsToAdd = +component.properties?.addYear;
+    component.label += ` ${dayjs().add(yearsToAdd, 'year').format('YYYY')}`;
+  }
+
   return component.properties?.portalWording ?? component.label;
 };
 
