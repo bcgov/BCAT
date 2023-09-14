@@ -31,6 +31,10 @@ const SIMPLE_TYPES = [
 // array of types such as banners, info, headings etc.
 const NOT_TO_BE_RENDERED = ['button', 'htmlelement', 'simplebuttonadvanced', 'simplecontent'];
 
+const HTML_TO_BE_RENDERED = [
+  '<p>33. Identify which additional safety measures exist within the design of your project:</p>',
+];
+
 const MISC_LABELS_TO_REMOVE = ['Text/Images'];
 
 const checkIfGridHasValues = (gridData: any) => {
@@ -295,7 +299,23 @@ const renderUsageCountForm = (e: any, data: any) => {
   );
 };
 
+const renderHtmlText = (html: string) => {
+  const parser = new DOMParser();
+  const parsedHTML = parser.parseFromString(html, 'text/html');
+  const text = parsedHTML?.body?.firstChild?.textContent?.trim();
+  return (
+    <div key={text} className='w-fit grid grid-flow-row'>
+      <span className='font-bold'>{text}</span>
+    </div>
+  );
+};
+
 const renderElementType = (e: any, formData: any, fetchData?: any) => {
+  // a few labels on CHEFS are required to be shown, need to check for them before we filter their types out
+  if (HTML_TO_BE_RENDERED.includes(e.html)) {
+    return renderHtmlText(e.html);
+  }
+
   if (NOT_TO_BE_RENDERED.includes(e.type) || MISC_LABELS_TO_REMOVE.includes(e.label)) return;
 
   switch (e.type) {
