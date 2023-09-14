@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Application } from './application.entity';
 import { ApplicationError } from './application.errors';
 import { ApplicationFinalScoreRO } from './ro/application-score.ro';
+import { ApplicationStatus } from './constants';
 import { ApplicationStatusService } from '../applicationStatus/applicationStatus.service';
 import { AssignToUserDto } from '../common/dto/assign-to-user.dto';
 import { BroaderReviewScoreService } from '../score/broader-review-score.service';
