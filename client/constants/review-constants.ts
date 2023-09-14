@@ -32,7 +32,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
       'Minimal physical barrier, minimal physical distancing, or minimal other/alternative approach = 2 pts (manual)',
       'Not physically separated = 0 pts (manual)',
       'Section 6. Question "The BC Active Transportation Design Guide recommends minimum widths for different types and contexts of active transportation infrastructure (see pg. 15 of the Program Guidelines). Does the proposed infrastructure align with the Design Guide recommendations?" - Only if Local context is selected = 0-4pts (manual)',
-      'Are there design features in place to minimize conflicts and ensure a safe transition for all intended users? = 2 pts for each design feature up to maximum of 5 pts (manual)',
+      'Section 6. Question "When the project encounters or transitions to another facility type (e.g., a bike lane crossing an intersection, a multi-use path ending at a sidewalk), are there design features in place to minimize conflicts and ensure a safe transition for all intended users?" = 2 pts for each design feature listed, up to 5 pts (manual)',
     ],
     secondaryList: [
       'Section 6. Question "Identify which additional safety measures exist within the design of your project" = 1 pt each for each box ticked (ex: Lighting, Signage, etc) (auto)',
