@@ -12,7 +12,7 @@ export const getComponentsScore = (data: any) => {
   let checkboxesSelected = 0;
 
   // check values for yes no questions
-  //Score 1 for each 'yes' answer to questions 3-5,
+  //Score 1 for each 'yes' answer to questions 6-8,
   S3_YES_NO_QUESTIONS.some((i: any) => {
     if (data[i] === 'yes') {
       score++;
@@ -20,7 +20,7 @@ export const getComponentsScore = (data: any) => {
   });
 
   // check value for checkboxes
-  // Score 1 for at least 2 boxes check on question 6, 0 for 1 or less selected
+  // Score 1 for at least 2 boxes check on question 9, 0 for 1 or less selected
   Object.values(data[S3_CHECKBOX_VALUES]).some((i: any) => {
     if (i && checkboxesSelected < 2) {
       checkboxesSelected++;
