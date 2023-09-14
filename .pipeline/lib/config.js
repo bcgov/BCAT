@@ -59,6 +59,23 @@ const phases = {
     url_prefix: 'test-',
     version: `${version}`,
   },
+  prod: {
+    api_cpu: '250m',
+    api_memory: '512Mi',
+    changeId: changeId,
+    client_cpu: '150m',
+    client_memory: '512Mi',
+    dbName: 'bcat',
+    host: `bcat-bfe2da-prod.apps.silver.devops.gov.bc.ca`,
+    instance: `${name}-prod`,
+    name: `${name}`,
+    namespace: 'bfe2da-prod',
+    phase: 'prod',
+    suffix: `-prod`,
+    tag: `prod-${version}`,
+    url_prefix: 'prod-',
+    version: `${version}`,
+  },
 };
 
 // This callback forces the node process to exit as failure.
