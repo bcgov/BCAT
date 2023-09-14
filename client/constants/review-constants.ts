@@ -166,14 +166,15 @@ export const NETWORK_REVIEW_QUESTIONS = [
       '1 point = $100-200',
       '0 points = >$200',
     ],
+    tooltiptext: 'Divide Total Estimated Project Cost by Community Population',
   },
   {
     maxScore: 4,
     label: 'Section 3. Components score (auto)',
     name: 's3ComponentsScore',
     secondaryList: [
-      `1 point each for a 'yes' answer to questions 3-5 (automated)`,
-      '1 point for at least 2 boxes checked on question 6. Up to 4 points total',
+      `1 point each for a 'yes' answer to questions 6-8 (automated)`,
+      '1 point for at least 2 boxes checked on question 9. Up to 4 points total',
     ],
     isAutomated: true,
     hiddenInput: true,
@@ -221,11 +222,7 @@ export const NETWORK_REVIEW_QUESTIONS = [
     maxScore: 5,
     label: 'Funding received over the last 5 years (manual)',
     name: 'fundingReceivedLastFiveYears',
-    descriptionList: [
-      'None = 5 pts',
-      'less than (<) $500,000 = 3 pts',
-      'more than (>) $500,000 = 0 pts',
-    ],
+    descriptionList: ['None = 5 pts', 'less than (<) $500,000 = 3 pts', '$500,000 or more = 0 pts'],
   },
 ];
 
