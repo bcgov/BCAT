@@ -65,22 +65,25 @@ const calculateLandUseScore = (s7Container: any) => {
   let score = 0;
 
   if (s7Container.s7ModesOfTransportation) {
-    score = Object.values(s7Container.s7ModesOfTransportation).filter(item => item).length;
-    if (score > 3) score = 3;
+    const transportationScore = Object.values(s7Container.s7ModesOfTransportation).filter(
+      item => item,
+    ).length;
+    transportationScore > 3 ? (score += 3) : (score += transportationScore);
   }
 
   if (s7Container.s7otherCommunityInfrastructure) {
-    score = Object.values(s7Container.s7otherCommunityInfrastructure).filter(item => item).length;
-    if (score > 4) score = 4;
+    const communityScore = Object.values(s7Container.s7otherCommunityInfrastructure).filter(
+      item => item,
+    ).length;
+    communityScore > 4 ? (score += 4) : (score += communityScore);
   }
 
   if (s7Container.s7activeTransportationInfrastructure) {
-    score = Object.values(s7Container.s7activeTransportationInfrastructure).filter(
-      item => item,
-    ).length;
-    if (score > 3) score = 3;
+    const activeTransportationScore = Object.values(
+      s7Container.s7activeTransportationInfrastructure,
+    ).filter(item => item).length;
+    activeTransportationScore > 3 ? (score += 3) : (score += activeTransportationScore);
   }
-
   return score;
 };
 
