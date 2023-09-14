@@ -1,0 +1,189 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: ${PROJECT_NAME}
+labels:
+  template: client-config
+objects:
+  - apiVersion: v1
+    kind: ImageStream
+    metadata:
+      creationTimestamp: null
+      labels:
+        shared: true
+      name: ${NAME}
+    spec:
+      lookupPolicy:
+        local: false
+  - apiVersion: v1
+    kind: DeploymentConfig
+    metadata:
+      creationTimestamp: null
+      name: ${NAME}${SUFFIX}
+    spec:
+      replicas: 1
+      selector:
+        deploymentconfig: ${NAME}${SUFFIX}
+      strategy: {}
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            deploymentconfig: ${NAME}${SUFFIX}
+        spec:
+          containers:
+            - image: ${NAME}:${VERSION}
+              name: client
+              env:
+                - name: NEXT_PUBLIC_KC_AUTH_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: sso-configs-${ENV}
+                      key: CLIENT_SSO_HOST
+                - name: NEXT_PUBLIC_KC_AUTH_REALM
+                  valueFrom:
+                    secretKeyRef:
+                      name: sso-configs-${ENV}
+                      key: CLIENT_SSO_REALM
+                - name: NEXT_PUBLIC_KC_AUTH_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: sso-configs-${ENV}
+                      key: CLIENT_SSO_CLIENTID
+                - name: NEXT_PUBLIC_INFRASTRUCTURE_PROJECT
+                  valueFrom:
+                    secretKeyRef:
+                      name: chefs-keys-${ENV}
+                      key: CHEFS_INFRASTRUCTURE_FORM_ID
+                - name: NEXT_PUBLIC_NETWORK_PROJECT
+                  valueFrom:
+                    secretKeyRef:
+                      name: chefs-keys-${ENV}
+                      key: CHEFS_NETWORK_FORM_ID
+                - name: NEXT_PUBLIC_SERVER_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: bcat-client-${ENV}
+                      key: NEXT_SERVER_URL
+                - name: NEXT_PUBLIC_REDIRECT_URI
+                  valueFrom:
+                    secretKeyRef:
+                      name: bcat-client-${ENV}
+                      key: NEXT_REDIRECT_URI
+              ports:
+                - containerPort: 3000
+                  protocol: TCP
+              resources:
+                requests:
+                  cpu: ${CPU}
+                  memory: ${MEMORY}
+                limits:
+                  cpu: ${CPU}
+                  memory: ${MEMORY}
+              livenessProbe:
+                httpGet:
+                  path: /
+                  port: 3000
+                initialDelaySeconds: 15
+                timeoutSeconds: 5
+                periodSeconds: 10
+      test: false
+      triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - client
+            from:
+              kind: ImageStreamTag
+              name: ${NAME}:${VERSION}
+          type: ImageChange
+        - type: ConfigChange
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      creationTimestamp: null
+      name: ${NAME}${SUFFIX}
+    spec:
+      ports:
+        - name: web
+          port: 3000
+          protocol: TCP
+          targetPort: 3000
+      selector:
+        deploymentconfig: ${NAME}${SUFFIX}
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      annotations:
+        haproxy.router.openshift.io/timeout: 5m
+      creationTimestamp: null
+      name: ${NAME}-${ENV}
+    spec:
+      host: ${HOST}
+      path: '/'
+      port:
+        targetPort: web
+      tls:
+        termination: edge
+      to:
+        kind: Service
+        name: ${NAME}${SUFFIX}
+        weight: 100
+      wildcardPolicy: None
+parameters:
+  - description: Name of the project
+    displayName: PROJECT_NAME
+    name: PROJECT_NAME
+    required: true
+    value: 'bcat'
+  - description: The name assigned to all of the OpenShift resources associated with this config
+    displayName: Name
+    name: NAME
+    required: true
+    value: 'client'
+  - description: A name suffix used for all objects
+    displayName: Suffix
+    name: SUFFIX
+    required: false
+    value: '-dev'
+  - description: Environment short name (dev, test, prod)
+    displayName: ENV
+    name: ENV
+    required: false
+    value: 'dev'
+  - description: A version used for the image tags
+    displayName: version
+    name: VERSION
+    required: false
+    value: 'v1.0.0'
+  - description: HOST
+    displayName: HOST
+    name: HOST
+    required: false
+    value: ''
+  - description: CPU request
+    displayName: CPU
+    name: CPU
+    required: false
+    value: '250m'
+  - description: Memory request
+    displayName: MEMORY
+    name: MEMORY
+    required: false
+    value: '1.5Gi'
+  - description: Port the server will be exposed on
+    displayName: Server port
+    name: SERVER_PORT
+    required: false
+    value: '3000'
+  - description: SOURCE_REPOSITORY_URL
+    displayName: SOURCE_REPOSITORY_URL
+    name: SOURCE_REPOSITORY_URL
+    required: false
+    value: ''
+  - description: SOURCE_REPOSITORY_REF
+    displayName: SOURCE_REPOSITORY_REF
+    name: SOURCE_REPOSITORY_REF
+    required: false
+    value: ''

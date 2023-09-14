@@ -1,0 +1,12 @@
+export enum ApplicationStatus {
+  RECEIVED = 'RECEIVED',
+  ASSIGNED = 'ASSIGNED',
+  APPROVED = 'APPROVED',
+  DENIED = 'DENIED',
+  WORKSHOP = 'WORKSHOP',
+}
+
+export enum ApplicationType {
+  INFRASTRUCTURE_FORM = 'INFRASTRUCTURE',
+  NETWORK_FORM = 'NETWORK',
+}
