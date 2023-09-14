@@ -12,8 +12,8 @@ jobs:
       run:
         working-directory: ./.pipeline
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
       - name: Build BCAT app
@@ -30,8 +30,8 @@ jobs:
       run:
         working-directory: ./.pipeline
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
       - name: Deploy to dev
@@ -50,8 +50,8 @@ jobs:
       run:
         working-directory: ./.pipeline
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
       - name: Deploy to test
@@ -70,11 +70,11 @@ jobs:
       run:
         working-directory: ./.pipeline
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
-      - name: Deploy the image
+      - name: Deploy to prod
         run: |
           oc version
           oc login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
