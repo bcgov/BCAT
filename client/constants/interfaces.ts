@@ -18,6 +18,7 @@ export type KeyValuePair = {
 };
 
 interface BaseReviewValues {
+  eligibilityScore: string;
   overallComments: string;
   finalScore: number;
   status: string;

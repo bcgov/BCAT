@@ -12,7 +12,7 @@ import {
 } from '../constants';
 import { KeyValuePair, ApplicationStatusInterface } from '../constants/interfaces';
 import { downloadHtmlAsPdf } from '../constants/util';
-import { UserInterface } from '../contexts';
+import { useAuthContext, UserInterface } from '../contexts';
 import { NEXT_PUBLIC_INFRASTRUCTURE_PROJECT, NEXT_PUBLIC_NETWORK_PROJECT } from '../pages/_app';
 import { useHttp } from './useHttp';
 import { useTeamManagement } from './useTeamManagement';
@@ -42,6 +42,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
 
   const { fetchData, sendApiRequest } = useHttp();
   const { userData } = useTeamManagement();
+  const { user } = useAuthContext();
 
   // remove unauthorized users
   const filteredUserData = userData.filter(u => u.isAuthorized);
@@ -108,16 +109,11 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   const getNextStatusUpdates = (id: number, status: ApplicationStatus) => {
     const statusUpdates = [];
 
-    // TODO: confirm logic for updating statuses
     switch (status) {
       case ApplicationStatus.RECEIVED:
         statusUpdates.push({
           label: NextStatusUpdates.PROCEED,
           onClick: () => updateStatus(id, ApplicationStatus.ASSIGNED),
-        });
-        statusUpdates.push({
-          label: NextStatusUpdates.DISCARD,
-          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
         });
         break;
 
@@ -126,23 +122,36 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
           label: NextStatusUpdates.PROCEED,
           onClick: () => updateStatus(id, ApplicationStatus.WORKSHOP),
         });
-        statusUpdates.push({
-          label: NextStatusUpdates.DISCARD,
-          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
-        });
         break;
+    }
 
-      case ApplicationStatus.WORKSHOP:
-        // TODO: Logic after workshop process
-        statusUpdates.push({
-          label: NextStatusUpdates.PROCEED,
-          onClick: () => updateStatus(id, ApplicationStatus.APPROVED),
-        });
-        statusUpdates.push({
-          label: NextStatusUpdates.DISCARD,
-          onClick: () => updateStatus(id, ApplicationStatus.DENIED),
-        });
-        break;
+    if (user?.isAdmin) {
+      switch (status) {
+        case ApplicationStatus.WORKSHOP:
+          statusUpdates.push({
+            label: NextStatusUpdates.PROCEED,
+            onClick: () => updateStatus(id, ApplicationStatus.APPROVED),
+          });
+          statusUpdates.push({
+            label: NextStatusUpdates.DISCARD,
+            onClick: () => updateStatus(id, ApplicationStatus.DENIED),
+          });
+          break;
+
+        case ApplicationStatus.APPROVED:
+          statusUpdates.push({
+            label: `Change to ${ApplicationStatus.DENIED}`,
+            onClick: () => updateStatus(id, ApplicationStatus.DENIED),
+          });
+          break;
+
+        case ApplicationStatus.DENIED:
+          statusUpdates.push({
+            label: `Change to ${ApplicationStatus.APPROVED}`,
+            onClick: () => updateStatus(id, ApplicationStatus.APPROVED),
+          });
+          break;
+      }
     }
 
     return statusUpdates;
@@ -158,6 +167,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
         },
         () => {
           toast.success('Evaluator updated successfully!!!');
+          replace(Routes.HOME);
         },
       );
     }

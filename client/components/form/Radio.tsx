@@ -5,7 +5,8 @@ import { Field as FormikField, useField, useFormikContext } from 'formik';
 interface RadioProps {
   disabled?: boolean;
   horizontal?: boolean;
-  legend: string;
+  label?: string;
+  legend?: string;
   name: string;
   options: RadioOptionType[];
   title?: string;
@@ -20,11 +21,12 @@ export interface RadioType extends React.FC<RadioProps> {
   Boolean: React.FC<BooleanRadioProps>;
 }
 
-export const Radio: RadioType = ({ title, legend, name, options, horizontal, disabled }) => {
+export const Radio: RadioType = ({ title, legend, label, name, options, horizontal, disabled }) => {
   return (
     <fieldset className='flex flex-col gap-2' disabled={disabled}>
-      <legend className='text-xl text-bcBlack font-bold w-full'>{title}</legend>
-      <p className='text-gray-400 mb-2 text-sm'>{legend}</p>
+      {title && <legend className='text-xl text-bcBlack font-bold w-full'>{title}</legend>}
+      {label && <p className='text-bcBluePrimary font-bold'>{label}</p>}
+      {legend && <p className='text-gray-400 mb-2 text-sm'>{legend}</p>}
       <div
         className={classnames(
           'flex',
