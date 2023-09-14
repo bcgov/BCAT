@@ -86,10 +86,10 @@ export const InfrastructureScoreFields = [
     score: 15,
   },
   {
-    //safety score = 23, community and safety score = 15
+    //safety score = 23, community and safety score = 10
     name: 'safetyScore',
     label: 'Safety',
-    score: 38,
+    score: 33,
   },
   {
     name: 'economyAndTourismScore',
