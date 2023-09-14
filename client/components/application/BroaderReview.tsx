@@ -76,7 +76,7 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
           enableReinitialize={true}
           key={applicationId}
         >
-          {({ isValid }) => (
+          {({ isValid, values }) => (
             <Form>
               <div className='open:bg-white border border-2 m-2 open:shadow-lg rounded-sm'>
                 <div className='leading-6 p-2 bg-gray-100 text-bcBluePrimary dark:text-white font-semibold select-none cursor-pointer'>
@@ -88,7 +88,7 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                           variant='primary'
                           customClass='py-2 '
                           type='submit'
-                          disabled={!isValid}
+                          disabled={!isValid || !values?.eligibilityScore}
                         >
                           Save
                         </Button>
@@ -118,11 +118,23 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                         })}
 
                       <div className='bg-white divide-y'>
+                        <div className='py-5'>
+                          <Radio
+                            horizontal
+                            label='Does this project meet the eligibility requirements necessary to advance in the evaluation process? (manual)'
+                            name='eligibilityScore'
+                            options={[
+                              { label: 'Yes', value: 'yes' },
+                              { label: 'No', value: 'no' },
+                            ]}
+                          />
+                        </div>
+
                         {evaluationReviewQuestions.map((item: any, index) => (
                           <div key={`BroaderReviewInput_${index}`} className='py-5'>
                             <Input
                               descriptionList={item.descriptionList}
-                              disabled={!isLoggedInUser}
+                              disabled={!isLoggedInUser || values?.eligibilityScore === 'no'}
                               hiddenInput={item.hiddenInput}
                               label={item.label}
                               name={item.name}

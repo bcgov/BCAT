@@ -11,7 +11,7 @@ export interface MenuProps {
 
 export const MenuButton: React.FC<MenuProps> = ({ title, items }) => {
   return (
-    <Menu as='div' className='relative inline-block text-left'>
+    <Menu as='div' className='relative inline-block text-left px-2'>
       <div>
         <Menu.Button className='inline-flex w-full justify-center rounded-md border border-gray-400 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100'>
           {title}

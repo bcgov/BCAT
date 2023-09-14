@@ -32,6 +32,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
       'Minimal physical barrier, minimal physical distancing, or minimal other/alternative approach = 2 pts (manual)',
       'Not physically separated = 0 pts (manual)',
       'Section 6. Question "The BC Active Transportation Design Guide recommends minimum widths for different types and contexts of active transportation infrastructure (see pg. 15 of the Program Guidelines). Does the proposed infrastructure align with the Design Guide recommendations?" - Only if Local context is selected = 0-4pts (manual)',
+      'Section 6. Question "When the project encounters or transitions to another facility type (e.g., a bike lane crossing an intersection, a multi-use path ending at a sidewalk), are there design features in place to minimize conflicts and ensure a safe transition for all intended users?" = 2 pts for each design feature listed, up to 5 pts (manual)',
     ],
     secondaryList: [
       'Section 6. Question "Identify which additional safety measures exist within the design of your project" = 1 pt each for each box ticked (ex: Lighting, Signage, etc) (auto)',
@@ -58,9 +59,9 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     maxScore: 8,
     label: 'Environment Score (manual)',
     descriptionList: [
-      'Environmental Benefits = 3 pts',
-      'Will the project retain existing Trees?  = 2 pts',
-      'Environmental Best Practices = 3 pts',
+      'Environmental Benefits = up to 3 pts',
+      'Will the project retain existing Trees? = up to 2 pts',
+      'Environmental Best Practices = up to 3 pts',
     ],
     tooltiptext:
       'Score on: GHG reductions, local measurements of GHG share from transportation, local sustainability plans for Environmental Benefits; Score on: local materials and labour, climate adaptation measures, dust mitigation, using recycled materials, drought-friendly plantings, using less toxic materials for Environmental Best Practices;',
@@ -70,7 +71,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     maxScore: 15,
     label: 'Land Use Score',
     descriptionList: [
-      'Does this project connect with other AT facilities = 2 pts (manual)',
+      'Does this project fill gaps between 2 or more AT Facilities = 2 pts (manual)',
       'Is this project a component of larger infrastructure project = 3 pts (manual)',
     ],
     secondaryList: [
@@ -85,8 +86,8 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     maxScore: 8,
     label: 'Accessibility Score (manual)',
     descriptionList: [
-      'Does this Project Incorporate Universal Design? = 5 pts',
-      'Does This Project Incorporate GBA+ Principles? = 3 pts',
+      'Does this Project Incorporate Universal Design? = up to 5 pts',
+      'Does This Project Incorporate GBA+ Principles? = up to 3 pts',
     ],
     tooltiptext:
       'Score on: curb cuts, grading, smooth surfaces, ramps, width, accessible washrooms, lighting, handrails, TWSIs, audible crossing signals, etc.; Score on: lighting, gender-neutral and family friendly washrooms, economically disadvantaged area, GBA+ training by project team, age-friendly design, rainbow crosswalks, signage in other languages, Indigenous land acknowledgements/ names on wayfinding signage, etc.;',
@@ -97,11 +98,13 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     label: 'Promotion Score (manual)',
     tooltiptext:
       'Score on promotional & educational activities = media event, signage, advertising, bike/ped maps, cycling courses, targeted outreach',
+    descriptionList: ['1 pt for each promotional feature listed, max 3'],
     name: 'promotionScore',
   },
   {
     maxScore: 3,
     label: 'Letters of Support (manual)',
+    descriptionList: ['1 pt for each letter of support, max 3'],
     name: 'lettersOfSupportScore',
   },
   {
@@ -163,14 +166,15 @@ export const NETWORK_REVIEW_QUESTIONS = [
       '1 point = $100-200',
       '0 points = >$200',
     ],
+    tooltiptext: 'Divide Total Estimated Project Cost by Community Population',
   },
   {
     maxScore: 4,
     label: 'Section 3. Components score (auto)',
     name: 's3ComponentsScore',
     secondaryList: [
-      `1 point each for a 'yes' answer to questions 3-5 (automated)`,
-      '1 point for at least 2 boxes checked on question 6. Up to 4 points total',
+      `1 point each for a 'yes' answer to questions 6-8 (automated)`,
+      '1 point for at least 2 boxes checked on question 9. Up to 4 points total',
     ],
     isAutomated: true,
     hiddenInput: true,
@@ -218,11 +222,7 @@ export const NETWORK_REVIEW_QUESTIONS = [
     maxScore: 5,
     label: 'Funding received over the last 5 years (manual)',
     name: 'fundingReceivedLastFiveYears',
-    descriptionList: [
-      'None = 5 pts',
-      'less than (<) $500,000 = 3 pts',
-      'more than (>) $500,000 = 0 pts',
-    ],
+    descriptionList: ['None = 5 pts', 'less than (<) $500,000 = 3 pts', '$500,000 or more = 0 pts'],
   },
 ];
 
