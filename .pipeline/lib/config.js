@@ -3,44 +3,37 @@ const options = require('@bcgov/pipeline-cli').Util.parseArguments();
 const changeId = options.pr;
 const name = 'bcat';
 const version = '1.0.0';
-let shortSha;
-
-if (changeId && typeof changeId === 'string' && changeId.length > 7) {
-  shortSha = changeId.slice(0, 7);
-}
-
-const devChangeId = shortSha || changeId;
 
 Object.assign(options.git, { owner: 'bcgov', repository: 'BCAT' });
 const phases = {
   build: {
-    changeId: devChangeId,
-    instance: `${name}-build-${devChangeId}`,
+    changeId: changeId,
+    instance: `${name}-build-${changeId}`,
     name: `${name}`,
     namespace: 'bfe2da-tools',
     phase: 'build',
-    suffix: `-build-${devChangeId}`,
-    tag: `build-${version}-${devChangeId}`,
+    suffix: `-build-${changeId}`,
+    tag: `build-${version}-${changeId}`,
     transient: true,
-    version: `${version}-${devChangeId}`,
+    version: `${version}-${changeId}`,
   },
   dev: {
     api_cpu: '250m',
     api_memory: '512Mi',
-    changeId: devChangeId,
+    changeId: changeId,
     client_cpu: '150m',
     client_memory: '512Mi',
     dbName: 'bcat',
     host: `bcat-bfe2da-dev.apps.silver.devops.gov.bc.ca`,
-    instance: `${name}-dev-${devChangeId}`,
+    instance: `${name}-dev-${changeId}`,
     name: `${name}`,
     namespace: 'bfe2da-dev',
     phase: 'dev',
-    suffix: `-dev-${devChangeId}`,
-    tag: `dev-${version}-${devChangeId}`,
+    suffix: `-dev-${changeId}`,
+    tag: `dev-${version}-${changeId}`,
     transient: true,
     url_prefix: 'dev-',
-    version: `${version}-${devChangeId}`,
+    version: `${version}-${changeId}`,
   },
   test: {
     api_cpu: '250m',
@@ -57,6 +50,22 @@ const phases = {
     suffix: `-test`,
     tag: `test-${version}`,
     url_prefix: 'test-',
+    version: `${version}`,
+  },
+  prod: {
+    api_cpu: '250m',
+    api_memory: '512Mi',
+    changeId: changeId,
+    client_cpu: '150m',
+    client_memory: '512Mi',
+    host: `bcat-bfe2da-prod.apps.silver.devops.gov.bc.ca`,
+    instance: `${name}-prod`,
+    name: `${name}`,
+    namespace: 'bfe2da-prod',
+    phase: 'prod',
+    suffix: `-prod`,
+    tag: `prod-${version}`,
+    url_prefix: '',
     version: `${version}`,
   },
 };
