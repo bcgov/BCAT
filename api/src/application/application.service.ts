@@ -265,10 +265,6 @@ export class ApplicationService {
       .leftJoin('a.assignedTo', 'user')
       .leftJoin('a.status', 'status')
       .leftJoin('a.applicationType', 'applicationType')
-      .where('status.name = :assignedStatus OR status.name = :workshopStatus', {
-        assignedStatus: ApplicationStatus.ASSIGNED,
-        workshopStatus: ApplicationStatus.WORKSHOP,
-      })
       .getMany();
   }
 }
