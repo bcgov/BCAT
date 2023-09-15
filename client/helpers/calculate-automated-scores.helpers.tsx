@@ -29,6 +29,7 @@ const calculateSafetyScore = (s6Container: any) => {
 
   let score = 0;
 
+  if (s6Container.s6AdditionalSafetyMaintenancePlan) score++;
   if (s6Container.s6AdditionalSafetyLighting) score++;
   if (s6Container.s6AdditionalSafetyLoweredSpeedLimit) score++;
   if (s6Container.s6AdditionalSafetySignage) score++;
