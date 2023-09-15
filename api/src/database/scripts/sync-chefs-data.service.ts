@@ -136,8 +136,7 @@ export class SyncChefsDataService {
       (value) => Array.isArray(value) && value.length > 0
     );
     const objects = extractObjects(responseDataFileArrays, 5);
-    // TODO:
-    // Maybe there's a better way to check it
+    // TODO: maybe there's a better way to check it
     const files = objects.filter((obj) => 'url' in obj && 'data' in obj);
 
     files.forEach(async (file) => {
