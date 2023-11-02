@@ -10,6 +10,14 @@ const settings = {
   RTL: false, // Display the columns from right-to-left (the default value is false)
 };
 
+const countSettings = {
+  fileName: `Usage Count Data ${new Date().toISOString().split('T')[0]}`, // Name of the resulting spreadsheet
+  extraLength: 2, // A bigger number means that columns will be wider
+  writeMode: 'writeFile', // The available parameters are 'WriteFile' and 'write'. This setting is optional. Useful in such cases https://docs.sheetjs.com/docs/solutions/output#example-remote-file
+  writeOptions: {}, // Style options from https://docs.sheetjs.com/docs/api/write-options
+  RTL: false, // Display the columns from right-to-left (the default value is false)
+};
+
 export const useDownloadXlsx = () => {
   const { sendApiRequest } = useHttp();
   const downloadXlsx = () => {
@@ -23,6 +31,17 @@ export const useDownloadXlsx = () => {
       },
     );
   };
+  const downloadCountXlsx = () => {
+    sendApiRequest(
+      {
+        endpoint: API_ENDPOINT.APPLICATIONS_COUNT_DATA,
+        method: REQUEST_METHOD.POST,
+      },
+      (data: any) => {
+        xlsx(data, countSettings);
+      },
+    );
+  };
 
-  return { downloadXlsx };
+  return { downloadXlsx, downloadCountXlsx };
 };
