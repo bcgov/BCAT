@@ -1,10 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+  OneToOne,
+} from 'typeorm';
 import { ApplicationStatus } from '../applicationStatus/applicationStatus.entity';
 import { ApplicationType } from '../applicationType/applicationType.entity';
 import { Comment } from '../comments/comment.entity';
 import { FormMetaData } from '../FormMetaData/formmetadata.entity';
 import { RemovableBaseEntity } from '../common/removable-base.entity';
 import { User } from '../user/user.entity';
+import { WorkshopScore } from '@/score/workshop-score.entity';
 
 @Entity({
   name: 'BCAT_APPLICATION',
@@ -46,6 +55,10 @@ export class Application extends RemovableBaseEntity {
   @ManyToOne(() => FormMetaData, (form) => form.applications)
   @JoinColumn({ name: 'FORM_METADATA_ID' })
   form: FormMetaData;
+
+  @OneToMany(() => WorkshopScore, workshopScore => workshopScore.application)
+  @JoinColumn()
+  workshopScores?: WorkshopScore[];
 
   // Might belong to multiple users in the future, so
   // change to ManyToMany accordingly if needed.
