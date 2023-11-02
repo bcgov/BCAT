@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { Application } from '../../application/application.entity';
+import { ApplicationType } from '../../common/constants';
 
 const roHeaders = {
   sheet: 'Raw Data',
@@ -38,43 +39,64 @@ const roHeaders = {
   ],
 };
 
+const usageCountHeaders = {
+  sheet: 'Usage Count Data',
+  columns: [
+    { label: 'Municipality', value: 'municipality' },
+    { label: 'Project Name', value: 'projectName' },
+    { label: 'Funding Year', value: 'fundingYear' },
+    { label: 'Usage Count - Date', value: 'usageCountDate' },
+  ],
+};
+
+interface RawContent {
+  applicantName: string;
+  applicationType: string;
+  eligibility: string;
+  empryVal: string;
+  fundingYear: string;
+  indigenousGovernment: string;
+  latitudeEnd: string;
+  latitudeStart: string;
+  longitudeEnd: string;
+  longitudeStart: string;
+  population: string;
+  program: string;
+  projectDescription: string;
+  workshopScore: string;
+
+  asks: string;
+  assignedTo: string;
+  confirmationId: string;
+  lastUpdated: string;
+  projectTitle: string;
+  status: string;
+  totalEstimatedCost: string;
+}
+
+interface UsageCountContent {
+  fundingYear: string;
+  municipality: string;
+  projectName: string;
+  usageCountDate: string;
+}
+
 export interface RawData {
   sheet: string;
   columns: { label: string; value: string }[];
-
-  content: {
-    eligibility: string;
-    fundingYear: string;
-    applicantName: string;
-    applicationType: string;
-    indigenousGovernment: string;
-    population: string;
-    projectDescription: string;
-    latitudeStart: string;
-    latitudeEnd: string;
-    longitudeStart: string;
-    longitudeEnd: string;
-    program: string;
-    workshopScore: string;
-
-    projectTitle: string;
-    totalEstimatedCost: string;
-    asks: string;
-    assignedTo: string;
-    lastUpdated: string;
-    status: string;
-    confirmationId: string;
-    empryVal: string;
-  }[];
+  content: any[];
 }
 
 export class RawDataRo {
   result: RawData[];
   constructor(data: Application[]) {
-    this.result = [{ ...roHeaders, ...this.convertApplicationToContent(data) }];
+    this.result = [
+      { ...roHeaders, content: this.convertApplicationToContent(data) },
+      { ...usageCountHeaders, content: this.convertUsageCountToContent(data) },
+    ];
   }
 
-  convertApplicationToContent(data: Application[]) {
+  convertApplicationToContent(data: Application[]): RawContent[] {
     const content = data.map((item: Application) => {
       const NO_VALUE = '-';
       const formattedDate = dayjs(item.updatedAt).isValid()
@@ -144,6 +166,33 @@ export class RawDataRo {
         empryVal: '',
       };
     });
-    return { content };
+    return content;
+  }
+
+  convertUsageCountToContent(data: Application[]): UsageCountContent[] {
+    const content = data.map((item: Application) => {
+      const NO_VALUE = '-';
+      const submission = item.submission || {};
+
+      const getProjectName = (applicationType: string) => {
+        if (!applicationType) return NO_VALUE;
+
+        return applicationType === ApplicationType.NETWORK_FORM
+          ? 'Active Transportation Network Plan'
+          : submission.s4Container?.s4ProjectTitle;
+      };
+
+      return {
+        municipality: submission.s1Container?.s1GovernmentType || NO_VALUE,
+        projectName: getProjectName(item.applicationType?.name) || NO_VALUE,
+        fundingYear: `${dayjs(submission?.s10Container?.s10ProjectMangerApproverDate).format(
+          'YY'
+        )}/${dayjs(submission?.s10Container?.s10ProjectMangerApproverDate)
+          .add(1, 'year')
+          .format('YY')}`,
+        usageCountDate: NO_VALUE,
+      };
+    });
+    return content;
   }
 }

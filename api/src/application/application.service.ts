@@ -19,7 +19,6 @@ import { GenericException } from '../common/generic-exception';
 import { GetApplicationsDto } from '../common/dto/get-applications.dto';
 import { PaginationRO } from '../common/ro/pagination.ro';
 import { RawDataRo } from '../score/ro/raw-data.ro';
-import { RawCountDataRo } from '../score/ro/raw-count-data.ro';
 import { SaveApplicationDto } from '../common/dto/save-application.dto';
 import { ScoreDto } from '../score/dto/score.dto';
 import { UpdateStatusDto } from './dto/update-status.dto';
@@ -246,11 +245,6 @@ export class ApplicationService {
   async getRawData(): Promise<any> {
     const applicationsRaw = await this.getApplicationsRawData();
     return new RawDataRo(applicationsRaw).result;
-  }
-
-  async getRawCountData(): Promise<any> {
-    const applicationsRaw = await this.getApplicationsRawData();
-    return new RawCountDataRo(applicationsRaw).result;
   }
 
   async getApplicationsRawData(): Promise<Application[]> {

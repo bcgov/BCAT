@@ -1,12 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  OneToMany,
-  JoinColumn,
-  OneToOne,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { ApplicationStatus } from '../applicationStatus/applicationStatus.entity';
 import { ApplicationType } from '../applicationType/applicationType.entity';
 import { Comment } from '../comments/comment.entity';
@@ -56,7 +48,7 @@ export class Application extends RemovableBaseEntity {
   @JoinColumn({ name: 'FORM_METADATA_ID' })
   form: FormMetaData;
 
-  @OneToMany(() => WorkshopScore, workshopScore => workshopScore.application)
+  @OneToMany(() => WorkshopScore, (workshopScore) => workshopScore.application)
   @JoinColumn()
   workshopScores?: WorkshopScore[];
 

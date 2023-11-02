@@ -38,8 +38,6 @@ export const ApplicationDashboard: React.FC<any> = () => {
     totalApplications: 0,
   });
 
-  const [isDataLoading, setIsDataLoading] = useState(false);
-
   const {
     searchApplicantName,
     searchApplicationType,
@@ -157,14 +155,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
     SetQueryParams(push, query, params);
   };
 
-  const { downloadXlsx, downloadCountXlsx } = useDownloadXlsx();
-
-  const downloadXlsxData = async () => {
-    setIsDataLoading(true);
-    await downloadXlsx();
-    await downloadCountXlsx();
-    setIsDataLoading(false);
-  };
+  const { downloadXlsx } = useDownloadXlsx();
 
   return (
     <div>
@@ -172,12 +163,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
         <h1 className='text-2xl font-bold h-6 text-bcBluePrimary text-left flex-col items-start'>
           Applications
         </h1>
-        <Button
-          variant='primary'
-          customClass='py-2'
-          onClick={downloadXlsxData}
-          disabled={isDataLoading}
-        >
+        <Button variant='primary' customClass='py-2' onClick={downloadXlsx}>
           Download Raw Data
         </Button>
       </div>

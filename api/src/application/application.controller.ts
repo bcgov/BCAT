@@ -163,9 +163,4 @@ export class ApplicationController {
   async getRawData(): Promise<any> {
     return this.applicationService.getRawData();
   }
-
-  @Post('/raw-count')
-  async getRawCountData(): Promise<any> {
-    return this.applicationService.getRawCountData();
-  }
 }
