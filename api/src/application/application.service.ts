@@ -268,6 +268,9 @@ export class ApplicationService {
       .leftJoin('a.status', 'status')
       .leftJoin('a.applicationType', 'applicationType')
       .leftJoin('a.workshopScores', 'workshopScore')
+      .where('status.name NOT ILIKE :rejectedStatus', {
+        rejectedStatus: `%${ApplicationStatus.DENIED}%`,
+      })
       .getMany();
   }
 }
