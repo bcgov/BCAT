@@ -125,8 +125,8 @@ export class RawDataRo {
     const getFundingYear = (signedDate: any) => {
       if (!signedDate) return NO_VALUE;
 
-      const resetDate = dayjs().set('day', 1).set('month', 4).set('year', dayjs(signedDate).year());
-      const isCurrentFundingYear = dayjs().isBefore(resetDate);
+      // const resetDate = dayjs().set('day', 1).set('month', 4).set('year', dayjs(signedDate).year());
+      // const isCurrentFundingYear = dayjs().isBefore(resetDate);
       return `${dayjs(signedDate).format('YY')}/${dayjs(signedDate).add(1, 'year').format('YY')}`;
     };
 
