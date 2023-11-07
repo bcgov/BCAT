@@ -124,6 +124,9 @@ export class RawDataRo {
 
     const getFundingYear = (signedDate: any) => {
       if (!signedDate) return NO_VALUE;
+
+      const resetDate = dayjs().set('day', 1).set('month', 4).set('year', dayjs(signedDate).year());
+      const isCurrentFundingYear = dayjs().isBefore(resetDate);
       return `${dayjs(signedDate).format('YY')}/${dayjs(signedDate).add(1, 'year').format('YY')}`;
     };
 
@@ -238,7 +241,7 @@ export class RawDataRo {
 
       usageCountGrid.forEach((row: any) => {
         content.push({
-          municipality: submission.s1Container?.s1GovernmentType || NO_VALUE,
+          municipality: item.applicantName || NO_VALUE,
           projectName:
             submission.s4Container?.s4ProjectTitle ||
             submission.s3Container?.s3ProjectTitle ||
