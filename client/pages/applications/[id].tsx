@@ -70,9 +70,9 @@ const ApplicationDetails: NextPage = () => {
 
   const getColSpan = () => {
     if (applicationStatus === ApplicationStatus.WORKSHOP) {
-      return showComments ? 1 : 2;
+      return showComments ? 'col-span-1' : 'col-span-2';
     }
-    return 2;
+    return showComments ? 'col-span-2' : 'col-span-3';
   };
 
   return (
@@ -146,7 +146,7 @@ const ApplicationDetails: NextPage = () => {
           </div>
 
           <div className='grid grid-cols-4 gap-4'>
-            <div className={`col-span-${getColSpan()} overflow-y-auto h-screen sticky top-5`}>
+            <div className={`${getColSpan()} overflow-y-auto h-screen sticky top-5`}>
               {schema?.length > 0 &&
                 formData &&
                 schema
