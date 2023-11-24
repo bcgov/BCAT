@@ -96,7 +96,9 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                         <div className='py-5'>
                           <Radio
                             horizontal
-                            label='Does this project meet the eligibility requirements necessary to advance in the evaluation process? (manual)'
+                            label={`Section ${
+                              applicationType === ApplicationType.INFRASTRUCTURE_FORM ? '3' : '2'
+                            }: Does this project meet the eligibility requirements necessary to advance in the evaluation process? (manual)`}
                             name='eligibilityScore'
                             options={[
                               { label: 'Yes', value: 'yes' },

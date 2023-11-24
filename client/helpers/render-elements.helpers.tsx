@@ -296,7 +296,7 @@ const renderUsageCountForm = (e: any, data: any) => {
           {usageFormData &&
             usageFormData.map((ad: any, index: number) => (
               <tr
-                key={formInfo[index].label + index}
+                key={formInfo[index]?.label + index}
                 className='bg-white border-b-2 even:bg-bcGrayInput border-gray-200'
               >
                 {formInfo.map((item, tdIndex) => {
