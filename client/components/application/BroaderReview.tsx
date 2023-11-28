@@ -99,24 +99,6 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                 <div>
                   <div className='p-4 grid grid-flow-row gap-4'>
                     <div>
-                      {/* TODO: User list on who's reviewing and completed should be fetched from the backend for each application */}
-                      {userList &&
-                        userList.map((item: any) => {
-                          const scoreStatus = applicationScores.filter(
-                            (i: any) => item.id == i.user,
-                          );
-                          return (
-                            <UserView
-                              key={`BroderReviewUsers_${item.id}`}
-                              user={item}
-                              scoreStatus={scoreStatus}
-                              loggedInUser={loggedInUser}
-                              selected={selectedUser == item.id}
-                              handleClick={() => handleChangeScorer(item.id)}
-                            />
-                          );
-                        })}
-
                       <div className='bg-white divide-y'>
                         <div className='py-5'>
                           <Radio
@@ -179,6 +161,24 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                           ></Radio>
                         </div>
                       )}
+
+                      {/* TODO: User list on who's reviewing and completed should be fetched from the backend for each application */}
+                      {userList &&
+                        userList.map((item: any) => {
+                          const scoreStatus = applicationScores.filter(
+                            (i: any) => item.id == i.user,
+                          );
+                          return (
+                            <UserView
+                              key={`BroderReviewUsers_${item.id}`}
+                              user={item}
+                              scoreStatus={scoreStatus}
+                              loggedInUser={loggedInUser}
+                              selected={selectedUser == item.id}
+                              handleClick={() => handleChangeScorer(item.id)}
+                            />
+                          );
+                        })}
                     </div>
                   </div>
                 </div>
