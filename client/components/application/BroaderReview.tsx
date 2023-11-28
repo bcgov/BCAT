@@ -163,22 +163,25 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                       )}
 
                       {/* TODO: User list on who's reviewing and completed should be fetched from the backend for each application */}
-                      {userList &&
-                        userList.map((item: any) => {
-                          const scoreStatus = applicationScores.filter(
-                            (i: any) => item.id == i.user,
-                          );
-                          return (
-                            <UserView
-                              key={`BroderReviewUsers_${item.id}`}
-                              user={item}
-                              scoreStatus={scoreStatus}
-                              loggedInUser={loggedInUser}
-                              selected={selectedUser == item.id}
-                              handleClick={() => handleChangeScorer(item.id)}
-                            />
-                          );
-                        })}
+                      {userList && (
+                        <div className='mt-4'>
+                          {userList.map((item: any) => {
+                            const scoreStatus = applicationScores.filter(
+                              (i: any) => item.id == i.user,
+                            );
+                            return (
+                              <UserView
+                                key={`BroderReviewUsers_${item.id}`}
+                                user={item}
+                                scoreStatus={scoreStatus}
+                                loggedInUser={loggedInUser}
+                                selected={selectedUser == item.id}
+                                handleClick={() => handleChangeScorer(item.id)}
+                              />
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
