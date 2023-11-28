@@ -111,7 +111,6 @@ export class SyncChefsDataService {
       responseType,
     };
     const files = await this.attachmentService.getAllAttachments(false);
-    if (!token) Logger.error(`No TOKEN found`);
 
     for (const file of files) {
       try {
@@ -119,9 +118,7 @@ export class SyncChefsDataService {
         // Get file data form server
         const url = FILE_URL + file.url;
         const fileRes = await axios({ ...options, url });
-        Logger.log(`File fetched successfully - ${file.id}`);
         const fileData = Buffer.from(fileRes.data);
-        Logger.log(`Buffer extracted successfully - ${file.id}`);
         file.data = fileData;
         await this.attachmentService.updateAttachment(file);
       } catch (error) {
