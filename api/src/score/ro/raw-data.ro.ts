@@ -2,8 +2,6 @@ import dayjs from 'dayjs';
 import { Application } from '../../application/application.entity';
 import { ApplicationType } from '../../common/constants';
 
-// { label: 'Withdrawn / Cancelled', value: 'emptyVal' },
-
 const roHeaders = {
   sheet: 'Raw Data',
   columns: [
