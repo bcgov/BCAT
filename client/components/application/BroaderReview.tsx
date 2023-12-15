@@ -99,29 +99,13 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                 <div>
                   <div className='p-4 grid grid-flow-row gap-4'>
                     <div>
-                      {/* TODO: User list on who's reviewing and completed should be fetched from the backend for each application */}
-                      {userList &&
-                        userList.map((item: any) => {
-                          const scoreStatus = applicationScores.filter(
-                            (i: any) => item.id == i.user,
-                          );
-                          return (
-                            <UserView
-                              key={`BroderReviewUsers_${item.id}`}
-                              user={item}
-                              scoreStatus={scoreStatus}
-                              loggedInUser={loggedInUser}
-                              selected={selectedUser == item.id}
-                              handleClick={() => handleChangeScorer(item.id)}
-                            />
-                          );
-                        })}
-
                       <div className='bg-white divide-y'>
                         <div className='py-5'>
                           <Radio
                             horizontal
-                            label='Does this project meet the eligibility requirements necessary to advance in the evaluation process? (manual)'
+                            label={`Section ${
+                              applicationType === ApplicationType.INFRASTRUCTURE_FORM ? '3' : '2'
+                            }: Does this project meet the eligibility requirements necessary to advance in the evaluation process? (manual)`}
                             name='eligibilityScore'
                             options={[
                               { label: 'Yes', value: 'yes' },
@@ -175,6 +159,27 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                               { label: 'Completed', value: ReviewCompletionStatus.COMPLETE },
                             ]}
                           ></Radio>
+                        </div>
+                      )}
+
+                      {/* TODO: User list on who's reviewing and completed should be fetched from the backend for each application */}
+                      {userList && (
+                        <div className='mt-4'>
+                          {userList.map((item: any) => {
+                            const scoreStatus = applicationScores.filter(
+                              (i: any) => item.id == i.user,
+                            );
+                            return (
+                              <UserView
+                                key={`BroderReviewUsers_${item.id}`}
+                                user={item}
+                                scoreStatus={scoreStatus}
+                                loggedInUser={loggedInUser}
+                                selected={selectedUser == item.id}
+                                handleClick={() => handleChangeScorer(item.id)}
+                              />
+                            );
+                          })}
                         </div>
                       )}
                     </div>

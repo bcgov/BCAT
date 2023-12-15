@@ -126,7 +126,6 @@ export class SyncChefsDataService {
           `Error occurred fetching attachment - ${file.id} - `,
           JSON.stringify(getGenericError(error))
         );
-        throw new GenericException(SyncDataError.SYNC_ATTACHMENT_ERROR);
       }
     }
   }

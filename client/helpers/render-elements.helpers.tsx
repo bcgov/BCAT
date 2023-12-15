@@ -159,13 +159,20 @@ const renderFile = (e: any, data: any, fetchData: any) => {
   return (
     <div key={e.id} className='w-fit grid grid-flow-row'>
       <span className='font-bold'>{label}</span>
-      {files.length === 1 ? (
-        <Button variant='link' customClass='text-left' onClick={() => downloadFile(files[0])}>
-          {files[0]['originalName']}
-        </Button>
-      ) : (
-        NO_DATA_LABEL
-      )}
+      <div className='grid grid-cols-1 divide-y'>
+        {files.length > 0
+          ? files.map((item: any) => (
+              <Button
+                variant='link'
+                customClass='text-left my-2'
+                key={`btn-${item['originalName']}`}
+                onClick={() => downloadFile(item)}
+              >
+                {item['originalName']}
+              </Button>
+            ))
+          : NO_DATA_LABEL}
+      </div>
     </div>
   );
 };
@@ -289,7 +296,7 @@ const renderUsageCountForm = (e: any, data: any) => {
           {usageFormData &&
             usageFormData.map((ad: any, index: number) => (
               <tr
-                key={formInfo[index].label + index}
+                key={formInfo[index]?.label + index}
                 className='bg-white border-b-2 even:bg-bcGrayInput border-gray-200'
               >
                 {formInfo.map((item, tdIndex) => {

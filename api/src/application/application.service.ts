@@ -18,7 +18,7 @@ import { FormMetaData } from '../FormMetaData/formmetadata.entity';
 import { GenericException } from '../common/generic-exception';
 import { GetApplicationsDto } from '../common/dto/get-applications.dto';
 import { PaginationRO } from '../common/ro/pagination.ro';
-import { RawDataRo } from '@/score/ro/raw-data.ro';
+import { RawDataRo } from '../score/ro/raw-data.ro';
 import { SaveApplicationDto } from '../common/dto/save-application.dto';
 import { ScoreDto } from '../score/dto/score.dto';
 import { UpdateStatusDto } from './dto/update-status.dto';
@@ -258,13 +258,19 @@ export class ApplicationService {
         'a.projectTitle',
         'a.totalEstimatedCost',
         'a.updatedAt',
+        'a.submission',
         'applicationType.name',
         'status.name',
         'user.displayName',
+        'workshopScore.data',
       ])
       .leftJoin('a.assignedTo', 'user')
       .leftJoin('a.status', 'status')
       .leftJoin('a.applicationType', 'applicationType')
+      .leftJoin('a.workshopScores', 'workshopScore')
+      .where('status.name NOT ILIKE :rejectedStatus', {
+        rejectedStatus: `%${ApplicationStatus.DENIED}%`,
+      })
       .getMany();
   }
 }

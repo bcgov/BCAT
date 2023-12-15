@@ -68,6 +68,13 @@ const ApplicationDetails: NextPage = () => {
     );
   };
 
+  const getColSpan = () => {
+    if (applicationStatus === ApplicationStatus.WORKSHOP) {
+      return showComments ? 'col-span-1' : 'col-span-2';
+    }
+    return showComments ? 'col-span-2' : 'col-span-3';
+  };
+
   return (
     <>
       {details && id && typeof id === 'number' && (
@@ -139,15 +146,7 @@ const ApplicationDetails: NextPage = () => {
           </div>
 
           <div className='grid grid-cols-4 gap-4'>
-            <div
-              className={`${
-                [ApplicationStatus.WORKSHOP].includes(applicationStatus)
-                  ? 'col-span-2'
-                  : showComments
-                  ? 'col-span-3'
-                  : 'col-span-2'
-              } `}
-            >
+            <div className={`${getColSpan()} overflow-y-auto h-screen sticky top-5`}>
               {schema?.length > 0 &&
                 formData &&
                 schema
@@ -178,13 +177,8 @@ const ApplicationDetails: NextPage = () => {
                     </Panel>
                   ))}
             </div>
-            {showComments && id && typeof id === 'number' && (
-              <div className='col-span-1 pb-4'>
-                <Comments applicationId={id} onClose={() => setShowComments(false)} />
-              </div>
-            )}
             {details && applicationType && (
-              <div className='col-span-2 pb-4'>
+              <div className='col-span-1 pb-4'>
                 <BroaderReview
                   applicationId={id}
                   applicationType={applicationType}
@@ -194,12 +188,17 @@ const ApplicationDetails: NextPage = () => {
               </div>
             )}
             {details && applicationType && applicationStatus === ApplicationStatus.WORKSHOP && (
-              <div className='col-span-2 pb-4'>
+              <div className='col-span-1 pb-4'>
                 <WorkshopReview
                   applicationId={id}
                   applicationType={applicationType}
                   formData={formData}
                 />
+              </div>
+            )}
+            {showComments && id && typeof id === 'number' && (
+              <div className='col-span-1 pb-4'>
+                <Comments applicationId={id} onClose={() => setShowComments(false)} />
               </div>
             )}
           </div>
