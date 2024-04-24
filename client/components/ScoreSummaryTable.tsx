@@ -22,7 +22,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({ scores }) => {
   const tdStyles =
     'table-td table-header px-6 py-4 text-left text-sm font-strong border-b-2  border-bcYellowWarning';
   return (
-    <thead className='border-b bg-bcGrayInput table-header'>
+    <thead className='border-b bg-bcGrayInput table-header sticky top-0'>
       <tr>
         {headers &&
           headers.map((title: string, index: number) => (
