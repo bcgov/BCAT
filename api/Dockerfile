@@ -5,6 +5,7 @@ ARG VERSION
 ENV VERSION $VERSION
 ENV NODE_ENV production
 ENV HOME_SERVER /opt/app-root/src/app/api
+ENV YARN_IGNORE_NODE 1
 
 # Configure server
 # Using root to transfer ownership of work dir
