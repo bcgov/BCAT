@@ -1,7 +1,7 @@
 name: BCAT build and deploy to OpenShift (dev, test)
 
 on:
-  pull_request:
+  push:
     branches:
       - 'develop'
 
