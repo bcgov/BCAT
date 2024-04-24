@@ -4,6 +4,7 @@ ARG VERSION
 ENV VERSION $VERSION
 ENV NODE_ENV production
 ENV HOME_CLIENT /opt/app-root/src/app/client
+ENV YARN_IGNORE_NODE 1
 
 # Using root to transfer ownership of work dir
 USER root
