@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "echo \"Building @tbcm/api\" && nest build",
+    "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
     "start": "nest start",
@@ -69,7 +69,8 @@
     "rxjs": "7.2.0",
     "swagger-ui-express": "4.2.0",
     "typeorm": "0.2.41",
-    "winston": "3.3.3"
+    "winston": "3.3.3",
+    "typescript": "4.3.5"
   },
   "devDependencies": {
     "@nestjs/cli": "8.0.0",
@@ -94,8 +95,7 @@
     "ts-jest": "27.1.2",
     "ts-loader": "9.2.3",
     "ts-node": "10.0.0",
-    "tsconfig-paths": "3.10.1",
-    "typescript": "4.3.5"
+    "tsconfig-paths": "3.10.1"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -113,6 +113,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "packageManager": "yarn@3.2.4"
+  }
 }
