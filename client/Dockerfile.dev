@@ -4,14 +4,10 @@ ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
 WORKDIR /usr/src/app
 
-ADD ./.yarn/releases/yarn-3.3.0.cjs ./.yarn/releases/yarn-3.3.0.cjs
+COPY package*.json ./
 
-# RUN yarn set version ./.yarn/releases/yarn-3.3.0.cjs
-
-COPY package.json yarn.lock .yarnrc.yml ./
-
-RUN yarn install --immutable
+RUN npm install 
 
 EXPOSE 3000
 
-CMD [ "yarn", "run", "dev" ]
+CMD [ "npm", "run", "dev" ]
