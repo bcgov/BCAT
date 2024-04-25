@@ -179,7 +179,7 @@ const renderFile = (e: any, data: any, fetchData: any) => {
 
 /**
  * format number to currency
- * @param price 
+ * @param price
  * @returns currency
  */
 const formatCurrency = (price: number) => {
@@ -198,11 +198,11 @@ const renderGeneralField = (e: any, data: any) => {
 
   const value = getValue(e.key, data);
   const label = getLabel(e);
-  
+
   return (
     <div key={e.id} className='w-fit grid grid-flow-row'>
       <span className='font-bold'>{label}</span>
-      <span className='overflow-auto' key={e.key}>        
+      <span className='overflow-auto' key={e.key}>
         {e.type === 'currency' || e.type === 'simplecurrencyadvanced'
           ? formatCurrency(value)
           : `${formatDate(value) || NO_DATA_LABEL}`}
