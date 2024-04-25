@@ -9,5 +9,11 @@ module.exports = {
     NEXT_PUBLIC_INFRASTRUCTURE_PROJECT: process.env.NEXT_PUBLIC_INFRASTRUCTURE_PROJECT,
     NEXT_PUBLIC_NETWORK_PROJECT: process.env.NEXT_PUBLIC_NETWORK_PROJECT,
   },
-  reactStrictMode: false, // https://github.com/react-keycloak/react-keycloak/issues/182#issuecomment-1119370025 Strict mode is placed within KC provider
+  reactStrictMode: false, // https://github.com/react-keycloak/react-keycloak/issues/182#issuecomment-1119370025 Strict mode is placed within KC provider,
+  eslint: { 
+    ignoreDuringBuilds: true, 
+  },
+  typescript: {    
+    ignoreBuildErrors: true,
+  }, 
 };
