@@ -6,6 +6,7 @@ import {
   INITIAL_INFRASTRUCTURE_REVIEW_VALUES,
   NETWORK_APP_INITIAL_REVIEW_VALUES,
   REQUEST_METHOD,
+  ReviewCompletionStatus,
 } from '../constants';
 import { useAuthContext } from '../contexts';
 import { useHttp } from './useHttp';
@@ -78,7 +79,12 @@ export const useBroaderReview = (applicationId: number, applicationType?: Applic
   }
 
   const handleSubmit = (values: any) => {
-    const { overallComments, finalScore, status, ...data } = values;
+    const {
+      overallComments,
+      finalScore,
+      status = ReviewCompletionStatus.IN_PROGRESS,
+      ...data
+    } = values;
 
     const obj = { data, overallComments, finalScore, status };
     // calculate all score values for finalScore

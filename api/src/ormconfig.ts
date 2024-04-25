@@ -16,7 +16,7 @@ const config: PostgresConnectionOptions = {
   type: 'postgres',
   port: +(process.env.POSTGRES_PORT || 5432),
   username: process.env.POSTGRES_USERNAME || 'db2inst1',
-  password: process.env.POSTGRES_PASSWORD,
+  password: process.env.POSTGRES_PASSWORD || 'development',
   database: process.env.POSTGRES_DATABASE || 'bcat',
   schema: process.env.DB_SCHEMA || 'app_bcat',
   cli: {
