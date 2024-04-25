@@ -61,7 +61,12 @@ export const useWorkshopReview = (applicationId: number, applicationType?: Appli
   }
 
   const handleSubmit = (values: any) => {
-    const { overallComments, finalScore, status = ReviewCompletionStatus.IN_PROGRESS, ...data } = values;
+    const {
+      overallComments,
+      finalScore,
+      status = ReviewCompletionStatus.IN_PROGRESS,
+      ...data
+    } = values;
 
     const obj = { data, overallComments, finalScore, status };
     // calculate all score values for finalScore
