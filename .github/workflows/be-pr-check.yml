@@ -16,18 +16,6 @@ jobs:
       - uses: actions/checkout@v3
         name: checkout
 
-      # - name: Setup pre-reqs
-      #   run: |
-      #     npm install yarn -g && yarn set version ./.yarn/releases/yarn-3.2.4.cjs
-      #   shell: bash
-
-      # - uses: actions/cache@v3
-      #   name: Cache yarn
-      #   with:
-      #     path: api/.yarn/cache
-      #     key: ${{ runner.os }}-fe-yarn-${{ hashFiles('api/yarn.lock') }}
-      #     restore-keys: ${{ runner.os }}-fe-yarn-${{ hashFiles('api/yarn.lock') }}
-
       - name: Install dependencies
         run: |
           npm install
