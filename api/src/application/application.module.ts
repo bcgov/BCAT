@@ -11,10 +11,11 @@ import { CommentModule } from '../comments/comment.module';
 import { CompletionStatusModule } from '../completionStatus/completionStatus.module';
 import { UserModule } from '../user/user.module';
 import { WorkshopScoreModule } from '../score/workshop-score.module';
+import { ApplicationView } from './application.view.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Application]),
+    TypeOrmModule.forFeature([Application, ApplicationView]),
     ApplicationStatusModule,
     ApplicationTypeModule,
     BroaderReviewScoreModule,

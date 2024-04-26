@@ -25,12 +25,15 @@ import { UpdateStatusDto } from './dto/update-status.dto';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import { WorkshopScoreService } from '../score/workshop-score.service';
+import { ApplicationView } from './application.view.entity';
 
 @Injectable()
 export class ApplicationService {
   constructor(
     @InjectRepository(Application)
     private applicationRepository: Repository<Application>,
+    @InjectRepository(ApplicationView)
+    private applicationViewRepository: Repository<ApplicationView>,
     private applicationStatusService: ApplicationStatusService,
     private broaderScoreService: BroaderReviewScoreService,
     private commentService: CommentService,
@@ -40,7 +43,7 @@ export class ApplicationService {
   ) {}
 
   async getApplications(query: GetApplicationsDto): Promise<PaginationRO<Application>> | null {
-    const queryBuilder = this.applicationRepository
+    const queryBuilder = this.applicationViewRepository
       .createQueryBuilder('app')
       .leftJoinAndSelect('app.applicationType', 'applicationType')
       .leftJoinAndSelect('app.assignedTo', 'assignedTo')
