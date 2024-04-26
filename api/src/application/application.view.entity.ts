@@ -13,6 +13,6 @@ import { Application } from './application.entity';
   `,
 })
 export class ApplicationView extends Application {
-  @ViewColumn()
+  @ViewColumn({ name: 'funding_year' })
   fundingYear: string;
 }
