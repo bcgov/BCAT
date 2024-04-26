@@ -7,6 +7,7 @@ type Props = { applications: ApplicationTableProps[] };
 const TableHeader: React.FC = () => {
   const headers = [
     'Confirmation ID',
+    'Funding Year',
     'Applicant Name',
     'Application Type',
     'Project Title',
@@ -46,6 +47,7 @@ const TableBody: React.FC<Props> = data => {
               border-gray-200 cursor-pointer'
             >
               <td className={tdStyles}>{row.confirmationId}</td>
+              <td className={tdStyles}>{row.fundingYear}</td>
               <td className={tdStyles}>{row.applicantName}</td>
               <td className={tdStyles}>{row.applicationType ? row.applicationType.name : '-'}</td>
               <td className={tdStyles}>{row.projectTitle}</td>
