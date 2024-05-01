@@ -28,12 +28,18 @@ const InputFilter: React.FC<InputFilterProps> = ({ searchType, onChange, placeho
 };
 
 export const ApplicationDashboard: React.FC<any> = () => {
+  const { push, query } = useRouter();
+  const router = useRouter();
+  const { fetchData, isLoading } = useHttp();
+  const { page, limit } = query;
+  const DEFAULT_QUERY = { page: 1, limit: 20 };
+
   const [state, setState] = useState({
     data: [],
-    searchApplicantName: '',
-    searchApplicationType: '',
-    searchAssignedTo: '',
-    searchConfirmationID: '',
+    searchApplicantName: query?.applicantName ?? '',
+    searchApplicationType: query?.applicationType ?? '',
+    searchAssignedTo: query?.assignedTo ?? '',
+    searchConfirmationID: query?.confirmationId ?? '',
     searchTotalCost: '',
     totalApplications: 0,
   });
@@ -47,11 +53,6 @@ export const ApplicationDashboard: React.FC<any> = () => {
     totalApplications,
     data,
   } = state;
-
-  const { push, query } = useRouter();
-  const router = useRouter();
-  const { fetchData, isLoading } = useHttp();
-  const { page, limit } = query;
 
   const setApplicationData = async (params: any) => {
     fetchData(
@@ -69,7 +70,13 @@ export const ApplicationDashboard: React.FC<any> = () => {
 
   useEffect(() => {
     (async () => {
-      const params = { ...query, page: 1, limit: 20 };
+      const params = { ...query } as any;
+      if (!query?.page) {
+        params.page = DEFAULT_QUERY.page;
+      }
+      if (!query?.limit) {
+        params.limit = DEFAULT_QUERY.limit;
+      }
       SetQueryParams(push, query, params);
     })();
   }, []);
@@ -123,6 +130,8 @@ export const ApplicationDashboard: React.FC<any> = () => {
 
     const params = {
       ...query,
+      page: DEFAULT_QUERY.page,
+      limit: DEFAULT_QUERY.limit,
       applicantName: searchApplicantName,
       applicationType: searchApplicationType,
       assignedTo: searchAssignedTo,
@@ -151,6 +160,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
       confirmationId: '',
       totalCost: '',
       limit: Number(limit),
+      page: DEFAULT_QUERY.page,
     };
     SetQueryParams(push, query, params);
   };
