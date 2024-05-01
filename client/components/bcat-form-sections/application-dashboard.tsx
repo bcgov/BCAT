@@ -131,7 +131,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
     const params = {
       ...query,
       page: DEFAULT_QUERY.page,
-      limit: DEFAULT_QUERY.limit,
+      limit: query?.limit ?? DEFAULT_QUERY.limit,
       applicantName: searchApplicantName,
       applicationType: searchApplicationType,
       assignedTo: searchAssignedTo,
