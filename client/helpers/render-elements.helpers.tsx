@@ -353,11 +353,11 @@ const renderElementType = (e: any, formData: any, fetchData?: any) => {
     case 'datagrid':
       return renderUsageCountForm(e, formData);
 
-    case 'simpleselectboxesadvanced':    
+    case 'simpleselectboxesadvanced':
       return renderSelectBoxes(e, formData);
 
     case 'columns':
-    case 'simplecols2':    
+    case 'simplecols2':
       return renderColumns(e, formData, fetchData);
 
     case 'fieldset':
@@ -371,7 +371,7 @@ const renderElementType = (e: any, formData: any, fetchData?: any) => {
       return renderFile(e, formData, fetchData);
 
     case 'simplecheckbox':
-    case 'simplecheckboxadvanced':    
+    case 'simplecheckboxadvanced':
       return renderCheckbox(e, formData);
 
     case 'simpleradios':
@@ -385,7 +385,7 @@ const renderElementType = (e: any, formData: any, fetchData?: any) => {
     case 'simplesignatureadvanced':
       return renderSignature(e, formData);
 
-    default:      
+    default:
       if (SIMPLE_TYPES.includes(e.type)) {
         return renderGeneralField(e, formData);
       }
