@@ -81,7 +81,8 @@ export const WorkshopReview: React.FC<WorkshopReviewProps> = ({
                           variant='primary'
                           customClass='py-2 '
                           type='submit'
-                          disabled={!isValid || !values?.eligibilityScore}
+                          // disabled={!isValid || !values?.eligibilityScore}
+                          disabled={!isValid}
                         >
                           Save
                         </Button>

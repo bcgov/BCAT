@@ -65,7 +65,7 @@ export const useBroaderReview = (applicationId: number, applicationType?: Applic
   };
 
   const setDefaultScoreValues = () => {
-    setApplicationScoresByScorer(reviewValues);
+    setApplicationScoresByScorer({ ...reviewValues, eligibilityScore: '' });
   };
 
   function addScores(array: any) {

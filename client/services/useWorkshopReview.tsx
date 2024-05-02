@@ -44,7 +44,7 @@ export const useWorkshopReview = (applicationId: number, applicationType?: Appli
             status: data?.completionStatus?.name,
           });
         } else {
-          setApplicationScores(reviewValues);
+          setApplicationScores({ ...reviewValues, eligibilityScore: '' });
         }
       },
     );
