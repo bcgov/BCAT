@@ -88,7 +88,8 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                           variant='primary'
                           customClass='py-2 '
                           type='submit'
-                          disabled={!isValid || !values?.eligibilityScore}
+                          // disabled={!isValid || !values?.eligibilityScore}
+                          disabled={!isValid}
                         >
                           Save
                         </Button>
