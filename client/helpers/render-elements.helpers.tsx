@@ -26,6 +26,7 @@ const SIMPLE_TYPES = [
   'simpletextareaadvanced',
   'simpletextfield',
   'simpletextfieldadvanced',
+  'simpleselect',
   'textarea',
   'textfield',
 ];
@@ -186,7 +187,7 @@ const formatCurrency = (price: number) => {
   if (typeof price !== 'number') return price;
   const CADDollar = new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'CAD',
+    currency: 'USD',
   });
   return CADDollar.format(price);
 };
