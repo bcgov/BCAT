@@ -80,7 +80,13 @@ export class ApplicationService {
     }
 
     if (query.orderBy) {
-      queryBuilder.orderBy({ [`app.${query.orderBy}`]: query.order });
+      if (
+        ['applicationType.name', 'assignedTo.displayName', 'status.name'].includes(query.orderBy)
+      ) {
+        queryBuilder.orderBy({ [`${query.orderBy}`]: query.order });
+      } else {
+        queryBuilder.orderBy({ [`app.${query.orderBy}`]: query.order });
+      }
     }
 
     query.filter(queryBuilder);

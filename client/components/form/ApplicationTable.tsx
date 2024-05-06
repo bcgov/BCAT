@@ -16,6 +16,14 @@ enum OrderBy {
   STATUS = 'status',
   SUBMISSION_ID = 'submissionId',
   UPDATED_AT = 'updatedAt',
+  FUNDING_YEAR = 'fundingYear',
+  APPLICANT_NAME = 'applicantName',
+  APPLICATION_TYPE_NAME = 'applicationType.name',
+  TOTAL_ESTIMATED_COST = 'totalEstimatedCost',
+  ASKS = 'asks',
+  ASSIGNED_TO_DISPLAYNAME = 'assignedTo.displayName',
+  STATUS_NAME = 'status.name',
+  PROJECT_TITLE = 'projectTitle',
 }
 
 const TableHeader: React.FC = () => {
@@ -25,7 +33,6 @@ const TableHeader: React.FC = () => {
   const sortOrder: Order | undefined = (query.order as Order) || undefined;
 
   const handleSort = (field: string) => {
-    // const order = (field === currentSort && sortOrder === Order.ASC) ? Order.DESC : Order.ASC;
     let order: Order | undefined = Order.ASC;
     if (field === currentSort && sortOrder === Order.ASC) {
       order = Order.DESC;
@@ -53,19 +60,20 @@ const TableHeader: React.FC = () => {
   type Column = {
     name: string;
     field: string;
+    sortable?: boolean;
   };
 
   const columns: Column[] = [
-    { name: 'Confirmation ID', field: 'confirmationId' },
-    { name: 'Funding Year', field: 'fundingYear' },
-    { name: 'Applicant Name', field: 'applicantName' },
-    { name: 'Application Type', field: 'applicationType.name' },
-    { name: 'Project Title', field: 'projectTitle' },
-    { name: 'Estimated Cost', field: 'totalEstimatedCost' },
-    { name: 'Asks', field: 'asks' },
-    { name: 'Assigned to', field: 'assignedTo.displayName' },
-    { name: 'Last Updated', field: 'updatedAt' },
-    { name: 'Status', field: 'status.name' },
+    { name: 'Confirmation ID', field: 'confirmationId', sortable: true },
+    { name: 'Funding Year', field: 'fundingYear', sortable: true },
+    { name: 'Applicant Name', field: 'applicantName', sortable: true },
+    { name: 'Application Type', field: 'applicationType.name', sortable: true },
+    { name: 'Project Title', field: 'projectTitle', sortable: true },
+    { name: 'Estimated Cost', field: 'totalEstimatedCost', sortable: true },
+    { name: 'Asks', field: 'asks', sortable: true },
+    { name: 'Assigned to', field: 'assignedTo.displayName', sortable: true },
+    { name: 'Last Updated', field: 'updatedAt', sortable: true },
+    { name: 'Status', field: 'status.name', sortable: true },
   ];
   const tdStyles =
     'table-td table-header cursor-pointer px-6 py-4 text-left text-sm font-strong border-b-2  border-bcYellowWarning';
