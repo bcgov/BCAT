@@ -16,7 +16,7 @@ export enum ApplicationSortOptions {
   ASKS = 'asks',
   ASSIGNED_TO_DISPLAYNAME = 'assignedTo.displayName',
   STATUS_NAME = 'status.name',
-  PROJECT_TITLE = 'projectTitle'
+  PROJECT_TITLE = 'projectTitle',
 }
 
 export enum AxiosResponseTypes {
