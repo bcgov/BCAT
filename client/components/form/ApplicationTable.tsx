@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { ApplicationTableProps } from '../../constants/interfaces';
 import { formatDate } from 'utils';
+import BroaderReviewTd from 'components/application/BroaderReviewTd';
 
 type Props = { applications: ApplicationTableProps[] };
 enum Order {
@@ -117,7 +118,9 @@ const TableBody: React.FC<Props> = data => {
               <td className={tdStyles}>{row.totalEstimatedCost}</td>
               <td className={tdStyles}>{row.asks}</td>
               <td className={tdStyles}>{row.assignedTo ? row.assignedTo.displayName : '-'}</td>
-              <td className={tdStyles}>{'review'}</td>
+              <td className={tdStyles}>
+                <BroaderReviewTd broaderReviews={row.broaderReviewScores} index={index} />
+              </td>
               <td className={tdStyles}>{formatDate(row.updatedAt)}</td>
               <td className={tdStyles}>{row.status ? row.status.name : '-'}</td>
             </tr>
