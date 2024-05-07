@@ -35,7 +35,7 @@ const BroaderReviewSummary = ({ broaderReviews, status, index }: BroaderReviewSu
               <span key={`${tooltipId}-${user?.id}`}>{user?.displayName}</span>
             ))
           ) : (
-            <span>NA</span>
+            <span>N/A</span>
           )}
         </div>
       </Tooltip>
