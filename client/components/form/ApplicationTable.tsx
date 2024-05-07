@@ -73,7 +73,7 @@ const TableHeader: React.FC = () => {
     { name: 'Estimated Cost', field: 'totalEstimatedCost', sortable: true },
     { name: 'Asks', field: 'asks', sortable: true },
     { name: 'Assigned to', field: 'assignedTo.displayName', sortable: true },
-    { name: 'Reviewers', field: 'broaderReviewScores', sortable: false },
+    { name: 'Broader Reviews', field: 'broaderReviewScores', sortable: false },
     { name: 'Last Updated', field: 'updatedAt', sortable: true },
     { name: 'Status', field: 'status.name', sortable: true },
   ];
