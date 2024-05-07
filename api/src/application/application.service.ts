@@ -47,7 +47,17 @@ export class ApplicationService {
       .createQueryBuilder('app')
       .leftJoinAndSelect('app.applicationType', 'applicationType')
       .leftJoinAndSelect('app.assignedTo', 'assignedTo')
-      .leftJoinAndSelect('app.status', 'status');
+      .leftJoinAndSelect('app.status', 'status')
+      .leftJoinAndSelect('app.broaderReviewScores', 'broaderReviewScores')
+      .leftJoinAndSelect(
+        'broaderReviewScores.completionStatus',
+        'broaderReviewScoresCompletionStatus'
+      )
+      .leftJoinAndSelect(
+        'broaderReviewScores.user',
+        'broaderReviewScoresUser',
+        'broaderReviewScoresUser.isAuthorized = true'
+      );
 
     if (query.applicationType) {
       queryBuilder.andWhere('applicationType.name ILIKE :applicationType', {

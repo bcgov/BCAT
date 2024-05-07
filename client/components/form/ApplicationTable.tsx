@@ -72,15 +72,19 @@ const TableHeader: React.FC = () => {
     { name: 'Estimated Cost', field: 'totalEstimatedCost', sortable: true },
     { name: 'Asks', field: 'asks', sortable: true },
     { name: 'Assigned to', field: 'assignedTo.displayName', sortable: true },
+    { name: 'Reviewers', field: 'broaderReviewScores', sortable: false },
     { name: 'Last Updated', field: 'updatedAt', sortable: true },
     { name: 'Status', field: 'status.name', sortable: true },
   ];
   const tdStyles =
-    'table-td table-header cursor-pointer px-6 py-4 text-left text-sm font-strong border-b-2  border-bcYellowWarning';
+    'table-td table-header px-6 py-4 text-left text-sm font-strong border-b-2  border-bcYellowWarning';
+
+  const thStyles = (sortable: Column['sortable']) =>
+    sortable ? `${tdStyles} cursor-pointer` : tdStyles;
 
   const headers = useMemo(() => {
-    return columns.map(({ name, field }) => (
-      <th key={field} className={tdStyles} onClick={() => handleSort(field)}>
+    return columns.map(({ name, field, sortable }) => (
+      <th key={field} className={thStyles(sortable)} onClick={() => sortable && handleSort(field)}>
         {name} {getSortIcon(field)}
       </th>
     ));
@@ -113,6 +117,7 @@ const TableBody: React.FC<Props> = data => {
               <td className={tdStyles}>{row.totalEstimatedCost}</td>
               <td className={tdStyles}>{row.asks}</td>
               <td className={tdStyles}>{row.assignedTo ? row.assignedTo.displayName : '-'}</td>
+              <td className={tdStyles}>{'review'}</td>
               <td className={tdStyles}>{formatDate(row.updatedAt)}</td>
               <td className={tdStyles}>{row.status ? row.status.name : '-'}</td>
             </tr>
