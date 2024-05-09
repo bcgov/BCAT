@@ -1,4 +1,4 @@
-import { IsOptional, Max, Min, IsInt } from 'class-validator';
+import { IsOptional, Min, IsInt } from 'class-validator';
 import { SelectQueryBuilder } from 'typeorm';
 import { Type } from 'class-transformer';
 
@@ -9,7 +9,7 @@ export class PaginationDto {
   @IsInt()
   page = 1;
 
-  @Min(0)
+  @Min(0) // NOTICE: we will use '0' as Infinity here as Infinity is js Number but will become string in queryParam
   @IsOptional()
   @Type(() => Number)
   @IsInt()
