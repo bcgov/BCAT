@@ -159,7 +159,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
       assignedTo: '',
       confirmationId: '',
       totalCost: '',
-      limit: Number(limit),
+      limit: 20,
       page: DEFAULT_QUERY.page,
     };
     SetQueryParams(push, query, params);
