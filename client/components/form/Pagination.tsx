@@ -2,6 +2,8 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '@components';
+import PageSizeSelect from './PageSizeSelect';
+import { useRouter } from 'next/router';
 
 export type PaginationProps = {
   currentPage: number;
@@ -14,6 +16,8 @@ export type PaginationProps = {
 };
 
 export const Pagination: React.FC<PaginationProps> = props => {
+  const { query } = useRouter();
+  const { limit } = query;
   const {
     currentPage,
     applicationsPerPage,
@@ -27,26 +31,30 @@ export const Pagination: React.FC<PaginationProps> = props => {
     <div className='w-full bg-white flex my-2 justify-between'>
       <div></div>
       <div className='grid grid-cols-2 gap-2'>
-        <div>
-          <p className='text-sm text-right py-2 text-gray-700'>
-            <span className='font-medium'>
-              {totalApplications != 0
-                ? currentPage * applicationsPerPage - applicationsPerPage + 1
-                : totalApplications}
-            </span>{' '}
-            -
-            <span className='font-medium'>
-              {' '}
-              {currentPage * applicationsPerPage > totalApplications
-                ? totalApplications
-                : currentPage * applicationsPerPage}{' '}
-            </span>
-            of
-            <span className='font-medium'> {totalApplications} </span>
-          </p>
+        <div className='flex items-center gap-4 py-2'>
+          <PageSizeSelect />
+
+          {limit !== '0' && (
+            <p className='text-sm text-right py-2 text-gray-700'>
+              <span className='font-medium'>
+                {totalApplications != 0
+                  ? currentPage * applicationsPerPage - applicationsPerPage + 1
+                  : totalApplications}
+              </span>{' '}
+              -
+              <span className='font-medium'>
+                {' '}
+                {currentPage * applicationsPerPage > totalApplications
+                  ? totalApplications
+                  : currentPage * applicationsPerPage}{' '}
+              </span>
+              of
+              <span className='font-medium'> {totalApplications} </span>
+            </p>
+          )}
         </div>
 
-        {totalApplications != 0 && totalApplications > applicationsPerPage && (
+        {totalApplications != 0 && totalApplications > applicationsPerPage && limit !== '0' && (
           <div
             className='relative z-0 inline-flex rounded-md shadow-sm -space-x-px gap-1'
             aria-label='Pagination'
