@@ -69,7 +69,11 @@ const ApplicationDetails: NextPage = () => {
   };
 
   const getColSpan = () => {
-    if (applicationStatus === ApplicationStatus.WORKSHOP) {
+    if ([
+      ApplicationStatus.WORKSHOP,
+      ApplicationStatus.APPROVED,
+      ApplicationStatus.DENIED,
+    ].includes(applicationStatus)) {
       return showComments ? 'col-span-1' : 'col-span-2';
     }
     return showComments ? 'col-span-2' : 'col-span-3';
@@ -187,7 +191,11 @@ const ApplicationDetails: NextPage = () => {
                 />
               </div>
             )}
-            {details && applicationType && applicationStatus === ApplicationStatus.WORKSHOP && (
+            {details && applicationType && [
+                ApplicationStatus.WORKSHOP,
+                ApplicationStatus.APPROVED,
+                ApplicationStatus.DENIED,
+              ].includes(applicationStatus) && (
               <div className='col-span-1 pb-4'>
                 <WorkshopReview
                   applicationId={id}
