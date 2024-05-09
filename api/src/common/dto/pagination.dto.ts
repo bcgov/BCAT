@@ -9,8 +9,7 @@ export class PaginationDto {
   @IsInt()
   page = 1;
 
-  @Max(50)
-  @Min(1)
+  @Min(0)
   @IsOptional()
   @Type(() => Number)
   @IsInt()
@@ -19,11 +18,16 @@ export class PaginationDto {
   filter(query: SelectQueryBuilder<any>, forceNotSubquery = false): SelectQueryBuilder<any> {
     if (forceNotSubquery) {
       query.offset((this.page - 1) * this.limit);
-      query.limit(this.limit);
+      if (this.limit !== 0) {
+        query.limit(this.limit);
+      }
       return query;
     }
 
     query.skip((this.page - 1) * this.limit);
+    if (this.limit !== 0) {
+      query.take(this.limit);
+    }
     query.take(this.limit);
     return query;
   }

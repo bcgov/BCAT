@@ -59,8 +59,9 @@ services:
       - default
 
   ### Database #############################
+  ## openshift one is v12, but in order to pqsl recover db locally, we have to use v15
   database:
-    image: postgres:12-alpine
+    image: postgres:15-alpine
     container_name: ${PROJECT}_db
     volumes:
       - ./database:/database
