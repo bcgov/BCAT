@@ -39,12 +39,13 @@ const SelectFilter: React.FC<SelectFilterProps> = ({
 }) => {
   return (
     <select
-      title='select filter'
+      title={placeholder}
       className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
       placeholder={placeholder}
       onChange={onChange}
       value={searchType}
     >
+      <option value=''>{placeholder}</option>
       {options.map(({ name, value }) => (
         <option key={value} value={value}>
           {name}
@@ -229,7 +230,6 @@ export const ApplicationDashboard: React.FC<any> = () => {
                 searchType={searchFundingYear}
                 onChange={(e: any) => setState(p => ({ ...p, searchFundingYear: e.target.value }))}
                 options={[
-                  { name: 'Funding Year', value: '' },
                   { name: '2024/25', value: '2024/25' },
                   { name: '2025/26', value: '2025/26' },
                   { name: '2026/27', value: '2026/27' },
@@ -240,7 +240,6 @@ export const ApplicationDashboard: React.FC<any> = () => {
                 searchType={searchStatus}
                 onChange={(e: any) => setState(p => ({ ...p, searchStatus: e.target.value }))}
                 options={[
-                  { name: 'Status', value: '' },
                   { name: ApplicationStatus.RECEIVED, value: ApplicationStatus.RECEIVED },
                   { name: ApplicationStatus.ASSIGNED, value: ApplicationStatus.ASSIGNED },
                   { name: ApplicationStatus.APPROVED, value: ApplicationStatus.APPROVED },
