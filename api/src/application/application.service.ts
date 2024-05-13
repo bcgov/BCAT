@@ -93,9 +93,9 @@ export class ApplicationService {
       if (
         ['applicationType.name', 'assignedTo.displayName', 'status.name'].includes(query.orderBy)
       ) {
-        queryBuilder.orderBy({ [`${query.orderBy}`]: query.order });
+        queryBuilder.orderBy(query.orderBy, query.order, 'NULLS LAST');
       } else {
-        queryBuilder.orderBy({ [`app.${query.orderBy}`]: query.order });
+        queryBuilder.orderBy(`app.${query.orderBy}`, query.order, 'NULLS LAST');
       }
     }
 
