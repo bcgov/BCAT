@@ -28,12 +28,12 @@ export class GetApplicationsDto extends PaginationDto {
 
   @IsOptional()
   @IsEnum(OrderByOptions)
-  order = OrderByOptions.ASC;
+  order = OrderByOptions.DESC;
 
   @ApiPropertyOptional({ enum: ApplicationSortOptions })
   @IsOptional()
   @IsEnum(ApplicationSortOptions)
-  orderBy = ApplicationSortOptions.CONFIRMATION_ID;
+  orderBy = ApplicationSortOptions.FUNDING_YEAR;
 
   @IsOptional()
   @IsString()
