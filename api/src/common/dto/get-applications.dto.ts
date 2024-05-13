@@ -38,4 +38,12 @@ export class GetApplicationsDto extends PaginationDto {
   @IsOptional()
   @IsString()
   totalCost: string;
+
+  @IsOptional()
+  @IsString()
+  fundingYear: string;
+
+  @IsOptional()
+  @IsString()
+  status: string;
 }

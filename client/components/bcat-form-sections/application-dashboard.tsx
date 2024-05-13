@@ -6,13 +6,17 @@ import { faTimes, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { useHttp } from '../../services/useHttp';
 import { SetQueryParams } from '../../services/useQueryParams';
 import { useRouter } from 'next/router';
-import { API_ENDPOINT } from '../../constants';
+import { API_ENDPOINT, ApplicationStatus } from '../../constants';
 import { useDownloadXlsx } from 'services/useDownloadXlsx';
 
 interface InputFilterProps {
   searchType: any;
   onChange: any;
   placeholder: string;
+}
+
+interface SelectFilterProps extends InputFilterProps {
+  options: { name: string; value: string }[];
 }
 
 const InputFilter: React.FC<InputFilterProps> = ({ searchType, onChange, placeholder }) => {
@@ -24,6 +28,29 @@ const InputFilter: React.FC<InputFilterProps> = ({ searchType, onChange, placeho
       onChange={onChange}
       value={searchType}
     />
+  );
+};
+
+const SelectFilter: React.FC<SelectFilterProps> = ({
+  searchType,
+  onChange,
+  placeholder,
+  options,
+}) => {
+  return (
+    <select
+      title='select filter'
+      className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+      placeholder={placeholder}
+      onChange={onChange}
+      value={searchType}
+    >
+      {options.map(({ name, value }) => (
+        <option key={value} value={value}>
+          {name}
+        </option>
+      ))}
+    </select>
   );
 };
 
@@ -40,6 +67,8 @@ export const ApplicationDashboard: React.FC<any> = () => {
     searchApplicationType: query?.applicationType ?? '',
     searchAssignedTo: query?.assignedTo ?? '',
     searchConfirmationID: query?.confirmationId ?? '',
+    searchFundingYear: query?.fundingYear ?? '',
+    searchStatus: query?.status ?? '',
     searchTotalCost: '',
     totalApplications: 0,
   });
@@ -49,6 +78,8 @@ export const ApplicationDashboard: React.FC<any> = () => {
     searchApplicationType,
     searchAssignedTo,
     searchConfirmationID,
+    searchFundingYear,
+    searchStatus,
     searchTotalCost,
     totalApplications,
     data,
@@ -120,7 +151,9 @@ export const ApplicationDashboard: React.FC<any> = () => {
       searchApplicationType.length === 0 &&
       searchAssignedTo.length === 0 &&
       searchConfirmationID.length == 0 &&
-      searchTotalCost.length === 0;
+      searchTotalCost.length === 0 &&
+      searchFundingYear == null &&
+      searchStatus == null;
 
     return noValues;
   };
@@ -137,6 +170,8 @@ export const ApplicationDashboard: React.FC<any> = () => {
       assignedTo: searchAssignedTo,
       confirmationId: searchConfirmationID,
       totalCost: searchTotalCost,
+      fundingYear: searchFundingYear,
+      status: searchStatus,
     };
 
     SetQueryParams(push, query, params);
@@ -151,6 +186,8 @@ export const ApplicationDashboard: React.FC<any> = () => {
       searchAssignedTo: '',
       searchConfirmationID: '',
       searchTotalCost: '',
+      searchFundingYear: '',
+      searchStatus: '',
     }));
     const params = {
       ...query,
@@ -159,6 +196,8 @@ export const ApplicationDashboard: React.FC<any> = () => {
       assignedTo: '',
       confirmationId: '',
       totalCost: '',
+      fundingYear: '',
+      status: '',
       limit: 20,
       page: DEFAULT_QUERY.page,
     };
@@ -185,6 +224,30 @@ export const ApplicationDashboard: React.FC<any> = () => {
           <div className='w-full border py-4 px-8 mb-2'>
             Filter By:
             <div className='grid grid-cols-4 gap-1'>
+              <SelectFilter
+                placeholder='Funding Year'
+                searchType={searchFundingYear}
+                onChange={(e: any) => setState(p => ({ ...p, searchFundingYear: e.target.value }))}
+                options={[
+                  { name: 'Funding Year', value: '' },
+                  { name: '2024/25', value: '2024/25' },
+                  { name: '2025/26', value: '2025/26' },
+                  { name: '2026/27', value: '2026/27' },
+                ]}
+              />
+              <SelectFilter
+                placeholder='Status'
+                searchType={searchStatus}
+                onChange={(e: any) => setState(p => ({ ...p, searchStatus: e.target.value }))}
+                options={[
+                  { name: 'Status', value: '' },
+                  { name: ApplicationStatus.RECEIVED, value: ApplicationStatus.RECEIVED },
+                  { name: ApplicationStatus.ASSIGNED, value: ApplicationStatus.ASSIGNED },
+                  { name: ApplicationStatus.APPROVED, value: ApplicationStatus.APPROVED },
+                  { name: ApplicationStatus.DENIED, value: ApplicationStatus.DENIED },
+                  { name: ApplicationStatus.WORKSHOP, value: ApplicationStatus.WORKSHOP },
+                ]}
+              />
               <InputFilter
                 placeholder='Confirmation ID'
                 onChange={(e: any) =>
@@ -207,12 +270,6 @@ export const ApplicationDashboard: React.FC<any> = () => {
                   setState(p => ({ ...p, searchApplicationType: e.target.value }))
                 }
                 searchType={searchApplicationType}
-              />
-
-              <InputFilter
-                placeholder='Estimated Cost'
-                onChange={(e: any) => setState(p => ({ ...p, searchTotalCost: e.target.value }))}
-                searchType={searchTotalCost}
               />
 
               <InputFilter
