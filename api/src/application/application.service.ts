@@ -89,6 +89,14 @@ export class ApplicationService {
       });
     }
 
+    if (query.fundingYear) {
+      queryBuilder.andWhere('app.fundingYear = :fundingYear', { fundingYear: query.fundingYear });
+    }
+
+    if (query.status) {
+      queryBuilder.andWhere('status.name = :status', { status: query.status });
+    }
+
     if (query.orderBy) {
       if (
         ['applicationType.name', 'assignedTo.displayName', 'status.name'].includes(query.orderBy)
