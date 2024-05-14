@@ -16,14 +16,14 @@ export IMAGE_TAG=${COMMIT_SHA}
 export PROJECT := $(or $(PROJECT),bcat)
 export DB_USER := $(or $(DB_USER),db2inst1)
 export DB_PASSWORD := $(or $(DB_PASSWORD),development)
-export DB_NAME := $(or $(DB_NAME),testdb)
+export DB_NAME := $(or $(DB_NAME),bcat)
 export DB_SERVER := $(or $(DB_SERVER),database)
 export DB_PORT := $(or $(DB_PORT),5432)
 export GIT_LOCAL_BRANCH := $(or $(GIT_LOCAL_BRANCH),dev)
 
-export KC_AUTH_URL := $(KC_AUTH_URL)
-export KC_AUTH_REALM := $(KC_AUTH_REALM)
-export KC_AUTH_CLIENT_ID := $(KC_AUTH_CLIENT_ID)
+export KC_AUTH_URL := $(or $(KC_AUTH_URL), https://dev.loginproxy.gov.bc.ca/auth)
+export KC_AUTH_REALM := $(or $(KC_AUTH_REALM), standard)
+export KC_AUTH_CLIENT_ID := $(or $(KC_AUTH_CLIENT_ID), bcat-standard-4952)
 
 export APP_NAME:=bcat
 export OS_NAMESPACE_PREFIX:=bfe2da
