@@ -120,10 +120,10 @@ export class RawDataRo {
       return item.workshopScores && item.workshopScores.length > 0;
     };
 
-    const getFundingYear = (signedDate: any) => {
-      if (!signedDate) return NO_VALUE;
-      return `${dayjs(signedDate).format('YY')}/${dayjs(signedDate).add(1, 'year').format('YY')}`;
-    };
+    // const getFundingYear = (signedDate: any) => {
+    //   if (!signedDate) return NO_VALUE;
+    //   return `${dayjs(signedDate).format('YY')}/${dayjs(signedDate).add(1, 'year').format('YY')}`;
+    // };
 
     const checkGovernmentApplicant = (primaryApplicant: string, secondaryApplicant: string) => {
       const YES = 'Y';
@@ -154,7 +154,7 @@ export class RawDataRo {
         eligibility: checkIfItemHasWorkshopScore(item)
           ? item.workshopScores[0].data?.eligibilityScore
           : NO_VALUE,
-        fundingYear: getFundingYear(submission?.s10Container?.s10ProjectMangerApproverDate),
+        fundingYear: submission?.s1Container?.s1FundingYear,
         applicantName: item.applicantName,
         indigenousGovernment: checkGovernmentApplicant(
           submission.s1Container?.s1GovernmentType,
@@ -200,10 +200,10 @@ export class RawDataRo {
       return dayjs(itemDate).isValid() ? dayjs(itemDate).format('YYYY-MM-DD') : NO_VALUE;
     };
 
-    const getFundingYear = (signedDate: any) => {
-      if (!signedDate) return NO_VALUE;
-      return `${dayjs(signedDate).format('YY')}/${dayjs(signedDate).add(1, 'year').format('YY')}`;
-    };
+    // const getFundingYear = (signedDate: any) => {
+    //   if (!signedDate) return NO_VALUE;
+    //   return `${dayjs(signedDate).format('YY')}/${dayjs(signedDate).add(1, 'year').format('YY')}`;
+    // };
 
     for (const item of data) {
       if (item.applicationType?.name === ApplicationType.NETWORK_FORM) continue;
@@ -218,10 +218,7 @@ export class RawDataRo {
             submission.s4Container?.s4ProjectTitle ||
             submission.s3Container?.s3ProjectTitle ||
             NO_VALUE,
-          fundingYear: getFundingYear(
-            submission.s10Container?.s10ProjectMangerApproverDate ||
-              submission.s11Container?.s11ProjectMangerApproverDate
-          ),
+          fundingYear: submission.s1Container?.s1FundingYear,
           usageCountDate: NO_VALUE,
           usageCountTime: NO_VALUE,
           usageCountLocation: NO_VALUE,
@@ -241,10 +238,7 @@ export class RawDataRo {
             submission.s4Container?.s4ProjectTitle ||
             submission.s3Container?.s3ProjectTitle ||
             NO_VALUE,
-          fundingYear: getFundingYear(
-            submission.s10Container?.s10ProjectMangerApproverDate ||
-              submission.s11Container?.s11ProjectMangerApproverDate
-          ),
+          fundingYear: row.fundingYear,
           usageCountDate: formatDate(row.dateCell),
           usageCountTime: row.countPeriodCell || NO_VALUE,
           usageCountLocation: row.stationLocationCell || NO_VALUE,
