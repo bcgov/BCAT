@@ -270,15 +270,16 @@ export class ApplicationService {
   }
 
   async getRawData(): Promise<any> {
-    const applicationsRaw = await this.getApplicationsRawData();
+    const applicationsRaw = await this.getApplicationsRawData();    
     return new RawDataRo(applicationsRaw).result;
   }
 
   async getApplicationsRawData(): Promise<Application[]> {
     // done this way to remove the submission object from response
-    return this.applicationRepository
+    return this.applicationViewRepository
       .createQueryBuilder('a')
       .select([
+        'a.fundingYear',
         'a.applicantName',
         'a.asks',
         'a.confirmationId',
@@ -298,6 +299,7 @@ export class ApplicationService {
       .where('status.name NOT ILIKE :rejectedStatus', {
         rejectedStatus: `%${ApplicationStatus.DENIED}%`,
       })
+      .orderBy('a.fundingYear', 'DESC', 'NULLS LAST')
       .getMany();
   }
 }
