@@ -153,7 +153,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
       searchAssignedTo.length === 0 &&
       searchConfirmationID.length == 0 &&
       searchTotalCost.length === 0 &&
-      searchFundingYear == null &&
+      searchFundingYear.length === 0 &&
       searchStatus == null;
 
     return noValues;
@@ -225,15 +225,10 @@ export const ApplicationDashboard: React.FC<any> = () => {
           <div className='w-full border py-4 px-8 mb-2'>
             Filter By:
             <div className='grid grid-cols-4 gap-1'>
-              <SelectFilter
+              <InputFilter
                 placeholder='Funding Year'
                 searchType={searchFundingYear}
                 onChange={(e: any) => setState(p => ({ ...p, searchFundingYear: e.target.value }))}
-                options={[
-                  { name: '2024/25', value: '2024/25' },
-                  { name: '2025/26', value: '2025/26' },
-                  { name: '2026/27', value: '2026/27' },
-                ]}
               />
               <SelectFilter
                 placeholder='Status'
