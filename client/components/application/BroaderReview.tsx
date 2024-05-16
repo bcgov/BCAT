@@ -123,6 +123,7 @@ export const BroaderReview: React.FC<BroaderReviewProps> = ({
                               label={item.label}
                               name={item.name}
                               tooltiptext={item.tooltiptext}
+                              maxScore={item.maxScore}
                             />
                             <Error name={item.name} />
 
