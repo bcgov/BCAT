@@ -120,11 +120,6 @@ export class RawDataRo {
       return item.workshopScores && item.workshopScores.length > 0;
     };
 
-    // const getFundingYear = (signedDate: any) => {
-    //   if (!signedDate) return NO_VALUE;
-    //   return `${dayjs(signedDate).format('YY')}/${dayjs(signedDate).add(1, 'year').format('YY')}`;
-    // };
-
     const checkGovernmentApplicant = (primaryApplicant: string, secondaryApplicant: string) => {
       const YES = 'Y';
       const NO = 'N';
@@ -199,11 +194,6 @@ export class RawDataRo {
     const formatDate = (itemDate: any) => {
       return dayjs(itemDate).isValid() ? dayjs(itemDate).format('YYYY-MM-DD') : NO_VALUE;
     };
-
-    // const getFundingYear = (signedDate: any) => {
-    //   if (!signedDate) return NO_VALUE;
-    //   return `${dayjs(signedDate).format('YY')}/${dayjs(signedDate).add(1, 'year').format('YY')}`;
-    // };
 
     for (const item of data) {
       if (item.applicationType?.name === ApplicationType.NETWORK_FORM) continue;
