@@ -270,7 +270,7 @@ export class ApplicationService {
   }
 
   async getRawData(): Promise<any> {
-    const applicationsRaw = await this.getApplicationsRawData();    
+    const applicationsRaw = await this.getApplicationsRawData();
     return new RawDataRo(applicationsRaw).result;
   }
 
