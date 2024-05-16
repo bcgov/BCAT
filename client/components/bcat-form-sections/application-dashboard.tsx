@@ -153,7 +153,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
       searchAssignedTo.length === 0 &&
       searchConfirmationID.length == 0 &&
       searchTotalCost.length === 0 &&
-      searchFundingYear == null &&
+      searchFundingYear.length === 0 &&
       searchStatus == null;
 
     return noValues;
