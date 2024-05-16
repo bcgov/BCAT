@@ -90,7 +90,9 @@ export class ApplicationService {
     }
 
     if (query.fundingYear) {
-      queryBuilder.andWhere('app.fundingYear = :fundingYear', { fundingYear: query.fundingYear });
+      queryBuilder.andWhere('app.fundingYear ILIKE :fundingYear', {
+        fundingYear: `%${query.fundingYear}%`,
+      });
     }
 
     if (query.status) {
