@@ -16,6 +16,7 @@ export type InputProps = {
   name: string;
   secondaryList?: string[];
   tooltiptext?: string;
+  maxScore?: number;
 };
 
 export const Input: React.FC<InputProps> = ({
@@ -27,6 +28,7 @@ export const Input: React.FC<InputProps> = ({
   name,
   secondaryList,
   tooltiptext,
+  maxScore,
 }) => {
   return (
     <div className='md:flex md:items-center'>
@@ -41,6 +43,12 @@ export const Input: React.FC<InputProps> = ({
             </div>
 
             {description && <div className='text-bcBluePrimary'>{description}</div>}
+          </div>
+        )}
+
+        {maxScore && !disabled && (
+          <div className='flex items-center gap-1 py-2'>
+            <span>Max score:</span> <strong>{maxScore}</strong>
           </div>
         )}
 
