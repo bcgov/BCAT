@@ -75,3 +75,10 @@ export interface ApplicationStatusInterface {
   id: number;
   name: string;
 }
+
+export interface BroaderReviewScoreTd {
+  id: number;
+  finalScore: number;
+  completionStatus: { name: ReviewCompletionStatus };
+  user: { id: number; displayName: string };
+}

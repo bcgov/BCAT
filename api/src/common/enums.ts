@@ -9,6 +9,14 @@ export enum ApplicationSortOptions {
   STATUS = 'status',
   SUBMISSION_ID = 'submissionId',
   UPDATED_AT = 'updatedAt',
+  FUNDING_YEAR = 'fundingYear',
+  APPLICANT_NAME = 'applicantName',
+  APPLICATION_TYPE_NAME = 'applicationType.name',
+  TOTAL_ESTIMATED_COST = 'totalEstimatedCost',
+  ASKS = 'asks',
+  ASSIGNED_TO_DISPLAYNAME = 'assignedTo.displayName',
+  STATUS_NAME = 'status.name',
+  PROJECT_TITLE = 'projectTitle',
 }
 
 export enum AxiosResponseTypes {

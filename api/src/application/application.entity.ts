@@ -6,6 +6,7 @@ import { FormMetaData } from '../FormMetaData/formmetadata.entity';
 import { RemovableBaseEntity } from '../common/removable-base.entity';
 import { User } from '../user/user.entity';
 import { WorkshopScore } from '@/score/workshop-score.entity';
+import { BroaderReviewScore } from '@/score/broader-review-score.entity';
 
 @Entity({
   name: 'BCAT_APPLICATION',
@@ -51,6 +52,10 @@ export class Application extends RemovableBaseEntity {
   @OneToMany(() => WorkshopScore, (workshopScore) => workshopScore.application)
   @JoinColumn()
   workshopScores?: WorkshopScore[];
+
+  @OneToMany(() => BroaderReviewScore, (broaderReviewScore) => broaderReviewScore.application)
+  @JoinColumn()
+  broaderReviewScores?: BroaderReviewScore[];
 
   // Might belong to multiple users in the future, so
   // change to ManyToMany accordingly if needed.

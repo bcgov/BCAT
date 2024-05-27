@@ -16,30 +16,18 @@ jobs:
       - uses: actions/checkout@v3
         name: checkout
 
-      - name: Setup pre-reqs
-        run: |
-          npm install yarn -g && yarn set version ./.yarn/releases/yarn-3.3.0.cjs
-        shell: bash
-
-      - uses: actions/cache@v3
-        name: Cache yarn
-        with:
-          path: client/.yarn/cache
-          key: ${{ runner.os }}-fe-yarn-${{ hashFiles('client/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-fe-yarn-${{ hashFiles('client/yarn.lock') }}
-
       - name: Install dependencies
         run: |
-          yarn install --immutable
+          npm install
 
       - name: Check format
         run: |
-          yarn run format:check
+          npm run format:check
 
       - name: Check lint
         run: |
-          yarn run lint
+          npm run lint
 
       - name: Test build
         run: |
-          yarn build
+          npm run build

@@ -4,7 +4,7 @@ import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import { faComment } from '@fortawesome/free-solid-svg-icons';
+import { faComment, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
@@ -25,7 +25,7 @@ import { formatDate } from 'utils';
 import { useAuthContext } from '@contexts';
 
 const ApplicationDetails: NextPage = () => {
-  const { query } = useRouter();
+  const { query, back } = useRouter();
   const { user } = useAuthContext();
   const id = query?.id ? +query.id : undefined;
 
@@ -69,7 +69,11 @@ const ApplicationDetails: NextPage = () => {
   };
 
   const getColSpan = () => {
-    if (applicationStatus === ApplicationStatus.WORKSHOP) {
+    if (
+      [ApplicationStatus.WORKSHOP, ApplicationStatus.APPROVED, ApplicationStatus.DENIED].includes(
+        applicationStatus,
+      )
+    ) {
       return showComments ? 'col-span-1' : 'col-span-2';
     }
     return showComments ? 'col-span-2' : 'col-span-3';
@@ -80,10 +84,16 @@ const ApplicationDetails: NextPage = () => {
       {details && id && typeof id === 'number' && (
         <div className='min-h-screen p-5 w-full bg-white'>
           <div className='w-full mt-2'>
-            <LinkComponent href='/applications' variant='link'>
-              Applications
-            </LinkComponent>{' '}
-            &gt;&gt; Confirmation ID: {details.confirmationId}
+            <div className='flex gap-2 items-center'>
+              <Button variant='secondary' customClass='py-2' onClick={() => back()}>
+                <FontAwesomeIcon icon={faCircleArrowLeft} className='h-4 mr-2 text-bcBluePrimary' />{' '}
+                Back
+              </Button>
+              <LinkComponent href='/applications' variant='link'>
+                Applications
+              </LinkComponent>{' '}
+              &gt;&gt; Confirmation ID: {details.confirmationId}
+            </div>
           </div>
           <h1 className='text-3xl w-full text-bcBluePrimary text-left mb-2 mt-2'>
             {details.projectTitle}
@@ -105,25 +115,24 @@ const ApplicationDetails: NextPage = () => {
               </div>
             </div>
             <div className='w-2/5 justify-end flex'>
-              {applicationStatus === ApplicationStatus.WORKSHOP && (
-                <div className='gap-2 flex'>
-                  <Link href={`/applications/${id}/score-table`}>
-                    <a
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className={`w-auto inline-flex justify-center items-center rounded 
+              <div className='gap-2 flex'>
+                <Link href={`/applications/${id}/score-table`}>
+                  <a
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className={`w-auto inline-flex justify-center items-center rounded 
   shadow-sm px-4 py-2 text-base font-bold focus:outline-none
   disabled:opacity-50
   focus:ring-2 focus:ring-offset-2 sm:mt-0 sm:text-sm border-transparent bg-bcBluePrimary text-white hover:bg-blue-800 focus:ring-blue-500`}
-                    >
-                      View Summary Table
-                    </a>
-                  </Link>
-                  <Button variant='primary' onClick={downloadPDF}>
-                    Download As PDF
-                  </Button>
-                </div>
-              )}
+                  >
+                    View Summary Table
+                  </a>
+                </Link>
+                <Button variant='primary' onClick={downloadPDF}>
+                  Download As PDF
+                </Button>
+              </div>
+
               {(applicationStatus !== ApplicationStatus.WORKSHOP || user?.isAdmin) && (
                 <MenuButton title='Open' items={getNextStatusUpdates(id, applicationStatus)} />
               )}
@@ -187,15 +196,21 @@ const ApplicationDetails: NextPage = () => {
                 />
               </div>
             )}
-            {details && applicationType && applicationStatus === ApplicationStatus.WORKSHOP && (
-              <div className='col-span-1 pb-4'>
-                <WorkshopReview
-                  applicationId={id}
-                  applicationType={applicationType}
-                  formData={formData}
-                />
-              </div>
-            )}
+            {details &&
+              applicationType &&
+              [
+                ApplicationStatus.WORKSHOP,
+                ApplicationStatus.APPROVED,
+                ApplicationStatus.DENIED,
+              ].includes(applicationStatus) && (
+                <div className='col-span-1 pb-4'>
+                  <WorkshopReview
+                    applicationId={id}
+                    applicationType={applicationType}
+                    formData={formData}
+                  />
+                </div>
+              )}
             {showComments && id && typeof id === 'number' && (
               <div className='col-span-1 pb-4'>
                 <Comments applicationId={id} onClose={() => setShowComments(false)} />

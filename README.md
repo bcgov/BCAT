@@ -73,3 +73,5 @@ Use the following steps to configure the local development environment
        make run-local
 
    ```
+
+## Deployment

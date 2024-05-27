@@ -26,6 +26,7 @@ const SIMPLE_TYPES = [
   'simpletextareaadvanced',
   'simpletextfield',
   'simpletextfieldadvanced',
+  'simpleselect',
   'textarea',
   'textfield',
 ];
@@ -177,6 +178,20 @@ const renderFile = (e: any, data: any, fetchData: any) => {
   );
 };
 
+/**
+ * format number to currency
+ * @param price
+ * @returns currency
+ */
+const formatCurrency = (price: number) => {
+  if (typeof price !== 'number') return price;
+  const CADDollar = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+  return CADDollar.format(price);
+};
+
 const renderGeneralField = (e: any, data: any) => {
   if (MISC_LABELS_TO_REMOVE.includes(e.label)) {
     return;
@@ -189,8 +204,9 @@ const renderGeneralField = (e: any, data: any) => {
     <div key={e.id} className='w-fit grid grid-flow-row'>
       <span className='font-bold'>{label}</span>
       <span className='overflow-auto' key={e.key}>
-        {(e.type === 'currency' || e.type === 'simplecurrencyadvanced') && 'CA$'}
-        {`${formatDate(value) || NO_DATA_LABEL}`}
+        {e.type === 'currency' || e.type === 'simplecurrencyadvanced'
+          ? formatCurrency(value)
+          : `${formatDate(value) || NO_DATA_LABEL}`}
       </span>
     </div>
   );

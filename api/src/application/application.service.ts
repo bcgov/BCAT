@@ -25,12 +25,15 @@ import { UpdateStatusDto } from './dto/update-status.dto';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import { WorkshopScoreService } from '../score/workshop-score.service';
+import { ApplicationView } from './application.view.entity';
 
 @Injectable()
 export class ApplicationService {
   constructor(
     @InjectRepository(Application)
     private applicationRepository: Repository<Application>,
+    @InjectRepository(ApplicationView)
+    private applicationViewRepository: Repository<ApplicationView>,
     private applicationStatusService: ApplicationStatusService,
     private broaderScoreService: BroaderReviewScoreService,
     private commentService: CommentService,
@@ -40,11 +43,21 @@ export class ApplicationService {
   ) {}
 
   async getApplications(query: GetApplicationsDto): Promise<PaginationRO<Application>> | null {
-    const queryBuilder = this.applicationRepository
+    const queryBuilder = this.applicationViewRepository
       .createQueryBuilder('app')
       .leftJoinAndSelect('app.applicationType', 'applicationType')
       .leftJoinAndSelect('app.assignedTo', 'assignedTo')
-      .leftJoinAndSelect('app.status', 'status');
+      .leftJoinAndSelect('app.status', 'status')
+      .leftJoinAndSelect('app.broaderReviewScores', 'broaderReviewScores')
+      .leftJoinAndSelect(
+        'broaderReviewScores.completionStatus',
+        'broaderReviewScoresCompletionStatus'
+      )
+      .leftJoinAndSelect(
+        'broaderReviewScores.user',
+        'broaderReviewScoresUser',
+        'broaderReviewScoresUser.isAuthorized = true'
+      );
 
     if (query.applicationType) {
       queryBuilder.andWhere('applicationType.name ILIKE :applicationType', {
@@ -76,8 +89,24 @@ export class ApplicationService {
       });
     }
 
+    if (query.fundingYear) {
+      queryBuilder.andWhere('app.fundingYear ILIKE :fundingYear', {
+        fundingYear: `%${query.fundingYear}%`,
+      });
+    }
+
+    if (query.status) {
+      queryBuilder.andWhere('status.name = :status', { status: query.status });
+    }
+
     if (query.orderBy) {
-      queryBuilder.orderBy({ [`app.${query.orderBy}`]: query.order });
+      if (
+        ['applicationType.name', 'assignedTo.displayName', 'status.name'].includes(query.orderBy)
+      ) {
+        queryBuilder.orderBy(query.orderBy, query.order, 'NULLS LAST');
+      } else {
+        queryBuilder.orderBy(`app.${query.orderBy}`, query.order, 'NULLS LAST');
+      }
     }
 
     query.filter(queryBuilder);
@@ -249,9 +278,10 @@ export class ApplicationService {
 
   async getApplicationsRawData(): Promise<Application[]> {
     // done this way to remove the submission object from response
-    return this.applicationRepository
+    return this.applicationViewRepository
       .createQueryBuilder('a')
       .select([
+        'a.fundingYear',
         'a.applicantName',
         'a.asks',
         'a.confirmationId',
@@ -271,6 +301,7 @@ export class ApplicationService {
       .where('status.name NOT ILIKE :rejectedStatus', {
         rejectedStatus: `%${ApplicationStatus.DENIED}%`,
       })
+      .orderBy('a.fundingYear', 'DESC', 'NULLS LAST')
       .getMany();
   }
 }
