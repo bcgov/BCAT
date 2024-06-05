@@ -75,3 +75,5 @@ Use the following steps to configure the local development environment
    ```
 
 ## Deployment
+
+- openshift
