@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/nodejs-16:1 AS builder
+FROM registry.access.redhat.com/ubi9/nodejs-18 AS builder
 # Static env vars
 ARG VERSION
 ENV VERSION $VERSION
@@ -16,7 +16,7 @@ COPY . .
 RUN npm run build
 
 
-FROM registry.access.redhat.com/ubi9/nodejs-16:1 AS runner
+FROM registry.access.redhat.com/ubi9/nodejs-18 AS runner
 # Static env vars
 ARG VERSION
 ENV VERSION $VERSION
