@@ -25,14 +25,10 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     name: 'communityNeedsAndSafetyGuidelinesScore',
   },
   {
-    maxScore: 23,
+    maxScore: 11,
     label: 'Section 6: Safety Score',
     descriptionList: [
-      'Section 6 - Q32: Solid physical barrier, substantial distancing, valid other/alternative approach (traffic calming), end-of-trip facilities only = 5 pt (manual)',
-      'Section 6 - Q32: Minimal physical barrier, minimal physical distancing, or minimal other/alternative approach = 2 pts (manual)',
-      'Section 6 - Q32: Not physically separated = 0 pts (manual)',
       'Section 6 - Q34: Question "The BC Active Transportation Design Guide recommends minimum widths for different types and contexts of active transportation infrastructure (see pg. 15 of the Program Guidelines). Does the proposed infrastructure align with the Design Guide recommendations?" - Only if Local context is selected = 0-4pts (manual)',
-      'Section 6 - Q36: Question "When the project encounters or transitions to another facility type (e.g., a bike lane crossing an intersection, a multi-use path ending at a sidewalk), are there design features in place to minimize conflicts and ensure a safe transition for all intended users?" = 2 pts for each design feature listed, up to 5 pts (manual)',
     ],
     secondaryList: [
       'Section 6 - Q33: Question "Identify which additional safety measures exist within the design of your project" = 1 pt each for each box ticked (ex: Lighting, Signage, etc) (auto)',
@@ -56,11 +52,9 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     name: 'economyAndTourismScore',
   },
   {
-    maxScore: 8,
+    maxScore: 3,
     label: 'Section 7: Environment Score (manual)',
     descriptionList: [
-      'Section 7 - Q39: Section 7 - Q39: Environmental Benefits = up to 3 pts',
-      'Section 7 - Q40/41: Will the project retain existing Trees? = up to 2 pts',
       'Section 7 - Q42: Environmental Best Practices = up to 3 pts',
     ],
     tooltiptext:
