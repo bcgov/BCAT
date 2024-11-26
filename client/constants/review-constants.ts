@@ -28,12 +28,12 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     maxScore: 11,
     label: 'Section 6: Safety Score',
     descriptionList: [
-      'Section 6 - Q34: Question "The BC Active Transportation Design Guide recommends minimum widths for different types and contexts of active transportation infrastructure (see pg. 15 of the Program Guidelines). Does the proposed infrastructure align with the Design Guide recommendations?" - Only if Local context is selected = 0-4pts (manual)',
+      'Section 6 - Q33: Question "The BC Active Transportation Design Guide recommends minimum widths for different types and contexts of active transportation infrastructure (see pg. 15 of the Program Guidelines). Does the proposed infrastructure align with the Design Guide recommendations?" - Only if Local context is selected = 0-4pts (manual)',
     ],
     secondaryList: [
-      'Section 6 - Q33: Question "Identify which additional safety measures exist within the design of your project" = 1 pt each for each box ticked (ex: Lighting, Signage, etc) (auto)',
-      'Section 6 - Q34: Question "The BC Active Transportation Design Guide recommends minimum widths for different types and contexts of active transportation infrastructure (see pg. 15 of the Program Guidelines). Does the proposed infrastructure align with the Design Guide recommendations?" - If Desired, or N/A is selected = 4pts (auto); if Constrained is selected = 2pts (auto);',
-      'Section 6 - Q35: Question "The B.C. Active Transportation Design Guide recommends certain facility types for different road contexts, e.g., speed and volume. Does the proposed infrastructure align with Design Guide recommendations?" - If Yes, or N/A is selected = 4pts (auto)',
+      'Section 6 - Q32: Question "Identify which additional safety measures exist within the design of your project" = 1 pt each for each box ticked (ex: Lighting, Signage, etc) (auto)',
+      'Section 6 - Q33: Question "The BC Active Transportation Design Guide recommends minimum widths for different types and contexts of active transportation infrastructure (see pg. 15 of the Program Guidelines). Does the proposed infrastructure align with the Design Guide recommendations?" - If Desired, or N/A is selected = 4pts (auto); if Constrained is selected = 2pts (auto);',
+      'Section 6 - Q34: Question "The B.C. Active Transportation Design Guide recommends certain facility types for different road contexts, e.g., speed and volume. Does the proposed infrastructure align with Design Guide recommendations?" - If Yes, or N/A is selected = 4pts (auto)',
     ],
     isAutomated: true,
     tooltiptext:
@@ -44,8 +44,8 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     maxScore: 5,
     label: 'Section 7: Economy and Tourism Score (manual)',
     descriptionList: [
-      'Section 7 - Q37: What are the economic benefits? = up to 3 pts',
-      'Section 7 - Q38: How will this project contribute to tourism? = up to 2 pts',
+      'Section 7 - Q35: What are the economic benefits? = up to 3 pts',
+      'Section 7 - Q36: How will this project contribute to tourism? = up to 2 pts',
     ],
     tooltiptext:
       'Score on how the project connects people to businesses, new business areas, new industry, etc. for economic benefits; Score on how project will protect current tourism or provide new tourism opportunities for tourism;',
@@ -55,7 +55,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     maxScore: 3,
     label: 'Section 7: Environment Score (manual)',
     descriptionList: [
-      'Section 7 - Q42: Environmental Best Practices = up to 3 pts',
+      'Section 7 - Q37: Environmental Best Practices = up to 3 pts',
     ],
     tooltiptext:
       'Score on: GHG reductions, local measurements of GHG share from transportation, local sustainability plans for Environmental Benefits; Score on: local materials and labour, climate adaptation measures, dust mitigation, using recycled materials, drought-friendly plantings, using less toxic materials for Environmental Best Practices;',
@@ -65,13 +65,13 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     maxScore: 15,
     label: 'Section 7: Land Use Score',
     descriptionList: [
-      'Section 7 - Q46: Does this project fill gaps between 2 or more AT Facilities = 2 pts (manual)',
-      'Section 7 - Q47 / Explain how this project creates connections for your communitys active transportation network: Is this project a component of larger infrastructure project = 3 pts (manual)',
+      'Section 7 - Q41: Does this project fill gaps between 2 or more AT Facilities = 2 pts (manual)',
+      'Section 7 - Q42 / Explain how this project creates connections for your communitys active transportation network: Is this project a component of larger infrastructure project = 3 pts (manual)',
     ],
     secondaryList: [
-      'Section 7 - Q43: Multi-modal Integration = 1 pt for each box, max 3 (auto)',
-      'Section 7 - Q44: Connects w/ community infrastructure = 1 pt for each box, max 4 (auto)',
-      'Section 7 - Q45: Connect w/  AT infrastructure = 1 pt for each box, max 3 (auto)',
+      'Section 7 - Q38: Multi-modal Integration = 1 pt for each box, max 3 (auto)',
+      'Section 7 - Q39: Connects w/ community infrastructure = 1 pt for each box, max 4 (auto)',
+      'Section 7 - Q40: Connect w/  AT infrastructure = 1 pt for each box, max 3 (auto)',
     ],
     isAutomated: true,
     name: 'landUseScore',
@@ -80,8 +80,8 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     maxScore: 8,
     label: 'Section 7: Accessibility Score (manual)',
     descriptionList: [
-      'Section 7 - Q48: Does this Project Incorporate Universal Design? = up to 5 pts',
-      'Section 7 - Q49 (How does this project incorporate principles of GBA): Does This Project Incorporate GBA+ Principles? = up to 3 pts',
+      'Section 7 - Q43: Does this Project Incorporate Universal Design? = up to 5 pts',
+      'Section 7 - Q44 (How does this project incorporate principles of GBA): Does This Project Incorporate GBA+ Principles? = up to 3 pts',
     ],
     tooltiptext:
       'Score on: curb cuts, grading, smooth surfaces, ramps, width, accessible washrooms, lighting, handrails, TWSIs, audible crossing signals, etc.; Score on: lighting, gender-neutral and family friendly washrooms, economically disadvantaged area, GBA+ training by project team, age-friendly design, rainbow crosswalks, signage in other languages, Indigenous land acknowledgements/ names on wayfinding signage, etc.;',
@@ -92,7 +92,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     label: 'Section 7: Promotion Score (manual)',
     tooltiptext:
       'Score on promotional & educational activities = media event, signage, advertising, bike/ped maps, cycling courses, targeted outreach',
-    descriptionList: ['Section 7 - Q50: 1 pt for each promotional feature listed, max 3'],
+    descriptionList: ['Section 7 - Q45: 1 pt for each promotional feature listed, max 3'],
     name: 'promotionScore',
   },
   {
