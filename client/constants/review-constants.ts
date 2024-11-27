@@ -54,9 +54,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
   {
     maxScore: 3,
     label: 'Section 7: Environment Score (manual)',
-    descriptionList: [
-      'Section 7 - Q37: Environmental Best Practices = up to 3 pts',
-    ],
+    descriptionList: ['Section 7 - Q37: Environmental Best Practices = up to 3 pts'],
     tooltiptext:
       'Score on: GHG reductions, local measurements of GHG share from transportation, local sustainability plans for Environmental Benefits; Score on: local materials and labour, climate adaptation measures, dust mitigation, using recycled materials, drought-friendly plantings, using less toxic materials for Environmental Best Practices;',
     name: 'environmentScore',
@@ -66,7 +64,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     label: 'Section 7: Land Use Score',
     descriptionList: [
       'Section 7 - Q41: Does this project fill gaps between 2 or more AT Facilities = 2 pts (manual)',
-      'Section 7 - Q42 / Explain how this project creates connections for your communitys active transportation network: Is this project a component of larger infrastructure project = 3 pts (manual)',
+      'Section 7 - Q42 / Explain how this project creates connections for your communities active transportation network: Is this project a component of larger infrastructure project = 3 pts (manual)',
     ],
     secondaryList: [
       'Section 7 - Q38: Multi-modal Integration = 1 pt for each box, max 3 (auto)',
