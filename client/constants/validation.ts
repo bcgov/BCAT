@@ -63,7 +63,7 @@ export const INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA = Yup.object().shape({
 
   safetyScore: Yup.number()
     .min(0, minValidationText + '0')
-    .max(11, maxValidationText + '11')
+    .max(4, maxValidationText + '4')
     .required('This field is required'),
 
   economyAndTourismScore: Yup.number()

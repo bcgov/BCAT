@@ -25,7 +25,7 @@ export const INFRASTRUCTURE_REVIEW_QUESTIONS = [
     name: 'communityNeedsAndSafetyGuidelinesScore',
   },
   {
-    maxScore: 11,
+    maxScore: 16,
     label: 'Section 6: Safety Score',
     descriptionList: [
       'Section 6 - Q33: Question "The BC Active Transportation Design Guide recommends minimum widths for different types and contexts of active transportation infrastructure (see pg. 15 of the Program Guidelines). Does the proposed infrastructure align with the Design Guide recommendations?" - Only if Local context is selected = 0-4pts (manual)',
