@@ -34,7 +34,7 @@ export class UserService {
   }
 
   async getUsers(): Promise<User[]> {
-    return await this.userRepository.createQueryBuilder().limit(50).getMany();
+    return await this.userRepository.createQueryBuilder().getMany();
   }
 
   async updateUserAccess(userId: number, body: UserAccessDto, loggedInUser: User): Promise<void> {
