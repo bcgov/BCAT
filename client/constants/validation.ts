@@ -63,7 +63,7 @@ export const INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA = Yup.object().shape({
 
   safetyScore: Yup.number()
     .min(0, minValidationText + '0')
-    .max(4, maxValidationText + '4')
+    .max(23, maxValidationText + '23')
     .required('This field is required'),
 
   economyAndTourismScore: Yup.number()
@@ -73,7 +73,7 @@ export const INFRASTRUCTURE_REVIEW_VALIDATION_SCHEMA = Yup.object().shape({
 
   environmentScore: Yup.number()
     .min(0, minValidationText + '0')
-    .max(3, maxValidationText + '3')
+    .max(8, maxValidationText + '8')
     .required('This field is required'),
 
   landUseScore: Yup.number()
