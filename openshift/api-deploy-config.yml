@@ -82,20 +82,40 @@ objects:
                     secretKeyRef:
                       key: CHEFS_INFRASTRUCTURE_FORM_ID
                       name: chefs-keys-${ENV}
+                - name: INFRASTRUCTURE_INDIGENOUS_FORM
+                  valueFrom:
+                    secretKeyRef:
+                      key: CHEFS_INFRASTRUCTURE_INDIGENOUS_FORM_ID
+                      name: chefs-keys-${ENV}
                 - name: NETWORK_FORM
                   valueFrom:
                     secretKeyRef:
                       key: CHEFS_NETWORK_FORM_ID
+                      name: chefs-keys-${ENV}
+                - name: NETWORK_INDIGENOUS_FORM
+                  valueFrom:
+                    secretKeyRef:
+                      key: CHEFS_NETWORK_INDIGENOUS_FORM_ID
                       name: chefs-keys-${ENV}
                 - name: INFRASTRUCTURE_API_KEY
                   valueFrom:
                     secretKeyRef:
                       key: CHEFS_INFRASTRUCTURE_API_KEY
                       name: chefs-keys-${ENV}
+                - name: INFRASTRUCTURE_INDIGENOUS_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: CHEFS_INFRASTRUCTURE_INDIGENOUS_API_KEY
+                      name: chefs-keys-${ENV}
                 - name: NETWORK_API_KEY
                   valueFrom:
                     secretKeyRef:
                       key: CHEFS_NETWORK_API_KEY
+                      name: chefs-keys-${ENV}
+                - name: NETWORK_INDIGENOUS_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: CHEFS_NETWORK_INDIGENOUS_API_KEY
                       name: chefs-keys-${ENV}
               ports:
                 - containerPort: 8080

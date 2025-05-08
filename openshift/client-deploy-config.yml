@@ -56,11 +56,21 @@ objects:
                     secretKeyRef:
                       name: chefs-keys-${ENV}
                       key: CHEFS_INFRASTRUCTURE_FORM_ID
+                - name: NEXT_PUBLIC_INFRASTRUCTURE_INDIGENOUS_PROJECT
+                  valueFrom:
+                    secretKeyRef:
+                      name: chefs-keys-${ENV}
+                      key: CHEFS_INFRASTRUCTURE_INDIGENOUS_FORM_ID
                 - name: NEXT_PUBLIC_NETWORK_PROJECT
                   valueFrom:
                     secretKeyRef:
                       name: chefs-keys-${ENV}
                       key: CHEFS_NETWORK_FORM_ID
+                - name: NEXT_PUBLIC_NETWORK_INDIGENOUS_PROJECT
+                  valueFrom:
+                    secretKeyRef:
+                      name: chefs-keys-${ENV}
+                      key: CHEFS_NETWORK_INDIGENOUS_FORM_ID
                 - name: NEXT_PUBLIC_SERVER_URL
                   valueFrom:
                     secretKeyRef:
