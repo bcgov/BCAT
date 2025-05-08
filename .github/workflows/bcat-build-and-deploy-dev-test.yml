@@ -19,8 +19,8 @@ jobs:
           node-version: '18'
       - name: Build BCAT app
         run: |
-          oc version
-          oc login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
+          oc_version
+          oc_login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
           npm ci
           DEBUG=* npm run build -- --pr=${{ github.event.pull_request.number }} --git.branch.name=${{github.head_ref}} --git.ref=${{github.head_ref}}
 
@@ -57,7 +57,7 @@ jobs:
           node-version: '18'
       - name: Deploy to test
         run: |
-          oc version
-          oc login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
+          oc_version
+          oc_login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
           npm ci
           DEBUG=* npm run deploy -- --pr=${{ github.event.pull_request.number }} --env=test --git.branch.name=${{github.head_ref}} --git.ref=${{github.head_ref}}
