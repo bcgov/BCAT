@@ -9,13 +9,18 @@ export enum ApplicationStatus {
 }
 
 export const findApplicationType = (chefsFormId: string): ApplicationType => {
-  if ([process.env.INFRASTRUCTURE_FORM,process.env.INFRASTRUCTURE_INDIGENOUS_FORM].includes(chefsFormId)) {
-    return ApplicationType.INFRASTRUCTURE_FORM;    
+  if (
+    [process.env.INFRASTRUCTURE_FORM, process.env.INFRASTRUCTURE_INDIGENOUS_FORM].includes(
+      chefsFormId
+    )
+  ) {
+    return ApplicationType.INFRASTRUCTURE_FORM;
+  } else if (
+    [process.env.NETWORK_FORM, process.env.NETWORK_INDIGENOUS_FORM].includes(chefsFormId)
+  ) {
+    return ApplicationType.NETWORK_FORM;
   }
-  else if([process.env.NETWORK_FORM,process.env.NETWORK_INDIGENOUS_FORM].includes(chefsFormId)){      
-    return ApplicationType.NETWORK_FORM;    
-  }
-  return ApplicationType.INFRASTRUCTURE_FORM;  
+  return ApplicationType.INFRASTRUCTURE_FORM;
 };
 
 export const NetworkAppScoreFields = [

@@ -165,13 +165,17 @@ export class SyncChefsDataService {
       const submissionResponse = await axios(axiosOptions);
       const responseData = submissionResponse.data.submission;
 
-      if ([process.env.INFRASTRUCTURE_FORM,process.env.INFRASTRUCTURE_INDIGENOUS_FORM ].includes(formId)) {
+      if (
+        [process.env.INFRASTRUCTURE_FORM, process.env.INFRASTRUCTURE_INDIGENOUS_FORM].includes(
+          formId
+        )
+      ) {
         // infrastructure form
         applicantName = responseData.submission.data.s1Container.s1LegalNameOfGovernmentApplicant;
         type = ApplicationType.INFRASTRUCTURE_FORM;
         attachments = responseData.submission.data.s10Container;
         projectTitle = responseData.submission.data.s4Container.s4ProjectTitle;
-      } else if ([process.env.NETWORK_FORM,process.env.NETWORK_INDIGENOUS_FORM].includes(formId)) {
+      } else if ([process.env.NETWORK_FORM, process.env.NETWORK_INDIGENOUS_FORM].includes(formId)) {
         // network form
         applicantName = responseData.submission.data.s1Container.s1LegalName;
         type = ApplicationType.NETWORK_FORM;
@@ -243,18 +247,18 @@ export class SyncChefsDataService {
   async syncSubmissions(): Promise<void> {
     const submissionIds = this.getSubmissionIdsFromArgs(process.argv);
     const formId = this.getFormIdFromArgs(process.argv);
-    let password = process.env.INFRASTRUCTURE_FORM_API_KEY
+    let password = process.env.INFRASTRUCTURE_FORM_API_KEY;
     switch (formId) {
-      case process.env.INFRASTRUCTURE_INDIGENOUS_FORM :
+      case process.env.INFRASTRUCTURE_INDIGENOUS_FORM:
         password = process.env.INFRASTRUCTURE_INDIGENOUS_FORM_API_KEY;
         break;
-      case process.env.NETWORK_FORM :
-          password = process.env.NETWORK_FORM_API_KEY;
-          break;
-      case process.env.NETWORK_INDIGENOUS_FORM :
-            password = process.env.NETWORK_INDIGENOUS_FORM_API_KEY;
-            break;
-      }
+      case process.env.NETWORK_FORM:
+        password = process.env.NETWORK_FORM_API_KEY;
+        break;
+      case process.env.NETWORK_INDIGENOUS_FORM:
+        password = process.env.NETWORK_INDIGENOUS_FORM_API_KEY;
+        break;
+    }
 
     const method = REQUEST_METHODS.GET;
     const options = {
@@ -350,7 +354,10 @@ export class SyncChefsDataService {
     };
 
     await this.getFormSubmissions(INFRASTRUCTURE_FORM_ID, infrastructureOptions);
-    await this.getFormSubmissions(INFRASTRUCTURE_INDIGENOUS_FORM_ID, infrastructureIndigenousOptions);
+    await this.getFormSubmissions(
+      INFRASTRUCTURE_INDIGENOUS_FORM_ID,
+      infrastructureIndigenousOptions
+    );
     await this.getFormSubmissions(NETWORK_FORM_ID, networkOptions);
     await this.getFormSubmissions(NETWORK_INDIGENOUS_FORM_ID, networkIndigenousOptions);
   }

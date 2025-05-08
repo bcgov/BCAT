@@ -13,7 +13,12 @@ import {
 import { KeyValuePair, ApplicationStatusInterface } from '../constants/interfaces';
 import { downloadHtmlAsPdf } from '../constants/util';
 import { useAuthContext, UserInterface } from '../contexts';
-import { NEXT_PUBLIC_INFRASTRUCTURE_PROJECT, NEXT_PUBLIC_NETWORK_PROJECT,NEXT_PUBLIC_INFRASTRUCTURE_INDIGENOUS_PROJECT,NEXT_PUBLIC_NETWORK_INDIGENOUS_PROJECT } from '../pages/_app';
+import {
+  NEXT_PUBLIC_INFRASTRUCTURE_PROJECT,
+  NEXT_PUBLIC_NETWORK_PROJECT,
+  NEXT_PUBLIC_INFRASTRUCTURE_INDIGENOUS_PROJECT,
+  NEXT_PUBLIC_NETWORK_INDIGENOUS_PROJECT,
+} from '../pages/_app';
 import { useHttp } from './useHttp';
 import { useTeamManagement } from './useTeamManagement';
 
@@ -50,13 +55,20 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   const [applicationType, setApplicationType] = useState<ApplicationType | undefined>();
 
   const findApplicationType = (data: any): ApplicationType => {
-      if ([NEXT_PUBLIC_INFRASTRUCTURE_PROJECT,NEXT_PUBLIC_INFRASTRUCTURE_INDIGENOUS_PROJECT].includes(data?.form?.chefsFormId)) {
-        return ApplicationType.INFRASTRUCTURE_FORM;    
-      }
-      else if([NEXT_PUBLIC_NETWORK_PROJECT,NEXT_PUBLIC_NETWORK_INDIGENOUS_PROJECT].includes(data?.form?.chefsFormId)){      
-        return ApplicationType.NETWORK_FORM;    
-      }
-      return ApplicationType.INFRASTRUCTURE_FORM;    
+    if (
+      [NEXT_PUBLIC_INFRASTRUCTURE_PROJECT, NEXT_PUBLIC_INFRASTRUCTURE_INDIGENOUS_PROJECT].includes(
+        data?.form?.chefsFormId,
+      )
+    ) {
+      return ApplicationType.INFRASTRUCTURE_FORM;
+    } else if (
+      [NEXT_PUBLIC_NETWORK_PROJECT, NEXT_PUBLIC_NETWORK_INDIGENOUS_PROJECT].includes(
+        data?.form?.chefsFormId,
+      )
+    ) {
+      return ApplicationType.NETWORK_FORM;
+    }
+    return ApplicationType.INFRASTRUCTURE_FORM;
   };
 
   const topStatusObj = [
