@@ -165,13 +165,13 @@ export class SyncChefsDataService {
       const submissionResponse = await axios(axiosOptions);
       const responseData = submissionResponse.data.submission;
 
-      if (formId === process.env.INFRASTRUCTURE_FORM) {
+      if ([process.env.INFRASTRUCTURE_FORM,process.env.INFRASTRUCTURE_INDIGENOUS_FORM ].includes(formId)) {
         // infrastructure form
         applicantName = responseData.submission.data.s1Container.s1LegalNameOfGovernmentApplicant;
         type = ApplicationType.INFRASTRUCTURE_FORM;
         attachments = responseData.submission.data.s10Container;
         projectTitle = responseData.submission.data.s4Container.s4ProjectTitle;
-      } else if (formId === process.env.NETWORK_FORM) {
+      } else if ([process.env.NETWORK_FORM,process.env.NETWORK_INDIGENOUS_FORM].includes(formId)) {
         // network form
         applicantName = responseData.submission.data.s1Container.s1LegalName;
         type = ApplicationType.NETWORK_FORM;
@@ -243,10 +243,18 @@ export class SyncChefsDataService {
   async syncSubmissions(): Promise<void> {
     const submissionIds = this.getSubmissionIdsFromArgs(process.argv);
     const formId = this.getFormIdFromArgs(process.argv);
-    const password =
-      formId === process.env.INFRASTRUCTURE_FORM
-        ? process.env.INFRASTRUCTURE_FORM_API_KEY
-        : process.env.NETWORK_FORM_API_KEY;
+    let password = process.env.INFRASTRUCTURE_FORM_API_KEY
+    switch (formId) {
+      case process.env.INFRASTRUCTURE_INDIGENOUS_FORM :
+        password = process.env.INFRASTRUCTURE_INDIGENOUS_FORM_API_KEY;
+        break;
+      case process.env.NETWORK_FORM :
+          password = process.env.NETWORK_FORM_API_KEY;
+          break;
+      case process.env.NETWORK_INDIGENOUS_FORM :
+            password = process.env.NETWORK_INDIGENOUS_FORM_API_KEY;
+            break;
+      }
 
     const method = REQUEST_METHODS.GET;
     const options = {
@@ -302,14 +310,26 @@ export class SyncChefsDataService {
     const method = REQUEST_METHODS.GET;
     const INFRASTRUCTURE_FORM_ID = process.env.INFRASTRUCTURE_FORM;
     const INFRASTRUCTURE_FORM_API_KEY = process.env.INFRASTRUCTURE_API_KEY;
+    const INFRASTRUCTURE_INDIGENOUS_FORM_ID = process.env.INFRASTRUCTURE_INDIGENOUS_FORM;
+    const INFRASTRUCTURE_INDIGENOUS_FORM_API_KEY = process.env.INFRASTRUCTURE_INDIGENOUS_API_KEY;
     const NETWORK_FORM_ID = process.env.NETWORK_FORM;
     const NETWORK_FORM_API_KEY = process.env.NETWORK_API_KEY;
+    const NETWORK_INDIGENOUS_FORM_ID = process.env.NETWORK_INDIGENOUS_FORM;
+    const NETWORK_INDIGENOUS_FORM_API_KEY = process.env.NETWORK_INDIGENOUS_API_KEY;
 
     const infrastructureOptions = {
       method,
       auth: {
         username: INFRASTRUCTURE_FORM_ID,
         password: INFRASTRUCTURE_FORM_API_KEY,
+      },
+    };
+
+    const infrastructureIndigenousOptions = {
+      method,
+      auth: {
+        username: INFRASTRUCTURE_INDIGENOUS_FORM_ID,
+        password: INFRASTRUCTURE_INDIGENOUS_FORM_API_KEY,
       },
     };
 
@@ -321,8 +341,18 @@ export class SyncChefsDataService {
       },
     };
 
+    const networkIndigenousOptions = {
+      method,
+      auth: {
+        username: NETWORK_INDIGENOUS_FORM_ID,
+        password: NETWORK_INDIGENOUS_FORM_API_KEY,
+      },
+    };
+
     await this.getFormSubmissions(INFRASTRUCTURE_FORM_ID, infrastructureOptions);
+    await this.getFormSubmissions(INFRASTRUCTURE_INDIGENOUS_FORM_ID, infrastructureIndigenousOptions);
     await this.getFormSubmissions(NETWORK_FORM_ID, networkOptions);
+    await this.getFormSubmissions(NETWORK_INDIGENOUS_FORM_ID, networkIndigenousOptions);
   }
 
   async softDeleteApplications(): Promise<void> {
