@@ -17,7 +17,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - uses: redhat-actions/oc-login@v2
       - name: Build BCAT app
         run: |
           oc version
@@ -56,7 +55,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - uses: redhat-actions/oc-login@v2
       - name: Deploy to test
         run: |
           oc version
