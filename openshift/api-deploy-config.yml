@@ -16,16 +16,15 @@ objects:
     spec:
       lookupPolicy:
         local: false
-  - apiVersion: apps/v1
-    kind: Deployment
+  - apiVersion: v1
+    kind: DeploymentConfig
     metadata:
       creationTimestamp: null
       name: ${NAME}${SUFFIX}
     spec:
       replicas: 1
       selector:
-        matchLabels:
-          deployment: ${NAME}${SUFFIX}
+        deploymentconfig: ${NAME}${SUFFIX}
       strategy:
         activeDeadlineSeconds: 21600
         rollingParams:
@@ -34,15 +33,15 @@ objects:
           maxUnavailable: 1
           timeoutSeconds: 3600
           updatePeriodSeconds: 1
-        type: RollingUpdate
+        type: Rolling
       template:
         metadata:
           creationTimestamp: null
           labels:
-            deployment: ${NAME}${SUFFIX}
+            deploymentconfig: ${NAME}${SUFFIX}
         spec:
           containers:
-            - image: image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/${NAME}:${VERSION}
+            - image: ${NAME}:${VERSION}
               name: api
               env:
                 - name: POSTGRES_USERNAME
@@ -121,13 +120,13 @@ objects:
               ports:
                 - containerPort: 8080
                   protocol: TCP
-              # resources:
-              #   requests:
-              #     cpu: ${CPU}
-              #     memory: ${MEMORY}
-              #   limits:
-              #     cpu: ${CPU}
-              #     memory: ${MEMORY}
+              resources:
+                requests:
+                  cpu: ${CPU}
+                  memory: ${MEMORY}
+                limits:
+                  cpu: ${CPU}
+                  memory: ${MEMORY}
               livenessProbe:
                 httpGet:
                   path: /api/v1/version
@@ -136,16 +135,16 @@ objects:
                 timeoutSeconds: 5
                 periodSeconds: 10
       test: false
-      # triggers:
-      #   - imageChangeParams:
-      #       automatic: true
-      #       containerNames:
-      #         - api
-      #       from:
-      #         kind: ImageStreamTag
-      #         name: ${NAME}:${VERSION}
-      #     type: ImageChange
-      #   - type: ConfigChange
+      triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - api
+            from:
+              kind: ImageStreamTag
+              name: ${NAME}:${VERSION}
+          type: ImageChange
+        - type: ConfigChange
   - apiVersion: v1
     kind: Service
     metadata:
@@ -158,7 +157,7 @@ objects:
           protocol: TCP
           targetPort: 8080
       selector:
-        deployment: ${NAME}${SUFFIX}
+        deploymentconfig: ${NAME}${SUFFIX}
   - apiVersion: route.openshift.io/v1
     kind: Route
     metadata:
@@ -239,8 +238,3 @@ parameters:
     name: SOURCE_REPOSITORY_REF
     required: false
     value: ''
-  - description: NAMESPACE
-    displayName: NAMESPACE
-    name: NAMESPACE
-    required: true
-    value: ""
