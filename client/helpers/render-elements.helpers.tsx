@@ -27,6 +27,7 @@ const SIMPLE_TYPES = [
   'simpletextfield',
   'simpletextfieldadvanced',
   'simpleselect',
+  'simpleselectadvanced',
   'textarea',
   'textfield',
 ];
