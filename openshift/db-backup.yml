@@ -1,7 +1,7 @@
-kind: "Template"
-apiVersion: "v1"
+kind: Template
+apiVersion: template.openshift.io/v1
 metadata:
-  name: "{$JOB_NAME}-cronjob-template"
+  name: "backup-postgres-cronjob-template"
   annotations:
     description: "Scheduled Task to perform a Database Backup"
     tags: "cronjob,backup"
@@ -14,7 +14,7 @@ parameters:
   - name: "JOB_PERSISTENT_STORAGE_NAME"
     displayName: "Backup Persistent Storage Name"
     description: "Pre-Created PVC to use for backup target"
-    value: "backup-pvc"
+    value: "bcat-db-dev-pvc-backup"
     required: true
   - name: "SCHEDULE"
     displayName: "Cron Schedule"
@@ -43,40 +43,36 @@ parameters:
     description: "The TAG name for this environment, e.g., dev, test, prod"
     required: true
     value: "latest"
-  - name: "DATABASE_SERVICE_NAME"
-    displayName: "Database Service Name"
-    description: "The name of the database service."
+  - name: "DATABASE_SECRET_NAME"
+    displayName: "Database Secret Name"
+    description: "The name of the secret containing the database credentials."
     required: true
-    value: "postgresql"
-  - name: "DATABASE_DEFAULT_PORT"
-    displayName: "Database Service Port"
-    description: "The configured port for the database service"
+    value: "bcat-db"
+  - name: "DATABASE_USER_KEY_NAME"
+    displayName: "Database User Key Name"
+    description: "The key within the secret that holds the database username."
     required: true
-    value: "5432"
-  - name: "DATABASE_NAME"
-    displayName: "Database Name"
-    description: "The name of the database."
+    value: "database-user"
+  - name: "DATABASE_PASSWORD_KEY_NAME"
+    displayName: "Database Password Key Name"
+    description: "The key within the secret that holds the database password."
     required: true
-    value: "my-database"
-  - name: "DATABASE_DEPLOYMENT_NAME"
-    displayName: "Database Deployment Name"
-    description: "The name associated to the database deployment resources.  In particular, this is used to wire up the credentials associated to the database."
+    value: "database-password"
+  - name: "DATABASE_NAME_KEY_NAME"
+    displayName: "Database Name Key Name"
+    description: "The key within the secret that holds the database name."
     required: true
-    value: "my-database-patroni"
-  - name: DATABASE_USER_KEY_NAME
-    displayName: Database User Key Name
-    description:
-      The database user key name stored in database deployment resources specified
-      by DATABASE_DEPLOYMENT_NAME.
+    value: "database-name"
+  - name: "DATABASE_HOST_KEY_NAME"
+    displayName: "Database Host Key Name"
+    description: "The key within the secret that holds the database host."
     required: true
-    value: db-username
-  - name: DATABASE_PASSWORD_KEY_NAME
-    displayName: Database Password Key Name
-    description:
-      The database password key name stored in database deployment resources
-      specified by DATABASE_DEPLOYMENT_NAME.
+    value: "database-host"
+  - name: "DATABASE_PORT_KEY_NAME"
+    displayName: "Database Port Key Name"
+    description: "The key within the secret that holds the database port."
     required: true
-    value: db-password
+    value: "database-port"
   - name: "BACKUP_STRATEGY"
     displayName: "Backup Strategy"
     description: "The strategy to use for backups; for example daily, or rolling."
@@ -136,17 +132,13 @@ objects:
         template: "${JOB_NAME}-config-template"
         cronjob: "${JOB_NAME}"
     data:
-      DATABASE_SERVICE_NAME: "${DATABASE_SERVICE_NAME}"
-      DEFAULT_PORT: "${DATABASE_DEFAULT_PORT}"
-      POSTGRESQL_DATABASE: "${DATABASE_NAME}"
-      # BACKUP_STRATEGY: "daily"
-      BACKUP_STRATEGY: "rolling"
+      BACKUP_STRATEGY: "${BACKUP_STRATEGY}"
       RETENTION.NUM_BACKUPS: "${NUM_BACKUPS}"
       RETENTION.DAILY_BACKUPS: "${DAILY_BACKUPS}"
       RETENTION.WEEKLY_BACKUPS: "${WEEKLY_BACKUPS}"
       RETENTION.MONTHLY_BACKUPS: "${MONTHLY_BACKUPS}"
   - kind: "CronJob"
-    apiVersion: "batch/v1beta1"
+    apiVersion: "batch/v1"
     metadata:
       name: "${JOB_NAME}"
       labels:
@@ -215,29 +207,28 @@ objects:
                           optional: true
                     - name: DATABASE_SERVICE_NAME
                       valueFrom:
-                        configMapKeyRef:
-                          name: "${JOB_NAME}-config"
-                          key: DATABASE_SERVICE_NAME
-                    - name: DEFAULT_PORT
+                        secretKeyRef:
+                          name: "${DATABASE_SECRET_NAME}"
+                          key: "${DATABASE_HOST_KEY_NAME}"
+                    - name: DATABASE_PORT
                       valueFrom:
-                        configMapKeyRef:
-                          name: "${JOB_NAME}-config"
-                          key: DEFAULT_PORT
-                          optional: true
+                        secretKeyRef:
+                          name: "${DATABASE_SECRET_NAME}"
+                          key: "${DATABASE_PORT_KEY_NAME}"
                     - name: POSTGRESQL_DATABASE
                       valueFrom:
-                        configMapKeyRef:
-                          name: "${JOB_NAME}-config"
-                          key: POSTGRESQL_DATABASE
+                        secretKeyRef:
+                          name: "${DATABASE_SECRET_NAME}"
+                          key: "${DATABASE_NAME_KEY_NAME}"
                     - name: DATABASE_USER
                       valueFrom:
                         secretKeyRef:
-                          name: "${DATABASE_DEPLOYMENT_NAME}"
+                          name: "${DATABASE_SECRET_NAME}"
                           key: "${DATABASE_USER_KEY_NAME}"
                     - name: DATABASE_PASSWORD
                       valueFrom:
                         secretKeyRef:
-                          name: "${DATABASE_DEPLOYMENT_NAME}"
+                          name: "${DATABASE_SECRET_NAME}"
                           key: "${DATABASE_PASSWORD_KEY_NAME}"
               volumes:
                 - name: backup
