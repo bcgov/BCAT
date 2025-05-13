@@ -14,7 +14,7 @@ parameters:
   - name: "JOB_PERSISTENT_STORAGE_NAME"
     displayName: "Backup Persistent Storage Name"
     description: "Pre-Created PVC to use for backup target"
-    value: "bcat-db-dev-pvc-backup"
+    value: "bcat-db-pvc-backup"
     required: true
   - name: "SCHEDULE"
     displayName: "Cron Schedule"
