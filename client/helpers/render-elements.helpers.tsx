@@ -401,7 +401,6 @@ const renderElementType = (e: any, formData: any, fetchData?: any) => {
 
     // a few labels on CHEFS are required to be shown i.e simplecheckbox comes without label so a type content can be used for its label
     case 'content':
-      console.log('content', e);
       return renderGeneralLabel(e, formData);
 
     default:
