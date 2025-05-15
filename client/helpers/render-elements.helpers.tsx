@@ -193,6 +193,19 @@ const formatCurrency = (price: number) => {
   return CADDollar.format(price);
 };
 
+const renderGeneralLabel = (e: any, data: any) => {
+  if (MISC_LABELS_TO_REMOVE.includes(e.label)) {
+    return;
+  }
+  const label = getLabel(e);
+
+  return (
+    <div key={e.id} className='w-fit grid grid-flow-row'>
+      <span className='font-bold'>{label}</span>
+    </div>
+  );
+};
+
 const renderGeneralField = (e: any, data: any) => {
   if (MISC_LABELS_TO_REMOVE.includes(e.label)) {
     return;
@@ -385,6 +398,10 @@ const renderElementType = (e: any, formData: any, fetchData?: any) => {
 
     case 'simplesignatureadvanced':
       return renderSignature(e, formData);
+
+    // a few labels on CHEFS are required to be shown i.e simplecheckbox comes without label so a type content can be used for its label
+    case 'content':
+      return renderGeneralLabel(e, formData);
 
     default:
       if (SIMPLE_TYPES.includes(e.type)) {
