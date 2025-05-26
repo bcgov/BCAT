@@ -89,15 +89,15 @@ export const ApplicationDashboard: React.FC<any> = () => {
   // Helper method to extract unique funding years from application data
   const getFundingYearOptions = () => {
     if (!data || data.length === 0) return [];
-    
+
     // Extract funding years and filter out any nulls or empty strings
     const fundingYears = data
       .map((app: { fundingYear: string }) => app.fundingYear)
       .filter(year => year != null && year !== '');
-    
+
     // Remove duplicates by using a Set and sort in descending order (most recent first)
     const uniqueYears = Array.from(new Set(fundingYears)).sort((a, b) => b.localeCompare(a));
-    
+
     // Format for the select dropdown
     return uniqueYears.map(year => ({ name: year, value: year }));
   };
@@ -246,7 +246,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
                 searchType={searchFundingYear}
                 onChange={(e: any) => setState(p => ({ ...p, searchFundingYear: e.target.value }))}
                 options={getFundingYearOptions()}
-                datalistId="fundingYearOptions"
+                datalistId='fundingYearOptions'
               />
               <ComboBoxFilter
                 placeholder='Status'
@@ -259,7 +259,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
                   { name: ApplicationStatus.DENIED, value: ApplicationStatus.DENIED },
                   { name: ApplicationStatus.WORKSHOP, value: ApplicationStatus.WORKSHOP },
                 ]}
-                datalistId="statusOptions"
+                datalistId='statusOptions'
               />
               <InputFilter
                 placeholder='Confirmation ID'
