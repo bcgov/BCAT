@@ -15,10 +15,6 @@ interface InputFilterProps {
   placeholder: string;
 }
 
-interface SelectFilterProps extends InputFilterProps {
-  options: { name: string; value: string }[];
-}
-
 const InputFilter: React.FC<InputFilterProps> = ({ searchType, onChange, placeholder }) => {
   return (
     <input
@@ -28,30 +24,6 @@ const InputFilter: React.FC<InputFilterProps> = ({ searchType, onChange, placeho
       onChange={onChange}
       value={searchType}
     />
-  );
-};
-
-const SelectFilter: React.FC<SelectFilterProps> = ({
-  searchType,
-  onChange,
-  placeholder,
-  options,
-}) => {
-  return (
-    <select
-      title={placeholder}
-      className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-      placeholder={placeholder}
-      onChange={onChange}
-      value={searchType}
-    >
-      <option value=''>{placeholder}</option>
-      {options.map(({ name, value }) => (
-        <option key={value} value={value}>
-          {name}
-        </option>
-      ))}
-    </select>
   );
 };
 
