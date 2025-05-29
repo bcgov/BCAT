@@ -11,6 +11,7 @@ export * from './Panel';
 export * from './Button';
 export * from './MenuButton';
 export * from './Tooltip';
+export { default as ComboBoxFilter } from './ComboBoxFilter';
 
 // HOCs
 export * from './withAuth';
