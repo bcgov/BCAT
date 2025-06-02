@@ -224,7 +224,6 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
       setFormData(submission);
       setDetails(submissionDetails);
       setApplicationType(findApplicationType(data));
-      console.log(`this.setApplicationType`, applicationType);
     }
   }, [data]);
 
