@@ -55,16 +55,23 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
   const [applicationType, setApplicationType] = useState<ApplicationType | undefined>();
 
   const findApplicationType = (data: any): ApplicationType => {
+    const formHeaderComponent: any = data?.form?.versionSchema?.components?.filter(
+      (i: any) => i.key === 'formHeader',
+    )[0];
     if (
       [NEXT_PUBLIC_INFRASTRUCTURE_PROJECT, NEXT_PUBLIC_INFRASTRUCTURE_INDIGENOUS_PROJECT].includes(
         data?.form?.chefsFormId,
-      )
+      ) ||
+      data?.form?.name?.toLowerCase()?.includes('infrastructure') ||
+      formHeaderComponent?.html?.toLowerCase()?.includes('infrastructure')
     ) {
       return ApplicationType.INFRASTRUCTURE_FORM;
     } else if (
       [NEXT_PUBLIC_NETWORK_PROJECT, NEXT_PUBLIC_NETWORK_INDIGENOUS_PROJECT].includes(
         data?.form?.chefsFormId,
-      )
+      ) ||
+      data?.form?.name?.toLowerCase()?.includes('network') ||
+      formHeaderComponent?.html?.toLowerCase()?.includes('network')
     ) {
       return ApplicationType.NETWORK_FORM;
     }
@@ -217,6 +224,7 @@ export const useApplicationDetails = (id: number | number[] | undefined) => {
       setFormData(submission);
       setDetails(submissionDetails);
       setApplicationType(findApplicationType(data));
+      console.log(`this.setApplicationType`, applicationType);
     }
   }, [data]);
 
