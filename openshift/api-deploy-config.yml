@@ -16,15 +16,16 @@ objects:
     spec:
       lookupPolicy:
         local: false
-  - apiVersion: v1
-    kind: DeploymentConfig
+  - apiVersion: apps/v1
+    kind: Deployment
     metadata:
       creationTimestamp: null
       name: ${NAME}${SUFFIX}
     spec:
       replicas: 1
       selector:
-        deploymentconfig: ${NAME}${SUFFIX}
+        matchLabels:
+          deployment: ${NAME}${SUFFIX}
       strategy:
         activeDeadlineSeconds: 21600
         rollingParams:
@@ -33,15 +34,15 @@ objects:
           maxUnavailable: 1
           timeoutSeconds: 3600
           updatePeriodSeconds: 1
-        type: Rolling
+        type: RollingUpdate
       template:
         metadata:
           creationTimestamp: null
           labels:
-            deploymentconfig: ${NAME}${SUFFIX}
+            deployment: ${NAME}${SUFFIX}
         spec:
           containers:
-            - image: ${NAME}:${VERSION}
+            - image: image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/${NAME}:${VERSION}
               name: api
               env:
                 - name: POSTGRES_USERNAME
@@ -82,31 +83,51 @@ objects:
                     secretKeyRef:
                       key: CHEFS_INFRASTRUCTURE_FORM_ID
                       name: chefs-keys-${ENV}
+                - name: INFRASTRUCTURE_INDIGENOUS_FORM
+                  valueFrom:
+                    secretKeyRef:
+                      key: CHEFS_INFRASTRUCTURE_INDIGENOUS_FORM_ID
+                      name: chefs-keys-${ENV}
                 - name: NETWORK_FORM
                   valueFrom:
                     secretKeyRef:
                       key: CHEFS_NETWORK_FORM_ID
+                      name: chefs-keys-${ENV}
+                - name: NETWORK_INDIGENOUS_FORM
+                  valueFrom:
+                    secretKeyRef:
+                      key: CHEFS_NETWORK_INDIGENOUS_FORM_ID
                       name: chefs-keys-${ENV}
                 - name: INFRASTRUCTURE_API_KEY
                   valueFrom:
                     secretKeyRef:
                       key: CHEFS_INFRASTRUCTURE_API_KEY
                       name: chefs-keys-${ENV}
+                - name: INFRASTRUCTURE_INDIGENOUS_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: CHEFS_INFRASTRUCTURE_INDIGENOUS_API_KEY
+                      name: chefs-keys-${ENV}
                 - name: NETWORK_API_KEY
                   valueFrom:
                     secretKeyRef:
                       key: CHEFS_NETWORK_API_KEY
                       name: chefs-keys-${ENV}
+                - name: NETWORK_INDIGENOUS_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: CHEFS_NETWORK_INDIGENOUS_API_KEY
+                      name: chefs-keys-${ENV}
               ports:
                 - containerPort: 8080
                   protocol: TCP
-              resources:
-                requests:
-                  cpu: ${CPU}
-                  memory: ${MEMORY}
-                limits:
-                  cpu: ${CPU}
-                  memory: ${MEMORY}
+              # resources:
+              #   requests:
+              #     cpu: ${CPU}
+              #     memory: ${MEMORY}
+              #   limits:
+              #     cpu: ${CPU}
+              #     memory: ${MEMORY}
               livenessProbe:
                 httpGet:
                   path: /api/v1/version
@@ -115,16 +136,16 @@ objects:
                 timeoutSeconds: 5
                 periodSeconds: 10
       test: false
-      triggers:
-        - imageChangeParams:
-            automatic: true
-            containerNames:
-              - api
-            from:
-              kind: ImageStreamTag
-              name: ${NAME}:${VERSION}
-          type: ImageChange
-        - type: ConfigChange
+      # triggers:
+      #   - imageChangeParams:
+      #       automatic: true
+      #       containerNames:
+      #         - api
+      #       from:
+      #         kind: ImageStreamTag
+      #         name: ${NAME}:${VERSION}
+      #     type: ImageChange
+      #   - type: ConfigChange
   - apiVersion: v1
     kind: Service
     metadata:
@@ -137,7 +158,7 @@ objects:
           protocol: TCP
           targetPort: 8080
       selector:
-        deploymentconfig: ${NAME}${SUFFIX}
+        deployment: ${NAME}${SUFFIX}
   - apiVersion: route.openshift.io/v1
     kind: Route
     metadata:
@@ -218,3 +239,8 @@ parameters:
     name: SOURCE_REPOSITORY_REF
     required: false
     value: ''
+  - description: NAMESPACE
+    displayName: NAMESPACE
+    name: NAMESPACE
+    required: true
+    value: ""

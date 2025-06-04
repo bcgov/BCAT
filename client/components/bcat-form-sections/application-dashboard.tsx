@@ -1,4 +1,4 @@
-import { Button, ApplicationTable, Spinner } from '@components';
+import { Button, ApplicationTable, Spinner, ComboBoxFilter } from '@components';
 import { Pagination } from '../form';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,10 +15,6 @@ interface InputFilterProps {
   placeholder: string;
 }
 
-interface SelectFilterProps extends InputFilterProps {
-  options: { name: string; value: string }[];
-}
-
 const InputFilter: React.FC<InputFilterProps> = ({ searchType, onChange, placeholder }) => {
   return (
     <input
@@ -28,30 +24,6 @@ const InputFilter: React.FC<InputFilterProps> = ({ searchType, onChange, placeho
       onChange={onChange}
       value={searchType}
     />
-  );
-};
-
-const SelectFilter: React.FC<SelectFilterProps> = ({
-  searchType,
-  onChange,
-  placeholder,
-  options,
-}) => {
-  return (
-    <select
-      title={placeholder}
-      className='bg-white rounded border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-      placeholder={placeholder}
-      onChange={onChange}
-      value={searchType}
-    >
-      <option value=''>{placeholder}</option>
-      {options.map(({ name, value }) => (
-        <option key={value} value={value}>
-          {name}
-        </option>
-      ))}
-    </select>
   );
 };
 
@@ -85,6 +57,22 @@ export const ApplicationDashboard: React.FC<any> = () => {
     totalApplications,
     data,
   } = state;
+
+  // Helper method to extract unique funding years from application data
+  const getFundingYearOptions = () => {
+    if (!data || data.length === 0) return [];
+
+    // Extract funding years and filter out any nulls or empty strings
+    const fundingYears = data
+      .map((app: { fundingYear: string }) => app.fundingYear)
+      .filter(year => year != null && year !== '');
+
+    // Remove duplicates by using a Set and sort in descending order (most recent first)
+    const uniqueYears = Array.from(new Set(fundingYears)).sort((a, b) => b.localeCompare(a));
+
+    // Format for the select dropdown
+    return uniqueYears.map(year => ({ name: year, value: year }));
+  };
 
   const setApplicationData = async (params: any) => {
     fetchData(
@@ -225,12 +213,14 @@ export const ApplicationDashboard: React.FC<any> = () => {
           <div className='w-full border py-4 px-8 mb-2'>
             Filter By:
             <div className='grid grid-cols-4 gap-1'>
-              <InputFilter
+              <ComboBoxFilter
                 placeholder='Funding Year'
                 searchType={searchFundingYear}
                 onChange={(e: any) => setState(p => ({ ...p, searchFundingYear: e.target.value }))}
+                options={getFundingYearOptions()}
+                datalistId='fundingYearOptions'
               />
-              <SelectFilter
+              <ComboBoxFilter
                 placeholder='Status'
                 searchType={searchStatus}
                 onChange={(e: any) => setState(p => ({ ...p, searchStatus: e.target.value }))}
@@ -241,6 +231,7 @@ export const ApplicationDashboard: React.FC<any> = () => {
                   { name: ApplicationStatus.DENIED, value: ApplicationStatus.DENIED },
                   { name: ApplicationStatus.WORKSHOP, value: ApplicationStatus.WORKSHOP },
                 ]}
+                datalistId='statusOptions'
               />
               <InputFilter
                 placeholder='Confirmation ID'

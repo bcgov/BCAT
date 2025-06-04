@@ -21,6 +21,7 @@ module.exports = (settings) => {
         PROJECT_NAME: phases[phase].name,
         SUFFIX: phases[phase].suffix,
         VERSION: phases[phase].tag,
+        NAMESPACE: phases[phase].namespace,
       },
     })
   );
@@ -36,6 +37,7 @@ module.exports = (settings) => {
         PROJECT_NAME: phases[phase].name,
         SUFFIX: phases[phase].suffix,
         VERSION: phases[phase].tag,
+        NAMESPACE: phases[phase].namespace,
       },
     })
   );

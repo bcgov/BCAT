@@ -1,3 +1,4 @@
+import { FormMetaData } from '@/FormMetaData/formmetadata.entity';
 import { ApplicationType } from '../common/constants';
 
 export enum ApplicationStatus {
@@ -8,17 +9,28 @@ export enum ApplicationStatus {
   WORKSHOP = 'WORKSHOP',
 }
 
-export const findApplicationType = (chefsFormId: string): ApplicationType => {
-  switch (chefsFormId) {
-    case process.env.INFRASTRUCTURE_FORM:
-      return ApplicationType.INFRASTRUCTURE_FORM;
-
-    case process.env.NETWORK_FORM:
-      return ApplicationType.NETWORK_FORM;
-
-    default:
-      return ApplicationType.INFRASTRUCTURE_FORM;
+export const findApplicationType = (formData: FormMetaData): ApplicationType => {
+  const formHeaderComponent: any = formData?.versionSchema?.components?.filter(
+    (i: any) => i.key === 'formHeader'
+  )[0];
+  if (
+    [process.env.INFRASTRUCTURE_FORM, process.env.INFRASTRUCTURE_INDIGENOUS_FORM].includes(
+      formData?.chefsFormId
+    ) ||
+    formData?.name?.toLowerCase()?.includes('infrastructure') ||
+    formHeaderComponent?.html?.toLowerCase()?.includes('infrastructure')
+  ) {
+    return ApplicationType.INFRASTRUCTURE_FORM;
+  } else if (
+    [process.env.NETWORK_FORM, process.env.NETWORK_INDIGENOUS_FORM].includes(
+      formData?.chefsFormId
+    ) ||
+    formData?.name?.toLowerCase()?.includes('network') ||
+    formHeaderComponent?.html?.toLowerCase()?.includes('network')
+  ) {
+    return ApplicationType.NETWORK_FORM;
   }
+  return ApplicationType.INFRASTRUCTURE_FORM;
 };
 
 export const NetworkAppScoreFields = [

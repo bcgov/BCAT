@@ -60,9 +60,8 @@ export class ApplicationFinalScoreRO {
     this.initialAsk = `${application.asks}`;
     this.overallScore = `${finalScore}`;
     this.comments = overallComments;
-    this.applicationType = findApplicationType(form.chefsFormId);
+    this.applicationType = findApplicationType(form);
     this.scoreData = {};
-
     // infrastructure form has more complex fields, some are half automated and half manual
     // and some sub sections are combined into one score for print summary (ie. safety)
     if (this.applicationType === ApplicationType.INFRASTRUCTURE_FORM) {
@@ -80,7 +79,7 @@ export class ApplicationFinalScoreRO {
       this.applicationType === ApplicationType.INFRASTRUCTURE_FORM
         ? InfrastructureScoreFields
         : NetworkAppScoreFields;
-    this.applicationType = findApplicationType(form.chefsFormId);
+    this.applicationType = findApplicationType(form);
     this.applicationHeading = ApplicationVsDetailsInfo[this.applicationType].heading;
     this.points = `${(
       finalScore / ApplicationVsDetailsInfo[this.applicationType].totalScore
