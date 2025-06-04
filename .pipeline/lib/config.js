@@ -2,7 +2,7 @@ const options = require('@bcgov/pipeline-cli').Util.parseArguments();
 
 const changeId = options.pr;
 const name = 'bcat';
-const version = '1.0.0';
+const version = '1.1.0';
 
 Object.assign(options.git, { owner: 'bcgov', repository: 'BCAT' });
 const phases = {
